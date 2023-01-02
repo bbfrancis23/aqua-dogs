@@ -15,6 +15,8 @@ export default function Home() {
 export async function getStaticProps() {
   // await dbConnect();
 
+  // make some changes 
+
   // const tags = Tags.find({})
   //   .populate({ path: "tagtype", model: TagTypes })
   //   .exec((error, list) => {
