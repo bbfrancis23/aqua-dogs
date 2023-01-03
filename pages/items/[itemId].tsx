@@ -1,42 +1,39 @@
-
-import { Box, Card, CardHeader, CardContent, Stack, Chip, Typography } from "@mui/material";
+import { useState } from "react";
 import axios from "axios";
+import { Box, Card, CardHeader, CardContent, Stack, Chip, Typography, IconButton } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import AddItemDialog from "../../components/AddItemDialog";
 
 export default function ItemDetails({item}:any) {
 
-  console.log(item)
+  const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState(false);
 
- return (
-  <Box sx={{ display: 'flex', justifyContent: 'center'}}>
-    <Card>
-      <CardHeader title={item.title}></CardHeader>
-      <CardContent>
-        <Stack spacing={1} direction='row'>
-          {
-            item.tags.map( (t:any) => {
-              return (
-                 <Chip label={t.title} color="primary" key={t.id}/>
-              )
-            })
-          }
-        </Stack>
-        <Stack spacing={1} sx={{ pt: 2}}>
-          {
-            item.sections.map( ( s:any) => {
-              return (
-                <p key={s.id}>
+  const handleCloseDialog = () => {
+    setAddItemDialogIsOpen(false)
+  }
 
-                <Typography >
-                  {s.content  }
-                </Typography>
-                </p>
-              )
-            })
-          }
-        </Stack>
-      </CardContent>
-    </Card>
-  </Box>
+  const handleOpenDialog = () => {
+    setAddItemDialogIsOpen(true)
+  }
+
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center'}}>
+      <Card>
+        <CardHeader 
+          title={item.title} 
+          action={<IconButton onClick={ handleOpenDialog }><AddIcon /></IconButton>}
+        />
+        <CardContent>
+          <Stack spacing={1} direction='row'>
+            { item.tags.map( (t:any) =>(<Chip label={t.title} color="primary" key={t.id}/>)) }
+          </Stack>
+          <Stack spacing={1} sx={{ pt: 2}}>
+            { item.sections.map( ( s:any) => (<Typography  key={s.id}>{s.content}</Typography>)) }
+          </Stack>
+        </CardContent>
+      </Card>
+      <AddItemDialog dialogIsOpen={addItemDialogIsOpen} closeDialog={handleCloseDialog}/>
+    </Box>
  )
 }
 export async function getStaticPaths(){
