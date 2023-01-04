@@ -3,10 +3,19 @@ import axios from "axios";
 import { Box, Card, CardHeader, CardContent, Stack, Chip, Typography, IconButton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import AddItemDialog from "../../components/AddItemDialog";
+import EditableItemTitle from "../../components/EditableItemTitle";
 
-export default function ItemDetails({item}:any) {
+export default function ItemDetails(props: any) {
 
   const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState(false);
+
+  const [item, setItem] = useState(props.item)
+
+
+  function handleSetItem(item: any){ 
+    setItem(item)
+  }
+
 
   const handleCloseDialog = () => {
     setAddItemDialogIsOpen(false)
@@ -20,15 +29,15 @@ export default function ItemDetails({item}:any) {
     <Box sx={{ display: 'flex', justifyContent: 'center'}}>
       <Card>
         <CardHeader 
-          title={item.title} 
+          title={<EditableItemTitle item={item} setItem={ (item:any) => handleSetItem(item) } />} 
           action={<IconButton onClick={ handleOpenDialog }><AddIcon /></IconButton>}
         />
         <CardContent>
           <Stack spacing={1} direction='row'>
-            { item.tags.map( (t:any) =>(<Chip label={t.title} color="primary" key={t.id}/>)) }
+            { item.tags?.map( (t:any) =>(<Chip label={t.title} color="primary" key={t.id}/>)) }
           </Stack>
           <Stack spacing={1} sx={{ pt: 2}}>
-            { item.sections.map( ( s:any) => (<Typography  key={s.id}>{s.content}</Typography>)) }
+            { item.sections?.map( ( s:any) => (<Typography  key={s.id}>{s.content}</Typography>)) }
           </Stack>
         </CardContent>
       </Card>

@@ -5,7 +5,7 @@ import { TextField } from "@mui/material"
 
 export default function ItemTitleInput(props: any){
 
-  const {itemId, setItemId} = props
+  const {item, setItem} = props
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleTitleBlur = async (e:any) => {   
@@ -13,12 +13,14 @@ export default function ItemTitleInput(props: any){
     
     setIsSubmitting(true)
 
-    if(itemId) {
+    console.log()
+
+    if(item.id) {
       
       try {
-        axios.patch(`http://localhost:5000/api/items/${itemId}`, {title: e.target.value})
+        axios.patch(`http://localhost:5000/api/items/${item.id}`, {title: e.target.value})
         .then((res) => {
-          setItemId(res.data.item.id)
+          setItem(res.data.item)
           setIsSubmitting(false)
         })
         .catch((error) => {
@@ -37,7 +39,7 @@ export default function ItemTitleInput(props: any){
        try {
         axios.post('http://localhost:5000/api/items', {title: e.target.value})
         .then((res) => {
-          setItemId(res.data.item.id)
+          setItem(res.data.item)
           setIsSubmitting(false)
         })
         .catch((error) => {
@@ -55,7 +57,7 @@ export default function ItemTitleInput(props: any){
 
   return (
     <>
-      <TextField id="itemTitle" label='Title' sx={{ mt: 1}}  onBlur={(e:any) => handleTitleBlur(e)} disabled={isSubmitting} />                         
+      <TextField fullWidth size={'small'} defaultValue={item?.title} id="itemTitle" label='Title' sx={{ mt: 1}}  onBlur={(e:any) => handleTitleBlur(e)} disabled={isSubmitting} />                         
     </>
   )
 }

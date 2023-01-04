@@ -8,11 +8,11 @@ import ItemTitleInput from "./ItemTitleInput";
 
 export default function AddItemDialog(props: any){
   const {dialogIsOpen, closeDialog} = props
-  const [itemId, setItemId] = useState('')
+  const [item, setItem] = useState('')
 
 
-  function handleSetItemId(itemId: string){ 
-    setItemId(itemId)
+  function handleSetItem(item: any){ 
+    setItem(item)
   }
 
   return (
@@ -20,7 +20,7 @@ export default function AddItemDialog(props: any){
       <DialogTitle>Add New Item</DialogTitle>
       <DialogContent>
         <Stack spacing={3}>
-          <ItemTitleInput itemId={itemId} setItemId={(itemId: string) => handleSetItemId(itemId)}/>
+          <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/>
           <TagsMultiSelect />         
           <SelctionsInupt />
         </Stack>
