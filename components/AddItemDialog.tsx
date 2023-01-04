@@ -4,47 +4,23 @@ import { Button, TextField, Dialog, DialogTitle,Stack,
 import TagsMultiSelect from "./TagsMultiSelect"
 import SelctionsInupt from "./SectionsInput";
 
-import useSWRMutation from 'swr/mutation'
-import axios from "axios";
+import ItemTitleInput from "./ItemTitleInput";
 
 export default function AddItemDialog(props: any){
   const {dialogIsOpen, closeDialog} = props
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
   const [itemId, setItemId] = useState('')
 
-  const handleTitleBlur = async (e:any) => {
-    
-    setIsSubmitting(true)
 
-    if(itemId) {
-      console.log('Do nothing')
-      setIsSubmitting(false)
-    }else{
-       try {
-        axios.post('http://localhost:5000/api/items', {title: e.target.value})
-        .then((res) => {
-          setItemId(res.data.item.id)
-          setIsSubmitting(false)
-        })
-        .catch((error) => {
-          console.log(error)
-          setIsSubmitting(false)
-        })
-      } catch (e) {
-        console.log(e)
-        setIsSubmitting(false)
-      }
-    }
-   
-  }  
+  function handleSetItemId(itemId: string){ 
+    setItemId(itemId)
+  }
 
   return (
     <Dialog open={dialogIsOpen}>
       <DialogTitle>Add New Item</DialogTitle>
       <DialogContent>
         <Stack spacing={3}>
-          <TextField id="itemTitle" label='Title' sx={{ mt: 1}}  onBlur={(e:any) => handleTitleBlur(e)} disabled={isSubmitting} />                   
+          <ItemTitleInput itemId={itemId} setItemId={(itemId: string) => handleSetItemId(itemId)}/>
           <TagsMultiSelect />         
           <SelctionsInupt />
         </Stack>
