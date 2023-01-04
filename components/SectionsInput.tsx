@@ -4,6 +4,7 @@ import { useState } from "react"
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import axios from "axios";
 
 export default function SelctionsInupt(){
 
@@ -24,6 +25,35 @@ export default function SelctionsInupt(){
     })
   }
 
+  async function createSection(content: any) {
+    
+    try {
+      axios.post('http://localhost:5000/api/sections', 
+      {sectiontype: "63b2503c49220f42d9fc17d9", content: content})
+      .then((res) => {
+        // setItem(res.data.item)
+        // setIsSubmitting(false)
+      })
+      .catch((error) => {
+        console.log(error)
+        // setIsSubmitting(false)
+      })
+    } catch (e) {
+      console.log(e)
+      // setIsSubmitting(false)
+    }
+    
+  
+  } 
+
+
+
+  const handleSectionBlur = async (event: any, section: any) => {
+
+    console.log('blur :', event.target.value, section)
+    await createSection(event.target.value)
+
+  }
 
   return (
     <>
@@ -36,6 +66,7 @@ export default function SelctionsInupt(){
               id={s.id}
               multiline 
               rows={4}
+              onBlur={(e) => handleSectionBlur(e, s)}
               endAdornment={ (i === 0 && itemSections.length === 1)  ? '' :
                 <InputAdornment position="end">
                   <IconButton edge="end" onClick={() => handleDeleteSection(s.id)}>
