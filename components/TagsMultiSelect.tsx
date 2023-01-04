@@ -9,7 +9,7 @@ import axios from "axios";
 function getStyles(tag:any, itemTags:any, theme: any) {
   return {
     fontWeight:
-      itemTags.indexOf(tag) === -1
+      itemTags?.indexOf(tag) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
@@ -32,12 +32,23 @@ export default function TagsMultiSelect(props: any) {
   
 
   useEffect(() => {
-    if (data) {      setTags(data.tags);    }
-  }, [data]);
+
+    
+    if (data) {      
+      setTags(data.tags);    
+
+      if(item.tags){
+        setItemTags( item.tags?.map( (t:any) => t.id))
+      }
+    }
+  }, [data, item.tags]);
 
 
   const handleTagsChange = (event: any) => {
     const { target: {value} } = event
+
+    console.log(itemTags)
+
     setItemTags(typeof value === 'string' ? value.split(',') : value,);
   }  
 
