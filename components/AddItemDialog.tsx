@@ -1,8 +1,9 @@
 import { useState } from "react"
-import { Button, FormControl, InputLabel, Select, TextField, Dialog, DialogTitle, OutlinedInput, Stack,
+import { Button, IconButton, FormControl, InputLabel, Select, TextField, Dialog, DialogTitle, OutlinedInput, Stack, Box, InputAdornment,
   DialogContent,DialogActions, SelectChangeEvent, MenuItem, useTheme } from "@mui/material"
 import TagsMultiSelect from "./TagsMultiSelect"
-
+import AddIcon from '@mui/icons-material/Add';
+import SelctionsInupt from "./SectionsInput";
 
 
 export default function AddItemDialog(props: any){
@@ -11,17 +12,14 @@ export default function AddItemDialog(props: any){
 
   
 
- 
-
   return (
     <Dialog open={dialogIsOpen}>
       <DialogTitle>Add New Item</DialogTitle>
       <DialogContent>
         <Stack spacing={3}>
-
-          <TextField id="itemTitle" label='title' sx={{ mt: 1}}/>
-
-          <TagsMultiSelect />
+          <TextField id="itemTitle" label='Title' sx={{ mt: 1}}/>
+          <TagsMultiSelect />         
+          <SelctionsInupt />
         </Stack>
       </DialogContent>
       <DialogActions>
