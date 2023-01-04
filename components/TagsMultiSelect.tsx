@@ -4,6 +4,8 @@ import { Button,Box,  FormControl, InputLabel, Select, TextField, Dialog, Dialog
 
 import useSWR from "swr";
 
+// const tags= ['Best Practices', 'Standards', 'JavaScript']
+
 function getStyles(tag:any, itemTags:any, theme: any) {
   return {
     fontWeight:
