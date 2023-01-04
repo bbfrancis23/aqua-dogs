@@ -13,8 +13,6 @@ export default function ItemTitleInput(props: any){
     
     setIsSubmitting(true)
 
-    console.log()
-
     if(item.id) {
       
       try {

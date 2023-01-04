@@ -3,8 +3,8 @@ import { Button,Box,  FormControl, InputLabel, Select, TextField, Dialog, Dialog
   DialogContent,DialogActions, SelectChangeEvent, MenuItem, useTheme } from "@mui/material"
 
 import useSWR from "swr";
+import axios from "axios";
 
-// const tags= ['Best Practices', 'Standards', 'JavaScript']
 
 function getStyles(tag:any, itemTags:any, theme: any) {
   return {
@@ -17,10 +17,14 @@ function getStyles(tag:any, itemTags:any, theme: any) {
 
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 
-export default function TagsMultiSelect() {  
+export default function TagsMultiSelect(props: any) {  
+
+  const {item, setItem} = props
+
   const theme = useTheme();
   const [ tags, setTags] =  useState([])
   const [itemTags, setItemTags] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
 
   const { data, error } = useSWR("http://localhost:5000/api/tags", fetcher);
@@ -42,17 +46,66 @@ export default function TagsMultiSelect() {
   }
 
 
+  const handleTagsCloseMenu = () => {
+    
+    setIsSubmitting(true)
+
+    if(item.id) {
+      
+      try {
+        axios.patch(`http://localhost:5000/api/items/${item.id}`, {tags: itemTags})
+        .then((res) => {
+          setItem(res.data.item)
+
+          console.log(res.data.item)
+
+          setIsSubmitting(false)
+        })
+        .catch((error) => {
+          console.log(error)
+          setIsSubmitting(false)
+        })
+      } catch (e) {
+        console.log(e)
+        setIsSubmitting(false)
+      }
+
+
+
+      setIsSubmitting(false)
+    }else{
+       try {
+        axios.post('http://localhost:5000/api/items', {tags: itemTags})
+        .then((res) => {
+          setItem(res.data.item)
+          setIsSubmitting(false)
+        })
+        .catch((error) => {
+          console.log(error)
+          setIsSubmitting(false)
+        })
+      } catch (e) {
+        console.log(e)
+        setIsSubmitting(false)
+      }
+    }
+
+  }
+
   return (  
    
-      <FormControl >
+      <FormControl sx={{width: '100%'}}>
         <InputLabel id="tags-label">Tags</InputLabel>
         <Select
           labelId="tags-label"
           id="tags"
           multiple
+          fullWidth
+          disabled={isSubmitting}
           value={itemTags}
           onChange={handleTagsChange}
           input={<OutlinedInput label="Name" />}
+          onClose={handleTagsCloseMenu}
         >
           {
           tags.map( (tag: any) => (

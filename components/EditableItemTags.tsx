@@ -1,8 +1,9 @@
-import { IconButton, Box, Stack } from "@mui/material"
+import { IconButton, Box, Stack, Chip } from "@mui/material"
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from "react";
 import ItemTitleInput from "./ItemTitleInput";
 import DoneIcon from '@mui/icons-material/Done';
+import TagsMultiSelect from "./TagsMultiSelect";
 
 export default function EditableItemTitle( props: any){
   const {item, setItem} = props
@@ -22,14 +23,17 @@ export default function EditableItemTitle( props: any){
       {
         editing 
         ? 
-          <Stack direction={'row'} >
-            <ItemTitleInput item={item} setItem={ (item:any) => setItem(item) } />            
-              <IconButton size='small' onClick={handleDoneEditing}><DoneIcon color="success" /></IconButton>
+          <Stack direction={'row'} sx={{ width: '100%'}}>
+            <TagsMultiSelect  item={item} setItem={(item: any) => setItem(item)} /> 
+            <IconButton onClick={handleDoneEditing}><DoneIcon color="success" /></IconButton>
           </Stack>
               
             
         
-        : <>{item.title}<IconButton onClick={handleEdit}><EditIcon /></IconButton></>
+        : <>
+             { item.tags?.map( (t:any) =>(<Chip size='small' label={t.title} color="primary" key={t.id}/>)) }
+            <IconButton onClick={handleEdit}><EditIcon /></IconButton>
+          </>
          
       }
     </>

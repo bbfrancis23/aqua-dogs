@@ -4,6 +4,7 @@ import { Box, Card, CardHeader, CardContent, Stack, Chip, Typography, IconButton
 import AddIcon from '@mui/icons-material/Add';
 import AddItemDialog from "../../components/AddItemDialog";
 import EditableItemTitle from "../../components/EditableItemTitle";
+import EditableItemTags from "../../components/EditableItemTags";
 
 export default function ItemDetails(props: any) {
 
@@ -34,7 +35,7 @@ export default function ItemDetails(props: any) {
         />
         <CardContent>
           <Stack spacing={1} direction='row'>
-            { item.tags?.map( (t:any) =>(<Chip label={t.title} color="primary" key={t.id}/>)) }
+           <EditableItemTags item={item} setItem={ (item:any) => handleSetItem(item) } />
           </Stack>
           <Stack spacing={1} sx={{ pt: 2}}>
             { item.sections?.map( ( s:any) => (<Typography  key={s.id}>{s.content}</Typography>)) }
