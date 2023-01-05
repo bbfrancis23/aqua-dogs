@@ -112,7 +112,7 @@ export default function TagsMultiSelect(props: any) {
           id="tags"
           multiple
           fullWidth
-          disabled={isSubmitting}
+          disabled={isSubmitting || !item.id}
           value={itemTags}
           onChange={handleTagsChange}
           input={<OutlinedInput label="Name" />}

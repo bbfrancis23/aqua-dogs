@@ -24,6 +24,7 @@ export default function ItemDetails(props: any) {
   }
 
   return (
+   
     <Box sx={{ display: 'flex', justifyContent: 'center'}}>
       <Card>
       <CardHeader 
@@ -45,13 +46,16 @@ export default function ItemDetails(props: any) {
 }
 export async function getStaticPaths(){
 
-   const res = await axios.get('http://localhost:5000/api/items/');
-   const data = await res.data 
+ 
+    const res = await axios.get('http://localhost:5000/api/items/');
+    const data = await res.data 
+
+  
 
 
   const paths = data.items.map((item: any) => ({params: {itemId: item.id}}))
 
-   return { paths, fallback: true}
+   return { paths, fallback: false}
    
 }
 export async function getStaticProps({params}: any){

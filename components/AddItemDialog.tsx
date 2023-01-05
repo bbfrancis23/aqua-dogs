@@ -13,6 +13,7 @@ export default function AddItemDialog(props: any){
 
   function handleSetItem(item: any){ 
     setItem(item)
+    console.log(item)
   }
 
   return (
@@ -22,7 +23,7 @@ export default function AddItemDialog(props: any){
         <Stack spacing={3}>
           <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/>
           <TagsMultiSelect  item={item} setItem={(item: any) => handleSetItem(item)} />         
-          <SelctionsInupt />
+          <SelctionsInupt item={item} setItem={(item: any) => handleSetItem(item)} />
         </Stack>
       </DialogContent>
       <DialogActions>

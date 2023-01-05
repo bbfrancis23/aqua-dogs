@@ -6,7 +6,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import axios from "axios";
 
-export default function SelctionsInupt(){
+export default function SelctionsInupt(props: any){
+
+  const {item, setItem} = props
 
   const [ itemSections, setItemSections] = useState([{id: '-1', content: ''}])
   const [ sectionsNewId, setSectionsNewId] = useState( 2)
@@ -67,6 +69,7 @@ export default function SelctionsInupt(){
               multiline 
               rows={4}
               onBlur={(e) => handleSectionBlur(e, s)}
+              disabled={!item.id}
               endAdornment={ (i === 0 && itemSections.length === 1)  ? '' :
                 <InputAdornment position="end">
                   <IconButton edge="end" onClick={() => handleDeleteSection(s.id)}>
