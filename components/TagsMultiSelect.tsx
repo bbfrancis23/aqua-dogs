@@ -41,7 +41,7 @@ export default function TagsMultiSelect(props: any) {
         setItemTags( item.tags?.map( (t:any) => t.id))
       }
     }
-  }, [data, item.tags]);
+  }, [data, item?.tags]);
 
 
   const handleTagsChange = (event: any) => {
@@ -97,7 +97,7 @@ export default function TagsMultiSelect(props: any) {
           id="tags"
           multiple
           fullWidth
-          disabled={isSubmitting || !item.id}
+          disabled={isSubmitting || !item?.id}
           value={itemTags}
           onChange={handleTagsChange}
           input={<OutlinedInput label="Name" />}

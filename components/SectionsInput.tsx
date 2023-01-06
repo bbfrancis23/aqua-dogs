@@ -10,7 +10,7 @@ export default function SelctionsInupt(props: any){
 
   const {item, setItem} = props
 
-  const [ itemSections, setItemSections] = useState([{id: '-1', content: ''}])
+ 
   const [ newSectionOrderNumber, setNewSectionOrderNumber] = useState( 2)
 
 
@@ -60,52 +60,24 @@ export default function SelctionsInupt(props: any){
     
   }
 
-  async function createSection(section: any) {
-    
-    if(item.id) {
-
-      try {
-        axios.post('http://localhost:5000/api/sections', 
-        {sectiontype: "63b2503c49220f42d9fc17d9", content: section.content, itemId: item.id})
-        .then((res) => {
-          setItem(res.data.item)
-
-          // const oldID = section.id
-
-          // setItemSections( (current) => {
-          //   return current.map( (s) =>  s.id === section.id ? { id: } )
-          // } )
-
-          // setIsSubmitting(false)
-        })
-        .catch((error) => {
-          console.log(error)
-          // setIsSubmitting(false)
-        })
-      } catch (e) {
-        console.log(e)
-        // setIsSubmitting(false)
-      }
-    }
-
-    
-  
-  } 
-
+ 
 
 
   const handleSectionBlur = async (event: any, section: any) => {
 
-    // console.log('blur :', event.target.value, section)
+    console.log(event.target.value, section ) 
 
-    section.content = event.target.value
-    if(section.id > 0){
-      console.log('this has been saved we need to update it')
-    }else{
-      await createSection(section)
+    try {
+      axios.patch(`http://localhost:5000/api/sections/${section.id}`, {content: event.target.value})
+      .then((res) => {
+        setItem(res.data.item)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    } catch (e) {
+      console.log(e)
     }
-
-    console.log(section)
     
     
 
@@ -123,7 +95,7 @@ export default function SelctionsInupt(props: any){
               multiline 
               rows={4}
               onBlur={(e) => handleSectionBlur(e, s)}
-              endAdornment={ (i === 0 && itemSections.length === 1)  ? '' :
+              endAdornment={ (i === 0 && item.sections.length === 1)  ? '' :
                 <InputAdornment position="end">
                   <IconButton edge="end" onClick={() => handleDeleteSection(s.id)}>
                       <DeleteIcon />
