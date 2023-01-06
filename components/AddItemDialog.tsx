@@ -63,8 +63,8 @@ export default function AddItemDialog(props: any){
       <DialogTitle>Add New Item</DialogTitle>
       <DialogContent>
         <Stack spacing={3}>
-          {/* <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/> */}
-          {/* <TagsMultiSelect  item={item} setItem={(item: any) => handleSetItem(item)} />          */}
+          <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/>
+          <TagsMultiSelect  item={item} setItem={(item: any) => handleSetItem(item)} />         
           <SelctionsInupt item={item} setItem={(item: any) => handleSetItem(item)} />
         </Stack>
       </DialogContent>

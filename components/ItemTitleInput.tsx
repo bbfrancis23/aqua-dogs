@@ -13,7 +13,7 @@ export default function ItemTitleInput(props: any){
     
     setIsSubmitting(true)
 
-    if(item.id) {
+   
       
       try {
         axios.patch(`http://localhost:5000/api/items/${item.id}`, {title: e.target.value})
@@ -33,22 +33,7 @@ export default function ItemTitleInput(props: any){
 
 
       setIsSubmitting(false)
-    }else{
-       try {
-        axios.post('http://localhost:5000/api/items', {title: e.target.value})
-        .then((res) => {
-          setItem(res.data.item)
-          setIsSubmitting(false)
-        })
-        .catch((error) => {
-          console.log(error)
-          setIsSubmitting(false)
-        })
-      } catch (e) {
-        console.log(e)
-        setIsSubmitting(false)
-      }
-    }
+   
    
   }  
 
