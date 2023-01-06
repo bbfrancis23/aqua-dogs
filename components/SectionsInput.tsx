@@ -1,5 +1,5 @@
 import { Button, IconButton, FormControl, InputLabel, Select, TextField, Dialog, DialogTitle, OutlinedInput, Stack, Box, InputAdornment,
-  DialogContent,DialogActions, SelectChangeEvent, MenuItem, useTheme } from "@mui/material"
+  DialogContent,DialogActions, SelectChangeEvent, MenuItem, useTheme, ButtonGroup } from "@mui/material"
 import { useEffect, useState } from "react"
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,12 +13,13 @@ export default function SelctionsInupt(props: any){
  
   const [ newSectionOrderNumber, setNewSectionOrderNumber] = useState( 2)
 
+  const [ sectionType, setSetionType] = useState('text')
 
-  useEffect( () => {
-      console.log(item)
-    },
+  // useEffect( () => {
+  //     console.log(item)
+  //   },
 
-  [item])
+  // [item])
 
   const handleAddSection = () => {
     
@@ -87,24 +88,49 @@ export default function SelctionsInupt(props: any){
     <>
       {
         item?.sections?.map( (s:any, i:number) => (     
+          <Stack key={i} spacing={3}>  
+            <ButtonGroup>
+              <Button 
+                variant={sectionType === 'text' ? 'contained' : 'outlined'} 
+                onClick={() => setSetionType('text')}
+              >
+                T
+              </Button>
+              <Button 
+                variant={sectionType === 'code' ? 'contained' : 'outlined'}
+                onClick={() => setSetionType('code')}
+              >
+                {'{}'}
+              </Button>
+            </ButtonGroup> 
+            {
+              sectionType == 'text' && (
 
-          <FormControl  variant="outlined" key={i} >
-            <InputLabel htmlFor={s.id}>{`Section ${i + 1}`}</InputLabel>
-            <OutlinedInput
-              id={s.id}
-              multiline 
-              rows={4}
-              onBlur={(e) => handleSectionBlur(e, s)}
-              endAdornment={ (i === 0 && item.sections.length === 1)  ? '' :
-                <InputAdornment position="end">
-                  <IconButton edge="end" onClick={() => handleDeleteSection(s.id)}>
-                      <DeleteIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-            label={`Section ${i + 1}`}
-          />
-         </FormControl>
+                <FormControl  variant="outlined" >
+                  <InputLabel htmlFor={s.id}>{`Section ${i + 1}`}</InputLabel>
+                  <OutlinedInput
+                    id={s.id}
+                    multiline 
+                    rows={4}
+                    onBlur={(e) => handleSectionBlur(e, s)}
+                    endAdornment={ (i === 0 && item.sections.length === 1)  ? '' :
+                      <InputAdornment position="end">
+                        <IconButton edge="end" onClick={() => handleDeleteSection(s.id)}>
+                            <DeleteIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  label={`Section ${i + 1}`}
+                />
+              </FormControl>
+            )           
+          }
+          {
+             sectionType == 'code' && (
+              <>code input</>
+             )
+          }
+        </Stack>
 
        
        )) 
