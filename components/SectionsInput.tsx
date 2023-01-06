@@ -1,6 +1,6 @@
 import { Button, IconButton, FormControl, InputLabel, Select, TextField, Dialog, DialogTitle, OutlinedInput, Stack, Box, InputAdornment,
   DialogContent,DialogActions, SelectChangeEvent, MenuItem, useTheme } from "@mui/material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
@@ -11,11 +11,35 @@ export default function SelctionsInupt(props: any){
   const {item, setItem} = props
 
   const [ itemSections, setItemSections] = useState([{id: '-1', content: ''}])
-  const [ sectionsNewId, setSectionsNewId] = useState( 2)
+  const [ newSectionOrderNumber, setNewSectionOrderNumber] = useState( 2)
+
+
+  useEffect( () => {
+      console.log(item)
+    },
+
+  [item])
 
   const handleAddSection = () => {
-    setItemSections( current => [...current, { id: `-${sectionsNewId}`, content: ''}])
-    setSectionsNewId(current => (++current))
+    
+
+    console.log(item.sections.length)  
+    try {
+      axios.post('http://localhost:5000/api/sections', 
+      {sectiontype: "63b2503c49220f42d9fc17d9", content: '', itemId: item.id, order:  newSectionOrderNumber})
+      .then((res) => {
+
+        setNewSectionOrderNumber(c => ++c)
+        console.log('res.data.item',res.data.item)
+        setItem(res.data.item)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    } catch (e) {
+      console.log(e)
+    }
+    
   }
  
   const handleDeleteSection = (id: string) => {
@@ -35,7 +59,7 @@ export default function SelctionsInupt(props: any){
         axios.post('http://localhost:5000/api/sections', 
         {sectiontype: "63b2503c49220f42d9fc17d9", content: section.content, itemId: item.id})
         .then((res) => {
-          setItem(res.data.item)
+          // setItem(res.data.item)
 
           const oldID = section.id
 
@@ -81,7 +105,7 @@ export default function SelctionsInupt(props: any){
   return (
     <>
       {
-        itemSections.map( (s, i) => (     
+        item?.sections?.map( (s:any, i:number) => (     
 
           <FormControl  variant="outlined" key={i} >
             <InputLabel htmlFor={s.id}>{`Section ${i + 1}`}</InputLabel>
@@ -90,7 +114,6 @@ export default function SelctionsInupt(props: any){
               multiline 
               rows={4}
               onBlur={(e) => handleSectionBlur(e, s)}
-              disabled={!item.id}
               endAdornment={ (i === 0 && itemSections.length === 1)  ? '' :
                 <InputAdornment position="end">
                   <IconButton edge="end" onClick={() => handleDeleteSection(s.id)}>

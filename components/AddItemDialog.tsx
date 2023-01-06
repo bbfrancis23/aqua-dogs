@@ -24,6 +24,9 @@ export default function AddItemDialog(props: any){
             axios.post('http://localhost:5000/api/sections', 
             {sectiontype: "63b2503c49220f42d9fc17d9", content: '', itemId: res.data.item.id, order: 1})
             .then((res) => {
+
+
+              console.log('res.data.item',res.data.item)
               setItem(res.data.item)
             })
             .catch((error) => {
