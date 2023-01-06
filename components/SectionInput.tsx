@@ -3,9 +3,19 @@ import { Button, IconButton, FormControl, InputLabel, Select, TextField, Dialog,
   DialogContent,DialogActions, SelectChangeEvent, MenuItem, useTheme, ButtonGroup } from "@mui/material"
 
 
-import CodeEditor from '@uiw/react-textarea-code-editor'
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
+
+
+
+import dynamic from "next/dynamic";
+import "@uiw/react-textarea-code-editor/dist.css";
+
+const CodeEditor = dynamic(
+  () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
+  { ssr: false }
+);
+
 
 export default function SelectionInput(props: any){
 
@@ -13,6 +23,7 @@ export default function SelectionInput(props: any){
 
   const [ sectionType, setSetionType] = useState('text')
 
+  const [code, setCode] = useState('')
 
   const handleDeleteSection = (id: string) => {
     try {
@@ -40,7 +51,10 @@ export default function SelectionInput(props: any){
     console.log(event.target.value, section ) 
 
     try {
-      axios.patch(`http://localhost:5000/api/sections/${section.id}`, {content: event.target.value})
+      axios.patch(`http://localhost:5000/api/sections/${section.id}`, {
+        content: event.target.value,
+        sectiontype: sectionType === 'text' ?  '63b2503c49220f42d9fc17d9' : '63b88d18379a4f30bab59bad',
+      })
       .then((res) => {
         setItem(res.data.item)
       })
@@ -98,7 +112,22 @@ export default function SelectionInput(props: any){
       }
     {
         sectionType == 'code' && (
-        <>code input</>
+          <>
+             <CodeEditor
+              value={code}
+              language="jsx"
+              placeholder=""
+              onChange={(evn) => setCode(evn.target.value)}
+              onBlur={(e) => handleSectionBlur(e, section)}
+              padding={15}
+              style={{
+                fontSize: 12,
+                backgroundColor: "#f5f5f5",
+                fontFamily:
+                  "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
+              }}
+            />
+          </>
         )
     }
   </Stack>
