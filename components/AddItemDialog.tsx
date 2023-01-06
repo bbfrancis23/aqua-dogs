@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Button, TextField, Dialog, DialogTitle,Stack, 
   DialogContent,DialogActions,  } from "@mui/material"
 import TagsMultiSelect from "./TagsMultiSelect"
-import SelctionsInupt from "./SectionsInput";
+import SectionsInupt from "./SectionsInput";
 
 import ItemTitleInput from "./ItemTitleInput";
 import axios from "axios";
@@ -65,7 +65,7 @@ export default function AddItemDialog(props: any){
         <Stack spacing={3}>
           <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/>
           <TagsMultiSelect  item={item} setItem={(item: any) => handleSetItem(item)} />         
-          <SelctionsInupt item={item} setItem={(item: any) => handleSetItem(item)} />
+          <SectionsInupt item={item} setItem={(item: any) => handleSetItem(item)} />
         </Stack>
       </DialogContent>
       <DialogActions>
