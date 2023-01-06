@@ -84,21 +84,6 @@ export default function TagsMultiSelect(props: any) {
 
 
       setIsSubmitting(false)
-    }else{
-       try {
-        axios.post('http://localhost:5000/api/items', {tags: itemTags})
-        .then((res) => {
-          setItem(res.data.item)
-          setIsSubmitting(false)
-        })
-        .catch((error) => {
-          console.log(error)
-          setIsSubmitting(false)
-        })
-      } catch (e) {
-        console.log(e)
-        setIsSubmitting(false)
-      }
     }
 
   }

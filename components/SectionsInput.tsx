@@ -27,23 +27,34 @@ export default function SelctionsInupt(props: any){
     })
   }
 
-  async function createSection(content: any) {
+  async function createSection(section: any) {
     
-    try {
-      axios.post('http://localhost:5000/api/sections', 
-      {sectiontype: "63b2503c49220f42d9fc17d9", content: content})
-      .then((res) => {
-        // setItem(res.data.item)
+    if(item.id) {
+
+      try {
+        axios.post('http://localhost:5000/api/sections', 
+        {sectiontype: "63b2503c49220f42d9fc17d9", content: section.content, itemId: item.id})
+        .then((res) => {
+          setItem(res.data.item)
+
+          const oldID = section.id
+
+          // setItemSections( (current) => {
+          //   return current.map( (s) =>  s.id === section.id ? { id: } )
+          // } )
+
+          // setIsSubmitting(false)
+        })
+        .catch((error) => {
+          console.log(error)
+          // setIsSubmitting(false)
+        })
+      } catch (e) {
+        console.log(e)
         // setIsSubmitting(false)
-      })
-      .catch((error) => {
-        console.log(error)
-        // setIsSubmitting(false)
-      })
-    } catch (e) {
-      console.log(e)
-      // setIsSubmitting(false)
+      }
     }
+
     
   
   } 
@@ -52,8 +63,18 @@ export default function SelctionsInupt(props: any){
 
   const handleSectionBlur = async (event: any, section: any) => {
 
-    console.log('blur :', event.target.value, section)
-    await createSection(event.target.value)
+    // console.log('blur :', event.target.value, section)
+
+    section.content = event.target.value
+    if(section.id > 0){
+      console.log('this has been saved we need to update it')
+    }else{
+      await createSection(section)
+    }
+
+    console.log(section)
+    
+    
 
   }
 
