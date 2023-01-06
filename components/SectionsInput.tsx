@@ -43,12 +43,21 @@ export default function SelctionsInupt(props: any){
   }
  
   const handleDeleteSection = (id: string) => {
-    setItemSections( current => {
+    try {
+      axios.delete(`http://localhost:5000/api/sections/${id}`)
+      .then((res) => {
 
-      if(current.length  === 1) return current
-
-      return current.filter( c => c.id !== id)
-    })
+        
+        console.log('res.data.item',res.data.item)
+        setItem(res.data.item)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    } catch (e) {
+      console.log(e)
+    }
+    
   }
 
   async function createSection(section: any) {
@@ -59,9 +68,9 @@ export default function SelctionsInupt(props: any){
         axios.post('http://localhost:5000/api/sections', 
         {sectiontype: "63b2503c49220f42d9fc17d9", content: section.content, itemId: item.id})
         .then((res) => {
-          // setItem(res.data.item)
+          setItem(res.data.item)
 
-          const oldID = section.id
+          // const oldID = section.id
 
           // setItemSections( (current) => {
           //   return current.map( (s) =>  s.id === section.id ? { id: } )
