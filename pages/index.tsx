@@ -6,10 +6,22 @@ import useSWR from 'swr'
 import axios from "axios";
 import { Box, Grid, Card, CardHeader, CardActions, Button, CardMedia } from "@mui/material";
 
+import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
+
 export default function Home() {
+
+  const { enqueueSnackbar } = useSnackbar();
+
+
+  const handleClickVariant = (variant: VariantType) => () => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar('This is a success message!', { variant });
+  };
   return (
     
-      <Grid container spacing={3}>
+    <>
+    <Button onClick={handleClickVariant('success')}>Show success snackbar</Button>
+     <Grid container spacing={3}>
         <Grid item xs={12} md={8} lg={4} >
           <Card >
             <CardHeader title='JavaScript'>          </CardHeader>
@@ -146,6 +158,8 @@ export default function Home() {
           </Card>
         </Grid>
       </Grid>
+    </>
+     
     
   )
 }
