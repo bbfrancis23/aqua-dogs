@@ -1,26 +1,9 @@
-import dbConnect from "../lib/dbConnect";
 import Image from 'next/image'
-import Tags from "../models/Tags";
-import TagTypes from '../models/TagTypes'
-import useSWR from 'swr'
-import axios from "axios";
-import { Box, Grid, Card, CardHeader, CardActions, Button, CardMedia } from "@mui/material";
-
-import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
-
+import { Grid, Card, CardHeader, CardActions, Button, CardMedia } from "@mui/material";
 export default function Home() {
 
-  const { enqueueSnackbar } = useSnackbar();
 
-
-  const handleClickVariant = (variant: VariantType) => () => {
-    // variant could be success, error, warning, info, or default
-    enqueueSnackbar('This is a success message!', { variant });
-  };
   return (
-    
-    <>
-    <Button onClick={handleClickVariant('success')}>Show success snackbar</Button>
      <Grid container spacing={3}>
         <Grid item xs={12} md={8} lg={4} >
           <Card >
@@ -31,7 +14,7 @@ export default function Home() {
               </div>
             </CardMedia>
             <CardActions>
-              <Button>Standards</Button>
+              <Button color="secondary" sx={{ bgcolor: 'primary.main'}}>Standards</Button>
               <Button>Best Practices</Button>
               <Button>Examples</Button>
             </CardActions>
@@ -158,7 +141,6 @@ export default function Home() {
           </Card>
         </Grid>
       </Grid>
-    </>
      
     
   )
