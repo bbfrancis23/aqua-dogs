@@ -1,5 +1,13 @@
-import { connectDB } from '../../../lib/db';
 import { hashPassword } from '../../../lib/auth';
+import { connectDB } from '../../../lib/db';
+
+import { hash } from 'bcryptjs';
+
+// export async function hashPassword(password) {
+//   const hashedPassword = await hash(password, 12);
+
+//   return hashedPassword;
+// }
 
 async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -8,11 +16,11 @@ async function handler(req, res) {
 
   const data = req.body;
 
-  const { email, password } = DataTransferItem;
+  const { email, password } = data;
 
   if (
     !email ||
-    !email.inclueds('@') ||
+    !email.includes('@') ||
     !password ||
     password.trim().length < 6
   ) {
@@ -25,7 +33,8 @@ async function handler(req, res) {
 
   const db = client.db();
 
-  const hashedPassword = await hashedPassword(password);
+  const hashedPassword = await hash(password, 12);
+  // const hashedPassword = await hashedPassword(password);
 
   db.collection('members').insertOne({
     email: email,

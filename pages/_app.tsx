@@ -1,16 +1,19 @@
 // import '../styles/globals.css'
 import { useState, useEffect } from 'react'
 import type { AppProps } from 'next/app'
-import { CssBaseline, ThemeProvider, createTheme, Fab } from '@mui/material'
+import { CssBaseline, ThemeProvider, createTheme, Fab, Stack } from '@mui/material'
 import { SnackbarProvider } from 'notistack'
 
 import SettingsIcon from '@mui/icons-material/Settings'
+import RegisterIcon from '@mui/icons-material/HowToReg';
 import { appThemes, createFxTheme, palettes } from '../theme/themes'
 import SettingsDialog from '../components/settings/SettingsDialog'
+import RegisterDialog from '../components/auth/RegisterDialog'
 
 export default function App({ Component, pageProps }: AppProps) {
 
   const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)
+  const [registerDialogIsOpen, setRegisterDialogIsOpen] = useState(false)
 
 
   const createFx = (fxOptions: any) => {
@@ -72,20 +75,31 @@ export default function App({ Component, pageProps }: AppProps) {
   return(
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} hideIconVariant={true}>
-      <Fab
-        color="secondary"
-        sx={{
-          position: 'fixed',
-          top: theme.spacing(3),
-          right: theme.spacing(3),
-        }}
-        onClick={() => setSettingsDialogIsOpen(true)}
-      >
-        <SettingsIcon />
-      </Fab>
-        <Component {...pageProps} />
-        <SettingsDialog updateFx={handleUpdateFx} dialogIsOpen={settingsDialogIsOpen} closeDialog={ () => setSettingsDialogIsOpen(false)} /> 
+      <SnackbarProvider maxSnack={1} anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} hideIconVariant={true}>
+        <Stack direction="row" spacing={1}   sx={{
+            position: 'fixed',
+            top: theme.spacing(3),
+            right: theme.spacing(3),
+          }}>
+          <Fab
+          color="secondary"
+         
+          onClick={() => setRegisterDialogIsOpen(true)}
+        >
+          <RegisterIcon />
+        </Fab>
+        <Fab
+          color="secondary"
+         
+          onClick={() => setSettingsDialogIsOpen(true)}
+        >
+          <SettingsIcon />
+        </Fab>
+        </Stack>  
+      
+      <Component {...pageProps} />
+      <SettingsDialog updateFx={handleUpdateFx} dialogIsOpen={settingsDialogIsOpen} closeDialog={ () => setSettingsDialogIsOpen(false)} /> 
+      <RegisterDialog dialogIsOpen={registerDialogIsOpen} closeDialog={ () => setRegisterDialogIsOpen(false)} /> 
       </SnackbarProvider>
     </ ThemeProvider>
     

@@ -12,8 +12,8 @@ export default function SettingsDialog(props: any) {
   return (
     <DraggableDialog
       dialogIsOpen={dialogIsOpen}
-      ariaLabel="signup-dialog"
-      title="Settings"
+      ariaLabel="App Settings"
+      title="SETTINGS"
     >
       <DialogContent sx={{width: '100%'}}>
         <SettingsPalettes updateFx={updateFx} width='400px' />
