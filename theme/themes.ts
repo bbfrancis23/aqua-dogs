@@ -11,6 +11,7 @@ import {
   deepPurple,
   indigo,
   yellow,
+  cyan,
 } from '@mui/material/colors';
 
 export const palettes = [
@@ -46,13 +47,13 @@ export const palettes = [
   },
   {
     name: 'CobraKai',
-    primary: { main: red.A400 },
+    primary: { main: red[900] },
     secondary: { main: yellow.A200 },
   },
   {
     name: 'AquaDogs',
-    primary: { main: blueGrey[600] },
-    secondary: { main: grey[900] },
+    primary: { main: teal.A400 },
+    secondary: { main: indigo[900] },
   },
 ];
 
