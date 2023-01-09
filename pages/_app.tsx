@@ -8,12 +8,12 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import RegisterIcon from '@mui/icons-material/HowToReg';
 import { appThemes, createFxTheme, palettes } from '../theme/themes'
 import SettingsDialog from '../components/settings/SettingsDialog'
-import RegisterDialog from '../components/auth/RegisterDialog'
+import AuthDialog from '../components/auth/AuthDialog'
 
 export default function App({ Component, pageProps }: AppProps) {
 
   const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)
-  const [registerDialogIsOpen, setRegisterDialogIsOpen] = useState(false)
+  const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)
 
 
   const createFx = (fxOptions: any) => {
@@ -84,7 +84,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Fab
           color="secondary"
          
-          onClick={() => setRegisterDialogIsOpen(true)}
+          onClick={() => setAuthDialogIsOpen(true)}
         >
           <RegisterIcon />
         </Fab>
@@ -99,7 +99,7 @@ export default function App({ Component, pageProps }: AppProps) {
       
       <Component {...pageProps} />
       <SettingsDialog updateFx={handleUpdateFx} dialogIsOpen={settingsDialogIsOpen} closeDialog={ () => setSettingsDialogIsOpen(false)} /> 
-      <RegisterDialog dialogIsOpen={registerDialogIsOpen} closeDialog={ () => setRegisterDialogIsOpen(false)} /> 
+      <AuthDialog dialogIsOpen={authDialogIsOpen} closeDialog={ () => setAuthDialogIsOpen(false)} /> 
       </SnackbarProvider>
     </ ThemeProvider>
     
