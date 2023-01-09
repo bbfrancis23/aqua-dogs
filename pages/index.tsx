@@ -1,22 +1,65 @@
-import dbConnect from "../lib/dbConnect";
 import Image from 'next/image'
-import Tags from "../models/Tags";
-import TagTypes from '../models/TagTypes'
-import useSWR from 'swr'
-import axios from "axios";
-import { Box, Grid, Card, CardHeader, CardActions, Button, CardMedia } from "@mui/material";
+import { Grid, Card, CardHeader, CardActions, Button, CardMedia, styled, useTheme } from "@mui/material";
+
+export const ThemeOverlay = styled('div')(
+
+  ({ theme }) => (
+    { 
+      position: 'relative', 
+      width: '100%', 
+      height: '300px',
+      display: 'flex',
+      backgroundPosition: 'center',
+
+      '&::before' :  {
+         content: '""',
+         background: theme.palette.secondary.main,
+         width: '100%',
+         height: '300px',
+         opacity: '.4',
+         transition: '.5s ease'
+      }
+    }
+  )
+)
+
 
 export default function Home() {
+
+  const theme = useTheme();
+
+
   return (
-    
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={8} lg={4} >
+     <Grid container spacing={3} sx={{ p: 3, pt: 12}}>
+        <Grid item xs={12} md={6} lg={4} >
           <Card >
-            <CardHeader title='JavaScript'>          </CardHeader>
+            <CardHeader title='JavaScript' sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', }} />
             <CardMedia>
-              <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                <Image alt="javascript" src={'/images/card-dogs/javascript.jpg'} layout="fill" objectFit="cover" />
-              </div>
+              <ThemeOverlay 
+                style={{
+                  background: 'url("/images/card-dogs/javascript.jpg")',      
+                  backgroundPosition: 'center',   
+                }}
+               /> 
+              
+            </CardMedia>
+            <CardActions>
+              <Button >Standards</Button>
+              <Button>Best Practices</Button>
+              <Button>Examples</Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6} lg={4} >
+          <Card >
+            <CardHeader title='HTML'sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} />
+            <CardMedia>
+            <ThemeOverlay 
+                style={{
+                  background: 'url("/images/card-dogs/html.jpg")',      
+                  backgroundPosition: 'center',   
+                }}
+               /> 
             </CardMedia>
             <CardActions>
               <Button>Standards</Button>
@@ -25,13 +68,16 @@ export default function Home() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} md={8} lg={4} >
+        <Grid item xs={12} md={6} lg={4} >
           <Card >
-            <CardHeader title='HTML'></CardHeader>
+            <CardHeader title='CSS'sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} />
             <CardMedia>
-              <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                <Image alt="javascript" src={'/images/card-dogs/html.jpg'} layout="fill" objectFit="cover" />
-              </div>
+            <ThemeOverlay 
+                style={{
+                  background: 'url("/images/card-dogs/css.jpg")',      
+                  backgroundPosition: 'center',   
+                }}
+               /> 
             </CardMedia>
             <CardActions>
               <Button>Standards</Button>
@@ -40,13 +86,16 @@ export default function Home() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} md={8} lg={4} >
+        <Grid item xs={12} md={6} lg={4} >
           <Card >
-            <CardHeader title='CSS'></CardHeader>
+            <CardHeader title='React'sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} />
             <CardMedia>
-              <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                <Image alt="javascript" src={'/images/card-dogs/css.jpg'} layout="fill" objectFit="cover" />
-              </div>
+            <ThemeOverlay 
+                style={{
+                  background: 'url("/images/card-dogs/react.jpg")',      
+                  backgroundPosition: 'center',   
+                }}
+               /> 
             </CardMedia>
             <CardActions>
               <Button>Standards</Button>
@@ -55,13 +104,16 @@ export default function Home() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} md={8} lg={4} >
+        <Grid item xs={12} md={6} lg={4} >
           <Card >
-            <CardHeader title='React'></CardHeader>
+            <CardHeader title='NextJS'sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} />
             <CardMedia>
-              <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                <Image alt="javascript" src={'/images/card-dogs/react.jpg'} layout="fill" objectFit="cover" />
-              </div>
+            <ThemeOverlay 
+                style={{
+                  background: 'url("/images/card-dogs/nextjs.jpg")',      
+                  backgroundPosition: 'center',   
+                }}
+               /> 
             </CardMedia>
             <CardActions>
               <Button>Standards</Button>
@@ -70,13 +122,16 @@ export default function Home() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} md={8} lg={4} >
+        <Grid item xs={12} md={6} lg={4} >
           <Card >
-            <CardHeader title='NextJS'></CardHeader>
+            <CardHeader title='Material User Interface'sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} />
             <CardMedia>
-              <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                <Image alt="javascript" src={'/images/card-dogs/nextjs.jpg'} layout="fill" objectFit="cover" />
-              </div>
+            <ThemeOverlay 
+                style={{
+                  background: 'url("/images/card-dogs/mui.jpg")',      
+                  backgroundPosition: 'center',   
+                }}
+               /> 
             </CardMedia>
             <CardActions>
               <Button>Standards</Button>
@@ -85,13 +140,16 @@ export default function Home() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} md={8} lg={4} >
+        <Grid item xs={12} md={6} lg={4} >
           <Card >
-            <CardHeader title='Material User Interface'></CardHeader>
+            <CardHeader title='NodeJS'sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} />
             <CardMedia>
-              <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                <Image alt="javascript" src={'/images/card-dogs/mui.jpg'} layout="fill" objectFit="cover" />
-              </div>
+            <ThemeOverlay 
+                style={{
+                  background: 'url("/images/card-dogs/nodejs.jpg")',      
+                  backgroundPosition: 'center',   
+                }}
+               /> 
             </CardMedia>
             <CardActions>
               <Button>Standards</Button>
@@ -100,13 +158,16 @@ export default function Home() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} md={8} lg={4} >
+        <Grid item xs={12} md={6} lg={4} >
           <Card >
-            <CardHeader title='NodeJS'></CardHeader>
+            <CardHeader title='Express'sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} />
             <CardMedia>
-              <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                <Image alt="javascript" src={'/images/card-dogs/nodejs.jpg'} layout="fill" objectFit="cover" />
-              </div>
+            <ThemeOverlay 
+                style={{
+                  background: 'url("/images/card-dogs/express.jpg")',      
+                  backgroundPosition: 'center',   
+                }}
+               /> 
             </CardMedia>
             <CardActions>
               <Button>Standards</Button>
@@ -115,28 +176,16 @@ export default function Home() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} md={8} lg={4} >
+        <Grid item xs={12} md={6} lg={4} >
           <Card >
-            <CardHeader title='Express'></CardHeader>
+            <CardHeader title='MongoDB'sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} />
             <CardMedia>
-              <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                <Image alt="javascript" src={'/images/card-dogs/express.jpg'} layout="fill" objectFit="cover" />
-              </div>
-            </CardMedia>
-            <CardActions>
-              <Button>Standards</Button>
-              <Button>Best Practices</Button>
-              <Button>Examples</Button>
-            </CardActions>
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={8} lg={4} >
-          <Card >
-            <CardHeader title='MongoDB'></CardHeader>
-            <CardMedia>
-              <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                <Image alt="javascript" src={'/images/card-dogs/mongodb.jpg'} layout="fill" objectFit="cover" />
-              </div>
+            <ThemeOverlay 
+                style={{
+                  background: 'url("/images/card-dogs/mongodb.jpg")',      
+                  backgroundPosition: 'center',   
+                }}
+               /> 
             </CardMedia>
             <CardActions>
               <Button>Standards</Button>
@@ -146,6 +195,7 @@ export default function Home() {
           </Card>
         </Grid>
       </Grid>
+     
     
   )
 }
