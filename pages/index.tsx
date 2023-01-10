@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { Grid, Card, CardHeader, CardActions, Button, CardMedia, styled, useTheme } from "@mui/material";
 import { useSession} from 'next-auth/react'
+import Link from 'next/link'
 
 export const ThemeOverlay = styled('div')(
 
@@ -37,7 +38,8 @@ export default function Home() {
   return (
      <Grid container spacing={3} sx={{ p: 3, pt: 12}}>
         <Grid item xs={12} md={6} lg={4} >
-          <Card >
+          <Link href="http://localhost:3000/tags/63b1d5db51a00f093850bbeb">
+             <Card >
             <CardHeader title='JavaScript' sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', }} />
             <CardMedia>
               <ThemeOverlay 
@@ -54,6 +56,8 @@ export default function Home() {
               <Button>Examples</Button>
             </CardActions>
           </Card>
+          </Link>
+         
         </Grid>
         <Grid item xs={12} md={6} lg={4} >
           <Card >
