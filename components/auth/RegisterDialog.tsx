@@ -12,7 +12,7 @@ export default function RegisterDialog(props: any) {
   return (
     <DraggableDialog
       dialogIsOpen={dialogIsOpen}
-      ariaLabel="Register Dialog"
+      ariaLabel="register-dialog"
       title="REGISTER"
     >
       <DialogContent sx={{width: '100%'}}>

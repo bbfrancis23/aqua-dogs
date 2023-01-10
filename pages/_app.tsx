@@ -1,20 +1,26 @@
 // import '../styles/globals.css'
+import { SessionProvider } from "next-auth/react"
+
 import { useState, useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import { CssBaseline, ThemeProvider, createTheme, Fab, Stack } from '@mui/material'
 import { SnackbarProvider } from 'notistack'
 
 import SettingsIcon from '@mui/icons-material/Settings'
-import RegisterIcon from '@mui/icons-material/HowToReg';
 import { appThemes, createFxTheme, palettes } from '../theme/themes'
 import SettingsDialog from '../components/settings/SettingsDialog'
-import RegisterDialog from '../components/auth/RegisterDialog'
+import AuthDialog from '../components/auth/AuthDialog'
+import AuthNav from "../components/auth/AuthNav"
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
 
+  
+
+ 
   const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)
-  const [registerDialogIsOpen, setRegisterDialogIsOpen] = useState(false)
+  
 
+  const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)
 
   const createFx = (fxOptions: any) => {
     let theme = createTheme(fxOptions)
@@ -73,36 +79,36 @@ export default function App({ Component, pageProps }: AppProps) {
 
 
   return(
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <SnackbarProvider maxSnack={1} anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} hideIconVariant={true}>
-        <Stack direction="row" spacing={1}   sx={{
-            position: 'fixed',
-            top: theme.spacing(3),
-            right: theme.spacing(3),
-          }}>
-          <Fab
-          color="secondary"
+    <SessionProvider session={session} refetchInterval={5 * 60}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <SnackbarProvider maxSnack={1} anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} hideIconVariant={true}>
+          <Stack direction="row" spacing={1}   sx={{
+              position: 'fixed',
+              top: theme.spacing(3),
+              right: theme.spacing(3),
+            }}>
+              <AuthNav  setAuthDialogIsOpen={setAuthDialogIsOpen} />
          
-          onClick={() => setRegisterDialogIsOpen(true)}
-        >
-          <RegisterIcon />
-        </Fab>
-        <Fab
-          color="secondary"
-         
-          onClick={() => setSettingsDialogIsOpen(true)}
-        >
-          <SettingsIcon />
-        </Fab>
-        </Stack>  
-      
-      <Component {...pageProps} />
-      <SettingsDialog updateFx={handleUpdateFx} dialogIsOpen={settingsDialogIsOpen} closeDialog={ () => setSettingsDialogIsOpen(false)} /> 
-      <RegisterDialog dialogIsOpen={registerDialogIsOpen} closeDialog={ () => setRegisterDialogIsOpen(false)} /> 
-      </SnackbarProvider>
-    </ ThemeProvider>
+          
+            <Fab
+              color="secondary"
+            
+              onClick={() => setSettingsDialogIsOpen(true)}
+            >
+              <SettingsIcon />
+            </Fab>
+          </Stack>  
+        
+        <Component {...pageProps} />
+        <SettingsDialog updateFx={handleUpdateFx} dialogIsOpen={settingsDialogIsOpen} closeDialog={ () => setSettingsDialogIsOpen(false)} /> 
+        <AuthDialog dialogIsOpen={authDialogIsOpen} closeDialog={ () => setAuthDialogIsOpen(false)} /> 
+        </SnackbarProvider>
+      </ ThemeProvider>
+    </SessionProvider>
     
    )
     
 }
+
+

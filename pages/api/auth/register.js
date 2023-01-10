@@ -3,13 +3,10 @@ import { connectDB } from '../../../lib/db';
 
 import { hash } from 'bcryptjs';
 
-// export async function hashPassword(password) {
-//   const hashedPassword = await hash(password, 12);
-
-//   return hashedPassword;
-// }
-
 async function handler(req, res) {
+  // Do not use this for now.
+  return;
+
   if (req.method !== 'POST') {
     return;
   }

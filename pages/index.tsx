@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { Grid, Card, CardHeader, CardActions, Button, CardMedia, styled, useTheme } from "@mui/material";
+import { useSession} from 'next-auth/react'
 
 export const ThemeOverlay = styled('div')(
 
@@ -28,6 +29,10 @@ export default function Home() {
 
   const theme = useTheme();
 
+  const { data: session, status } = useSession()
+  const loading = status === "loading"
+  
+  // console.log(session, loading)
 
   return (
      <Grid container spacing={3} sx={{ p: 3, pt: 12}}>
