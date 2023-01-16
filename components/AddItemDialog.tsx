@@ -3,11 +3,22 @@ import { Button, TextField, Dialog, DialogTitle,Stack,
   DialogContent,DialogActions,  } from "@mui/material"
 import TagsMultiSelect from "./TagsMultiSelect"
 import SectionsInupt from "./SectionsInput";
+import { useSession, getSession } from "next-auth/react";
 
 import ItemTitleInput from "./ItemTitleInput";
 import axios from "axios";
 
 export default function AddItemDialog(props: any){
+
+
+  const { data: session, status } = useSession()
+
+  const loading = status === "loading"
+
+ 
+  console.log(session, loading)
+
+
   const {dialogIsOpen, closeDialog} = props
   const [item, setItem] = useState({id: ''})
 
@@ -15,7 +26,7 @@ export default function AddItemDialog(props: any){
 
   useEffect( () => {
 
-    if(dialogIsOpen){
+    if(dialogIsOpen && session){
       try {
         axios.post('http://localhost:5000/api/items', {title: ''})
         .then((res) => {
@@ -48,7 +59,7 @@ export default function AddItemDialog(props: any){
     }
 
    
-  },[dialogIsOpen])
+  },[dialogIsOpen, session])
 
  
 
@@ -58,19 +69,40 @@ export default function AddItemDialog(props: any){
     setItem(item)
   }
 
+
   return (
     <Dialog open={dialogIsOpen}>
       <DialogTitle>Add New Item</DialogTitle>
-      <DialogContent>
-        <Stack spacing={3}>
-          <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/>
-          <TagsMultiSelect  item={item} setItem={(item: any) => handleSetItem(item)} />         
-          <SectionsInupt item={item} setItem={(item: any) => handleSetItem(item)} />
-        </Stack>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={closeDialog}>CANCEL</Button>
-      </DialogActions>
+      {
+        loading && (
+          <DialogContent>
+            Loading ...
+          </DialogContent>
+        )
+      }
+      {
+        (!loading && !session ) && (
+          <>Permission Denied</>
+        )
+       }
+      {
+        (!loading && session) && (
+          <>
+          <DialogContent>
+          <Stack spacing={3}>
+            <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/>
+            <TagsMultiSelect  item={item} setItem={(item: any) => handleSetItem(item)} />         
+            <SectionsInupt item={item} setItem={(item: any) => handleSetItem(item)} />
+          </Stack>
+        </DialogContent>
+      
+          </>
+        )
+      }
+        <DialogActions>
+          <Button onClick={closeDialog}>CANCEL</Button>
+        </DialogActions>
+     
     </Dialog>
   )
   
