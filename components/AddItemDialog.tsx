@@ -97,6 +97,7 @@ export default function AddItemDialog(props: any){
         )
       }
         <DialogActions>
+        <Button onClick={closeDialog}>SAVE</Button>
           <Button onClick={closeDialog}>CANCEL</Button>
         </DialogActions>
      
