@@ -15,12 +15,6 @@ export default function SectionsInupt(props: any){
 
  
 
-  // useEffect( () => {
-  //     console.log(item)
-  //   },
-
-  // [item])
-
   const handleAddSection = () => {
     
 
@@ -31,7 +25,6 @@ export default function SectionsInupt(props: any){
       .then((res) => {
 
         setNewSectionOrderNumber(c => ++c)
-        console.log('res.data.item',res.data.item)
         setItem(res.data.item)
       })
       .catch((error) => {

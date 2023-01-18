@@ -47,8 +47,6 @@ export default function TagsMultiSelect(props: any) {
   const handleTagsChange = (event: any) => {
     const { target: {value} } = event
 
-    console.log(itemTags)
-
     setItemTags(typeof value === 'string' ? value.split(',') : value,);
   }  
 
@@ -67,8 +65,6 @@ export default function TagsMultiSelect(props: any) {
         axios.patch(`http://localhost:5000/api/items/${item.id}`, {tags: itemTags})
         .then((res) => {
           setItem(res.data.item)
-
-          console.log(res.data.item)
 
           setIsSubmitting(false)
         })

@@ -14,6 +14,9 @@ export default async function handler(req, res) {
 
   const aItems = await items.toArray();
 
-  res.status(201).json({ message: 'Created user!', data: aItems });
+  // console.log('aItems', aItems);
+  // console.log('items', aitems);
+
+  res.status(201).json({ message: 'sucess!', data: aItems });
   client.close();
 }

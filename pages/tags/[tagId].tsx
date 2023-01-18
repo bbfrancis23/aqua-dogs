@@ -1,6 +1,9 @@
 import { Button, Card, CardActions, CardHeader, CardMedia, Grid, styled } from "@mui/material";
 import axios from "axios";
 
+import { ObjectId } from 'mongodb';
+import { connectDB } from '../../lib/db';
+
 import Link from 'next/link'
 
 export const ThemeOverlay = styled('div')(
@@ -43,7 +46,7 @@ export default function ItemsByTag(props: any){
     
   })
 
-  console.log(bestpracItems)
+  // console.log(bestpracItems)
 
   return (
     <Grid container spacing={3} sx={{ p: 3, pt: 12}}>
@@ -69,11 +72,43 @@ export async function getStaticPaths(){
 }
 export async function getStaticProps({params}: any){
 
-  const res = await axios.get(`http://localhost:3000/api/items/tags/${params.tagId}`);
+  // const res = await axios.get(`http://localhost:3000/api/items/tags/${params.tagId}`);
 
-  // console.log(res.data)  
-  //const data = await res.data 
 
-  return {props: {items: res.data.data}} 
+
+
+  /////////////////////////
+
+
+  const client = await connectDB();
+
+  const db = client.db();
+
+  const  tagId  = params.tagId;
+
+  const items = db
+    .collection('items')
+    .find({ tags: new ObjectId(tagId.toString()) });
+
+  const aItems = await items.toArray();
+
+  const data = aItems.map( item => {
+    return {
+      _id: item._id.toString(),
+      title: item.title,
+      tags: item.tags.map( (t:any) => { return t.toString()}),
+      sections: item.sections.map( (s:any) => { return s.toString()}),
+    }
+  })
+
+
+
+
+  //const jData = JSON.stringify(aItems)
+
+
+  console.log('j data', data)  
+  // console.log('r data',res.data.data)
+  return {props: {items: data}} 
 
 }

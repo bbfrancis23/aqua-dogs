@@ -15,9 +15,6 @@ export default function AddItemDialog(props: any){
 
   const loading = status === "loading"
 
- 
-  console.log(session, loading)
-
 
   const {dialogIsOpen, closeDialog} = props
   const [item, setItem] = useState({id: ''})
@@ -37,7 +34,7 @@ export default function AddItemDialog(props: any){
             .then((res) => {
 
 
-              console.log('res.data.item',res.data.item)
+              
               setItem(res.data.item)
             })
             .catch((error) => {

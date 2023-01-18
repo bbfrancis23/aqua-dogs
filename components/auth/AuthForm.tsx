@@ -29,8 +29,6 @@ export default function LoginForm(props: any) {
         password: data.password,
       });
 
-      console.log(result)
-
       // axios.post(
       //   'http://localhost:5000/api/users/login',
       //   { email: data.email, password: data.password },

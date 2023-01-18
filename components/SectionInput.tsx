@@ -30,8 +30,6 @@ export default function SelectionInput(props: any){
       axios.delete(`http://localhost:5000/api/sections/${id}`)
       .then((res) => {
 
-        
-        console.log('res.data.item',res.data.item)
         setItem(res.data.item)
       })
       .catch((error) => {
@@ -47,8 +45,6 @@ export default function SelectionInput(props: any){
 
 
   const handleSectionBlur = async (event: any, section: any) => {
-
-    console.log(event.target.value, section ) 
 
     try {
       axios.patch(`http://localhost:5000/api/sections/${section.id}`, {

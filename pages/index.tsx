@@ -32,8 +32,6 @@ export default function Home() {
 
   const { data: session, status } = useSession()
   const loading = status === "loading"
-  
-  // console.log(session, loading)
 
   return (
      <Grid container spacing={3} sx={{ p: 3, pt: 12}}>
@@ -217,10 +215,7 @@ export async function getStaticProps() {
   //   .populate({ path: "tagtype", model: TagTypes })
   //   .exec((error, list) => {
   //     console.log(error);
-  //     console.log(list)
   //   });
-
-  // console.log(tags)
 
   
   // try{
