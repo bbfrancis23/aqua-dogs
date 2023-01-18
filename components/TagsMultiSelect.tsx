@@ -34,14 +34,22 @@ export default function TagsMultiSelect(props: any) {
   useEffect(() => {
 
     
+    console.log('trying to update tags')
+    console.log('item:', item)
+
     if (data) {      
       setTags(data.tags);    
 
-      if(item.tags){
-        setItemTags( item.tags?.map( (t:any) => t.id))
-      }
+    
     }
-  }, [data, item?.tags]);
+
+
+
+    if(item.tags){
+      console.log(item.tags)
+      setItemTags( item.tags?.map( (t:any) => t.id))
+    }
+  }, [data, item]);
 
 
   const handleTagsChange = (event: any) => {
