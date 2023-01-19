@@ -55,12 +55,9 @@ export default function AddItemDialog(props: any){
 
   useMemo( () => {
 
-    console.log('session: ', session)
-
-    console.log('item: ', item)
+   
 
     if(!item.id){
-      console.log('item.id is undefined')
 
       if(dialogIsOpen && session){
         try {
@@ -96,7 +93,7 @@ export default function AddItemDialog(props: any){
     }
 
    
-  },[dialogIsOpen, session])
+  },[dialogIsOpen, session, item])
 
  
 

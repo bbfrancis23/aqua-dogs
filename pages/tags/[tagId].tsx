@@ -39,10 +39,22 @@ export default function ItemsByTag(props: any){
       t === '63b0d7302beee78c4a512880'
     )
 
-    if(isBestPractice){
+    if(isBestPractice.length > 0){
       return i
-    }
+    }   
     
+  })
+
+
+  const standardItems = items.filter( (i:any) => {
+
+    const isBestPractice = i.tags.filter((t: any) => 
+      t === '63c88c117e51170d8d8c6df1'
+    )
+
+    if(isBestPractice.length > 0){
+      return i
+    }   
     
   })
 
@@ -55,6 +67,24 @@ export default function ItemsByTag(props: any){
               {
                 bestpracItems.map( (i:any, ) => (<li key={i._id}><Link href={`/items/${i._id}`} >{i.title}</Link></li>))
               }
+            </ul>
+          </Card>
+      </Grid>
+      <Grid item xs={12} md={6} lg={4} >
+        <Card >
+          <CardHeader title='Standards' sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', }} />
+            <ul>              
+              {
+                standardItems.map( (i:any, ) => (<li key={i._id}><Link href={`/items/${i._id}`} >{i.title}</Link></li>))
+              }
+            </ul>
+          </Card>
+      </Grid>
+      <Grid item xs={12} md={6} lg={4} >
+        <Card >
+          <CardHeader title='Examples' sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', }} />
+            <ul>              
+              <li>Coming soon</li>
             </ul>
           </Card>
       </Grid>
