@@ -214,14 +214,12 @@ export async function getStaticProps() {
   // const tags = Tags.find({})
   //   .populate({ path: "tagtype", model: TagTypes })
   //   .exec((error, list) => {
-  //     console.log(error);
   //   });
 
   
   // try{
   //   let response = await axios.get('http://localhost:5000/api/tag-types');
   //   let to_return = await response.data;
-  //   console.log(to_return);
   // }catch{
 
   // }

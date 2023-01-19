@@ -29,23 +29,7 @@ export default function LoginForm(props: any) {
         password: data.password,
       });
 
-      // axios.post(
-      //   'http://localhost:5000/api/users/login',
-      //   { email: data.email, password: data.password },
-      // )
-      //   .then((res) => {
-          
-      //     formik.setSubmitting(false)
-      //     if (res.status === successCode && res.statusText === 'Accepted') {
-      //       loginUser()
-      //       closeDialog()
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     formik.setSubmitting(false)
-      //     console.log(error)
-      //     setServerError(error.response.data.message)
-      //   })
+      
     },
   })
 

@@ -46,8 +46,6 @@ export default function ItemsByTag(props: any){
     
   })
 
-  // console.log(bestpracItems)
-
   return (
     <Grid container spacing={3} sx={{ p: 3, pt: 12}}>
       <Grid item xs={12} md={6} lg={4} >
@@ -106,9 +104,6 @@ export async function getStaticProps({params}: any){
 
   //const jData = JSON.stringify(aItems)
 
-
-  console.log('j data', data)  
-  // console.log('r data',res.data.data)
   return {props: {items: data}} 
 
 }

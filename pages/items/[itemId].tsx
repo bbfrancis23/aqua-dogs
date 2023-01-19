@@ -47,8 +47,6 @@ export default function ItemDetails(props: any) {
             { 
               item.sections?.map( ( s:any) => {
 
-                console.log(s.sectiontype)
-
                 if(s.sectiontype === "63b88d18379a4f30bab59bad"){
 
                   return (
@@ -92,7 +90,7 @@ export async function getStaticPaths(){
 
   const paths = data.items.map((item: any) => ({params: {itemId: item.id}}))
 
-   return { paths, fallback: false}
+   return { paths, fallback: 'blocking'}
    
 }
 export async function getStaticProps({params}: any){
