@@ -10,7 +10,6 @@ import axios from "axios";
 
 import dynamic from "next/dynamic";
 import "@uiw/react-textarea-code-editor/dist.css";
-
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
   { ssr: false }
