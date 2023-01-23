@@ -1,35 +1,48 @@
 // import '../styles/globals.css'
-import { SessionProvider } from "next-auth/react"
-
 import { useState, useEffect } from 'react'
 import type { AppProps } from 'next/app'
-import { CssBaseline, ThemeProvider, createTheme, Fab, Stack } from '@mui/material'
+import { SessionProvider } from "next-auth/react"
 import { SnackbarProvider } from 'notistack'
 
+import { 
+  CssBaseline, ThemeProvider, createTheme, AppBar, Toolbar, Typography, Box, IconButton, Menu, 
+  MenuItem 
+} from '@mui/material'
+
 import SettingsIcon from '@mui/icons-material/Settings'
-import { appThemes, createFxTheme, palettes } from '../theme/themes'
+
+import { appThemes,  palettes } from '../theme/themes'
+
 import SettingsDialog from '../components/settings/SettingsDialog'
 import AuthDialog from '../components/auth/AuthDialog'
-import AuthNav from "../components/auth/AuthNav"
+
 
 export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
 
-  
-
- 
-  const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)
-  
-
+  const [anchorEl, setAnchorEl] = useState(null); 
+  const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)  
   const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)
+
+  const handleCloseMenu = () => setAnchorEl(null)
+
+  const handleOpenAuthDialog = () =>{
+    setAuthDialogIsOpen(true)
+    handleCloseMenu()
+  }
+
+  const handleOpenSettingsDialog = () => {
+    setSettingsDialogIsOpen(true)
+    handleCloseMenu()
+  }
+
+  const handleMenu = (event: any) =>   setAnchorEl(event.currentTarget)
 
   const createFx = (fxOptions: any) => {
     let theme = createTheme(fxOptions)
 
-    const globalTheme = {
-      
+    const globalTheme = {      
 
       components: {
-
         MuiDialog: { styleOverrides: { root: { backgroundColor: 'rgba(0, 0, 0, 0.0)' } } },
         MuiBackdrop: {
           styleOverrides: {
@@ -74,32 +87,53 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
     const themeOptions = localStorage.getItem('themeOptions')
     
     setTheme(createFx(themeOptions ? (JSON.parse(themeOptions)) : appThemes[0]))
-  },[])
-
-
+  },[]) 
 
   return(
     <SessionProvider session={session} refetchInterval={5 * 60}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <SnackbarProvider maxSnack={1} anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} hideIconVariant={true}>
-          <Stack direction="row" spacing={1}   sx={{
-              position: 'fixed',
-              top: theme.spacing(3),
-              right: theme.spacing(3),
-            }}>
-              <AuthNav  setAuthDialogIsOpen={setAuthDialogIsOpen} />
-         
-          
-            <Fab
-              color="secondary"
-            
-              onClick={() => setSettingsDialogIsOpen(true)}
+          <AppBar >
+            <Toolbar>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+              >
+                AquaDogs
+              </Typography>
+            <Box sx={{ flexGrow: 1 }} />
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-haspopup="true"
+              color="inherit"
+              onClick={handleMenu}
             >
               <SettingsIcon />
-            </Fab>
-          </Stack>  
-        
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleCloseMenu}
+            >
+                <MenuItem onClick={handleOpenAuthDialog} >LOGIN</MenuItem>
+                <MenuItem onClick={() => setSettingsDialogIsOpen(true)}>SETTINGS</MenuItem>
+            </Menu>
+          </Toolbar>
+        </AppBar>       
         <Component {...pageProps} />
         <SettingsDialog updateFx={handleUpdateFx} dialogIsOpen={settingsDialogIsOpen} closeDialog={ () => setSettingsDialogIsOpen(false)} /> 
         <AuthDialog dialogIsOpen={authDialogIsOpen} closeDialog={ () => setAuthDialogIsOpen(false)} /> 
