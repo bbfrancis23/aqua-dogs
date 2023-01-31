@@ -6,29 +6,6 @@ import { connectDB } from '../../lib/db';
 
 import Link from 'next/link'
 
-export const ThemeOverlay = styled('div')(
-
-  ({ theme }) => (
-    { 
-      position: 'relative', 
-      width: '100%', 
-      height: '300px',
-      display: 'flex',
-      backgroundPosition: 'center',
-
-      '&::before' :  {
-         content: '""',
-         background: theme.palette.secondary.main,
-         width: '100%',
-         height: '300px',
-         opacity: '.4',
-         transition: '.5s ease'
-      }
-    }
-  )
-)
-
-
 export default function ItemsByTag(props: any){
 
   const {items} = props
@@ -59,9 +36,9 @@ export default function ItemsByTag(props: any){
   })
 
   return (
-    <Grid container spacing={3} sx={{ p: 3, pt: 12}}>
+    <Grid container spacing={3} sx={{ p: 3, pt: 12, height: '100vh'}}>
       <Grid item xs={12} md={6} lg={4} >
-        <Card >
+        <Card sx={{ height: '100%'}}>
           <CardHeader title='Best Practices' sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', }} />
             <ul>              
               {
@@ -71,7 +48,7 @@ export default function ItemsByTag(props: any){
           </Card>
       </Grid>
       <Grid item xs={12} md={6} lg={4} >
-        <Card >
+        <Card  sx={{ height: '100%'}}>
           <CardHeader title='Standards' sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', }} />
             <ul>              
               {
@@ -81,7 +58,7 @@ export default function ItemsByTag(props: any){
           </Card>
       </Grid>
       <Grid item xs={12} md={6} lg={4} >
-        <Card >
+        <Card  sx={{ height: '100%'}}>
           <CardHeader title='Examples' sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', }} />
             <ul>              
               <li>Coming soon</li>
@@ -99,14 +76,6 @@ export async function getStaticPaths(){
  
 }
 export async function getStaticProps({params}: any){
-
-  // const res = await axios.get(`http://localhost:3000/api/items/tags/${params.tagId}`);
-
-
-
-
-  /////////////////////////
-
 
   const client = await connectDB();
 
@@ -128,11 +97,6 @@ export async function getStaticProps({params}: any){
       sections: item.sections.map( (s:any) => { return s.toString()}),
     }
   })
-
-
-
-
-  //const jData = JSON.stringify(aItems)
 
   return {props: {items: data}} 
 
