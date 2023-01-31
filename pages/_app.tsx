@@ -6,7 +6,7 @@ import { SnackbarProvider } from 'notistack'
 
 import { 
   CssBaseline, ThemeProvider, createTheme, AppBar, Toolbar, Typography, Box, IconButton, Menu, 
-  MenuItem 
+  MenuItem, Button
 } from '@mui/material'
 
 import SettingsIcon from '@mui/icons-material/Settings'
@@ -15,9 +15,20 @@ import { appThemes,  palettes } from '../theme/themes'
 
 import SettingsDialog from '../components/settings/SettingsDialog'
 import AuthDialog from '../components/auth/AuthDialog'
+import AppBarMenu from '../ui/AppBarMenu'
+
+import { tags } from '../data/tags';
+import WebFrameworkIcon from '@mui/icons-material/Language';
+import FrontEndIcon from '@mui/icons-material/Code';
+import BackEndIcon from '@mui/icons-material/DataObject';
 
 
 export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
+
+
+  const webFrameWorkPages  = tags.slice(0, 3);
+  const frontEndPages  = tags.slice(3, 6);
+  const backEndPages = tags.slice(6,9)
 
   const [anchorEl, setAnchorEl] = useState(null); 
   const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)  
@@ -103,37 +114,40 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
               >
                 AquaDogs
               </Typography>
-            <Box sx={{ flexGrow: 1 }} />
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={handleMenu}
-            >
-              <SettingsIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorEl)}
-              onClose={handleCloseMenu}
-            >
-                <MenuItem onClick={handleOpenAuthDialog} >LOGIN</MenuItem>
-                <MenuItem onClick={() => setSettingsDialogIsOpen(true)}>SETTINGS</MenuItem>
-            </Menu>
-          </Toolbar>
-        </AppBar>       
+              <AppBarMenu name="WEB FRAMEWORK" id="web-framework" pages={webFrameWorkPages} icon={<WebFrameworkIcon />} />
+              <AppBarMenu name="FRONTEND" id="fontend" pages={frontEndPages} icon={<FrontEndIcon />} />
+              <AppBarMenu name="BACKEND" id="backend" pages={backEndPages} icon={<BackEndIcon />} />
+              <Box sx={{ flexGrow: 1 }} />
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                color="inherit"
+                onClick={handleMenu}
+              >
+                <SettingsIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleCloseMenu}
+              >
+                  <MenuItem onClick={handleOpenAuthDialog} >LOGIN</MenuItem>
+                  <MenuItem onClick={() => setSettingsDialogIsOpen(true)}>SETTINGS</MenuItem>
+              </Menu>
+            </Toolbar>
+          </AppBar>       
         <Component {...pageProps} />
         <SettingsDialog updateFx={handleUpdateFx} dialogIsOpen={settingsDialogIsOpen} closeDialog={ () => setSettingsDialogIsOpen(false)} /> 
         <AuthDialog dialogIsOpen={authDialogIsOpen} closeDialog={ () => setAuthDialogIsOpen(false)} /> 
