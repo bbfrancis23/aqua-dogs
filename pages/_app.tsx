@@ -18,6 +18,9 @@ import AuthDialog from '../components/auth/AuthDialog'
 import AppBarMenu from '../ui/AppBarMenu'
 
 import { tags } from '../data/tags';
+import WebFrameworkIcon from '@mui/icons-material/Language';
+import FrontEndIcon from '@mui/icons-material/Code';
+import BackEndIcon from '@mui/icons-material/DataObject';
 
 
 export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
@@ -111,9 +114,9 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
               >
                 AquaDogs
               </Typography>
-              <AppBarMenu name="WEB FRAMEWORK" id="web-framework" pages={webFrameWorkPages}/>
-              <AppBarMenu name="FRONTEND" id="fontend" pages={frontEndPages} />
-              <AppBarMenu name="BACKEND" id="backend" pages={backEndPages} />
+              <AppBarMenu name="WEB FRAMEWORK" id="web-framework" pages={webFrameWorkPages} icon={<WebFrameworkIcon />} />
+              <AppBarMenu name="FRONTEND" id="fontend" pages={frontEndPages} icon={<FrontEndIcon />} />
+              <AppBarMenu name="BACKEND" id="backend" pages={backEndPages} icon={<BackEndIcon />} />
               <Box sx={{ flexGrow: 1 }} />
               <IconButton
                 size="large"

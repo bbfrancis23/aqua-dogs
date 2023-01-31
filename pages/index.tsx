@@ -56,7 +56,7 @@ export default function Home(props: any) {
                     }}
                   /> 
                 </CardMedia>
-                <CardContent style={{ height: '175px', overflow: 'auto'}}>
+                <CardContent style={{ height: '175px', overflow: 'auto', paddingBottom: '0px'}}>
                  {
                   t.sections.map( (s: string) => (<p key={s}>{s}</p>))
                  }      
