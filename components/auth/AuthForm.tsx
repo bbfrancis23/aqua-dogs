@@ -1,18 +1,27 @@
-import { LoadingButton } from '@mui/lab'
-import { Alert, Button, DialogActions, DialogContent, Stack } from '@mui/material'
-import { Form, FormikProvider, useFormik } from 'formik'
 import React, { useState } from 'react'
+
+import { Alert, Button, DialogActions, DialogContent, Stack, Typography } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+
+import { signIn } from 'next-auth/react'
+
+import { Form, FormikProvider, useFormik } from 'formik'
+
+import {  VariantType, useSnackbar } from 'notistack';
+
 import AuthSchema from './AuthSchema'
 import EmailTextField from './EmailTextField'
 import PasswordTextField from './PasswordTextField'
-import { signIn } from 'next-auth/react'
 
 export default function LoginForm(props: any) {
-  const [serverError, setServerError] = useState('')
 
-  const { closeDialog, loginUser, openRegisterDialog } = props
+  const [loginError, setLoginError] = useState('')
+  const { enqueueSnackbar } = useSnackbar();
 
-  const successCode = 202
+  const { closeDialog, openRegisterDialog } = props
+
+  const successCode = 200
+  const errorCode = 401
 
 
   const formik = useFormik({
@@ -29,13 +38,28 @@ export default function LoginForm(props: any) {
         password: data.password,
       });
 
-      
+      if(result?.status && result.status === successCode && result.ok === true && result.error === null ){
+        closeDialog();
+        const variant: VariantType = 'success'
+        enqueueSnackbar('You are now Logged In', {variant});
+
+      }else{
+        if(result?.status === errorCode){
+          if(result.error){
+            setLoginError(result?.error)
+          }else{
+            setLoginError('Unknown Error')
+          }        
+        }else{
+          setLoginError('Unknown Error')
+        }
+      }
     },
   })
 
   const { errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid } = formik
 
-  const closeForm = () => { formik.resetForm(); closeDialog(); setServerError('') }
+  const closeForm = () => { formik.resetForm(); closeDialog(); setLoginError('') }
 
   const startRegistration = () => { closeDialog(); openRegisterDialog() }
 
@@ -43,9 +67,8 @@ export default function LoginForm(props: any) {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <DialogContent>
-          <Stack spacing={3} sx={{ width: '100%' }}>
-           
-            { serverError && (<Alert severity="error">{serverError}</Alert>) }
+          <Stack spacing={3} sx={{ width: '100%' }}>           
+            { loginError && (<Alert severity="error">{loginError}</Alert>) }
             <EmailTextField
               getFieldProps={getFieldProps}
               error={errors.email}
@@ -55,7 +78,7 @@ export default function LoginForm(props: any) {
               getFieldProps={getFieldProps}
               error={errors.password}
               touched={touched.password}
-            />
+            />            
           </Stack>
         </DialogContent>
         <DialogActions disableSpacing={false}>

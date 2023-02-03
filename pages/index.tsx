@@ -1,11 +1,11 @@
-import Image from 'next/image'
-import { Grid, Card, CardHeader, CardActions, Button, CardMedia, styled, useTheme, CardContent } from "@mui/material";
-import { useSession} from 'next-auth/react'
+
+import { Grid, Card, CardHeader, CardMedia, styled, useTheme, CardContent } from "@mui/material";
+
 import Link from 'next/link'
 
 import { tags } from '../data/tags';
 
-export const ThemeOverlay = styled('div')(
+export const ThemeColorOverlay = styled('div')(
 
   ({ theme }) => (
     { 
@@ -30,26 +30,20 @@ export const ThemeOverlay = styled('div')(
 
 export default function Home(props: any) {
 
-  const {tags} = props
-
-  const theme = useTheme();
-
-  const { data: session, status } = useSession()
-  const loading = status === "loading"
+  const {tags} = props 
 
   return (
      <Grid container spacing={3} sx={{ p: 3, pt: 12}}>
 
       {
         tags.map( (t: any) => {
-
             
           return   (            
             <Grid item xs={12} md={6} lg={4} key={t.tagId}>
               <Card >
               <Link href={`http://localhost:3000/tags/${t.tagId}`} style={{textDecoration: 'none'}} ><CardHeader title={t.title} sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} /></Link>
                 <CardMedia>
-                <ThemeOverlay 
+                <ThemeColorOverlay 
                     style={{
                       background: `url("/images/card-dogs/${t.imgTitle}.jpg")`,      
                       backgroundPosition: 'center',   
@@ -64,19 +58,14 @@ export default function Home(props: any) {
               </Card>
             </Grid>
           )
-        }
-         
-        )
-      }
-   
-      </Grid>
-     
-    
+        })
+      }   
+    </Grid>  
   )
 }
 export async function getStaticProps() {
   
-
+  // In the future we want this to come from database
 
   return{
     props: {

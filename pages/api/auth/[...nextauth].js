@@ -30,7 +30,7 @@ export default NextAuth({
 
         if (!isValid) {
           client.close();
-          throw new Error('Could not log you in!');
+          throw new Error('Invalid Credentials!');
         }
 
         client.close();
@@ -39,5 +39,6 @@ export default NextAuth({
     }),
   ],
 
+  // TODO put this is env vars
   secret: 'youmom',
 });
