@@ -1,7 +1,9 @@
 import { useState } from "react";
-import axios from "axios";
+
 import { Box, Card, CardHeader, CardContent, Stack, Chip, Typography, IconButton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
+
+import axios from "axios";
 import AddItemDialog from "../../components/AddItemDialog";
 import EditableItemTitle from "../../components/EditableItemTitle";
 import EditableItemTags from "../../components/EditableItemTags";
@@ -15,7 +17,7 @@ const CodeEditor = dynamic(
 
 export default function ItemDetails(props: any) {
 
-  const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState(false);
+  const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState(true);
   const [item, setItem] = useState(props.item)
 
 

@@ -1,55 +1,41 @@
 // import '../styles/globals.css'
 import { useState, useEffect } from 'react'
-import type { AppProps } from 'next/app'
-import { SessionProvider } from "next-auth/react"
-import { SnackbarProvider } from 'notistack'
 
 import { 
   CssBaseline, ThemeProvider, createTheme, AppBar, Toolbar, Typography, Box, IconButton, Menu, 
-  MenuItem, Button
+  MenuItem, Button, Stack, Fab
 } from '@mui/material'
-
 import SettingsIcon from '@mui/icons-material/Settings'
-
-import { appThemes,  palettes } from '../theme/themes'
-
-import SettingsDialog from '../components/settings/SettingsDialog'
-import AuthDialog from '../components/auth/AuthDialog'
-import AppBarMenu from '../ui/AppBarMenu'
-
-import { tags } from '../data/tags';
 import WebFrameworkIcon from '@mui/icons-material/Language';
 import FrontEndIcon from '@mui/icons-material/Code';
 import BackEndIcon from '@mui/icons-material/DataObject';
 
+import type { AppProps } from 'next/app'
+import Link from 'next/link'
+
+import { SessionProvider } from "next-auth/react"
+
+import { SnackbarProvider} from 'notistack'
+
+import { appThemes,  palettes } from '../theme/themes'
+import AppBarMenu from '../ui/AppBarMenu'
+import SettingsDialog from '../components/settings/SettingsDialog'
+import AuthDialog from '../components/auth/AuthDialog'
+import AuthNav from '../components/auth/AuthNav'
+
+import { tags } from '../data/tags';
+
 
 export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
-
 
   const webFrameWorkPages  = tags.slice(0, 3);
   const frontEndPages  = tags.slice(3, 6);
   const backEndPages = tags.slice(6,9)
-
-  const [anchorEl, setAnchorEl] = useState(null); 
   const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)  
-  const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)
+  const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)  
 
-  const handleCloseMenu = () => setAnchorEl(null)
-
-  const handleOpenAuthDialog = () =>{
-    setAuthDialogIsOpen(true)
-    handleCloseMenu()
-  }
-
-  const handleOpenSettingsDialog = () => {
-    setSettingsDialogIsOpen(true)
-    handleCloseMenu()
-  }
-
-  const handleMenu = (event: any) =>   setAnchorEl(event.currentTarget)
-
-  const createFx = (fxOptions: any) => {
-    let theme = createTheme(fxOptions)
+  const createFxTheme = (themeOptions: any) => {
+    let theme = createTheme(themeOptions)
 
     const globalTheme = {      
 
@@ -70,7 +56,7 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
     return theme
   }
 
-  const handleUpdateFx = (options: any) => {
+  const handleUpdateTheme = (options: any) => {
     let fxOptions:any = {}
 
     if (options) {
@@ -87,17 +73,17 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
       if (options.mode) fxOptions.palette.mode = options.mode
     }
 
-    setTheme(createFx(fxOptions))
+    setTheme(createFxTheme(fxOptions))
     localStorage.setItem('themeOptions', JSON.stringify(fxOptions))
   }
  
 
-  const [theme, setTheme] = useState(createFx( appThemes[0]))
+  const [theme, setTheme] = useState(createFxTheme( appThemes[0]))
 
   useEffect( () => {
     const themeOptions = localStorage.getItem('themeOptions')
     
-    setTheme(createFx(themeOptions ? (JSON.parse(themeOptions)) : appThemes[0]))
+    setTheme(createFxTheme(themeOptions ? (JSON.parse(themeOptions)) : appThemes[0]))
   },[]) 
 
   return(
@@ -107,49 +93,37 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
         <SnackbarProvider maxSnack={1} anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} hideIconVariant={true}>
           <AppBar >
             <Toolbar>
+              <Link href={'http://localhost:3000/'} style={{textDecoration: 'none'}} >
               <Typography
                 variant="h6"
                 noWrap
                 component="div"
-              >
+                sx={{ color: 'primary.contrastText'}}
+              >                
                 AquaDogs
               </Typography>
+              </Link>
               <AppBarMenu name="WEB FRAMEWORK" id="web-framework" pages={webFrameWorkPages} icon={<WebFrameworkIcon />} />
               <AppBarMenu name="FRONTEND" id="fontend" pages={frontEndPages} icon={<FrontEndIcon />} />
               <AppBarMenu name="BACKEND" id="backend" pages={backEndPages} icon={<BackEndIcon />} />
               <Box sx={{ flexGrow: 1 }} />
+              <AuthNav  setAuthDialogIsOpen={setAuthDialogIsOpen} />
               <IconButton
                 size="large"
                 edge="end"
-                aria-label="account of current user"
+                aria-label="app settings"
                 aria-haspopup="true"
                 color="inherit"
-                onClick={handleMenu}
+                onClick={() => setSettingsDialogIsOpen(true)}
               >
                 <SettingsIcon />
               </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleCloseMenu}
-              >
-                  <MenuItem onClick={handleOpenAuthDialog} >LOGIN</MenuItem>
-                  <MenuItem onClick={() => setSettingsDialogIsOpen(true)}>SETTINGS</MenuItem>
-              </Menu>
+              
+             
             </Toolbar>
           </AppBar>       
         <Component {...pageProps} />
-        <SettingsDialog updateFx={handleUpdateFx} dialogIsOpen={settingsDialogIsOpen} closeDialog={ () => setSettingsDialogIsOpen(false)} /> 
+        <SettingsDialog updateFx={handleUpdateTheme} dialogIsOpen={settingsDialogIsOpen} closeDialog={ () => setSettingsDialogIsOpen(false)} /> 
         <AuthDialog dialogIsOpen={authDialogIsOpen} closeDialog={ () => setAuthDialogIsOpen(false)} /> 
         </SnackbarProvider>
       </ ThemeProvider>
