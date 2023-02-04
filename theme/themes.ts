@@ -57,11 +57,27 @@ export const palettes = [
   },
 ];
 
-export function createFxTheme(themeOptions: any) {
-  const theme = createTheme(themeOptions);
-  const fxTheme = {};
-  return createTheme(theme, fxTheme);
-}
+export const createFxTheme = (themeOptions: any) => {
+  let theme = createTheme(themeOptions);
+
+  const globalTheme = {
+    components: {
+      MuiDialog: {
+        styleOverrides: { root: { backgroundColor: 'rgba(0, 0, 0, 0.0)' } },
+      },
+      MuiBackdrop: {
+        styleOverrides: {
+          root: {
+            backdropFilter: 'blur(1px)',
+            backgroundColor: 'rgba(0, 0, 0, 0.0)',
+          },
+        },
+      },
+    },
+  };
+  theme = createTheme(theme, globalTheme);
+  return theme;
+};
 
 export const hawaii = { name: 'Hawaii', palette: palettes[0] };
 export const midnight = { name: 'Midnight', palette: palettes[1] };
