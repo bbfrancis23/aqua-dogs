@@ -1,4 +1,5 @@
-import { Button, Card, CardActions, CardHeader, CardMedia, Grid, styled } from "@mui/material";
+import {  Card,  CardHeader, Grid,  useTheme } from "@mui/material";
+
 import axios from "axios";
 
 import { ObjectId } from 'mongodb';
@@ -9,12 +10,11 @@ import Link from 'next/link'
 export default function ItemsByTag(props: any){
 
   const {items} = props
+  const theme = useTheme()
 
   const bestpracItems = items.filter( (i:any) => {
 
-    const isBestPractice = i.tags.filter((t: any) => 
-      t === '63b0d7302beee78c4a512880'
-    )
+    const isBestPractice = i.tags.filter((t: any) => t === '63b0d7302beee78c4a512880' )
 
     if(isBestPractice.length > 0){
       return i
@@ -42,7 +42,7 @@ export default function ItemsByTag(props: any){
           <CardHeader title='Best Practices' sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', }} />
             <ul>              
               {
-                bestpracItems.map( (i:any, ) => (<li key={i._id}><Link href={`/items/${i._id}`} >{i.title}</Link></li>))
+                bestpracItems.map( (i:any, ) => (<li key={i._id}><Link href={`/items/${i._id}`} style={{textDecoration: 'none', color: theme.palette.text.primary}} >{i.title}</Link></li>))
               }
             </ul>
           </Card>
@@ -52,7 +52,7 @@ export default function ItemsByTag(props: any){
           <CardHeader title='Standards' sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', }} />
             <ul>              
               {
-                standardItems.map( (i:any, ) => (<li key={i._id}><Link href={`/items/${i._id}`} >{i.title}</Link></li>))
+                standardItems.map( (i:any, ) => (<li key={i._id}><Link href={`/items/${i._id}`} style={{textDecoration: 'none', color: theme.palette.text.primary}} >{i.title}</Link></li>))
               }
             </ul>
           </Card>

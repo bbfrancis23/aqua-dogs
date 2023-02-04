@@ -5,17 +5,29 @@ import StarIcon from '@mui/icons-material/Star'
 import Fab from '@mui/material/Fab'
 import { palettes } from '../../theme/themes'
 
+import {  VariantType, useSnackbar } from 'notistack';
+
 export default function SettingsPalettes(props: any) {
+
   const theme = useTheme()
   const { palette } = theme
   const fxPalette: any = {...palette}
-  const { updateFx } = props
+  const { updateTheme } = props
   const paletteCols = 4
+
+  const { enqueueSnackbar } = useSnackbar()
+
+  function handleUpdateTheme(index: number) {
+
+    const variant: VariantType = 'info'
+    enqueueSnackbar(`${palettes[index].name} Theme`, {variant});
+    updateTheme({ palette: palettes[index] })
+  }
 
   const getPaletteButton = (index: number) => (
 
     <Fab
-      onClick={() => updateFx({ palette: palettes[index] })}
+      onClick={() => handleUpdateTheme(index)}
       key={index}
       sx={{
         background:
@@ -41,19 +53,16 @@ export default function SettingsPalettes(props: any) {
   )
 
   return (
-    < >
-
+    <Box >
       <span>Palette:</span>
       <Stack direction={'row'}>
-
         { palettes.slice(0, paletteCols).map((t, index) => getPaletteButton(index)) }
-
       </Stack>
       <Stack direction={'row'} >
         { palettes.slice(paletteCols, paletteCols + paletteCols)
           .map((t, index) => getPaletteButton((index + paletteCols))) }
       </Stack>
-    </>
+    </ Box>
 
   )
 }

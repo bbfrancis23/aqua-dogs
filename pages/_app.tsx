@@ -1,10 +1,7 @@
 // import '../styles/globals.css'
 import { useState, useEffect } from 'react'
 
-import { 
-  CssBaseline, ThemeProvider, createTheme, AppBar, Toolbar, Typography, Box, IconButton, Menu, 
-  MenuItem, Button, Stack, Fab
-} from '@mui/material'
+import { CssBaseline, ThemeProvider,  AppBar, Toolbar, Typography, Box, IconButton } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
 import WebFrameworkIcon from '@mui/icons-material/Language';
 import FrontEndIcon from '@mui/icons-material/Code';
@@ -12,19 +9,16 @@ import BackEndIcon from '@mui/icons-material/DataObject';
 
 import type { AppProps } from 'next/app'
 import Link from 'next/link'
-
 import { SessionProvider } from "next-auth/react"
 
 import { SnackbarProvider} from 'notistack'
 
-import { appThemes,  palettes } from '../theme/themes'
+import { appThemes,  palettes, createFxTheme } from '../theme/themes'
 import AppBarMenu from '../ui/AppBarMenu'
 import SettingsDialog from '../components/settings/SettingsDialog'
 import AuthDialog from '../components/auth/AuthDialog'
 import AuthNav from '../components/auth/AuthNav'
-
 import { tags } from '../data/tags';
-
 
 export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
 
@@ -32,30 +26,10 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
   const frontEndPages  = tags.slice(3, 6);
   const backEndPages = tags.slice(6,9)
   const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)  
-  const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)  
-
-  const createFxTheme = (themeOptions: any) => {
-    let theme = createTheme(themeOptions)
-
-    const globalTheme = {      
-
-      components: {
-        MuiDialog: { styleOverrides: { root: { backgroundColor: 'rgba(0, 0, 0, 0.0)' } } },
-        MuiBackdrop: {
-          styleOverrides: {
-            root: {
-              backdropFilter: 'blur(1px)',
-              backgroundColor: 'rgba(0, 0, 0, 0.0)',
-            },
-          },
-        },
-
-      },
-    }
-    theme = createTheme(theme, globalTheme)
-    return theme
-  }
-
+  const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)    
+  
+  const [theme, setTheme] = useState(createFxTheme( appThemes[0]))
+  
   const handleUpdateTheme = (options: any) => {
     let fxOptions:any = {}
 
@@ -71,15 +45,12 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
       if (options.name) fxOptions.name = options.name
       if (options.palette) fxOptions.palette = options.palette
       if (options.mode) fxOptions.palette.mode = options.mode
+      else fxOptions.palette.mode = theme.palette.mode
     }
 
     setTheme(createFxTheme(fxOptions))
     localStorage.setItem('themeOptions', JSON.stringify(fxOptions))
   }
- 
-
-  const [theme, setTheme] = useState(createFxTheme( appThemes[0]))
-
   useEffect( () => {
     const themeOptions = localStorage.getItem('themeOptions')
     
@@ -90,8 +61,8 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
     <SessionProvider session={session} refetchInterval={5 * 60}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <SnackbarProvider maxSnack={1} anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} hideIconVariant={true}>
-          <AppBar >
+        <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} hideIconVariant={true}>
+          <AppBar enableColorOnDark>
             <Toolbar>
               <Link href={'http://localhost:3000/'} style={{textDecoration: 'none'}} >
               <Typography
@@ -117,9 +88,7 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
                 onClick={() => setSettingsDialogIsOpen(true)}
               >
                 <SettingsIcon />
-              </IconButton>
-              
-             
+              </IconButton>            
             </Toolbar>
           </AppBar>       
         <Component {...pageProps} />
