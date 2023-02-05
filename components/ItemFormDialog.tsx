@@ -10,7 +10,7 @@ import DraggableDialog from "../ui/DraggableDialog";
 
 import { useSnackbar } from 'notistack';
 
-export default function AddItemDialog(props: any){
+export default function ItemFormDialog(props: any){
 
   const { enqueueSnackbar } = useSnackbar();
   const { data: session, status } = useSession()

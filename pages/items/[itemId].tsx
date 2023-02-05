@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
 
 import axios from "axios";
 
-import AddItemDialog from "../../components/AddItemDialog";
+import ItemFormDialog from "../../components/ItemFormDialog";
 import EditableItemTitle from "../../components/EditableItemTitle";
 import EditableItemTags from "../../components/EditableItemTags";
 
@@ -94,7 +94,7 @@ export default function ItemDetails(props: any) {
          </CardContent>
       </Card>
      
-      <AddItemDialog mode={itemDialogMode} dialogIsOpen={addItemDialogIsOpen} closeDialog={handleCloseDialog} editItem={item} />
+      <ItemFormDialog mode={itemDialogMode} dialogIsOpen={addItemDialogIsOpen} closeDialog={handleCloseDialog} editItem={item} />
     </Box>
   )
 }

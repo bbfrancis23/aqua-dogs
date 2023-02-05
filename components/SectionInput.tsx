@@ -25,16 +25,16 @@ export default function SelectionInput(props: any){
 
   const {item, setItem, index, section} = props
 
-  const [ sectionType, setSetionType] = useState('text')
+  const [ sectionType, setSectionType] = useState('text')
   
   const [code, setCode] = useState('')
 
   useMemo(() => {
 
     if(section.sectiontype === '63b2503c49220f42d9fc17d9'){
-      setSetionType('text')
+      setSectionType('text')
     }else{
-      setSetionType('code')
+      setSectionType('code')
       setCode(section.content)
     }
     
@@ -81,13 +81,13 @@ export default function SelectionInput(props: any){
       <ButtonGroup>
         <Button 
           variant={sectionType === 'text' ? 'contained' : 'outlined'} 
-          onClick={() => setSetionType('text')}
+          onClick={() => setSectionType('text')}
         >
           T
         </Button>
         <Button 
           variant={sectionType === 'code' ? 'contained' : 'outlined'}
-          onClick={() => setSetionType('code')}
+          onClick={() => setSectionType('code')}
         >
           {'{}'}
         </Button>
