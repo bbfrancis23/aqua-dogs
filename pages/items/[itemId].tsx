@@ -1,25 +1,29 @@
 import { useState } from "react";
 
-import { Box, Card, CardHeader, CardContent, Stack, Chip, Typography, IconButton } from "@mui/material";
+import { Box, Card, CardHeader, CardContent, Stack,  Typography, IconButton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 
+import { useSession } from "next-auth/react";
+
 import axios from "axios";
+
 import AddItemDialog from "../../components/AddItemDialog";
 import EditableItemTitle from "../../components/EditableItemTitle";
 import EditableItemTags from "../../components/EditableItemTags";
 
 import dynamic from "next/dynamic";
+
 import "@uiw/react-textarea-code-editor/dist.css";
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
   { ssr: false }
-);
+)
 
 export default function ItemDetails(props: any) {
 
-  const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState(true);
+  const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState(false)
   const [item, setItem] = useState(props.item)
-
+  const { data: session, status } = useSession()
 
   function handleSetItem(item: any){ 
     setItem(item)
@@ -35,11 +39,14 @@ export default function ItemDetails(props: any) {
 
   return (
    
-    <Box sx={{ display: 'flex', justifyContent: 'center'}}>
-      <Card>
+    <Box sx={{ display: 'flex', justifyContent: 'center', pt: 12}}>
+      <Card sx={{ width: {xs: '100vw', md: '50vw' } }}>
       <CardHeader 
           title={<EditableItemTitle item={item} setItem={ (item:any) => handleSetItem(item) } />} 
-          action={<IconButton onClick={ handleOpenDialog }><AddIcon /></IconButton>}
+          action={
+            (session) && 
+            <IconButton onClick={ handleOpenDialog }><AddIcon /></IconButton>
+          }
         />
          <CardContent>
            <Stack spacing={1} direction='row'>
@@ -77,6 +84,7 @@ export default function ItemDetails(props: any) {
           
          </CardContent>
       </Card>
+     
       <AddItemDialog dialogIsOpen={addItemDialogIsOpen} closeDialog={handleCloseDialog}/>
     </Box>
   )

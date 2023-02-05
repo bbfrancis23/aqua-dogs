@@ -1,16 +1,14 @@
-import { useEffect, useMemo, useState } from "react"
-import { Button, TextField, Dialog, DialogTitle,Stack, 
-  DialogContent,DialogActions,  } from "@mui/material"
+import {  useMemo, useState } from "react"
+import { Button,Stack,  DialogContent,DialogActions, Typography,  } from "@mui/material"
 import TagsMultiSelect from "./TagsMultiSelect"
 import SectionsInupt from "./SectionsInput";
-import { useSession, getSession } from "next-auth/react";
+import { useSession} from "next-auth/react";
 
 import ItemTitleInput from "./ItemTitleInput";
 import axios from "axios";
+import DraggableDialog from "../ui/DraggableDialog";
 
 export default function AddItemDialog(props: any){
-
-  console.log('page is loading or reloading')
 
   const { data: session, status } = useSession()
 
@@ -21,37 +19,7 @@ export default function AddItemDialog(props: any){
   const [item, setItem] = useState({id: ''})
 
   const [isSubmitting, setIsSubmitting] = useState(false)
-
   
-
-  // useEffect(() => {
-  //   console.log('item has changed', item)
-
-  //   if (typeof window !== "undefined") {
-
-  //     if(!item.id){
-
-  //       console.log('no item id')
-  
-  //       const tempItem = localStorage.getItem('item')
-  
-  //       if(tempItem){
-  
-  //         console.log('there is an item in local storage loading and setting ')
-  //         setItem(JSON.parse(tempItem))
-  //       }
-  
-  //     }else{
-  //       console.log('there is an item saving it to local storage')
-  //       localStorage.setItem('item', JSON.stringify(item))
-  //     }
-      
-  //   }
-
-    
-
-    
-  // }, [item])
 
   useMemo( () => {
 
@@ -67,10 +35,7 @@ export default function AddItemDialog(props: any){
             try {
               axios.post('http://localhost:5000/api/sections', 
               {sectiontype: "63b2503c49220f42d9fc17d9", content: '', itemId: res.data.item.id, order: 1})
-              .then((res) => {
-  
-  
-                
+              .then((res) => {                
                 setItem(res.data.item)
               })
               .catch((error) => {
@@ -91,55 +56,42 @@ export default function AddItemDialog(props: any){
         }
       }
     }
-
    
-  },[dialogIsOpen, session, item])
-
- 
-
-  
+  },[dialogIsOpen, session, item])  
 
   function handleSetItem(item: any){ 
     setItem(item)
   }
 
-
   return (
-    <Dialog open={dialogIsOpen}>
-      <DialogTitle>Add New Item</DialogTitle>
+
+    <DraggableDialog 
+      dialogIsOpen={dialogIsOpen}
+      ariaLabel="add-item"
+      title="ADD ITEM"
+    >
+      { loading && ( <DialogContent>Loading ...</DialogContent>) }
       {
-        loading && (
-          <DialogContent>
-            Loading ...
-          </DialogContent>
-        )
+        (!loading && !session ) && 
+        ( <Typography sx={{m: 3}}>Permission Denied</Typography> )
       }
-      {
-        (!loading && !session ) && (
-          <>Permission Denied</>
-        )
-       }
       {
         (!loading && session) && (
-          <>
-          <DialogContent>
-          <Stack spacing={3}>
-            <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/>
-            <TagsMultiSelect  item={item} setItem={(item: any) => handleSetItem(item)} />         
-            <SectionsInupt item={item} setItem={(item: any) => handleSetItem(item)} />
-          </Stack>
-        </DialogContent>
-      
-          </>
-        )
-      }
-        <DialogActions>
-        <Button onClick={closeDialog}>SAVE</Button>
-          <Button onClick={closeDialog}>CANCEL</Button>
-        </DialogActions>
-     
-    </Dialog>
+           <>
+             <DialogContent>
+              <Stack spacing={3}>
+                <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/>
+                <TagsMultiSelect  item={item} setItem={(item: any) => handleSetItem(item)} />         
+                <SectionsInupt item={item} setItem={(item: any) => handleSetItem(item)} />
+              </Stack>
+            </DialogContent>      
+           </>
+         )
+       }
+      <DialogActions>
+        <Button onClick={closeDialog} disabled={!session}>SAVE</Button>
+        <Button onClick={closeDialog}>CANCEL</Button>
+      </DialogActions>
+    </DraggableDialog>  
   )
-  
-
 }
