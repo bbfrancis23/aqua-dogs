@@ -1,4 +1,4 @@
-import {  useMemo, useState } from "react"
+import {  useMemo, useState, useEffect } from "react"
 import { Button,Stack,  DialogContent,DialogActions, Typography,  } from "@mui/material"
 import TagsMultiSelect from "./TagsMultiSelect"
 import SectionsInupt from "./SectionsInput";
@@ -8,26 +8,43 @@ import ItemTitleInput from "./ItemTitleInput";
 import axios from "axios";
 import DraggableDialog from "../ui/DraggableDialog";
 
+import { useSnackbar } from 'notistack';
+
 export default function AddItemDialog(props: any){
 
+  const { enqueueSnackbar } = useSnackbar();
   const { data: session, status } = useSession()
 
   const loading = status === "loading"
 
+  const {dialogIsOpen, closeDialog, mode, editItem} = props
+  const [item, setItem] = useState<any>({id: ''})
 
-  const {dialogIsOpen, closeDialog} = props
-  const [item, setItem] = useState({id: ''})
-
+  // TODO ADD Submitting disable   
   const [isSubmitting, setIsSubmitting] = useState(false)
-  
 
+ 
+  
+  useMemo(() => {
+
+    if(mode === 'EDIT'){
+      setItem(editItem)
+    }
+
+  },[editItem,mode])
+
+
+ 
   useMemo( () => {
 
    
 
     if(!item.id){
 
-      if(dialogIsOpen && session){
+     
+
+      if(dialogIsOpen && session && mode === 'ADD'){
+
         try {
           axios.post('http://localhost:5000/api/items', {title: ''})
           .then((res) => {
@@ -35,50 +52,64 @@ export default function AddItemDialog(props: any){
             try {
               axios.post('http://localhost:5000/api/sections', 
               {sectiontype: "63b2503c49220f42d9fc17d9", content: '', itemId: res.data.item.id, order: 1})
-              .then((res) => {                
+              .then((res) => {     
+                
+                enqueueSnackbar('Created a new Item', {variant: 'success'})           
                 setItem(res.data.item)
               })
-              .catch((error) => {
-                console.log(error)
+              .catch((e:any) => {
+                enqueueSnackbar(e, {variant: 'error'})    
               })
-            } catch (e) {
-              console.log(e)
+            } catch (e:any) {
+              enqueueSnackbar(e, {variant: 'error'})    
             }
             setIsSubmitting(false)
           })
-          .catch((e) => {
-            console.log(e)
+          .catch((e:any) => {
+            enqueueSnackbar(e, {variant: 'error'})    
             setIsSubmitting(false)
           })
-        } catch (e) {
-          console.log(e)
+        } catch (e:any) {
+          enqueueSnackbar(e, {variant: 'error'})    
           setIsSubmitting(false)
         }
       }
+    }else{
     }
    
-  },[dialogIsOpen, session, item])  
+  },[dialogIsOpen, session, item, mode, enqueueSnackbar])  
+
+
+ 
 
   function handleSetItem(item: any){ 
     setItem(item)
   }
+
+  const handleCloseDialog = () => {
+    setItem({id: ''})
+    closeDialog()
+  }
+  
+  
 
   return (
 
     <DraggableDialog 
       dialogIsOpen={dialogIsOpen}
       ariaLabel="add-item"
-      title="ADD ITEM"
+      title={`${mode} ITEM`}
+      fullWidth={true}
     >
-      { loading && ( <DialogContent>Loading ...</DialogContent>) }
+      { (loading || item?.sections?.length === 0) && ( <DialogContent>Loading ...</DialogContent>) }
       {
         (!loading && !session ) && 
         ( <Typography sx={{m: 3}}>Permission Denied</Typography> )
       }
       {
-        (!loading && session) && (
+        (!loading && session && item?.sections?.length > 0) && (
            <>
-             <DialogContent>
+             <DialogContent >
               <Stack spacing={3}>
                 <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/>
                 <TagsMultiSelect  item={item} setItem={(item: any) => handleSetItem(item)} />         
@@ -89,8 +120,7 @@ export default function AddItemDialog(props: any){
          )
        }
       <DialogActions>
-        <Button onClick={closeDialog} disabled={!session}>SAVE</Button>
-        <Button onClick={closeDialog}>CANCEL</Button>
+        <Button onClick={handleCloseDialog} >CLOSE</Button>
       </DialogActions>
     </DraggableDialog>  
   )
