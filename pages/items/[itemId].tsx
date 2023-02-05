@@ -2,16 +2,18 @@ import { useState } from "react";
 
 import { Box, Card, CardHeader, CardContent, Stack,  Typography, IconButton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
 
 import axios from "axios";
 
-import AddItemDialog from "../../components/AddItemDialog";
+import ItemFormDialog from "../../components/ItemFormDialog";
 import EditableItemTitle from "../../components/EditableItemTitle";
 import EditableItemTags from "../../components/EditableItemTags";
 
-import dynamic from "next/dynamic";
 
 import "@uiw/react-textarea-code-editor/dist.css";
 const CodeEditor = dynamic(
@@ -22,6 +24,8 @@ const CodeEditor = dynamic(
 export default function ItemDetails(props: any) {
 
   const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState(false)
+  const [itemDialogMode, setItemDialogMode] = useState('ADD')
+
   const [item, setItem] = useState(props.item)
   const { data: session, status } = useSession()
 
@@ -30,10 +34,12 @@ export default function ItemDetails(props: any) {
   }
   
   const handleCloseDialog = () => {
+    setItemDialogMode('ADD')
     setAddItemDialogIsOpen(false)
   }
   
-  const handleOpenDialog = () => {
+  const handleOpenDialog = (mode: string) => {
+    setItemDialogMode(mode)
     setAddItemDialogIsOpen(true)
   }
 
@@ -45,7 +51,10 @@ export default function ItemDetails(props: any) {
           title={<EditableItemTitle item={item} setItem={ (item:any) => handleSetItem(item) } />} 
           action={
             (session) && 
-            <IconButton onClick={ handleOpenDialog }><AddIcon /></IconButton>
+            <>
+              <IconButton onClick={() =>  handleOpenDialog('EDIT') }><EditIcon /></IconButton>
+              <IconButton onClick={() => handleOpenDialog('ADD') }><AddIcon /></IconButton>
+            </>
           }
         />
          <CardContent>
@@ -85,7 +94,7 @@ export default function ItemDetails(props: any) {
          </CardContent>
       </Card>
      
-      <AddItemDialog dialogIsOpen={addItemDialogIsOpen} closeDialog={handleCloseDialog}/>
+      <ItemFormDialog mode={itemDialogMode} dialogIsOpen={addItemDialogIsOpen} closeDialog={handleCloseDialog} editItem={item} />
     </Box>
   )
 }

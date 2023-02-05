@@ -1,11 +1,12 @@
-import { useState } from "react";
-import { Button, IconButton, FormControl, InputLabel, Select, TextField, Dialog, DialogTitle, OutlinedInput, Stack, Box, InputAdornment,
-  DialogContent,DialogActions, SelectChangeEvent, MenuItem, useTheme, ButtonGroup } from "@mui/material"
+import { useState, useMemo } from "react";
+import { Button, IconButton, FormControl, InputLabel,  OutlinedInput, Stack,  InputAdornment,
+   ButtonGroup } from "@mui/material"
 
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
 
+import { useSnackbar } from 'notistack';
 
 
 import dynamic from "next/dynamic";
@@ -18,30 +19,42 @@ const CodeEditor = dynamic(
 
 export default function SelectionInput(props: any){
 
+  const { enqueueSnackbar } = useSnackbar();
+
+  // TODO Create section type interface
+
   const {item, setItem, index, section} = props
 
-  const [ sectionType, setSetionType] = useState('text')
-
+  const [ sectionType, setSectionType] = useState('text')
+  
   const [code, setCode] = useState('')
+
+  useMemo(() => {
+
+    if(section.sectiontype === '63b2503c49220f42d9fc17d9'){
+      setSectionType('text')
+    }else{
+      setSectionType('code')
+      setCode(section.content)
+    }
+    
+    
+  }, [section])  
 
   const handleDeleteSection = (id: string) => {
     try {
       axios.delete(`http://localhost:5000/api/sections/${id}`)
       .then((res) => {
-
         setItem(res.data.item)
       })
       .catch((error) => {
-        console.log(error)
+        
       })
     } catch (e) {
       console.log(e)
     }
     
   }
-
- 
-
 
   const handleSectionBlur = async (event: any, section: any) => {
 
@@ -53,17 +66,13 @@ export default function SelectionInput(props: any){
       .then((res) => {
         setItem(res.data.item)
       })
-      .catch((error) => {
-        console.log(error)
+      .catch((e:any) => {
+        enqueueSnackbar(e, {variant: 'error'})    
       })
-    } catch (e) {
-      console.log(e)
+    } catch (e:any) {
+      enqueueSnackbar(e, {variant: 'error'})    
     }
-    
-    
-
   }
-
 
   return (
     
@@ -72,13 +81,13 @@ export default function SelectionInput(props: any){
       <ButtonGroup>
         <Button 
           variant={sectionType === 'text' ? 'contained' : 'outlined'} 
-          onClick={() => setSetionType('text')}
+          onClick={() => setSectionType('text')}
         >
           T
         </Button>
         <Button 
           variant={sectionType === 'code' ? 'contained' : 'outlined'}
-          onClick={() => setSetionType('code')}
+          onClick={() => setSectionType('code')}
         >
           {'{}'}
         </Button>
@@ -92,6 +101,7 @@ export default function SelectionInput(props: any){
               id={section.id}
               multiline 
               rows={4}
+              value={item.sections[index]?.content}
               onBlur={(e) => handleSectionBlur(e, section)}
               endAdornment={ (index === 0 && item.sections.length === 1)  ? '' :
                 <InputAdornment position="end">
@@ -125,9 +135,7 @@ export default function SelectionInput(props: any){
           </>
         )
     }
-  </Stack>
-
-       
+  </Stack>   
      
     
   )

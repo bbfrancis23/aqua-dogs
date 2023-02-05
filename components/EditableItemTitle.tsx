@@ -25,11 +25,11 @@ export default function EditableItemTitle( props: any){
           <Stack direction={'row'} >
             <ItemTitleInput item={item} setItem={ (item:any) => setItem(item) } />            
               <IconButton size='small' onClick={handleDoneEditing}><DoneIcon color="success" /></IconButton>
-          </Stack>
-              
-            
-        
-        : <>{item.title}<IconButton onClick={handleEdit}><EditIcon /></IconButton></>
+          </Stack>       
+        :
+          <>{item.title}</>
+          // TODO ADD This later
+          // <>{item.title}<IconButton onClick={handleEdit}><EditIcon /></IconButton></>
          
       }
     </>

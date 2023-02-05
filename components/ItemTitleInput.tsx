@@ -10,10 +10,7 @@ export default function ItemTitleInput(props: any){
 
   const handleTitleBlur = async (e:any) => {   
 
-    
-    setIsSubmitting(true)
-
-   
+    setIsSubmitting(true)  
       
       try {
         axios.patch(`http://localhost:5000/api/items/${item.id}`, {title: e.target.value})
@@ -30,13 +27,9 @@ export default function ItemTitleInput(props: any){
         setIsSubmitting(false)
       }
 
-
-
-      setIsSubmitting(false)
-   
+      setIsSubmitting(false) 
    
   }  
-
 
   return (
     <>
