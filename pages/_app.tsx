@@ -6,6 +6,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import WebFrameworkIcon from '@mui/icons-material/Language';
 import FrontEndIcon from '@mui/icons-material/Code';
 import BackEndIcon from '@mui/icons-material/DataObject';
+import { ConfirmProvider } from "material-ui-confirm";
 
 import type { AppProps } from 'next/app'
 import Link from 'next/link'
@@ -61,40 +62,42 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
     <SessionProvider session={session} refetchInterval={5 * 60}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} hideIconVariant={true}>
-          <AppBar enableColorOnDark>
-            <Toolbar>
-              <Link href={'http://localhost:3000/'} style={{textDecoration: 'none'}} >
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{ color: 'primary.contrastText'}}
-              >                
-                AquaDogs
-              </Typography>
-              </Link>
-              <AppBarMenu name="WEB FRAMEWORK" id="web-framework" pages={webFrameWorkPages} icon={<WebFrameworkIcon />} />
-              <AppBarMenu name="FRONTEND" id="fontend" pages={frontEndPages} icon={<FrontEndIcon />} />
-              <AppBarMenu name="BACKEND" id="backend" pages={backEndPages} icon={<BackEndIcon />} />
-              <Box sx={{ flexGrow: 1 }} />
-              <AuthNav  setAuthDialogIsOpen={setAuthDialogIsOpen} />
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="app settings"
-                aria-haspopup="true"
-                color="inherit"
-                onClick={() => setSettingsDialogIsOpen(true)}
-              >
-                <SettingsIcon />
-              </IconButton>            
-            </Toolbar>
-          </AppBar>       
-        <Component {...pageProps} />
-        <SettingsDialog updateFx={handleUpdateTheme} dialogIsOpen={settingsDialogIsOpen} closeDialog={ () => setSettingsDialogIsOpen(false)} /> 
-        <AuthDialog dialogIsOpen={authDialogIsOpen} closeDialog={ () => setAuthDialogIsOpen(false)} /> 
-        </SnackbarProvider>
+        <ConfirmProvider>
+          <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} hideIconVariant={true}>
+            <AppBar enableColorOnDark>
+              <Toolbar>
+                <Link href={'http://localhost:3000/'} style={{textDecoration: 'none'}} >
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component="div"
+                  sx={{ color: 'primary.contrastText'}}
+                >                
+                  AquaDogs
+                </Typography>
+                </Link>
+                <AppBarMenu name="WEB FRAMEWORK" id="web-framework" pages={webFrameWorkPages} icon={<WebFrameworkIcon />} />
+                <AppBarMenu name="FRONTEND" id="fontend" pages={frontEndPages} icon={<FrontEndIcon />} />
+                <AppBarMenu name="BACKEND" id="backend" pages={backEndPages} icon={<BackEndIcon />} />
+                <Box sx={{ flexGrow: 1 }} />
+                <AuthNav  setAuthDialogIsOpen={setAuthDialogIsOpen} />
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="app settings"
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={() => setSettingsDialogIsOpen(true)}
+                >
+                  <SettingsIcon />
+                </IconButton>            
+              </Toolbar>
+            </AppBar>       
+          <Component {...pageProps} />
+          <SettingsDialog updateFx={handleUpdateTheme} dialogIsOpen={settingsDialogIsOpen} closeDialog={ () => setSettingsDialogIsOpen(false)} /> 
+          <AuthDialog dialogIsOpen={authDialogIsOpen} closeDialog={ () => setAuthDialogIsOpen(false)} /> 
+          </SnackbarProvider>
+        </ConfirmProvider>
       </ ThemeProvider>
     </SessionProvider>
     
