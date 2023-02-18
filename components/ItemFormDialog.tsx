@@ -17,7 +17,7 @@ export default function ItemFormDialog(props: any){
 
   const loading = status === "loading"
 
-  const {dialogIsOpen, closeDialog, mode, editItem} = props
+  const {dialogIsOpen, closeDialog, mode, editItem, updateEditedItem} = props
   const [item, setItem] = useState<any>({id: ''})
 
   // TODO ADD Submitting disable   
@@ -29,6 +29,7 @@ export default function ItemFormDialog(props: any){
 
     if(mode === 'EDIT'){
       setItem(editItem)
+      //updateEditedItem(editItem)
     }
 
   },[editItem,mode])
@@ -84,6 +85,11 @@ export default function ItemFormDialog(props: any){
 
   function handleSetItem(item: any){ 
     setItem(item)
+
+    if(mode === 'EDIT'){
+
+      updateEditedItem(item)
+    }
   }
 
   const handleCloseDialog = () => {

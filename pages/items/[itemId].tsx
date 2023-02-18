@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { Box, Card, CardHeader, CardContent, Stack,  Typography, IconButton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
@@ -29,7 +29,17 @@ export default function ItemDetails(props: any) {
   const [item, setItem] = useState(props.item)
   const { data: session, status } = useSession()
 
+  useMemo(() => {
+
+    
+      setItem(item)
+    
+
+  },[item])
+
   function handleSetItem(item: any){ 
+
+    console.log('the item has changed');
     setItem(item)
   }
   
@@ -94,7 +104,7 @@ export default function ItemDetails(props: any) {
          </CardContent>
       </Card>
      
-      <ItemFormDialog mode={itemDialogMode} dialogIsOpen={addItemDialogIsOpen} closeDialog={handleCloseDialog} editItem={item} />
+      <ItemFormDialog mode={itemDialogMode} dialogIsOpen={addItemDialogIsOpen} closeDialog={handleCloseDialog} editItem={item} updateEditedItem={(item:any) => handleSetItem(item)} />
     </Box>
   )
 }
