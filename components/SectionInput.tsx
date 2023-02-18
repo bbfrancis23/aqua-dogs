@@ -101,7 +101,7 @@ export default function SelectionInput(props: any){
               id={section.id}
               multiline 
               rows={4}
-              value={item.sections[index]?.content}
+              defaultValue={item.sections[index]?.content}
               onBlur={(e) => handleSectionBlur(e, section)}
               endAdornment={ (index === 0 && item.sections.length === 1)  ? '' :
                 <InputAdornment position="end">
