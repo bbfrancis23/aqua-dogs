@@ -41,7 +41,7 @@ export default function Home(props: any) {
           return   (            
             <Grid item xs={12} md={6} lg={4} key={t.tagId}>
               <Card >
-              <Link href={`http://localhost:3000/tags/${t.tagId}`} style={{textDecoration: 'none'}} ><CardHeader title={t.title} sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} /></Link>
+              <Link href={`/tags/${t.tagId}`} style={{textDecoration: 'none'}} ><CardHeader title={t.title} sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} /></Link>
                 <CardMedia>
                 <ThemeColorOverlay 
                     style={{

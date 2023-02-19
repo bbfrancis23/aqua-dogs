@@ -15,7 +15,6 @@ export default function RegisterDialog(props:any) {
       <LoginForm
         openRegisterDialog={openRegisterDialog}
         closeDialog={closeDialog}
-        loginUser={loginUser}
       />
     </DraggableDialog>
   )

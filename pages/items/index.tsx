@@ -43,48 +43,47 @@ export default function Items(props: any) {
 
   const handleDelete = async () => {
 
-    for (const selectedRow of selectedRows){
+    if(session){
+      for (const selectedRow of selectedRows){
 
-      await confirm({description: `delete ${selectedRow}`})
-      .then( () => {
-        axios.delete(`http://localhost:3000/api/items/${selectedRow}`).then( r => {
-          if(r.data.message === 'success'){
-            items = items.filter( (item:any) => item.id !== selectedRow)  
-            setRows(itemsToRows())            
-            enqueueSnackbar(`Deleted ${selectedRow}`, {variant: 'success'})               
-          }
+        await confirm({description: `delete ${selectedRow}`})
+        .then( () => {
+          axios.delete(`/api/items/${selectedRow}`).then( r => {
+            if(r.data.message === 'success'){
+              items = items.filter( (item:any) => item.id !== selectedRow)  
+              setRows(itemsToRows())            
+              enqueueSnackbar(`Deleted ${selectedRow}`, {variant: 'success'})               
+            }
+          })
         })
-      })
-    }   
+      }   
+    }    
   }
 
   const handleSelectionChange = (ids: any) =>     setSelectedRows(ids)
   return (
-    <> 
-     {
-        (!session ) && 
-        ( <Typography sx={{mt: 12}}>Permission Denied</Typography> )
-      }
-      {
+  
+    <Box style={{ height: '100vh', width: '100%' }} sx={{ mt: 12}}>
+    <Toolbar>
+      { 
         session && (
-          <Box style={{ height: '100vh', width: '100%' }} sx={{ mt: 12}}>
-          <Toolbar>
-            <IconButton onClick={handleDelete}>          
-              <DeleteIcon />
-            </IconButton>
-          </Toolbar>
-          <DataGrid 
-            rows={rows}
-            columns={columns}
-            pageSize={100}
-            rowsPerPageOptions={[100]}
-            checkboxSelection
-            onSelectionModelChange={(ids) => handleSelectionChange(ids)}
-          />
-        </Box>
+           <IconButton onClick={handleDelete}>          
+          <DeleteIcon />
+        </IconButton>
         )
-      }   
-    </>   
+       
+      }
+     
+    </Toolbar>
+    <DataGrid 
+      rows={rows}
+      columns={columns}
+      pageSize={100}
+      rowsPerPageOptions={[100]}
+      checkboxSelection
+      onSelectionModelChange={(ids) => handleSelectionChange(ids)}
+    />
+  </Box>
   );
 
 }
@@ -92,7 +91,7 @@ export async function getStaticProps() {
   let items;
   try {   
 
-    const fullStackRes = await axios.get('http://localhost:3000/api/items/')
+    const fullStackRes = await axios.get('/api/items/')
     items = fullStackRes.data
 
 

@@ -52,7 +52,7 @@ export default function AppBarMenu(props: any){
       >       
         {
           pages.map( (p:any) => (
-            <Link href={`http://localhost:3000/tags/${p.tagId}`} style={{textDecoration: 'none', color: theme.palette.text.primary}} key={p.tagId}  >
+            <Link href={`/tags/${p.tagId}`} style={{textDecoration: 'none', color: theme.palette.text.primary}} key={p.tagId}  >
               <MenuItem onClick={handleClose}>{p.title}</MenuItem>
             </Link>
           ))
