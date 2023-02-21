@@ -34,7 +34,8 @@ export default NextAuth({
         }
 
         client.close();
-        return { email: member.email };
+        // TODO Add name and profile img later
+        return { email: member.email, name: 'Brian', image: '' };
       },
     }),
   ],

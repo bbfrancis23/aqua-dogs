@@ -20,6 +20,8 @@ const columns = [
 export default function Items(props: any) {
 
   let {items} = props
+
+  
   
   const { data: session, status } = useSession()
   const confirm = useConfirm()
@@ -91,7 +93,8 @@ export async function getStaticProps() {
   let items;
   try {   
 
-    const fullStackRes = await axios.get('/api/items/')
+    const fullStackRes = await axios.get('http://localhost:3000/api/items/')
+    
     items = fullStackRes.data
 
 
