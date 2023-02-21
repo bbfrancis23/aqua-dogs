@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { verifyPassword } from '../../../lib/auth';
-import { connectDB } from '../../../lib/db';
+import { verifyPassword } from '/lib/auth';
+import { connectDB } from '/lib/db';
 
 export default NextAuth({
   session: {
@@ -34,11 +34,11 @@ export default NextAuth({
         }
 
         client.close();
-        return { email: member.email };
+        // TODO Add name and profile img later
+        return { email: member.email, name: 'Brian', image: '' };
       },
     }),
   ],
 
-  // TODO put this is env vars
-  secret: 'youmom',
+  secret: process.env.SECRET,
 });

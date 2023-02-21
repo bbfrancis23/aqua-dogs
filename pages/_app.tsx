@@ -66,7 +66,7 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
           <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} hideIconVariant={true}>
             <AppBar enableColorOnDark>
               <Toolbar>
-                <Link href={'http://localhost:3000/'} style={{textDecoration: 'none'}} >
+                <Link href={'/'} style={{textDecoration: 'none'}} >
                 <Typography
                   variant="h6"
                   noWrap

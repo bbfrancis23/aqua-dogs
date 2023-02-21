@@ -1,11 +1,13 @@
 
-import RegisterIcon from '@mui/icons-material/HowToReg';
-import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
 import IconButton from "@mui/material/IconButton";
 
-import { useSession, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
 
-import {  VariantType, useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
+import AccountIcon from '@mui/icons-material/AccountCircle';
+
+import Link from 'next/link'
 
 export default function AuthNav(params:any){
   
@@ -16,25 +18,22 @@ export default function AuthNav(params:any){
 
   const loading = status === "loading"
 
-  function logoutHandler(){
-    signOut()
-
-    const variant: VariantType = 'success'
-    enqueueSnackbar('You are now Logged Out', {variant});
-  }
+  
   
   return (
     <>
       {
         session && (
-          <IconButton
-            color="secondary"             
-            sx={{ color: 'primary.contrastText'}}
-            onClick={logoutHandler}
-            disabled={loading}
-          >
-            <LogoutIcon />
-          </IconButton>  
+          <Link href={'/profile'} >
+            <IconButton
+              color="secondary"             
+              sx={{ color: 'primary.contrastText'}}
+              disabled={loading}
+            >
+              <AccountIcon />
+            </IconButton>  
+          </Link>
+         
         )
       }
       {
@@ -45,7 +44,7 @@ export default function AuthNav(params:any){
             disabled={loading}
             sx={{ color: 'primary.contrastText'}}
           >
-            <RegisterIcon />
+            <LoginIcon />
           </IconButton>  
         )
       }

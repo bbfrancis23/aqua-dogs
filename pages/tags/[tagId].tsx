@@ -77,8 +77,10 @@ export async function getStaticPaths(){
 }
 export async function getStaticProps({params}: any){
 
-  const client = await connectDB();
 
+  const client: any = await connectDB();
+
+  
   const db = client.db();
 
   const  tagId  = params.tagId;
@@ -89,7 +91,7 @@ export async function getStaticProps({params}: any){
 
   const aItems = await items.toArray();
 
-  const data = aItems.map( item => {
+  const data = aItems.map( (item:any) => {
     return {
       _id: item._id.toString(),
       title: item.title,

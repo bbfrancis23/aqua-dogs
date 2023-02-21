@@ -1,7 +1,5 @@
-import { hashPassword } from '../../../lib/auth';
-import { connectDB } from '../../../lib/db';
-
-import { hash } from 'bcryptjs';
+import { hashPassword } from '/lib/auth';
+import { connectDB } from '/lib/db';
 
 async function handler(req, res) {
   // Do not use this for now.
@@ -30,8 +28,7 @@ async function handler(req, res) {
 
   const db = client.db();
 
-  const hashedPassword = await hash(password, 12);
-  // const hashedPassword = await hashedPassword(password);
+  const hashedPassword = await hashPassword(password);
 
   db.collection('members').insertOne({
     email: email,

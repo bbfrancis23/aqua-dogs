@@ -4,7 +4,12 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 export default function PasswordTextField(props: any) {
-  const { getFieldProps, touched, error } = props
+  const { getFieldProps, touched, error, } = props
+
+  let {label, fieldId} = props
+
+  label = label ? label : 'Password'
+  fieldId = fieldId ? fieldId : 'password'
 
   const [showPassword, setShowPassword] = useState(false)
 
@@ -14,8 +19,8 @@ export default function PasswordTextField(props: any) {
       size="small"
       autoComplete="current-password"
       type={showPassword ? 'text' : 'password'}
-      label="Password"
-      {...getFieldProps('password')}
+      label={label}
+      {...getFieldProps(fieldId)}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

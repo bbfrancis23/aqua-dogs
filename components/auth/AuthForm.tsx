@@ -1,28 +1,25 @@
 import React, { useState } from 'react'
 
-import { Alert, Button, DialogActions, DialogContent, Stack, Typography } from '@mui/material'
-import { LoadingButton } from '@mui/lab'
-
 import { signIn } from 'next-auth/react'
 
-import { Form, FormikProvider, useFormik } from 'formik'
+import { Alert, Button, DialogActions, DialogContent, Stack} from '@mui/material'
+import { LoadingButton } from '@mui/lab'
 
-import {  VariantType, useSnackbar } from 'notistack';
+import { Form, FormikProvider, useFormik } from 'formik'
+import { useSnackbar } from 'notistack';
 
 import AuthSchema from './AuthSchema'
 import EmailTextField from './EmailTextField'
 import PasswordTextField from './PasswordTextField'
+import HttpStatusCodes from '../../enums/HttpStatusCodes'
 
-export default function LoginForm(props: any) {
+export default function LoginForm(props: {closeDialog: Function, openRegisterDialog: Function}) {
 
-  const [loginError, setLoginError] = useState('')
+  const [loginError, setLoginError] = useState<string>('')
   const { enqueueSnackbar } = useSnackbar();
 
+  // registration is disabled for now
   const { closeDialog, openRegisterDialog } = props
-
-  const successCode = 200
-  const errorCode = 401
-
 
   const formik = useFormik({
     initialValues: {
@@ -38,13 +35,12 @@ export default function LoginForm(props: any) {
         password: data.password,
       });
 
-      if(result?.status && result.status === successCode && result.ok === true && result.error === null ){
+      if(result?.status && result.status === HttpStatusCodes.OK && result.ok === true && result.error === null ){
         closeDialog();
-        const variant: VariantType = 'success'
-        enqueueSnackbar('You are now Logged In', {variant});
+        enqueueSnackbar('You are now Logged In', {variant: 'success'});
 
       }else{
-        if(result?.status === errorCode){
+        if(result?.status === HttpStatusCodes.UNAUTHORIZED){
           if(result.error){
             setLoginError(result?.error)
           }else{
@@ -61,7 +57,8 @@ export default function LoginForm(props: any) {
 
   const closeForm = () => { formik.resetForm(); closeDialog(); setLoginError('') }
 
-  const startRegistration = () => { closeDialog(); openRegisterDialog() }
+  // registration is disabled for now
+  // const startRegistration = () => { closeDialog(); openRegisterDialog() }
 
   return (
     <FormikProvider value={formik}>
