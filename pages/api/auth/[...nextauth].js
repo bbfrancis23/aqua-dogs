@@ -1,44 +1,100 @@
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { verifyPassword } from '/lib/auth';
-import { connectDB } from '/lib/db';
+import Member from '../../../mongoose_models/Member';
+
+import db from '../../../utils/db';
+
+import bcryptjs from 'bcryptjs';
+
+// import { verifyPassword } from '/lib/auth';
+// import { connectDB } from '/lib/db';
 
 export default NextAuth({
   session: {
-    jwt: true,
+    strategy: 'jwt',
   },
+  callbacks: {
+    async jwt({ token, member }) {
+      if (member?._id) token._id = member._id;
+      return token;
+    },
+    async session({ session, token }) {
+      if (token?._id) session.member._id = token._id;
+
+      return session;
+    },
+  },
+
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
-        const client = await connectDB();
+        await db.connect();
 
-        const memberCollection = client.db().collection('members');
+        const member = await Member.findOne({ email: credentials.email });
+        await db.disconnect();
 
-        const member = await memberCollection.findOne({
-          email: credentials.email,
-        });
+        console.log(member);
 
-        if (!member) {
-          client.close();
-          throw new Error('No member found!');
+        if (member) {
+          const result = bcryptjs.compareSync(
+            credentials.password,
+            member.password
+          );
+
+          if (result) {
+            return {
+              _id: member._id,
+              name: 'Brian',
+              email: member.email,
+              image: 'f',
+              role: 'Admin',
+            };
+          }
+          console.log(result, credentials.password, member.password);
         }
 
-        const isValid = await verifyPassword(
-          credentials.password,
-          member.password
-        );
-
-        if (!isValid) {
-          client.close();
-          throw new Error('Invalid Credentials!');
-        }
-
-        client.close();
-        // TODO Add name and profile img later
-        return { email: member.email, name: 'Brian', image: '' };
+        throw new Error('Invalid Credentials');
       },
     }),
   ],
-
-  secret: process.env.SECRET,
 });
+
+// export default NextAuth({
+//   session: {
+//     jwt: true,
+//   },
+//   providers: [
+//     CredentialsProvider({
+//       async authorize(credentials) {
+//         const client = await connectDB();
+
+//         const memberCollection = client.db().collection('members');
+
+//         const member = await memberCollection.findOne({
+//           email: credentials.email,
+//         });
+
+//         if (!member) {
+//           client.close();
+//           throw new Error('No member found!');
+//         }
+
+//         const isValid = await verifyPassword(
+//           credentials.password,
+//           member.password
+//         );
+
+//         if (!isValid) {
+//           client.close();
+//           throw new Error('Invalid Credentials!');
+//         }
+
+//         client.close();
+//         // TODO Add name and profile img later
+//         return { email: member.email, name: 'Brian', image: '' };
+//       },
+//     }),
+//   ],
+
+//   secret: process.env.SECRET,
+// });
