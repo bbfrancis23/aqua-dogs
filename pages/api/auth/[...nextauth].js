@@ -33,8 +33,6 @@ export default NextAuth({
         const member = await Member.findOne({ email: credentials.email });
         await db.disconnect();
 
-        console.log(member);
-
         if (member) {
           const result = bcryptjs.compareSync(
             credentials.password,
@@ -57,6 +55,7 @@ export default NextAuth({
       },
     }),
   ],
+  secret: process.env.SECRET,
 });
 
 // export default NextAuth({

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button,Box,  FormControl, InputLabel, Select, TextField, Dialog, DialogTitle, OutlinedInput, Stack,
-  DialogContent,DialogActions, SelectChangeEvent, MenuItem, useTheme } from "@mui/material"
+import { Box,  FormControl, InputLabel, Select,  OutlinedInput,  MenuItem, useTheme } from "@mui/material"
 
 import useSWR from "swr";
 import axios from "axios";
@@ -20,26 +19,18 @@ const fetcher = (url: any) => fetch(url).then((res) => res.json());
 export default function TagsMultiSelect(props: any) {  
 
   const {item, setItem} = props
-
   const theme = useTheme();
   const [ tags, setTags] =  useState([])
   const [itemTags, setItemTags] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-
-  const { data, error } = useSWR("http://localhost:5000/api/tags", fetcher);
-
-  
+  const { data, error } = useSWR("/api/tags", fetcher);  
 
   useEffect(() => {
 
     if (data) {      
-      setTags(data.tags);    
-
-    
+      setTags(data.tags)    
     }
-
-
 
     if(item.tags){
       setItemTags( item.tags?.map( (t:any) => t.id))
@@ -49,7 +40,6 @@ export default function TagsMultiSelect(props: any) {
 
   const handleTagsChange = (event: any) => {
     const { target: {value} } = event
-
     setItemTags(typeof value === 'string' ? value.split(',') : value,);
   }  
 
@@ -79,12 +69,8 @@ export default function TagsMultiSelect(props: any) {
         console.log(e)
         setIsSubmitting(false)
       }
-
-
-
       setIsSubmitting(false)
     }
-
   }
 
   return (  

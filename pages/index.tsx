@@ -1,5 +1,5 @@
 
-import { Grid, Card, CardHeader, CardMedia, styled, useTheme, CardContent } from "@mui/material";
+import { Grid, Card, CardHeader, CardMedia, styled, CardContent } from "@mui/material";
 
 import Link from 'next/link'
 

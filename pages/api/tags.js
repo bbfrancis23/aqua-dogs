@@ -1,41 +1,26 @@
-import dbConnect from "../../lib/dbConnect";
-import tagsModel from "../../models/Tags";
-import tagTypesModal from "../../models/TagTypes";
+import { getSession } from 'next-auth/react';
 
-export default async function handler(req, res) {
-  const { method } = req;
+import db from '../../utils/db';
 
-  await dbConnect();
+import Tag from '../../mongoose_models/Tag';
 
-  switch (method) {
-    case "GET":
-      try {
-        const tags = await tagsModel
-          .find({})
-          .populate({
-            path: "tagtype",
-            model: TagTypesModel,
-          })
-          .exec((error, tags) => {
-            console.log(error);
-            res.status(200).json({ success: true, data: tags });
-          });
+async function handler(req, res) {
+  if (req.method === 'GET') {
+    await db.connect();
 
-        res.status(200).json({ success: true, data: tags });
-      } catch (error) {
-        res.status(400).json({ success: false });
-      }
-      break;
-    case "POST":
-      try {
-        const tag = await Tags.create(req.body);
-        res.status(201).json({ success: true, data: tag });
-      } catch (error) {
-        res.status(400).json({ success: false });
-      }
-      break;
-    default:
-      res.status(400).json({ success: false });
-      break;
+    const tags = await Tag.find();
+    await db.disconnect();
+
+    if (tags) {
+      res.json({ tags: tags.map((u) => u.toObject({ getters: true })) });
+      return;
+    }
+
+    res.status(404).json({ message: 'No Tags found' });
+    return;
   }
+
+  return;
 }
+
+export default handler;
