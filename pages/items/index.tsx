@@ -52,7 +52,7 @@ export default function Items(props: any) {
         .then( () => {
           axios.delete(`/api/items/${selectedRow}`).then( r => {
 
-            console.log(r)
+            
 
             if(r.status === 200){
               items = items.filter( (item:any) => item.id !== selectedRow)  

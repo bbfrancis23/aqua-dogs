@@ -47,7 +47,7 @@ export default function ItemFormDialog(props: any){
       if(dialogIsOpen && session && mode === 'ADD'){
 
         try {
-          axios.post('http://localhost:5000/api/items', {title: ''})
+          axios.post('http://localhost:3000/api/items', {title: ''})
           .then((res) => {
             setItem(res.data.item)
             try {

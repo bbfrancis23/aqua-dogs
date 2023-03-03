@@ -24,6 +24,33 @@ export default async function handler(req, res) {
 
     res.status(404).json({ message: 'No Tags found' });
     return;
+  } else if (req.method === 'POST') {
+    await db.connect();
+
+    console.log('creating new item');
+
+    const session = await getSession({ req: req });
+
+    if (!session) {
+      await db.disconnect();
+      res.status(401).json({ message: 'Not Authenticated.' });
+      return;
+    }
+
+    const item = new Item({ title: '' });
+
+    try {
+      await item.save();
+    } catch (e) {
+      await db.disconnect();
+      res.status(500).json({ message: `Error Creating Item ${e}` });
+      return;
+    }
+
+    res.status(201).json({
+      message: 'Item Created',
+      item: item.toObject({ getters: true }),
+    });
   }
 }
 
