@@ -58,24 +58,18 @@ export default async function handler(req, res) {
                 message = `Updating Item failed: ${e}`;
               }
             } else if (req.method === 'DELETE') {
-              console.log('deleting section');
               const session = await mongoose.startSession();
 
               try {
-                console.log('starting transaction');
-
                 session.startTransaction();
 
                 await item.sections.forEach((s) => {
-                  console.log('trying to delete section section', s._id);
                   Section.deleteOne({ _id: s._id.toString() });
                 });
 
-                console.log('trying to delete item');
                 await Item.deleteOne({ _id: ObjectId(itemId.toString()) });
                 session.endSession();
               } catch (e) {
-                console.log('error', e);
                 await session.abortTransaction();
                 session.endSession();
 
