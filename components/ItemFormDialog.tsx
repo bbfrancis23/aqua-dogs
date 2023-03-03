@@ -51,7 +51,7 @@ export default function ItemFormDialog(props: any){
           .then((res) => {
             setItem(res.data.item)
             try {
-              axios.post('http://localhost:5000/api/sections', 
+              axios.post('http://localhost:3000/api/sections', 
               {sectiontype: "63b2503c49220f42d9fc17d9", content: '', itemId: res.data.item.id, order: 1})
               .then((res) => {     
                 
