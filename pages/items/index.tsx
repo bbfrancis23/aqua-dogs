@@ -51,7 +51,10 @@ export default function Items(props: any) {
         await confirm({description: `delete ${selectedRow}`})
         .then( () => {
           axios.delete(`/api/items/${selectedRow}`).then( r => {
-            if(r.data.message === 'success'){
+
+            
+
+            if(r.status === 200){
               items = items.filter( (item:any) => item.id !== selectedRow)  
               setRows(itemsToRows())            
               enqueueSnackbar(`Deleted ${selectedRow}`, {variant: 'success'})               
@@ -95,7 +98,8 @@ export async function getStaticProps() {
 
     const fullStackRes = await axios.get('http://localhost:3000/api/items/')
     
-    items = fullStackRes.data
+
+    items = fullStackRes.data.items
 
 
   } catch (err) {
@@ -104,7 +108,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      items: items.data,
+      items: items,
     },
   };
 }

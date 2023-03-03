@@ -43,7 +43,7 @@ export default function SelectionInput(props: any){
 
   const handleDeleteSection = (id: string) => {
     try {
-      axios.delete(`http://localhost:5000/api/sections/${id}`)
+      axios.delete(`http://localhost:3000/api/sections/${id}`)
       .then((res) => {
         setItem(res.data.item)
       })
@@ -59,7 +59,7 @@ export default function SelectionInput(props: any){
   const handleSectionBlur = async (event: any, section: any) => {
 
     try {
-      axios.patch(`http://localhost:5000/api/sections/${section.id}`, {
+      axios.patch(`http://localhost:3000/api/sections/${section.id}`, {
         content: event.target.value,
         sectiontype: sectionType === 'text' ?  '63b2503c49220f42d9fc17d9' : '63b88d18379a4f30bab59bad',
       })

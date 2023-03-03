@@ -38,8 +38,6 @@ export default function ItemDetails(props: any) {
   },[item])
 
   function handleSetItem(item: any){ 
-
-    console.log('the item has changed');
     setItem(item)
   }
   
@@ -110,21 +108,16 @@ export default function ItemDetails(props: any) {
 }
 export async function getStaticPaths(){
 
- 
-    const res = await axios.get('http://localhost:5000/api/items/');
-    const data = await res.data 
-
-  
-
-
+  const res = await axios.get('http://localhost:3000/api/items/');   
+  const data = await res.data 
   const paths = data.items.map((item: any) => ({params: {itemId: item.id}}))
 
-   return { paths, fallback: 'blocking'}
+  return { paths, fallback: 'blocking'}
    
 }
 export async function getStaticProps({params}: any){
 
-  const res = await axios.get(`http://localhost:5000/api/items/${params.itemId}`);
+  const res = await axios.get(`http://localhost:3000/api/items/${params.itemId}`);
 
   const data = await res.data 
 

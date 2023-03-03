@@ -1,9 +1,8 @@
 import { getSession } from 'next-auth/react';
 
-import { verifyPassword } from '/lib/auth';
-
-import { connectDB } from '/lib/db';
-import { hashPassword } from '/lib/auth';
+import bcryptjs from 'bcryptjs';
+import Member from '../../../mongoose_models/Member';
+import db from '/utils/db';
 
 async function handler(req, res) {
   if (req.method !== 'PATCH') {
@@ -20,40 +19,35 @@ async function handler(req, res) {
   const oldPassword = req.body.oldPassword;
   const newPassword = req.body.newPassword;
 
-  const client = await connectDB();
-
-  const memberCollection = client.db().collection('members');
-
-  const member = await memberCollection.findOne({
-    email: memberEmail,
-  });
+  await db.connect();
+  const member = await Member.findOne({ email: memberEmail });
 
   if (!member) {
-    client.close();
+    await db.disconnect();
     res.status(404).json({ message: 'Member not found' });
     return;
   }
 
   const currentPassword = member.password;
 
-  const isValid = await verifyPassword(oldPassword, currentPassword);
+  const isValid = bcryptjs.compareSync(oldPassword, currentPassword);
 
   if (!isValid) {
-    client.close();
+    await db.disconnect();
 
     res.status(403).json({ message: 'Invalid password' });
 
     return;
   }
+  const hashedPassword = await bcryptjs.hash(newPassword, 12);
 
-  const hashedPassword = await hashPassword(newPassword);
-
-  const result = await memberCollection.updateOne(
+  const result = await Member.updateOne(
     { email: memberEmail },
     { $set: { password: hashedPassword } }
   );
 
-  client.close();
+  await db.disconnect();
   res.status(200).json({ message: 'Password updated!' });
+  return;
 }
 export default handler;

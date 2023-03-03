@@ -13,7 +13,8 @@ export default function ItemTitleInput(props: any){
     setIsSubmitting(true)  
       
       try {
-        axios.patch(`http://localhost:5000/api/items/${item.id}`, {title: e.target.value})
+
+        axios.patch(`http://localhost:3000/api/items/${item.id}`, {title: e.target.value})
         .then((res) => {
           setItem(res.data.item)
           setIsSubmitting(false)

@@ -16,9 +16,11 @@ export default function SectionsInupt(props: any){
  
 
   const handleAddSection = () => {
+
+    console.log('adding section')
     
     try {
-      axios.post('http://localhost:5000/api/sections', 
+      axios.post('http://localhost:3000/api/sections', 
       {sectiontype: "63b2503c49220f42d9fc17d9", content: '', itemId: item.id, order:  newSectionOrderNumber})
       .then((res) => {
 
