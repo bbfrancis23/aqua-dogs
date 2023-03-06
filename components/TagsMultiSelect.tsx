@@ -55,7 +55,7 @@ export default function TagsMultiSelect(props: any) {
     if(item.id) {
       
       try {
-        axios.patch(`http://localhost:3000/api/items/${item.id}`, {tags: itemTags})
+        axios.patch(`${process.env.NEXTAUTH_URL}/api/items/${item.id}`, {tags: itemTags})
         .then((res) => {
           setItem(res.data.item)
 

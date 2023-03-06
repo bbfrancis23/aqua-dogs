@@ -108,7 +108,7 @@ export default function ItemDetails(props: any) {
 }
 export async function getStaticPaths(){
 
-  const res = await axios.get('http://localhost:3000/api/items/');   
+  const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/items/`);   
   const data = await res.data 
   const paths = data.items.map((item: any) => ({params: {itemId: item.id}}))
 
@@ -117,7 +117,7 @@ export async function getStaticPaths(){
 }
 export async function getStaticProps({params}: any){
 
-  const res = await axios.get(`http://localhost:3000/api/items/${params.itemId}`);
+  const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/items/${params.itemId}`);
 
   const data = await res.data 
 

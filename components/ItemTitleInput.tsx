@@ -14,7 +14,7 @@ export default function ItemTitleInput(props: any){
       
       try {
 
-        axios.patch(`http://localhost:3000/api/items/${item.id}`, {title: e.target.value})
+        axios.patch(`${process.env.NEXTAUTH_URL}/api/items/${item.id}`, {title: e.target.value})
         .then((res) => {
           setItem(res.data.item)
           setIsSubmitting(false)

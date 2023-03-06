@@ -1,8 +1,8 @@
 import { getSession } from 'next-auth/react';
 
-import db from '../../utils/db';
+import db from '../../../utils/db';
 
-import Tag from '../../mongoose_models/Tag';
+import Tag from '../../../mongoose_models/Tag';
 
 async function handler(req, res) {
   if (req.method === 'GET') {

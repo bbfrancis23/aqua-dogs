@@ -1,4 +1,4 @@
-import {  useMemo, useState, useEffect } from "react"
+import {  useMemo, useState} from "react"
 import { Button,Stack,  DialogContent,DialogActions, Typography,  } from "@mui/material"
 import TagsMultiSelect from "./TagsMultiSelect"
 import SectionsInupt from "./SectionsInput";
@@ -47,11 +47,11 @@ export default function ItemFormDialog(props: any){
       if(dialogIsOpen && session && mode === 'ADD'){
 
         try {
-          axios.post('http://localhost:3000/api/items', {title: ''})
+          axios.post(`${process.env.NEXTAUTH_URL}/api/items`, {title: ''})
           .then((res) => {
             setItem(res.data.item)
             try {
-              axios.post('http://localhost:3000/api/sections', 
+              axios.post(`${process.env.NEXTAUTH_URL}/api/sections`, 
               {sectiontype: "63b2503c49220f42d9fc17d9", content: '', itemId: res.data.item.id, order: 1})
               .then((res) => {     
                 

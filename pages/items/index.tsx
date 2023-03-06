@@ -96,7 +96,7 @@ export async function getStaticProps() {
   let items;
   try {   
 
-    const fullStackRes = await axios.get('http://localhost:3000/api/items/')
+    const fullStackRes = await axios.get(`${process.env.NEXTAUTH_URL}/api/items/`)
     
 
     items = fullStackRes.data.items

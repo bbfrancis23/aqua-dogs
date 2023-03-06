@@ -3,7 +3,6 @@ import {  Card,  CardHeader, Grid,  useTheme } from "@mui/material";
 import axios from "axios";
 
 import { ObjectId } from 'mongodb';
-import { connectDB } from '../../lib/db';
 
 import Link from 'next/link'
 
@@ -14,7 +13,7 @@ export default function ItemsByTag(props: any){
 
   const bestpracItems = items.filter( (i:any) => {
 
-    const isBestPractice = i.tags.filter((t: any) => t === '63b0d7302beee78c4a512880' )
+    const isBestPractice = i.tags.filter((t: any) => t.id === '63b0d7302beee78c4a512880' )
 
     if(isBestPractice.length > 0){
       return i
@@ -70,36 +69,25 @@ export default function ItemsByTag(props: any){
 }
 export async function getStaticPaths(){
 
-  const paths:any  = [{ params: {tagId: '63b1d5db51a00f093850bbeb'}}]
+  const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/tags/`)
+  
+  const paths = res.data.tags.map( (t:any) => {
+    return {params: {tagId: t.id}}
+  })
+
+  
 
   return { paths, fallback: false}
  
 }
-export async function getStaticProps({params}: any){
-
-
-  const client: any = await connectDB();
-
-  
-  const db = client.db();
+export async function getStaticProps({params}: any){  
 
   const  tagId  = params.tagId;
 
-  const items = db
-    .collection('items')
-    .find({ tags: new ObjectId(tagId.toString()) });
+  const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/items/tags/${tagId}`)
 
-  const aItems = await items.toArray();
 
-  const data = aItems.map( (item:any) => {
-    return {
-      _id: item._id.toString(),
-      title: item.title,
-      tags: item.tags.map( (t:any) => { return t.toString()}),
-      sections: item.sections.map( (s:any) => { return s.toString()}),
-    }
-  })
 
-  return {props: {items: data}} 
+  return {props: {items: res.data.items}} 
 
 }
