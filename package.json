@@ -27,7 +27,7 @@
     "formik": "^2.2.9",
     "material-ui-confirm": "^3.0.8",
     "mongodb": "^4.13.0",
-    "mongoose": "^6.9.3",
+    "mongoose": "^7.0.1",
     "next": "13.1.1",
     "next-auth": "^4.18.8",
     "next-remove-imports": "^1.0.8",

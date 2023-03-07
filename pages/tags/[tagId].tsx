@@ -1,5 +1,8 @@
 import {  Card,  CardHeader, Grid,  useTheme } from "@mui/material";
 
+import { getTags } from '../../lib/controlers/tags';
+
+import { getItem, getItems, groupItemsByTag } from '../../lib/controlers/item';
 import axios from "axios";
 
 import { ObjectId } from 'mongodb';
@@ -41,7 +44,7 @@ export default function ItemsByTag(props: any){
           <CardHeader title='Best Practices' sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', }} />
             <ul>              
               {
-                bestpracItems.map( (i:any, ) => (<li key={i._id}><Link href={`/items/${i._id}`} style={{textDecoration: 'none', color: theme.palette.text.primary}} >{i.title}</Link></li>))
+                bestpracItems.map( (i:any, ) => (<li key={i.id}><Link href={`/items/${i.id}`} style={{textDecoration: 'none', color: theme.palette.text.primary}} >{i.title}</Link></li>))
               }
             </ul>
           </Card>
@@ -51,7 +54,7 @@ export default function ItemsByTag(props: any){
           <CardHeader title='Standards' sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', }} />
             <ul>              
               {
-                standardItems.map( (i:any, ) => (<li key={i._id}><Link href={`/items/${i._id}`} style={{textDecoration: 'none', color: theme.palette.text.primary}} >{i.title}</Link></li>))
+                standardItems.map( (i:any, ) => (<li key={i.id}><Link href={`/items/${i.id}`} style={{textDecoration: 'none', color: theme.palette.text.primary}} >{i.title}</Link></li>))
               }
             </ul>
           </Card>
@@ -69,9 +72,10 @@ export default function ItemsByTag(props: any){
 }
 export async function getStaticPaths(){
 
-  const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/tags/`)
   
-  const paths = res.data.tags.map( (t:any) => {
+  const result = await getTags();
+  
+  const paths = result.tags.map( (t:any) => {
     return {params: {tagId: t.id}}
   })
 
@@ -84,10 +88,10 @@ export async function getStaticProps({params}: any){
 
   const  tagId  = params.tagId;
 
-  const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/items/tags/${tagId}`)
+  // const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/items/tags/${tagId}`)// 
+  const result = await groupItemsByTag(tagId);
 
 
-
-  return {props: {items: res.data.items}} 
+  return {props: {items: result.items ? result.items : []}} 
 
 }

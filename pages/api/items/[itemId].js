@@ -6,15 +6,12 @@ import { getSession } from 'next-auth/react';
 import { ObjectId } from 'mongodb';
 
 import mongoose from 'mongoose';
+import { getItem } from '../../../lib/controlers/item';
 
 export default async function handler(req, res) {
   const { itemId } = req.query;
 
-  if (
-    req.method === 'GET' ||
-    req.method === 'PATCH' ||
-    req.method === 'DELETE'
-  ) {
+  if (req.method === 'PATCH' || req.method === 'DELETE') {
     let status = 200;
     let message = '';
 
@@ -94,7 +91,14 @@ export default async function handler(req, res) {
       item: item ? item.toObject({ getters: true }) : undefined,
     });
     return;
-  }
+  } else if (req.method === 'GET') {
+    const result = await getItem(itemId);
 
+    res.status(result.status).json({
+      message: result.message,
+      item: result.item,
+    });
+    return;
+  }
   return;
 }

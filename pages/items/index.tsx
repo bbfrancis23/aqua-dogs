@@ -8,6 +8,8 @@ import { useSnackbar } from 'notistack';
 
 import { useSession} from "next-auth/react";
 
+import { getItem, getItems } from '../../lib/controlers/item';
+
 import axios from 'axios';
 
 const columns = [
@@ -32,7 +34,7 @@ export default function Items(props: any) {
   const itemsToRows = () => {
     return  items.map( (i:any) => {
       return {
-        id: i._id,
+        id: i.id,
         title: i.title,
         tags: i.tags.map( (t:any) => t.title).join(", ")
       }
@@ -50,7 +52,7 @@ export default function Items(props: any) {
 
         await confirm({description: `delete ${selectedRow}`})
         .then( () => {
-          axios.delete(`/api/items/${selectedRow}`).then( r => {
+          axios.delete(`${process.env.NEXTAUTH_URL}/api/items/${selectedRow}`).then( r => {
 
             
 
@@ -96,10 +98,10 @@ export async function getStaticProps() {
   let items;
   try {   
 
-    const fullStackRes = await axios.get(`${process.env.NEXTAUTH_URL}/api/items/`)
+    const data = await getItems();
     
 
-    items = fullStackRes.data.items
+    items = data.items
 
 
   } catch (err) {

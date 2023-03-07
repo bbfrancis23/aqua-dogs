@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 
-import { Box, Card, CardHeader, CardContent, Stack,  Typography, IconButton } from "@mui/material";
+import { Box, Card, CardHeader, CardContent, Stack,  Typography, IconButton, Chip } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -13,6 +13,7 @@ import axios from "axios";
 import ItemFormDialog from "../../components/ItemFormDialog";
 import EditableItemTitle from "../../components/EditableItemTitle";
 import EditableItemTags from "../../components/EditableItemTags";
+import { getItem, getItems } from '../../lib/controlers/item';
 
 
 import "@uiw/react-textarea-code-editor/dist.css";
@@ -22,6 +23,7 @@ const CodeEditor = dynamic(
 )
 
 export default function ItemDetails(props: any) {
+
 
   const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState(false)
   const [itemDialogMode, setItemDialogMode] = useState('ADD')
@@ -67,7 +69,11 @@ export default function ItemDetails(props: any) {
         />
          <CardContent>
            <Stack spacing={1} direction='row'>
-            <EditableItemTags item={item} setItem={ (item:any) => handleSetItem(item) } />
+            {
+              item.tags.map( (t:any) => {
+                return ( <Chip label={t.title} variant="outlined" key={t.id} /> )
+              })
+            }
            </Stack>
            <Stack spacing={1} sx={{ pt: 2}}>
             { 
@@ -108,19 +114,14 @@ export default function ItemDetails(props: any) {
 }
 export async function getStaticPaths(){
 
-  const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/items/`);   
-  const data = await res.data 
+  const data = await getItems();
   const paths = data.items.map((item: any) => ({params: {itemId: item.id}}))
 
   return { paths, fallback: 'blocking'}
    
 }
 export async function getStaticProps({params}: any){
-
-  const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/items/${params.itemId}`);
-
-  const data = await res.data 
-
-  return {props: {item: data.item} }
+  const data = await getItem(params.itemId)
+  return {props: {item: data.item}}
 
 }
