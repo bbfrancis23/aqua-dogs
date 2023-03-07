@@ -7,7 +7,7 @@ async function connect() {
     console.log('already connected');
     return;
   }
-  // here is a comment
+  // here is a comment more comments
   if (mongoose.connections.length > 0) {
     connection.isConnected = mongoose.connections[0].readyState;
 
