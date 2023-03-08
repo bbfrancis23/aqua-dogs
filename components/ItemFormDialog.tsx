@@ -47,11 +47,11 @@ export default function ItemFormDialog(props: any){
       if(dialogIsOpen && session && mode === 'ADD'){
 
         try {
-          axios.post(`${process.env.NEXTAUTH_URL}/api/items`, {title: ''})
+          axios.post(`/api/items`, {title: ''})
           .then((res) => {
             setItem(res.data.item)
             try {
-              axios.post(`${process.env.NEXTAUTH_URL}/api/sections`, 
+              axios.post(`/api/sections`, 
               {sectiontype: "63b2503c49220f42d9fc17d9", content: '', itemId: res.data.item.id, order: 1})
               .then((res) => {     
                 
