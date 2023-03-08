@@ -1,32 +1,7 @@
-
 import { Grid, Card, CardHeader, CardMedia, styled, CardContent } from "@mui/material";
-
 import Link from 'next/link'
-
+import {ColorOverlayImg} from "../components/ColorOverlayImg";
 import { tags } from '../data/tags';
-
-export const ThemeColorOverlay = styled('div')(
-
-  ({ theme }) => (
-    { 
-      position: 'relative', 
-      width: '100%', 
-      height: '300px',
-      display: 'flex',
-      backgroundPosition: 'center',
-
-      '&::before' :  {
-         content: '""',
-         background: theme.palette.secondary.main,
-         width: '100%',
-         height: '300px',
-         opacity: '.4',
-         transition: '.5s ease'
-      }
-    }
-  )
-)
-
 
 export default function Home(props: any) {
 
@@ -43,12 +18,11 @@ export default function Home(props: any) {
               <Card >
               <Link href={`/tags/${t.tagId}`} style={{textDecoration: 'none'}} ><CardHeader title={t.title} sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} /></Link>
                 <CardMedia>
-                <ThemeColorOverlay 
-                    style={{
-                      background: `url("/images/card-dogs/${t.imgTitle}.jpg")`,      
-                      backgroundPosition: 'center',   
-                    }}
-                  /> 
+                <ColorOverlayImg
+                  img={`/images/card-dogs/${t.imgTitle.toLowerCase()}.jpg`}
+                  height='300px'
+                  width='100%'
+                />                
                 </CardMedia>
                 <CardContent style={{ height: '175px', overflow: 'auto', paddingBottom: '0px'}}>
                  {
