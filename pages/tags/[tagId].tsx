@@ -87,8 +87,6 @@ export async function getStaticPaths(){
 export async function getStaticProps({params}: any){  
 
   const  tagId  = params.tagId;
-
-  // const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/items/tags/${tagId}`)// 
   const result = await groupItemsByTag(tagId);
 
 

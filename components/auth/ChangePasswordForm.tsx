@@ -26,7 +26,7 @@ export default function ChangePasswordForm(){
     validationSchema: ChangePasswordSchema,
     onSubmit: async (data) => {
       axios.patch(
-        `${process.env.NEXTAUTH_URL}/api/auth/change-password`,
+        '/api/auth/change-password',
         { oldPassword: data.oldPassword, newPassword: data.newPassword },
       )
         .then((res) => {

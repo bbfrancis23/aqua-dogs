@@ -52,7 +52,7 @@ export default function Items(props: any) {
 
         await confirm({description: `delete ${selectedRow}`})
         .then( () => {
-          axios.delete(`${process.env.NEXTAUTH_URL}/api/items/${selectedRow}`).then( r => {
+          axios.delete(`/api/items/${selectedRow}`).then( r => {
 
             
 
