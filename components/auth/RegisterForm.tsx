@@ -2,22 +2,27 @@ import { LoadingButton } from '@mui/lab'
 import { Alert, Button, DialogActions, DialogContent, Stack } from '@mui/material'
 import axios from 'axios'
 import { Form, FormikProvider, useFormik } from 'formik'
+import { useSnackbar } from 'notistack'
 import React, { useState } from 'react'
 import AuthSchema from './AuthSchema'
 
 import EmailTextField from './EmailTextField'
 import PasswordTextField from './PasswordTextField'
 
-export default function RegisterForm(props: any) {
+interface RegisterFormProps{
+  closeDialog: () => void;
+  openAuthDialog: () => void;
+}
+
+export default function RegisterForm(props: RegisterFormProps) {
   const [serverError, setServerError] = useState('')
 
-  const { closeDialog} = props
+  const { closeDialog, openAuthDialog } = props
+
+  const { enqueueSnackbar } = useSnackbar()
 
   const successCode = 201
 
-  const saveToken = (token: any) => {
-    localStorage.setItem('token', token)
-  }
 
   const formik = useFormik({
     initialValues: {
@@ -27,13 +32,16 @@ export default function RegisterForm(props: any) {
     validationSchema: AuthSchema,
     onSubmit: (data) => {
       axios.post(
-        'http://localhost:5000/api/users/register',
+        '/api/auth/register',
         { email: data.email, password: data.password },
       )
         .then((res) => {
-          saveToken(res.data.token)
+          
           formik.setSubmitting(false)
-          if (res.status === successCode && res.statusText === 'Created') closeDialog(); 
+          if (res.status === successCode){
+            startAuth();
+            enqueueSnackbar('You are now Registered Please Login', {variant: 'success'});
+          } 
         })
         .catch((error) => {
           formik.setSubmitting(false)
@@ -45,6 +53,7 @@ export default function RegisterForm(props: any) {
   const { errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid } = formik
 
   const closeForm = () => { formik.resetForm(); closeDialog(); setServerError('') }
+  const startAuth = () => { closeDialog(); openAuthDialog(); }
 
   return (
     <FormikProvider value={formik}>
@@ -62,6 +71,7 @@ export default function RegisterForm(props: any) {
               error={errors.password}
               touched={touched.password}
             />
+            <Button onClick={() => startAuth()}>Login Existing Member</Button>       
           </Stack>
         </DialogContent>
         <DialogActions disableSpacing={false}>

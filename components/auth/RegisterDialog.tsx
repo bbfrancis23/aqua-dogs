@@ -4,23 +4,22 @@ import RegisterForm from './RegisterForm'
 
 import DraggableDialog from '../../ui/DraggableDialog'
 
-export default function RegisterDialog(props: any) {
-  const { dialogIsOpen,  closeDialog } = props
+interface RegDialogProps {
+  dialogIsOpen: boolean;
+  closeDialog: () => void;
+  openAuthDialog: () => void;
+}
 
-
+export default function RegisterDialog(props: RegDialogProps) {
+  const { dialogIsOpen, closeDialog, openAuthDialog} = props
 
   return (
     <DraggableDialog
       dialogIsOpen={dialogIsOpen}
       ariaLabel="register-dialog"
       title="REGISTER"
-    >
-      <DialogContent sx={{width: '100%'}}>
-        <RegisterForm closeDialog={closeDialog} />
-      </DialogContent>
-      <DialogActions disableSpacing={false}>
-        <Button onClick={closeDialog}> CANCEL </Button>
-      </DialogActions>
+    > 
+      <RegisterForm closeDialog={closeDialog} openAuthDialog={openAuthDialog}/>    
     </DraggableDialog>
   )
 }

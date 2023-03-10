@@ -53,6 +53,17 @@ export default function ItemDetails(props: any) {
     setAddItemDialogIsOpen(true)
   }
 
+  const isAlphaDog = () => {
+
+    const user: any = session?.user
+
+    if(user){
+      return user.roles.includes('AlphaDog')
+    }
+
+    return false
+  }
+
   return (
    
     <Box sx={{ display: 'flex', justifyContent: 'center', pt: 12}}>
@@ -60,7 +71,7 @@ export default function ItemDetails(props: any) {
       <CardHeader 
           title={<EditableItemTitle item={item} setItem={ (item:any) => handleSetItem(item) } />} 
           action={
-            (session) && 
+            ( isAlphaDog()) && 
             <>
               <IconButton onClick={() =>  handleOpenDialog('EDIT') }><EditIcon /></IconButton>
               <IconButton onClick={() => handleOpenDialog('ADD') }><AddIcon /></IconButton>

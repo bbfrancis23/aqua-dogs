@@ -13,13 +13,18 @@ import EmailTextField from './EmailTextField'
 import PasswordTextField from './PasswordTextField'
 import HttpStatusCodes from '../../enums/HttpStatusCodes'
 
-export default function LoginForm(props: {closeDialog: Function, openRegisterDialog: Function}) {
+interface AuthFormProps{
+  closeDialog: () => void;
+  openRegisterDialog: () => void;
+}
+
+export default function AuthForm(props: AuthFormProps) {
 
   const [loginError, setLoginError] = useState<string>('')
   const { enqueueSnackbar } = useSnackbar();
 
-  // registration is disabled for now
   const { closeDialog, openRegisterDialog } = props
+
 
   const formik = useFormik({
     initialValues: {
@@ -57,14 +62,13 @@ export default function LoginForm(props: {closeDialog: Function, openRegisterDia
 
   const closeForm = () => { formik.resetForm(); closeDialog(); setLoginError('') }
 
-  // registration is disabled for now
-  // const startRegistration = () => { closeDialog(); openRegisterDialog() }
+  const startRegistration = () => { closeDialog(); openRegisterDialog(); }
 
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <DialogContent>
-          <Stack spacing={3} sx={{ width: '100%' }}>           
+          <Stack spacing={3} sx={{ width: '100%' }}>               
             { loginError && (<Alert severity="error">{loginError}</Alert>) }
             <EmailTextField
               getFieldProps={getFieldProps}
@@ -75,7 +79,8 @@ export default function LoginForm(props: {closeDialog: Function, openRegisterDia
               getFieldProps={getFieldProps}
               error={errors.password}
               touched={touched.password}
-            />            
+            />         
+            <Button onClick={() => startRegistration()}>Register New Member</Button>          
           </Stack>
         </DialogContent>
         <DialogActions disableSpacing={false}>

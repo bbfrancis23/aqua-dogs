@@ -1,10 +1,16 @@
 
 import React from 'react'
 import DraggableDialog from '../../ui/DraggableDialog'
-import LoginForm from './AuthForm'
+import AuthForm from './AuthForm'
 
-export default function RegisterDialog(props:any) {
-  const { dialogIsOpen, closeDialog, loginUser, openRegisterDialog } = props
+interface AuthDialogProps {
+  dialogIsOpen: boolean;
+  closeDialog: () => void;
+  openRegDialog: () => void;
+}
+
+export default function AuthDialog(props: AuthDialogProps) {
+  const { dialogIsOpen, closeDialog,  openRegDialog } = props
 
   return (
     <DraggableDialog
@@ -12,8 +18,8 @@ export default function RegisterDialog(props:any) {
       ariaLabel="auth-dialog"
       title="LOGIN"
     >
-      <LoginForm
-        openRegisterDialog={openRegisterDialog}
+      <AuthForm
+        openRegisterDialog={openRegDialog}
         closeDialog={closeDialog}
       />
     </DraggableDialog>
