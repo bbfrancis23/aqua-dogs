@@ -1,16 +1,17 @@
-export const tags =  [
+import { Tag } from "../interfaces/Tag";
+
+export const tags: Tag[] =  [
   { 
-    tagId: '63b1d5db51a00f093850bbeb', 
+    id: '63b1d5db51a00f093850bbeb', 
     title: 'JavaScript',
     imgTitle: 'javascript',
     sections: [
       'JavaScript is the most popular programming language in the world.',
       'Javascript is the programming language for the Web Framework.'
     ]
-
   },
   { 
-    tagId: '63c9b8e6f01b17156211eb01', 
+    id: '63c9b8e6f01b17156211eb01', 
     title: 'HTML',
     imgTitle: 'html',
     sections: [
@@ -19,7 +20,7 @@ export const tags =  [
     ]
   },
   { 
-    tagId: '63c9ba02f01b17156211eb03', 
+    id: '63c9ba02f01b17156211eb03', 
     title: 'CSS',
     imgTitle: 'css',
     sections: [
@@ -28,7 +29,7 @@ export const tags =  [
     ]
   },
   { 
-    tagId: '63c9baddf01b17156211eb05', 
+    id: '63c9baddf01b17156211eb05', 
     title: 'React',
     imgTitle: 'react',
     sections: [
@@ -37,7 +38,7 @@ export const tags =  [
     ]
   },
   { 
-    tagId: '63c9bae9f01b17156211eb06', 
+    id: '63c9bae9f01b17156211eb06', 
     title: 'NextJS',
     imgTitle: 'nextjs',
     sections: [
@@ -46,7 +47,7 @@ export const tags =  [
     ]
   },
   { 
-    tagId: '63c9bb1ff01b17156211eb07', 
+    id: '63c9bb1ff01b17156211eb07', 
     title: 'Material User Interface',
     imgTitle: 'mui',
     sections: [
@@ -55,7 +56,7 @@ export const tags =  [
     ]
   },
   { 
-    tagId: '63c9bb52f01b17156211eb08', 
+    id: '63c9bb52f01b17156211eb08', 
     title: 'NodeJS',
     imgTitle: 'nodeJS',
     sections: [
@@ -64,7 +65,7 @@ export const tags =  [
     ]
   },
   { 
-    tagId: '63c9bb5ff01b17156211eb09', 
+    id: '63c9bb5ff01b17156211eb09', 
     title: 'ExpressJS',
     imgTitle: 'express',
     sections: [
@@ -72,7 +73,7 @@ export const tags =  [
     ]
   },
   { 
-    tagId: '63c9bb6cf01b17156211eb0a', 
+    id: '63c9bb6cf01b17156211eb0a', 
     title: 'MognoDB',
     imgTitle: 'mongodb',
     sections: [

@@ -40,7 +40,6 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
       fxOptions = fxOptions ? (JSON.parse(fxOptions)) : {
         name: 'Hawaii',
         palette: palettes[0],
-
       }
 
       if (options.name) fxOptions.name = options.name
@@ -99,10 +98,8 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
           </SnackbarProvider>
         </ConfirmProvider>
       </ ThemeProvider>
-    </SessionProvider>
-    
-   )
-    
+    </SessionProvider>    
+   )    
 }
 
 
