@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 
 import { Box, Button, IconButton, Menu, MenuItem, useTheme, Fade } from "@mui/material"
 
 import Link from 'next/link'
+import { Tag } from "../interfaces/Tag";
 
-export default function AppBarMenu(props: any){  
+interface AppBarMenuProps{
+  name: string;
+  id: string;
+  pages: Tag[];
+  icon: JSX.Element;
+}
+
+export default function AppBarMenu(props: AppBarMenuProps){  
 
   const {name, id, pages,  icon} = props
 
@@ -13,14 +21,15 @@ export default function AppBarMenu(props: any){
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: any) => setAnchorEl(event.currentTarget)
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
   
   const handleClose = () => setAnchorEl(null)
 
   return (
-    <Box>
+    <Box key={id}>
       <Button
-        id={`${id}-button`}
         aria-controls={open ? `${id}-menu` : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
@@ -51,8 +60,8 @@ export default function AppBarMenu(props: any){
         TransitionComponent={Fade}
       >       
         {
-          pages.map( (p:any) => (
-            <Link href={`/tags/${p.tagId}`} style={{textDecoration: 'none', color: theme.palette.text.primary}} key={p.tagId}  >
+          pages.map( (p: Tag) => (
+            <Link href={`/tags/${p.id}`} style={{textDecoration: 'none', color: theme.palette.text.primary}} key={p.id}  >
               <MenuItem onClick={handleClose}>{p.title}</MenuItem>
             </Link>
           ))

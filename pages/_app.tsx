@@ -20,6 +20,7 @@ import SettingsDialog from '../components/settings/SettingsDialog'
 import AuthDialog from '../components/auth/AuthDialog'
 import AuthNav from '../components/auth/AuthNav'
 import { tags } from '../data/tags';
+import RegisterDialog from '../components/auth/RegisterDialog';
 
 export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
 
@@ -27,7 +28,8 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
   const frontEndPages  = tags.slice(3, 6);
   const backEndPages = tags.slice(6,9)
   const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)  
-  const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)    
+  const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)  
+  const [regDialogIsOpen, setRegDialogIsOpen] = useState(false)      
   
   const [theme, setTheme] = useState(createFxTheme( appThemes[0]))
   
@@ -93,8 +95,21 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
               </Toolbar>
             </AppBar>       
           <Component {...pageProps} />
-          <SettingsDialog updateFx={handleUpdateTheme} dialogIsOpen={settingsDialogIsOpen} closeDialog={ () => setSettingsDialogIsOpen(false)} /> 
-          <AuthDialog dialogIsOpen={authDialogIsOpen} closeDialog={ () => setAuthDialogIsOpen(false)} /> 
+          <SettingsDialog 
+            updateFx={handleUpdateTheme} 
+            dialogIsOpen={settingsDialogIsOpen} 
+            closeDialog={ () => setSettingsDialogIsOpen(false)} 
+          /> 
+          <AuthDialog 
+            dialogIsOpen={authDialogIsOpen} 
+            closeDialog={ () => setAuthDialogIsOpen(false)} 
+            openRegDialog={ () => setRegDialogIsOpen(true)}
+          /> 
+          <RegisterDialog 
+            dialogIsOpen={regDialogIsOpen} 
+            closeDialog={ () => setRegDialogIsOpen(false)} 
+            openAuthDialog={ () => setAuthDialogIsOpen(true)}
+          /> 
           </SnackbarProvider>
         </ConfirmProvider>
       </ ThemeProvider>
