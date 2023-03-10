@@ -33,7 +33,9 @@ export default async function handler(req, res) {
         if (req.method === 'PATCH' || req.method === 'DELETE') {
           const session = await getSession({ req: req });
 
-          if (session) {
+          const isAlphaDog = session?.user.roles.includes('AlphaDog');
+
+          if (isAlphaDog) {
             if (req.method === 'PATCH') {
               const { title, tags } = req.body;
 

@@ -20,8 +20,9 @@ export default async function handler(req, res) {
     await db.connect();
 
     const session = await getSession({ req: req });
+    const isAlphaDog = session?.user.roles.includes('AlphaDog');
 
-    if (!session) {
+    if (!isAlphaDog) {
       await db.disconnect();
       res.status(401).json({ message: 'Not Authenticated.' });
       return;

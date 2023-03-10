@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import Role from '../../../mongoose_models/Role';
 import Member from '../../../mongoose_models/Member';
 
 import db from '../../../utils/db';
@@ -18,6 +19,14 @@ export default NextAuth({
     async session({ session, token }) {
       if (token?._id) session.member._id = token._id;
 
+      const member = await Member.findOne({
+        email: session.user.email,
+      }).populate({ path: 'roles', model: Role });
+
+      const roles = member.roles.map((r) => r.title);
+
+      session.user.roles = roles;
+
       return session;
     },
   },
@@ -27,7 +36,14 @@ export default NextAuth({
       async authorize(credentials) {
         await db.connect();
 
-        const member = await Member.findOne({ email: credentials.email });
+        const member = await Member.findOne({
+          email: credentials.email,
+        });
+
+        const roles = member.roles.map((r) => r.title);
+
+        console.log('roles', roles);
+
         await db.disconnect();
 
         if (member) {
@@ -42,7 +58,7 @@ export default NextAuth({
               name: 'Brian',
               email: member.email,
               image: 'f',
-              role: 'Admin',
+              role: 'admin',
             };
           }
         }

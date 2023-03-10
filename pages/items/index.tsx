@@ -26,6 +26,8 @@ export default function Items(props: any) {
   
   
   const { data: session, status } = useSession()
+
+
   const confirm = useConfirm()
   const { enqueueSnackbar } = useSnackbar()
 
@@ -42,12 +44,22 @@ export default function Items(props: any) {
   }
   
   const [rows, setRows] = useState( itemsToRows())
+  
+  const isAlphaDog = () => {
 
+    const user: any = session?.user
+
+    if(user){
+      return user.roles.includes('AlphaDog')
+    }
+
+    return false
+  }
   
 
   const handleDelete = async () => {
 
-    if(session){
+    if(isAlphaDog()){
       for (const selectedRow of selectedRows){
 
         await confirm({description: `delete ${selectedRow}`})
@@ -73,7 +85,7 @@ export default function Items(props: any) {
     <Box style={{ height: '100vh', width: '100%' }} sx={{ mt: 12}}>
     <Toolbar>
       { 
-        session && (
+        isAlphaDog() && (
            <IconButton onClick={handleDelete}>          
           <DeleteIcon />
         </IconButton>
