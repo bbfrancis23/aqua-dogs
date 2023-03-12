@@ -55,10 +55,9 @@ export default NextAuth({
           if (result) {
             return {
               _id: member._id,
-              name: 'Brian',
+              name: undefined,
               email: member.email,
               image: 'f',
-              role: 'admin',
             };
           }
         }

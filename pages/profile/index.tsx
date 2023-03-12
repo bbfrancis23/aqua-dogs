@@ -1,14 +1,26 @@
-import { Box } from "@mui/material";
+import { Box, Card, CardContent, CardHeader } from "@mui/material";
 
 import { useSession, signOut, getSession } from "next-auth/react"
 
 import { useSnackbar } from 'notistack';
 import Button from "@mui/material/Button";
 import ChangePasswordForm from "../../components/auth/ChangePasswordForm";
+import { useState } from "react";
+import NameForm from "../../components/members/NameForm";
+
+
+import { getMember } from '../../lib/controlers/member';
+
+export interface ProfileProps{
+
+}
 
 export default function Profile(props: any){
 
-  const {authSession} = props
+  const {authSession, member} = props
+
+  const [showChangePasswordForm, setChangePasswordForm] = useState(false);
+
   const { enqueueSnackbar } = useSnackbar()
   const { status } = useSession()
 
@@ -18,6 +30,7 @@ export default function Profile(props: any){
     window.location.href = '/'
   }
 
+
   async function  logoutHandler(){
     await signOut()
     window.location.href = '/'
@@ -25,20 +38,24 @@ export default function Profile(props: any){
   }
 
   return (
-    <Box sx={{ mt: 12}} >
+    <Box sx={{ display: 'flex', justifyContent: 'center', pt: 12}}>
       {
         loading && (
-          <span></span>
+          <span>Loading</span>
         )
       }
       {
         (!loading && authSession) && (
-          <>
-           <ChangePasswordForm />
-            <Button onClick={logoutHandler} variant={'outlined'}>
-              LOG OUT
-            </Button>
-          </>           
+          <Card sx={{ width: {xs: '100vw', md: '50vw' } }}>
+
+          <CardHeader title="Member Information" />
+          <CardContent sx={{pl: 3}}>
+          <NameForm />  
+          <Box><Button onClick={() => setChangePasswordForm(!showChangePasswordForm)} >Change Password</Button></Box>
+          { showChangePasswordForm &&            <ChangePasswordForm />}
+          <Box><Button onClick={logoutHandler} >LOG OUT</Button></Box>
+          </CardContent>           
+          </Card>           
         )
       }
      
@@ -52,6 +69,18 @@ export async function getServerSideProps(context: any){
     return { redirect:{ destination: '/', permanent: false }}
   }
 
-  return {props: {authSession: authSession} }
+  let member
 
+  if(authSession.user && authSession.user.email){
+    const result = await getMember(authSession.user.email);
+    if(result.member){
+      member = result.member;
+    }else{
+      return { redirect:{ destination: '/', permanent: false }}
+    }
+  }else{
+    return { redirect:{ destination: '/', permanent: false }}
+  }  
+
+  return {props: {authSession: authSession, member} }
 }
