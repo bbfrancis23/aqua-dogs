@@ -24,7 +24,7 @@ export default function AuthNav(params:any){
     <>
       {
         session && (
-          <Link href={'/profile'} >
+          <Link href={'/member'} >
             <IconButton
               color="secondary"             
               sx={{ color: 'primary.contrastText'}}

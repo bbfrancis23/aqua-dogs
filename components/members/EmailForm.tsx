@@ -1,49 +1,39 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import axios from "axios";
-import { useSnackbar } from "notistack";
-import { useState } from "react";
-
-import { FormikProvider, useFormik, Form } from "formik";
-
+import { LoadingButton } from '@mui/lab';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import axios from 'axios';
+import { Form, FormikProvider, useFormik } from 'formik';
+import { useSnackbar } from 'notistack';
+import { useState } from 'react';
 import * as Yup from 'yup';
-import { LoadingButton } from "@mui/lab";
 
-const NameSchema = Yup.object().shape({
-  memberName: Yup.string()
-    .min(
-      2,
-      `Name must be at least 2 characters`
-    )
-    .required('Member Name is required'),
+const EmailSchema = Yup.object().shape({
+  email: Yup.string().email('Email must be a valid email address').required('Email is required'),
 });
 
-export default function NameForm(params: {name: string}){
-
-
-  const [name, setName] = useState(params.name)
+export default function EmailForm(params: {email: string}){
+  const [email, setEmail] = useState(params.email)
 
   const { enqueueSnackbar } = useSnackbar();
   const [formError, setFormError] = useState<string>('');
   const [displayTextField, setDisplayTextField] = useState<boolean>(false);
 
-
   const formik = useFormik({
     initialValues: {
-     memberName: name ? name : ''
+     email: email ? email : ''
     },
-    validationSchema: NameSchema,
+    validationSchema: EmailSchema,
     onSubmit: async (data) => {
 
       console.log('trying to submit')
       axios.patch(
         '/api/auth/member',
-        { memberName: data.memberName },
+        { email: data.email },
       )
       .then((res) => {
         formik.setSubmitting(false)
         if (res.status === 200 ){
-          enqueueSnackbar('Member Name Updated', {variant: 'success'});
-          setName(data.memberName)
+          enqueueSnackbar('Email Updated', {variant: 'success'});
+          setEmail(data.email)
           setDisplayTextField(false)
         } 
       })
@@ -58,18 +48,24 @@ export default function NameForm(params: {name: string}){
 
   return (
     <Box >          
-      {(name && !displayTextField)&& <Box  onClick={() => setDisplayTextField(!displayTextField)} sx={{ cursor: 'pointer' }}><Typography  sx={{ display: 'inline', mr: 1, cursor: 'pointer' }}>Member Name:</Typography> {name}</ Box> }     
+      {(email && !displayTextField) && (
+        <Box  onClick={() => setDisplayTextField(!displayTextField)} sx={{ cursor: 'pointer' }}>
+          <>
+            <Typography  sx={{ display: 'inline', mr: 1, cursor: 'pointer' }}>Emain:</Typography> {email}
+          </>
+        </ Box> 
+      )}     
       { displayTextField &&  (
         <FormikProvider value={formik}>    
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
 
-            <TextField
+           <TextField
               size="small"
-              autoComplete="name"
-              label={'Member Name'} 
-              {...getFieldProps('memberName')}
-              error={Boolean(touched && errors.memberName)}
-              helperText={touched && errors.memberName}
+              autoComplete="email"
+              label={'Email'} 
+              {...getFieldProps('email')}
+              error={Boolean(touched && errors.email)}
+              helperText={touched && errors.email}
               sx={{ mr: 1}}
             />      
             <LoadingButton
@@ -82,13 +78,9 @@ export default function NameForm(params: {name: string}){
             >
               Save
             </LoadingButton>  
-            {!name &&  (
-              <Button  onClick={() => setDisplayTextField(!displayTextField)}>
-                {displayTextField ? 'Cancel' : 'Add Member Name'}
-              </Button>
-            )}
+           
 
-            {(name && displayTextField)&&  (
+            {(email && displayTextField)&&  (
               <Button  onClick={() => setDisplayTextField(!displayTextField)}>
               Cancel
               </Button>
