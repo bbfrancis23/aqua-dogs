@@ -10,12 +10,13 @@ import NameForm from "../../components/members/NameForm";
 
 
 import { getMember } from '../../lib/controlers/member';
+import EmailForm from "../../components/members/EmailForm";
 
-export interface ProfileProps{
+export interface MemberProps{
 
 }
 
-export default function Profile(props: any){
+export default function Member(props: any){
 
   const {authSession, member} = props
 
@@ -50,7 +51,8 @@ export default function Profile(props: any){
 
           <CardHeader title="Member Information" />
           <CardContent sx={{pl: 3}}>
-          <NameForm />  
+          <NameForm name={member?.name ? member.name : undefined} />  
+          <EmailForm email={member?.email ? member.email : undefined} />  
           <Box><Button onClick={() => setChangePasswordForm(!showChangePasswordForm)} >Change Password</Button></Box>
           { showChangePasswordForm &&            <ChangePasswordForm />}
           <Box><Button onClick={logoutHandler} >LOG OUT</Button></Box>
@@ -64,6 +66,9 @@ export default function Profile(props: any){
 }
 export async function getServerSideProps(context: any){
   const authSession = await getSession({req: context.req})
+
+
+  console.log(authSession)
 
   if(!authSession){
     return { redirect:{ destination: '/', permanent: false }}

@@ -55,7 +55,7 @@ export default NextAuth({
           if (result) {
             return {
               _id: member._id,
-              name: undefined,
+              name: member.name ? member.name : undefined,
               email: member.email,
               image: 'f',
             };
