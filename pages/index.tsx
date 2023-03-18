@@ -1,6 +1,8 @@
-import { Grid, Card, CardHeader, CardMedia, CardContent } from "@mui/material";
 import Link from 'next/link'
+
+import { Grid, Card, CardHeader, CardMedia, CardContent } from "@mui/material";
 import {ColorOverlayImg} from "../components/ColorOverlayImg";
+
 import { tags } from '../data/tags';
 import { Tag} from '../interfaces/Tag'
 
@@ -19,16 +21,13 @@ export default function Home(props: {tags: Tag[]}) {
               <Card >
               <Link href={`/tags/${t.id}`} style={{textDecoration: 'none'}} ><CardHeader title={t.title} sx={{ bgcolor: 'primary.main', color: 'primary.contrastText'}} /></Link>
                 <CardMedia>
-                  {
-                    t.imgTitle && (
-                      <ColorOverlayImg
-                        img={`/images/card-dogs/${t.imgTitle.toLowerCase()}.jpg`}
-                        height='300px'
-                        width='100%'
-                      />             
-                    )
-                  }
-                  
+                  {t.imgTitle && (
+                    <ColorOverlayImg
+                      img={`/images/card-dogs/${t.imgTitle.toLowerCase()}.jpg`}
+                      height='300px'
+                      width='100%'
+                    />             
+                  )}                  
                 </CardMedia>
                 <CardContent style={{ height: '175px', overflow: 'auto', paddingBottom: '0px'}}>
                  {

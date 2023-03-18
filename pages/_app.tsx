@@ -2,11 +2,11 @@
 import { useState, useEffect } from 'react'
 
 import { CssBaseline, ThemeProvider,  AppBar, Toolbar, Typography, Box, IconButton } from '@mui/material'
+import { ConfirmProvider } from "material-ui-confirm";
 import SettingsIcon from '@mui/icons-material/Settings'
 import WebFrameworkIcon from '@mui/icons-material/Language';
 import FrontEndIcon from '@mui/icons-material/Code';
 import BackEndIcon from '@mui/icons-material/DataObject';
-import { ConfirmProvider } from "material-ui-confirm";
 
 import type { AppProps } from 'next/app'
 import Link from 'next/link'
@@ -15,12 +15,13 @@ import { SessionProvider } from "next-auth/react"
 import { SnackbarProvider} from 'notistack'
 
 import { appThemes,  palettes, createFxTheme } from '../theme/themes'
+import AuthNav from '../components/auth/AuthNav'
 import AppBarMenu from '../ui/AppBarMenu'
 import SettingsDialog from '../components/settings/SettingsDialog'
-import AuthDialog from '../components/auth/AuthDialog'
-import AuthNav from '../components/auth/AuthNav'
-import { tags } from '../data/tags';
 import RegisterDialog from '../components/auth/RegisterDialog';
+import ForgotPasswordDialog from '../components/auth/ForgotPasswordDialog';
+import AuthDialog from '../components/auth/AuthDialog'
+import { tags } from '../data/tags';
 
 export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
 
@@ -30,6 +31,7 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
   const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)  
   const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)  
   const [regDialogIsOpen, setRegDialogIsOpen] = useState(false)      
+  const [forgotDialogIsOpen, setForgotDialogIsOpen] = useState(false)     
   
   const [theme, setTheme] = useState(createFxTheme( appThemes[0]))
   
@@ -64,7 +66,11 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <ConfirmProvider>
-          <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} hideIconVariant={true}>
+          <SnackbarProvider 
+            maxSnack={3} 
+            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} 
+            hideIconVariant={true}
+          >
             <AppBar enableColorOnDark>
               <Toolbar>
                 <Link href={'/'} style={{textDecoration: 'none'}} >
@@ -77,9 +83,24 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
                   AquaDogs
                 </Typography>
                 </Link>
-                <AppBarMenu name="WEB FRAMEWORK" id="web-framework" pages={webFrameWorkPages} icon={<WebFrameworkIcon />} />
-                <AppBarMenu name="FRONTEND" id="fontend" pages={frontEndPages} icon={<FrontEndIcon />} />
-                <AppBarMenu name="BACKEND" id="backend" pages={backEndPages} icon={<BackEndIcon />} />
+                <AppBarMenu 
+                  name="WEB FRAMEWORK" 
+                  id="web-framework" 
+                  pages={webFrameWorkPages} 
+                  icon={<WebFrameworkIcon />} 
+                />
+                <AppBarMenu 
+                  name="FRONTEND" 
+                  id="fontend" 
+                  pages={frontEndPages} 
+                  icon={<FrontEndIcon />} 
+                />
+                <AppBarMenu 
+                  name="BACKEND" 
+                  id="backend" 
+                  pages={backEndPages} 
+                  icon={<BackEndIcon />} 
+                />
                 <Box sx={{ flexGrow: 1 }} />
                 <AuthNav  setAuthDialogIsOpen={setAuthDialogIsOpen} />
                 <IconButton
@@ -104,12 +125,17 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
             dialogIsOpen={authDialogIsOpen} 
             closeDialog={ () => setAuthDialogIsOpen(false)} 
             openRegDialog={ () => setRegDialogIsOpen(true)}
+            openForgotDialog={ () => setForgotDialogIsOpen(true)}
           /> 
           <RegisterDialog 
             dialogIsOpen={regDialogIsOpen} 
             closeDialog={ () => setRegDialogIsOpen(false)} 
             openAuthDialog={ () => setAuthDialogIsOpen(true)}
           /> 
+          <ForgotPasswordDialog 
+             dialogIsOpen={forgotDialogIsOpen} 
+             closeDialog={ () => setForgotDialogIsOpen(false)} 
+          />
           </SnackbarProvider>
         </ConfirmProvider>
       </ ThemeProvider>

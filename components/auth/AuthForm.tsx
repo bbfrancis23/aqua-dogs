@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { signIn } from 'next-auth/react'
 
@@ -16,6 +16,7 @@ import HttpStatusCodes from '../../enums/HttpStatusCodes'
 interface AuthFormProps{
   closeDialog: () => void;
   openRegisterDialog: () => void;
+  openForgotDialog: () => void;
 }
 
 export default function AuthForm(props: AuthFormProps) {
@@ -23,7 +24,7 @@ export default function AuthForm(props: AuthFormProps) {
   const [loginError, setLoginError] = useState<string>('')
   const { enqueueSnackbar } = useSnackbar();
 
-  const { closeDialog, openRegisterDialog } = props
+  const { closeDialog, openRegisterDialog, openForgotDialog } = props
 
 
   const formik = useFormik({
@@ -64,6 +65,10 @@ export default function AuthForm(props: AuthFormProps) {
 
   const startRegistration = () => { closeDialog(); openRegisterDialog(); }
 
+  const forgotPassword = () => { closeDialog(); openForgotDialog();  }
+
+
+
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -80,7 +85,8 @@ export default function AuthForm(props: AuthFormProps) {
               error={errors.password}
               touched={touched.password}
             />         
-            <Button onClick={() => startRegistration()}>Register New Member</Button>          
+            <Button onClick={() => startRegistration()}>Register New Member</Button>        
+            <Button onClick={() => forgotPassword()}>Forgot Password</Button>     
           </Stack>
         </DialogContent>
         <DialogActions disableSpacing={false}>
