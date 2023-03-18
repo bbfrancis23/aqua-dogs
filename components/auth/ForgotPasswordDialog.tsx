@@ -1,7 +1,7 @@
 
 import { FormikProvider, useFormik,Form } from 'formik';
 import React from 'react'
-import DraggableDialog from '../../ui/DraggableDialog'
+import DraggableDialog from '../DraggableDialog'
 
 import * as Yup from 'yup';
 import { Button, DialogContent, Stack } from '@mui/material';

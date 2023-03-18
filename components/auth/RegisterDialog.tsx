@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, DialogActions, DialogContent } from '@mui/material'
 import RegisterForm from './RegisterForm'
 
-import DraggableDialog from '../../ui/DraggableDialog'
+import DraggableDialog from '../DraggableDialog'
 
 interface RegDialogProps {
   dialogIsOpen: boolean;

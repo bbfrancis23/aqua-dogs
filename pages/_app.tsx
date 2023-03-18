@@ -4,9 +4,6 @@ import { useState, useEffect } from 'react'
 import { CssBaseline, ThemeProvider,  AppBar, Toolbar, Typography, Box, IconButton } from '@mui/material'
 import { ConfirmProvider } from "material-ui-confirm";
 import SettingsIcon from '@mui/icons-material/Settings'
-import WebFrameworkIcon from '@mui/icons-material/Language';
-import FrontEndIcon from '@mui/icons-material/Code';
-import BackEndIcon from '@mui/icons-material/DataObject';
 
 import type { AppProps } from 'next/app'
 import Link from 'next/link'
@@ -16,18 +13,15 @@ import { SnackbarProvider} from 'notistack'
 
 import { appThemes,  palettes, createFxTheme } from '../theme/themes'
 import AuthNav from '../components/auth/AuthNav'
-import AppBarMenu from '../ui/AppBarMenu'
+import AppBarMenu, { AppBarMenuProps } from '../components/AppBarMenu'
 import SettingsDialog from '../components/settings/SettingsDialog'
 import RegisterDialog from '../components/auth/RegisterDialog';
 import ForgotPasswordDialog from '../components/auth/ForgotPasswordDialog';
 import AuthDialog from '../components/auth/AuthDialog'
-import { tags } from '../data/tags';
+import { appMenuItems } from '../data/appMenuItems';
 
 export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
 
-  const webFrameWorkPages  = tags.slice(0, 3);
-  const frontEndPages  = tags.slice(3, 6);
-  const backEndPages = tags.slice(6,9)
   const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)  
   const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)  
   const [regDialogIsOpen, setRegDialogIsOpen] = useState(false)      
@@ -83,24 +77,16 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
                   AquaDogs
                 </Typography>
                 </Link>
-                <AppBarMenu 
-                  name="WEB FRAMEWORK" 
-                  id="web-framework" 
-                  pages={webFrameWorkPages} 
-                  icon={<WebFrameworkIcon />} 
-                />
-                <AppBarMenu 
-                  name="FRONTEND" 
-                  id="fontend" 
-                  pages={frontEndPages} 
-                  icon={<FrontEndIcon />} 
-                />
-                <AppBarMenu 
-                  name="BACKEND" 
-                  id="backend" 
-                  pages={backEndPages} 
-                  icon={<BackEndIcon />} 
-                />
+                { appMenuItems.map( (i: AppBarMenuProps) =>  (
+                    <AppBarMenu 
+                      key={i.id}
+                      title={i.title} 
+                      id={i.id} 
+                      items={i.items} 
+                      icon={i.icon} 
+                    />
+                ))}
+               
                 <Box sx={{ flexGrow: 1 }} />
                 <AuthNav  setAuthDialogIsOpen={setAuthDialogIsOpen} />
                 <IconButton
@@ -142,5 +128,3 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
     </SessionProvider>    
    )    
 }
-
-

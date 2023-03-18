@@ -5,16 +5,16 @@ import { Box, Button, IconButton, Menu, MenuItem, useTheme, Fade } from "@mui/ma
 import Link from 'next/link'
 import { Tag } from "../interfaces/Tag";
 
-interface AppBarMenuProps{
-  name: string;
+export interface AppBarMenuProps{
+  title: string;
   id: string;
-  pages: Tag[];
+  items: Tag[];
   icon: JSX.Element;
 }
 
 export default function AppBarMenu(props: AppBarMenuProps){  
 
-  const {name, id, pages,  icon} = props
+  const {title, id, items,  icon} = props
 
   const theme = useTheme()
 
@@ -36,7 +36,7 @@ export default function AppBarMenu(props: AppBarMenuProps){
         onClick={handleClick}
         sx={{ px: 3, color: 'primary.contrastText', display: { xs: 'none', sm: 'block'}}}
       >
-        {name}
+        {title}
       </Button>
       <IconButton
         id={`${id}-button`}
@@ -60,7 +60,7 @@ export default function AppBarMenu(props: AppBarMenuProps){
         TransitionComponent={Fade}
       >       
         {
-          pages.map( (p: Tag) => (
+          items.map( (p: Tag) => (
             <Link href={`/tags/${p.id}`} style={{textDecoration: 'none', color: theme.palette.text.primary}} key={p.id}  >
               <MenuItem onClick={handleClose}>{p.title}</MenuItem>
             </Link>

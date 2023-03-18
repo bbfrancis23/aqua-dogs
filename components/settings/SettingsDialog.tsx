@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Button,  DialogActions, DialogContent, useTheme, Typography, ToggleButtonGroup, ToggleButton, Stack } from '@mui/material'
 
-import DraggableDialog from '../../ui/DraggableDialog'
+import DraggableDialog from '../DraggableDialog'
 import SettingsPalettes from './SettingsPalettes'
 
 import {  VariantType, useSnackbar } from 'notistack';

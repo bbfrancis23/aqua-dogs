@@ -1,6 +1,6 @@
 
 import React from 'react'
-import DraggableDialog from '../../ui/DraggableDialog'
+import DraggableDialog from '../DraggableDialog'
 import AuthForm from './AuthForm'
 
 interface AuthDialogProps {

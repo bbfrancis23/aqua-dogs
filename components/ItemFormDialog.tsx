@@ -6,7 +6,7 @@ import { useSession} from "next-auth/react";
 
 import ItemTitleInput from "./ItemTitleInput";
 import axios from "axios";
-import DraggableDialog from "../ui/DraggableDialog";
+import DraggableDialog from "./DraggableDialog";
 
 import { useSnackbar } from 'notistack';
 
