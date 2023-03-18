@@ -1,4 +1,4 @@
-import { tags } from './tags';
+import { tags } from './homePageTags';
 import AppBarMenu, { AppBarMenuProps } from '../components/AppBarMenu';
 
 

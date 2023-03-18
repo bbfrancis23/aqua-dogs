@@ -78,13 +78,13 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
                 </Typography>
                 </Link>
                 { appMenuItems.map( (i: AppBarMenuProps) =>  (
-                    <AppBarMenu 
-                      key={i.id}
-                      title={i.title} 
-                      id={i.id} 
-                      items={i.items} 
-                      icon={i.icon} 
-                    />
+                  <AppBarMenu 
+                    key={i.id}
+                    title={i.title} 
+                    id={i.id} 
+                    items={i.items} 
+                    icon={i.icon} 
+                  />
                 ))}
                
                 <Box sx={{ flexGrow: 1 }} />
