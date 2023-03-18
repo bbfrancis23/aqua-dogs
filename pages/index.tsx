@@ -1,5 +1,5 @@
 import { Grid, Card, CardHeader, CardMedia, CardContent } from "@mui/material";
-import {ColorOverlayImg} from "../components/ColorOverlayImg";
+import {ColorOverlayImg} from "../ui/ColorOverlayImg";
 
 import Link from 'next/link'
 
