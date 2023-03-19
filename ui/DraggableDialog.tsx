@@ -6,7 +6,7 @@ export interface DraggableDialogProps {
   dialogIsOpen: boolean;
   ariaLabel: string;
   title: string;
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element [];
   fullWidth?: boolean
 }
 
