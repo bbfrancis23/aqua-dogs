@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { useSnackbar } from 'notistack'
 import React, { useState } from 'react'
-import AuthSchema from '../schemas/AuthSchema'
+import AuthSchema from '../AuthFormSchema'
 
 import EmailTextField from '../fields/EmailTextField'
 import PasswordTextField from '../fields/PasswordTextField'

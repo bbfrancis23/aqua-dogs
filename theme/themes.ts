@@ -61,6 +61,7 @@ export const createFxTheme = (themeOptions: any) => {
   let theme = createTheme(themeOptions);
 
   const globalTheme = {
+    passwordMinLength: 6,
     components: {
       MuiDialog: {
         styleOverrides: { root: { backgroundColor: 'rgba(0, 0, 0, 0.0)' } },

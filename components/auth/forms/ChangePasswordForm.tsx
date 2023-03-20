@@ -5,10 +5,16 @@ import axios from "axios";
 import { FormikProvider, useFormik, Form } from "formik";
 import { useSession} from "next-auth/react";
 import { useState } from "react";
-import ChangePasswordSchema from "../schemas/ChangePasswordSchema";
 import PasswordTextField from "../fields/PasswordTextField";
 
 import { useSnackbar } from 'notistack';
+import * as Yup from 'yup';
+import { passwordSchema } from "../AuthFormSchema";
+
+const ChangePasswordSchema = Yup.object().shape({
+  oldPassword: passwordSchema,
+  newPassword: passwordSchema
+});
 
 export default function ChangePasswordForm(){
   const { enqueueSnackbar } = useSnackbar();
