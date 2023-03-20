@@ -9,8 +9,7 @@ import { Form, FormikProvider, useFormik } from 'formik'
 import { useSnackbar } from 'notistack';
 
 import AuthSchema from '../AuthFormSchema'
-import EmailTextField from '../fields/EmailTextField'
-import PasswordTextField from '../fields/PasswordTextField'
+import {EmailTextField, PasswordTextField} from '../AuthTextFields'
 import HttpStatusCodes from '../../../enums/HttpStatusCodes'
 
 interface AuthFormProps{

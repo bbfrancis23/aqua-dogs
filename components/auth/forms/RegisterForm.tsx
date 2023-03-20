@@ -6,8 +6,7 @@ import { useSnackbar } from 'notistack'
 import React, { useState } from 'react'
 import AuthSchema from '../AuthFormSchema'
 
-import EmailTextField from '../fields/EmailTextField'
-import PasswordTextField from '../fields/PasswordTextField'
+import {EmailTextField, PasswordTextField} from '../AuthTextFields'
 
 interface RegisterFormProps{
   closeDialog: () => void;

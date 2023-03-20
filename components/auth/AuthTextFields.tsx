@@ -1,9 +1,27 @@
-import React, { useState } from 'react'
-import { TextField, InputAdornment, IconButton } from '@mui/material'
+import { useState } from 'react'
+
+import { IconButton, InputAdornment, TextField } from '@mui/material'
+
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
-export default function PasswordTextField(props: any) {
+export function EmailTextField(props: any) {
+  const { getFieldProps, touched, error } = props
+
+  return (
+    <TextField
+      fullWidth
+      size="small"
+      type="email"
+      label="Email address"
+      {...getFieldProps('email')}
+      error={Boolean(touched && error)}
+      helperText={touched && error}
+    />
+  )
+}
+
+export function PasswordTextField(props: any) {
   const { getFieldProps, touched, error, } = props
 
   let {label, fieldId} = props
