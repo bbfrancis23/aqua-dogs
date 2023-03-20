@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { signIn } from 'next-auth/react'
 
@@ -24,7 +24,6 @@ export default function AuthForm(props: AuthFormProps) {
   const { enqueueSnackbar } = useSnackbar();
 
   const { closeDialog, openRegisterDialog, openForgotDialog } = props
-
 
   const formik = useFormik({
     initialValues: {
@@ -61,12 +60,8 @@ export default function AuthForm(props: AuthFormProps) {
   const { errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid } = formik
 
   const closeForm = () => { formik.resetForm(); closeDialog(); setLoginError('') }
-
   const startRegistration = () => { closeDialog(); openRegisterDialog(); }
-
   const forgotPassword = () => { closeDialog(); openForgotDialog();  }
-
-
 
   return (
     <FormikProvider value={formik}>

@@ -5,7 +5,7 @@ import DraggableDialog from '../../../ui/DraggableDialog'
 
 import * as Yup from 'yup';
 import { Button, DialogContent, Stack } from '@mui/material';
-import EmailTextField from '../AuthTextFields';
+import {EmailTextField} from '../AuthTextFields';
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 
