@@ -2,11 +2,6 @@ import React from 'react';
 import Draggable from 'react-draggable';
 import { Paper } from '@mui/material';
 
-
-export interface DraggablePaperProps {
-  labelId: string;
-}
-
 export default function DraggablePaper(props: any) {
   const { 'aria-labelledby': labelId } = props;
 

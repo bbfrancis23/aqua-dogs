@@ -4,7 +4,7 @@ import { useSession, signOut, getSession } from "next-auth/react"
 
 import { useSnackbar } from 'notistack';
 import Button from "@mui/material/Button";
-import ChangePasswordForm from "../../components/auth/ChangePasswordForm";
+import ChangePasswordForm from "../../components/auth/forms/ChangePasswordForm";
 import { useState } from "react";
 import NameForm from "../../components/members/NameForm";
 

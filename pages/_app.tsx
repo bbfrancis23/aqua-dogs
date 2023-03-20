@@ -15,9 +15,9 @@ import { appThemes,  palettes, createFxTheme } from '../theme/themes'
 import AuthNav from '../components/auth/AuthNav'
 import AppBarMenu, { AppBarMenuProps } from '../components/AppBarMenu'
 import SettingsDialog from '../components/settings/SettingsDialog'
-import RegisterDialog from '../components/auth/RegisterDialog';
-import ForgotPasswordDialog from '../components/auth/ForgotPasswordDialog';
-import AuthDialog from '../components/auth/AuthDialog'
+import RegisterDialog from '../components/auth/dialogs/RegisterDialog';
+import ForgotPasswordDialog from '../components/auth/dialogs/ForgotPasswordDialog';
+import AuthDialog from '../components/auth/dialogs/AuthDialog'
 import { appMenuItems } from '../data/appMenuItems';
 
 export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {

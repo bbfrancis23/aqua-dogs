@@ -5,8 +5,8 @@ import axios from "axios";
 import { FormikProvider, useFormik, Form } from "formik";
 import { useSession} from "next-auth/react";
 import { useState } from "react";
-import ChangePasswordSchema from "./ChangePasswordSchema";
-import PasswordTextField from "./PasswordTextField";
+import ChangePasswordSchema from "../schemas/ChangePasswordSchema";
+import PasswordTextField from "../fields/PasswordTextField";
 
 import { useSnackbar } from 'notistack';
 

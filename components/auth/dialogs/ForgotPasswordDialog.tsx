@@ -1,11 +1,11 @@
 
 import { FormikProvider, useFormik,Form } from 'formik';
 import React from 'react'
-import DraggableDialog from '../../ui/DraggableDialog'
+import DraggableDialog from '../../../ui/DraggableDialog'
 
 import * as Yup from 'yup';
 import { Button, DialogContent, Stack } from '@mui/material';
-import EmailTextField from './EmailTextField';
+import EmailTextField from '../fields/EmailTextField';
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 

@@ -1,7 +1,6 @@
 
-import React from 'react'
-import DraggableDialog from '../../ui/DraggableDialog'
-import AuthForm from './AuthForm'
+import DraggableDialog from '../../../ui/DraggableDialog'
+import AuthForm from '../forms/AuthForm'
 
 interface AuthDialogProps {
   dialogIsOpen: boolean;

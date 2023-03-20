@@ -8,10 +8,10 @@ import { LoadingButton } from '@mui/lab'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { useSnackbar } from 'notistack';
 
-import AuthSchema from './AuthSchema'
-import EmailTextField from './EmailTextField'
-import PasswordTextField from './PasswordTextField'
-import HttpStatusCodes from '../../enums/HttpStatusCodes'
+import AuthSchema from '../schemas/AuthSchema'
+import EmailTextField from '../fields/EmailTextField'
+import PasswordTextField from '../fields/PasswordTextField'
+import HttpStatusCodes from '../../../enums/HttpStatusCodes'
 
 interface AuthFormProps{
   closeDialog: () => void;

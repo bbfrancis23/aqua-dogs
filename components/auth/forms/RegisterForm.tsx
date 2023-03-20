@@ -4,10 +4,10 @@ import axios from 'axios'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { useSnackbar } from 'notistack'
 import React, { useState } from 'react'
-import AuthSchema from './AuthSchema'
+import AuthSchema from '../schemas/AuthSchema'
 
-import EmailTextField from './EmailTextField'
-import PasswordTextField from './PasswordTextField'
+import EmailTextField from '../fields/EmailTextField'
+import PasswordTextField from '../fields/PasswordTextField'
 
 interface RegisterFormProps{
   closeDialog: () => void;
