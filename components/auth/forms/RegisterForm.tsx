@@ -8,6 +8,8 @@ import AuthSchema from '../AuthFormSchema'
 
 import {EmailTextField, PasswordTextField} from '../AuthTextFields'
 
+import HttpStatusCodes from '../../../enums/HttpStatusCodes'
+
 interface RegisterFormProps{
   closeDialog: () => void;
   openAuthDialog: () => void;
@@ -20,8 +22,7 @@ export default function RegisterForm(props: RegisterFormProps) {
 
   const { enqueueSnackbar } = useSnackbar()
 
-  const successCode = 201
-
+  
 
   const formik = useFormik({
     initialValues: {
@@ -37,7 +38,7 @@ export default function RegisterForm(props: RegisterFormProps) {
         .then((res) => {
           
           formik.setSubmitting(false)
-          if (res.status === successCode){
+          if (res.status === HttpStatusCodes.CREATED){
             startAuth();
             enqueueSnackbar('You are now Registered Please Login', {variant: 'success'});
           } 

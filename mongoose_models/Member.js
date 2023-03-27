@@ -7,6 +7,8 @@ const memberSchema = new mongoose.Schema({
   phone: { type: String, required: false },
   emailAuth: { type: Boolean, required: false },
   phoneAuth: { type: Boolean, required: false },
+  authCode: { type: String, required: false },
+  authTime: { type: Date, required: false },
   roles: [{ type: mongoose.Types.ObjectId, required: false, ref: 'roles' }],
 });
 

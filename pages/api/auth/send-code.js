@@ -10,11 +10,10 @@ async function handler(req, res) {
       const email = req.body.email;
 
       if (!email || !email.includes('@')) {
+        await db.disconnect();
         res.status(422).json({ message: 'Invalid Input' });
         return;
       }
-
-      let existingMember;
 
       let existingUser;
       try {
@@ -26,12 +25,7 @@ async function handler(req, res) {
       }
 
       if (existingUser) {
-        // console.log('mail', process.env.MAIL);
-
         const password = process.env.MAIL;
-
-        console.log(password);
-
         const transporter = nodemailer.createTransport({
           host: 'smtp.zoho.com',
           secure: true,
@@ -42,11 +36,24 @@ async function handler(req, res) {
           },
         });
 
+        const code = Math.floor(100000 + Math.random() * 900000);
+        const authTime = new Date();
+
+        let result = undefined;
+        try {
+          result = await Member.updateOne(
+            { email: email },
+            { $set: { authTime: authTime, authCode: code } }
+          );
+        } catch (e) {
+          console.log(e);
+        }
+
         const mailOptions = {
           from: 'admin@brian-francis.net',
           to: email,
           subject: 'Reset Instructions',
-          text: 'That was easy!',
+          text: `Use this code to reset your password: ${code}`,
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
@@ -57,12 +64,18 @@ async function handler(req, res) {
           }
         });
 
+        await db.disconnect();
         res.status(200).json({
           message: 'Reset Email sent',
         });
         return;
+      } else {
+        await db.disconnect();
+        res.status(404).json({ message: 'User not found' });
+        return;
       }
     } else {
+      await db.disconnect();
       res.status(422).json({ message: 'Invalid Input' });
       return;
     }
