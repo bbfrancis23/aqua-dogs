@@ -19,16 +19,25 @@ export default NextAuth({
     async session({ session, token }) {
       if (token?._id) session.member._id = token._id;
 
-      console.log('session stuff', session.user?.email);
+      await db.connect();
+      console.log('trying to get seesion');
 
-      const member = await Member.findOne({
-        email: session.user.email,
-      }).populate({ path: 'roles', model: Role });
+      console.log('session', session);
 
-      const roles = member.roles.map((r) => r.title);
+      try {
+        const member = await Member.findOne({
+          email: session.user.email,
+        }).populate({ path: 'roles', model: Role });
 
-      session.user.roles = roles;
+        const roles = member.roles.map((r) => r.title);
 
+        session.user.roles = roles;
+      } catch (e) {
+        console.log('Here is the error:', e);
+      }
+
+      console.log('session:', session);
+      await db.disconnect();
       return session;
     },
   },
@@ -44,7 +53,7 @@ export default NextAuth({
 
         const roles = member.roles.map((r) => r.title);
 
-        console.log('roles', roles);
+        // console.log('roles', roles);
 
         await db.disconnect();
 
