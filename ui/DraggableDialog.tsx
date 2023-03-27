@@ -1,9 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Box, Dialog, DialogTitle } from '@mui/material'
 import DraggablePaper from './DraggablePaper'
 
-export default function DraggableDialog(props: any) {
+export interface DraggableDialogProps {
+  dialogIsOpen: boolean;
+  ariaLabel: string;
+  title: string;
+  children: JSX.Element | JSX.Element [];
+  fullWidth?: boolean
+}
+
+export default function DraggableDialog(props: DraggableDialogProps) {
   const { dialogIsOpen, ariaLabel, title, children, fullWidth } = props
 
   return (

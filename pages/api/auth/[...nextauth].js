@@ -19,6 +19,8 @@ export default NextAuth({
     async session({ session, token }) {
       if (token?._id) session.member._id = token._id;
 
+      console.log('session stuff', session.user?.email);
+
       const member = await Member.findOne({
         email: session.user.email,
       }).populate({ path: 'roles', model: Role });

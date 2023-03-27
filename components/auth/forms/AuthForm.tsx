@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { signIn } from 'next-auth/react'
 
@@ -8,14 +8,14 @@ import { LoadingButton } from '@mui/lab'
 import { Form, FormikProvider, useFormik } from 'formik'
 import { useSnackbar } from 'notistack';
 
-import AuthSchema from './AuthSchema'
-import EmailTextField from './EmailTextField'
-import PasswordTextField from './PasswordTextField'
-import HttpStatusCodes from '../../enums/HttpStatusCodes'
+import AuthSchema from '../AuthFormSchema'
+import {EmailTextField, PasswordTextField} from '../AuthTextFields'
+import HttpStatusCodes from '../../../enums/HttpStatusCodes'
 
 interface AuthFormProps{
   closeDialog: () => void;
   openRegisterDialog: () => void;
+  openForgotDialog: () => void;
 }
 
 export default function AuthForm(props: AuthFormProps) {
@@ -23,8 +23,7 @@ export default function AuthForm(props: AuthFormProps) {
   const [loginError, setLoginError] = useState<string>('')
   const { enqueueSnackbar } = useSnackbar();
 
-  const { closeDialog, openRegisterDialog } = props
-
+  const { closeDialog, openRegisterDialog, openForgotDialog } = props
 
   const formik = useFormik({
     initialValues: {
@@ -61,8 +60,8 @@ export default function AuthForm(props: AuthFormProps) {
   const { errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid } = formik
 
   const closeForm = () => { formik.resetForm(); closeDialog(); setLoginError('') }
-
   const startRegistration = () => { closeDialog(); openRegisterDialog(); }
+  const forgotPassword = () => { closeDialog(); openForgotDialog();  }
 
   return (
     <FormikProvider value={formik}>
@@ -80,7 +79,8 @@ export default function AuthForm(props: AuthFormProps) {
               error={errors.password}
               touched={touched.password}
             />         
-            <Button onClick={() => startRegistration()}>Register New Member</Button>          
+            <Button onClick={() => startRegistration()}>Register New Member</Button>        
+            <Button onClick={() => forgotPassword()}>Forgot Password</Button>     
           </Stack>
         </DialogContent>
         <DialogActions disableSpacing={false}>

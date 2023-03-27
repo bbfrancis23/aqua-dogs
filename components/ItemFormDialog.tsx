@@ -107,24 +107,27 @@ export default function ItemFormDialog(props: any){
       title={`${mode} ITEM`}
       fullWidth={true}
     >
-      { (loading || item?.sections?.length === 0) && ( <DialogContent>Loading ...</DialogContent>) }
-      {
-        (!loading && !session ) && 
-        ( <Typography sx={{m: 3}}>Permission Denied</Typography> )
-      }
-      {
-        (!loading && session && item?.sections?.length > 0) && (
-           <>
-             <DialogContent >
-              <Stack spacing={3}>
-                <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/>
-                <TagsMultiSelect  item={item} setItem={(item: any) => handleSetItem(item)} />         
-                <SectionsInupt item={item} setItem={(item: any) => handleSetItem(item)} />
-              </Stack>
-            </DialogContent>      
-           </>
-         )
-       }
+      <> 
+        { (loading || item?.sections?.length === 0) && ( <DialogContent>Loading ...</DialogContent>) }
+          {
+            (!loading && !session ) && 
+            ( <Typography sx={{m: 3}}>Permission Denied</Typography> )
+          }
+          {
+            (!loading && session && item?.sections?.length > 0) && (
+              <>
+                <DialogContent >
+                  <Stack spacing={3}>
+                    <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/>
+                    <TagsMultiSelect  item={item} setItem={(item: any) => handleSetItem(item)} />         
+                    <SectionsInupt item={item} setItem={(item: any) => handleSetItem(item)} />
+                  </Stack>
+                </DialogContent>      
+              </>
+            )
+          }
+      </>
+     
       <DialogActions>
         <Button onClick={handleCloseDialog} >CLOSE</Button>
       </DialogActions>
