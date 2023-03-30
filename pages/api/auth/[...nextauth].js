@@ -9,7 +9,7 @@ import bcryptjs from 'bcryptjs';
 
 export default NextAuth({
   session: {
-    strategy: 'jwt',
+    strategy: 'jwt', // comment
   },
   callbacks: {
     async jwt({ token, member }) {
