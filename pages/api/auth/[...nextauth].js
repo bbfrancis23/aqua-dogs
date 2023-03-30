@@ -3,7 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import Role from '../../../mongoose_models/Role';
 import Member from '../../../mongoose_models/Member';
 
-import db from '../../../utils/db';
+import db from '../../../mongo/db';
 
 import bcryptjs from 'bcryptjs';
 
@@ -19,6 +19,7 @@ export default NextAuth({
     async session({ session, token }) {
       if (token?._id) session.member._id = token._id;
 
+
       await db.connect();
       console.log('trying to get seesion');
 
@@ -31,10 +32,10 @@ export default NextAuth({
 
         const roles = member.roles.map((r) => r.title);
 
-        session.user.roles = roles;
-      } catch (e) {
-        console.log('Here is the error:', e);
-      }
+      session.user.id = token.sub;
+
+      session.user.roles = roles;
+
 
       console.log('session:', session);
       await db.disconnect();
@@ -66,6 +67,7 @@ export default NextAuth({
           if (result) {
             return {
               _id: member._id,
+              id: member._id,
               name: member.name ? member.name : undefined,
               email: member.email,
               image: 'f',

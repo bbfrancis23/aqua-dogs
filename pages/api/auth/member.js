@@ -1,6 +1,6 @@
 import { getSession } from 'next-auth/react';
 import Member from '../../../mongoose_models/Member';
-import db from '/utils/db';
+import db from '/mongo/db';
 
 async function handler(req, res) {
   if (req.method === 'PATCH') {

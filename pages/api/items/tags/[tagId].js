@@ -1,8 +1,8 @@
-import Item from '/mongoose_models/Item';
+import Item from '/mongo/schemas/Item';
 
 import Section from '/mongoose_models/Section';
 import Tag from '/mongoose_models/Tag';
-import db from '/utils/db';
+import db from '/mongo/db';
 
 import { ObjectId } from 'mongodb';
 import { groupItemsByTag } from '../../../../lib/controlers/item';

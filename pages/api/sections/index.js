@@ -2,9 +2,9 @@ import { getSession } from 'next-auth/react';
 
 import mongoose from 'mongoose';
 
-import db from '/utils/db';
+import db from '/mongo/db';
 import Section from '/mongoose_models/Section';
-import Item from '/mongoose_models/Item';
+import Item from '/mongo/schemas/Item';
 
 import Tag from '/mongoose_models/Tag';
 

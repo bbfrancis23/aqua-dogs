@@ -1,12 +1,12 @@
 import {  useMemo, useState} from "react"
 import { Button,Stack,  DialogContent,DialogActions, Typography,  } from "@mui/material"
-import TagsMultiSelect from "./TagsMultiSelect"
-import SectionsInupt from "./SectionsInput";
+import TagsMultiSelect from "../TagsMultiSelect"
+import SectionsInupt from "../SectionsInput";
 import { useSession} from "next-auth/react";
 
-import ItemTitleInput from "./ItemTitleInput";
+import ItemTitleInput from "../ItemTitleInput";
 import axios from "axios";
-import DraggableDialog from "../ui/DraggableDialog";
+import DraggableDialog from "../../ui/DraggableDialog";
 
 import { useSnackbar } from 'notistack';
 

@@ -1,16 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Box, IconButton, Toolbar, Typography } from '@mui/material';
+import { Box, IconButton, Toolbar } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridSelectionModel } from '@mui/x-data-grid'
 import { useConfirm } from "material-ui-confirm";
 import { useSnackbar } from 'notistack';
 
-import { useSession} from "next-auth/react";
+import axios, { HttpStatusCode } from 'axios';
 
-import { getItem, getItems } from '../../lib/controlers/item';
-
-import axios from 'axios';
+import { Item } from '../../interfaces/Item';
+import { getItems } from '../../mongo/controllers/item';
+import Permission from '../../ui/Permission';
+import PermissionCodes from '../../enums/PermissionCodes';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 300},
@@ -18,20 +19,24 @@ const columns = [
   { field: 'tags', headerName: 'Tags', width: 1000}
 ]
 
+export interface ItemsProps{ 
+  items: Item[],
+  errors: string[] 
+}
 
-export default function Items(props: any) {
+const Items = (props: ItemsProps) => {
 
-  let {items} = props
-
-  
-  
-  const { data: session, status } = useSession()
-
+  let {items, errors} = props  
 
   const confirm = useConfirm()
   const { enqueueSnackbar } = useSnackbar()
 
-  const [selectedRows, setSelectedRows] = useState([])
+  const [selectedRows, setSelectedRows] = useState<GridSelectionModel>([])
+
+  useEffect( 
+    () =>  errors.forEach( e => enqueueSnackbar(`Error: ${e}`, {variant: 'error'})), 
+    [errors, enqueueSnackbar]
+  )
   
   const itemsToRows = () => {
     return  items.map( (i:any) => {
@@ -43,86 +48,60 @@ export default function Items(props: any) {
     } )
   }
   
-  const [rows, setRows] = useState( itemsToRows())
-  
-  const isAlphaDog = () => {
-
-    const user: any = session?.user
-
-    if(user){
-      return user.roles.includes('AlphaDog')
-    }
-
-    return false
-  }
-  
+  const [rows, setRows] = useState( itemsToRows())   
 
   const handleDelete = async () => {
 
-    if(isAlphaDog()){
+    try{
       for (const selectedRow of selectedRows){
-
         await confirm({description: `delete ${selectedRow}`})
         .then( () => {
-          axios.delete(`/api/items/${selectedRow}`).then( r => {
-
-            
-
-            if(r.status === 200){
+          axios.delete(`/api/items/${selectedRow}`)
+          .then( (r) => {
+            if(r.status === HttpStatusCode.Ok){
               items = items.filter( (item:any) => item.id !== selectedRow)  
               setRows(itemsToRows())            
               enqueueSnackbar(`Deleted ${selectedRow}`, {variant: 'success'})               
-            }
+            }else{enqueueSnackbar(`Unknown Error`, {variant: 'error'}) }
           })
+          .catch((e) =>   enqueueSnackbar(`Error Deleting ${e}`, {variant: 'error'}) )
         })
-      }   
-    }    
+      } 
+    }catch(e){enqueueSnackbar(`Error Deleting ${e}`, {variant: 'error'}) }        
   }
 
-  const handleSelectionChange = (ids: any) =>     setSelectedRows(ids)
-  return (
+  const handleSelectionChange = (ids: GridSelectionModel) => setSelectedRows(ids)
   
+  return (
     <Box style={{ height: '100vh', width: '100%' }} sx={{ mt: 12}}>
-    <Toolbar>
-      { 
-        isAlphaDog() && (
-           <IconButton onClick={handleDelete}>          
-          <DeleteIcon />
-        </IconButton>
-        )
-       
-      }
-     
-    </Toolbar>
-    <DataGrid 
-      rows={rows}
-      columns={columns}
-      pageSize={100}
-      rowsPerPageOptions={[100]}
-      checkboxSelection
-      onSelectionModelChange={(ids) => handleSelectionChange(ids)}
-    />
-  </Box>
-  );
-
+      <Toolbar>       
+        <Permission roles={[PermissionCodes.SITEADMIN]}>
+          <IconButton onClick={handleDelete}><DeleteIcon /></IconButton>
+        </Permission>
+      </Toolbar>
+      <DataGrid 
+        rows={rows}
+        columns={columns}
+        pageSize={100}
+        rowsPerPageOptions={[100]}
+        checkboxSelection
+        onSelectionModelChange={(ids) => handleSelectionChange(ids)}
+      />
+    </Box>
+  )
 }
-export async function getStaticProps() {
-  let items;
-  try {   
+export default Items
+export const getStaticProps = async() => {  
 
-    const data = await getItems();
-    
-
-    items = data.items
-
-
-  } catch (err) {
-    console.log(err);
-  }
+  let items 
+  let errors = []
+  try { items = await getItems()} 
+  catch (e) { errors.push(e) }
 
   return {
     props: {
-      items: items,
+      items: items ? items : [],
+      errors
     },
-  };
+  }
 }

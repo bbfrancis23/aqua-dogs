@@ -101,7 +101,7 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
                 </IconButton>            
               </Toolbar>
             </AppBar>       
-          <Component {...pageProps} />
+          <Component {...pageProps} openAuthDialog={ () => setAuthDialogIsOpen(true)} />
           <SettingsDialog 
             updateFx={handleUpdateTheme} 
             dialogIsOpen={settingsDialogIsOpen} 
