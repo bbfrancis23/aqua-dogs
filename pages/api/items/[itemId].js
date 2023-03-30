@@ -1,5 +1,5 @@
-import db from '/utils/db';
-import Item from '/mongoose_models/Item';
+import db from '/mongo/db';
+import Item from '/mongo/schemas/Item';
 import Tag from '/mongoose_models/Tag';
 import Section from '/mongoose_models/Section';
 import { getSession } from 'next-auth/react';
@@ -33,9 +33,9 @@ export default async function handler(req, res) {
         if (req.method === 'PATCH' || req.method === 'DELETE') {
           const session = await getSession({ req: req });
 
-          const isAlphaDog = session?.user.roles.includes('AlphaDog');
+          const isSiteAdmin = session?.user.roles.includes('SiteAdmin');
 
-          if (isAlphaDog) {
+          if (isSiteAdmin) {
             if (req.method === 'PATCH') {
               const { title, tags } = req.body;
 

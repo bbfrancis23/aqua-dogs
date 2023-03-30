@@ -1,4 +1,4 @@
-import db from '/utils/db';
+import db from '/mongo/db';
 
 import Member from '../../../mongoose_models/Member';
 

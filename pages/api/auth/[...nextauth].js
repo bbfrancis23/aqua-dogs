@@ -3,7 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import Role from '../../../mongoose_models/Role';
 import Member from '../../../mongoose_models/Member';
 
-import db from '../../../utils/db';
+import db from '../../../mongo/db';
 
 import bcryptjs from 'bcryptjs';
 
@@ -19,13 +19,16 @@ export default NextAuth({
     async session({ session, token }) {
       if (token?._id) session.member._id = token._id;
 
-      console.log('session stuff', session.user?.email);
+      console.log('session stuff', session.user);
+      console.log(token);
 
       const member = await Member.findOne({
         email: session.user.email,
       }).populate({ path: 'roles', model: Role });
 
       const roles = member.roles.map((r) => r.title);
+
+      session.user.id = token.sub;
 
       session.user.roles = roles;
 
@@ -57,6 +60,7 @@ export default NextAuth({
           if (result) {
             return {
               _id: member._id,
+              id: member._id,
               name: member.name ? member.name : undefined,
               email: member.email,
               image: 'f',

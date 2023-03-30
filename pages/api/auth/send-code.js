@@ -1,5 +1,5 @@
 import Member from '../../../mongoose_models/Member';
-import db from '/utils/db';
+import db from '/mongo/db';
 var nodemailer = require('nodemailer');
 
 async function handler(req, res) {

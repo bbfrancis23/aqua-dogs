@@ -4,8 +4,8 @@ import SectionType from '/mongoose_models/SectionType';
 
 import Tag from '/mongoose_models/Tag';
 
-import Item from '/mongoose_models/Item';
-import db from '/utils/db';
+import Item from '/mongo/schemas/Item';
+import db from '/mongo/db';
 
 import mongoose from 'mongoose';
 

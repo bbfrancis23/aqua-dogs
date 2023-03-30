@@ -6,6 +6,8 @@ const itemSchema = new mongoose.Schema({
   sections: [
     { type: mongoose.Types.ObjectId, required: false, ref: 'sections' },
   ],
+  upvotes: [{ type: String, required: false }],
+  downvotes: [{ type: String, required: false }],
 });
 
 const Item = mongoose.models.items || mongoose.model('items', itemSchema);

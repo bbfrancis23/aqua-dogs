@@ -1,6 +1,6 @@
 import bcryptjs from 'bcryptjs';
 import Member from '../../../mongoose_models/Member';
-import db from '/utils/db';
+import db from '/mongo/db';
 
 async function handler(req, res) {
   if (req.method !== 'POST') {

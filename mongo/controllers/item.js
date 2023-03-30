@@ -6,10 +6,7 @@ import Section from '/mongoose_models/Section';
 import { getSession } from 'next-auth/react';
 import { ObjectId } from 'mongodb';
 
-export async function getItem(itemId) {
-  let status = 200;
-  let message = '';
-
+export const getItem = async (itemId) => {
   await db.connect();
 
   let item;
@@ -19,16 +16,10 @@ export async function getItem(itemId) {
       .populate({ path: 'tags', model: Tag })
       .populate({ path: 'sections', model: Section });
   } catch (e) {
-    message = `Error finding Item: ${e}`;
-    status = 500;
+    throw e;
   }
 
-  if (status === 200) {
-    if (!item) {
-      status === 404;
-      message = `Item: ${itemId} not found.`;
-    }
-  }
+  console.log('item', item);
 
   await db.disconnect();
 
@@ -40,22 +31,20 @@ export async function getItem(itemId) {
     item = undefined;
   }
 
-  return {
-    status: status,
-    message: message,
-    item: item,
-  };
-}
+  return item;
+};
 
-export async function getItems() {
-  let status = 200;
-  let message = '';
-
+export const getItems = async () => {
   await db.connect();
 
-  let items = await Item.find()
-    .populate({ path: 'tags', model: Tag })
-    .populate({ path: 'sections', model: Section });
+  let items;
+  try {
+    items = await Item.find()
+      .populate({ path: 'tags', model: Tag })
+      .populate({ path: 'sections', model: Section });
+  } catch (e) {
+    throw e;
+  }
 
   await db.disconnect();
 
@@ -66,53 +55,11 @@ export async function getItems() {
       return i;
     });
   } else {
-    status: 404;
-    message = 'Not';
     item = undefined;
   }
 
-  return {
-    status: status,
-    message: message,
-    items: items,
-  };
-}
-
-export async function groupItemsByTag(tagId) {
-  let status = 200;
-  let message = '';
-
-  await db.connect();
-
-  let items;
-
-  try {
-    items = await Item.find({ tags: new ObjectId(tagId.toString()) })
-      .populate({ path: 'tags', model: Tag })
-      .populate({ path: 'sections', model: Section });
-  } catch (e) {
-    message = `Error finding Item: ${e}`;
-    status = 500;
-  }
-
-  if (items) {
-    items = items.map((i) => {
-      i = i.toObject({ getters: true });
-      i = flattenItem(i);
-      return i;
-    });
-  } else {
-    status: 404;
-    message = 'Not';
-    item = undefined;
-  }
-
-  return {
-    status: status,
-    message: message,
-    items: items,
-  };
-}
+  return items;
+};
 
 export function flattenItem(item) {
   delete item._id;

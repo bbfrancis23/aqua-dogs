@@ -2,10 +2,10 @@ import { getSession } from 'next-auth/react';
 
 import mongoose from 'mongoose';
 
-import Item from '/mongoose_models/Item';
+import Item from '/mongo/schemas/Item';
 import Tag from '/mongoose_models/Tag';
 import Section from '/mongoose_models/Section';
-import db from '/utils/db';
+import db from '/mongo/db';
 import { getItems } from '../../../lib/controlers/item';
 
 export default async function handler(req, res) {
@@ -20,9 +20,9 @@ export default async function handler(req, res) {
     await db.connect();
 
     const session = await getSession({ req: req });
-    const isAlphaDog = session?.user.roles.includes('AlphaDog');
+    const isSiteAdmin = session?.user.roles.includes('SiteAdmin');
 
-    if (!isAlphaDog) {
+    if (!isSiteAdmin) {
       await db.disconnect();
       res.status(401).json({ message: 'Not Authenticated.' });
       return;
