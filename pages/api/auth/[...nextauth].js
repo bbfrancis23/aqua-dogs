@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import Role from '../../../mongoose_models/Role';
-import Member from '../../../mongoose_models/Member';
+import Role from '../../../mongo/schemas/Role';
+import Member from '../../../mongo/schemas/Member';
 
 import db from '../../../mongo/db';
 
