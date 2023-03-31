@@ -2,10 +2,7 @@ import {  Card,  CardHeader, Grid,  useTheme } from "@mui/material";
 
 import { getTags } from '../../lib/controlers/tags';
 
-import { getItem, getItems, groupItemsByTag } from '../../lib/controlers/item';
-import axios from "axios";
-
-import { ObjectId } from 'mongodb';
+import {  groupItemsByTag } from '../../lib/controlers/item';
 
 import Link from 'next/link'
 
@@ -70,20 +67,19 @@ export default function ItemsByTag(props: any){
     </Grid>
   )
 }
+
 export async function getStaticPaths(){
 
   
-  const result = await getTags();
-  
+  const result = await getTags();  
   const paths = result.tags.map( (t:any) => {
     return {params: {tagId: t.id}}
-  })
-
-  
+  })  
 
   return { paths, fallback: false}
  
 }
+
 export async function getStaticProps({params}: any){  
 
   const  tagId  = params.tagId;

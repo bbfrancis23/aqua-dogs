@@ -61,6 +61,8 @@ export const getItems = async () => {
   return items;
 };
 
+export const groupItemsByTag = (tagId) => {};
+
 export function flattenItem(item) {
   delete item._id;
   item.tags = item.tags.map((t) => {
