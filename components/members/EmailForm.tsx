@@ -23,8 +23,6 @@ export default function EmailForm(params: {email: string}){
     },
     validationSchema: EmailSchema,
     onSubmit: async (data) => {
-
-      console.log('trying to submit')
       axios.patch(
         '/api/auth/member',
         { email: data.email },

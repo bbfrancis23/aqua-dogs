@@ -33,8 +33,6 @@ export default function NameForm(params: {name: string}){
     },
     validationSchema: NameSchema,
     onSubmit: async (data) => {
-
-      console.log('trying to submit')
       axios.patch(
         '/api/auth/member',
         { memberName: data.memberName },

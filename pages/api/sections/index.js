@@ -3,10 +3,10 @@ import { getSession } from 'next-auth/react';
 import mongoose from 'mongoose';
 
 import db from '/mongo/db';
-import Section from '/mongoose_models/Section';
-import Item from '/mongo/schemas/Item';
+import Section from '/mongo/schemas/SectionSchema';
+import Item from '/mongo/schemas/ItemSchema';
 
-import Tag from '/mongoose_models/Tag';
+import Tag from '/mongo/schemas/TagSchema';
 
 async function hadnler(req, res) {
   if (req.method === 'POST') {

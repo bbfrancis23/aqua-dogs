@@ -9,7 +9,6 @@ import {EmailTextField} from '../AuthTextFields';
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 
-import HttpStatusCodes from '../../../enums/HttpStatusCodes'
 import VerifyCodeForm from '../forms/VerifyCodeForm';
 
 interface ForgotPasswordDialogProps {
@@ -45,7 +44,7 @@ export default function AuthDialog(props: ForgotPasswordDialogProps) {
           
           formik.setSubmitting(false)
           setServerError('')
-          if(res.status === HttpStatusCodes.OK){
+          if(res.status === axios.HttpStatusCode.Ok){
             setEmail(data.email)
             setShowVerificationCodeField(true)  
           }

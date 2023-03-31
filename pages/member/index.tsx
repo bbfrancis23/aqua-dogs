@@ -5,12 +5,12 @@ import { useSession, signOut, getSession } from "next-auth/react"
 
 import { useSnackbar } from 'notistack';
 
-import { getMember } from '../../lib/controlers/member';
+import { getMember } from '../../mongo/controllers/memberControllers';
 
 import ChangePasswordForm from "../../components/auth/forms/ChangePasswordForm";
 import NameForm from "../../components/members/NameForm";
 import EmailForm from "../../components/members/EmailForm";
-import { Member } from "../../interfaces/Member";
+import { Member } from "../../interfaces/MemberInterface";
 
 
 export interface MemberProps{

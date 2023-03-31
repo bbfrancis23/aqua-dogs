@@ -1,7 +1,7 @@
 import { getSession } from 'next-auth/react';
 
 import bcryptjs from 'bcryptjs';
-import Member from '../../../mongoose_models/Member';
+import Member from '../../../mongo/schemas/MemberSchema';
 import db from '/mongo/db';
 
 async function handler(req, res) {

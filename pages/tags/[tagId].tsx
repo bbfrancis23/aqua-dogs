@@ -1,8 +1,8 @@
 import {  Card,  CardHeader, Grid,  useTheme } from "@mui/material";
 
-import { getTags } from '../../lib/controlers/tags';
+import { getTags } from '../../mongo/controllers/tagsControllers';
 
-import {  groupItemsByTag } from '../../lib/controlers/item';
+import {  groupItemsByTag } from '../../mongo/controllers/itemOld';
 
 import Link from 'next/link'
 
@@ -85,6 +85,30 @@ export async function getStaticProps({params}: any){
   const  tagId  = params.tagId;
   const result = await groupItemsByTag(tagId);
 
+
+  result.items = result.items.map( (i:any) => {
+
+   
+    i.tags = i.tags.map( (t:any) => {
+
+      if(t.tagetype){
+          
+        t.tagetype = 'grot'  
+          // return 'grot';
+        
+      }
+     
+      return t
+
+    })
+    
+
+      
+
+     
+  
+    return i
+  })
 
   return {props: {items: result.items ? result.items : []}} 
 

@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import Role from '../../../mongoose_models/Role';
-import Member from '../../../mongoose_models/Member';
+import Role from '../../../mongo/schemas/RoleSchema';
+import Member from '../../../mongo/schemas/MemberSchema';
 
 import db from '../../../mongo/db';
 
@@ -20,9 +20,6 @@ export default NextAuth({
       if (token?._id) session.member._id = token._id;
 
       await db.connect();
-      console.log('trying to get seesion');
-
-      console.log('session', session);
 
       const member = await Member.findOne({
         email: session.user.email,
@@ -33,8 +30,6 @@ export default NextAuth({
       session.user.id = token.sub;
 
       session.user.roles = roles;
-
-      console.log('session:', session);
       await db.disconnect();
       return session;
     },
@@ -50,8 +45,6 @@ export default NextAuth({
         });
 
         const roles = member.roles.map((r) => r.title);
-
-        // console.log('roles', roles);
 
         await db.disconnect();
 

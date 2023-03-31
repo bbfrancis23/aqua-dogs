@@ -4,7 +4,7 @@ import {ColorOverlayImg} from "../ui/ColorOverlayImg";
 import Link from 'next/link'
 
 import { tags } from '../data/homePageTags';
-import { Tag} from '../interfaces/Tag'
+import { Tag} from '../interfaces/TagInterface'
 
 export default function Home() {  
 

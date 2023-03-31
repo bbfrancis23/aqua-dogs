@@ -13,7 +13,6 @@ interface VerifyCodeFormProps{
 import * as Yup from 'yup';
 import { PasswordTextField } from "../AuthTextFields"
 import { useState } from "react";
-import HttpStatusCodes from "../../../enums/HttpStatusCodes";
 import { useSnackbar } from "notistack";
 
 const CodeSchema = Yup.object().shape({
@@ -46,7 +45,7 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
           
         formik.setSubmitting(false)
         formik.resetForm()
-        if (res.status === HttpStatusCodes.OK){
+        if (res.status === axios.HttpStatusCode.Ok){
           setServerError('')
           closeDialog()
           

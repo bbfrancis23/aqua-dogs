@@ -16,8 +16,6 @@ export default function SectionsInupt(props: any){
  
 
   const handleAddSection = () => {
-
-    console.log('adding section')
     
     try {
       axios.post('/api/sections', 

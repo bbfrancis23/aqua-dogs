@@ -1,4 +1,4 @@
-import Member from '../../../mongoose_models/Member';
+import Member from '../../../mongo/schemas/MemberSchema';
 import db from '/mongo/db';
 var nodemailer = require('nodemailer');
 

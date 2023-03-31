@@ -2,8 +2,8 @@ import { getSession } from 'next-auth/react';
 
 import db from '../../../mongo/db';
 
-import Tag from '../../../mongoose_models/Tag';
-import { getTags } from '../../../lib/controlers/tags';
+import Tag from '../../../mongo/schemas/TagSchema';
+import { getTags } from '../../../mongo/controllers/tagsControllers';
 
 async function handler(req, res) {
   if (req.method === 'GET') {
