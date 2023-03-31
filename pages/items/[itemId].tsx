@@ -40,17 +40,17 @@ const ItemDetails = (props: ItemDetailsProps) => {
   
   useEffect( 
     () =>  errors.forEach( e => enqueueSnackbar(`Error: ${e}`, {variant: 'error'})), 
-    [errors, enqueueSnackbar]
+    [ errors, enqueueSnackbar ]
   )
 
-  const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState<boolean>(false)
-  const [itemDialogMode, setItemDialogMode] = useState('ADD')
+  const [ addItemDialogIsOpen, setAddItemDialogIsOpen ] = useState<boolean>(false)
+  const [ itemDialogMode, setItemDialogMode ] = useState('ADD')
 
 
-  const [item, setItem] = useState(props.item)
+  const [ item, setItem ] = useState(props.item)
   const { data: session, status } = useSession()
 
-  useMemo(() => { setItem(item) },[item])
+  useMemo(() => { setItem(item) }, [ item ])
 
   function handleSetItem(item: any){ 
     setItem(item)
@@ -73,7 +73,7 @@ const ItemDetails = (props: ItemDetailsProps) => {
         <CardHeader 
           title={<EditableItemTitle item={item} setItem={ (item:any) => handleSetItem(item) } />} 
           action={
-            <Permission roles={[PermissionCodes.SITEADMIN]}>
+            <Permission roles={[ PermissionCodes.SITEADMIN ]}>
                <IconButton onClick={() =>  handleOpenDialog('EDIT') }><EditIcon /></IconButton>
               <IconButton onClick={() => handleOpenDialog('ADD') }><AddIcon /></IconButton>
             </Permission>           
@@ -85,7 +85,7 @@ const ItemDetails = (props: ItemDetailsProps) => {
              
 
                 item.tags.map( (t:any) => {
-                  return ( <Chip label={t.title} variant="outlined" key={t.id} /> )
+                  return ( <Chip label={t.title} variant='outlined' key={t.id} /> )
                 })
             )}
            </Stack>
@@ -99,7 +99,7 @@ const ItemDetails = (props: ItemDetailsProps) => {
                     <CodeEditor
                     key={s.id}
                     value={s.content}
-                    language="jsx"
+                    language='jsx'
                     readOnly
                     padding={15}
                     style={{

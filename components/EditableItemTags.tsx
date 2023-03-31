@@ -24,7 +24,7 @@ export default function EditableItemTitle( props: any){
         ? 
           <Stack direction={'row'} sx={{ width: '100%'}}>
             <TagsMultiSelect  item={item} setItem={(item: any) => setItem(item)} /> 
-            <IconButton onClick={handleDoneEditing}><DoneIcon color="success" /></IconButton>
+            <IconButton onClick={handleDoneEditing}><DoneIcon color='success' /></IconButton>
           </Stack>       
         : 
           <></>

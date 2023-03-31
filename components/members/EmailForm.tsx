@@ -55,11 +55,11 @@ export default function EmailForm(params: {email: string}){
       )}     
       { displayTextField &&  (
         <FormikProvider value={formik}>    
-          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+          <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
 
            <TextField
-              size="small"
-              autoComplete="email"
+              size='small'
+              autoComplete='email'
               label={'Email'} 
               {...getFieldProps('email')}
               error={Boolean(touched && errors.email)}
@@ -67,10 +67,10 @@ export default function EmailForm(params: {email: string}){
               sx={{ mr: 1}}
             />      
             <LoadingButton
-              color="success"
+              color='success'
               disabled={!(isValid && formik.dirty)}
-              type="submit"
-              variant="contained"
+              type='submit'
+              variant='contained'
               loading={isSubmitting}
               sx={{ mr: 1}}
             >

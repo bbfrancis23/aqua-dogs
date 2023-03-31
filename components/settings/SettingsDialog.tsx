@@ -25,23 +25,23 @@ export default function SettingsDialog(props: any) {
   return (
     <DraggableDialog
       dialogIsOpen={dialogIsOpen}
-      ariaLabel="app-settings"
-      title="SETTINGS"
+      ariaLabel='app-settings'
+      title='SETTINGS'
     >
       <DialogContent sx={{width: '100%'}}>
       <Stack direction={'column'} spacing={3}>      
         <Box>
           <Typography>Mode:</Typography>   
-          <ToggleButtonGroup  size="small" value={theme.palette.mode}>
-            <ToggleButton value="light"> <LightModeIcon onClick={() => handleUpdateMode('Light')} /></ToggleButton>
-            <ToggleButton value="dark"> <DarkModeIcon onClick={() => handleUpdateMode('Dark')} /></ToggleButton>
+          <ToggleButtonGroup  size='small' value={theme.palette.mode}>
+            <ToggleButton value='light'> <LightModeIcon onClick={() => handleUpdateMode('Light')} /></ToggleButton>
+            <ToggleButton value='dark'> <DarkModeIcon onClick={() => handleUpdateMode('Dark')} /></ToggleButton>
           </ToggleButtonGroup>
         </Box>       
         <SettingsPalettes updateTheme={updateFx} width='400px' />
       </Stack>
       </DialogContent>
       <DialogActions disableSpacing={false}>
-        <Button onClick={closeDialog} color={'info'} variant="outlined"> Done </Button>
+        <Button onClick={closeDialog} color={'info'} variant='outlined'> Done </Button>
       </DialogActions>
     </DraggableDialog>
   )

@@ -23,7 +23,7 @@ const ChangePasswordFormSchema = Yup.object().shape({
 export default function ChangePasswordForm(){
   const { enqueueSnackbar } = useSnackbar();
 
-  const [formError, setFormError] = useState<string>('')
+  const [ formError, setFormError ] = useState<string>('')
 
   const { data: session, status } = useSession()
 
@@ -59,28 +59,28 @@ export default function ChangePasswordForm(){
         <>
           <Typography sx={{display: 'block'}}>Change Password:</Typography>
           <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+            <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
               <Stack spacing={3} sx={{ width: '300px'}}>
-                { formError && (<Alert severity="error">{formError}</Alert>) }
+                { formError && (<Alert severity='error'>{formError}</Alert>) }
                 <PasswordTextField
-                  label="Old Password"
-                  fieldId="oldPassword"
+                  label='Old Password'
+                  fieldId='oldPassword'
                   getFieldProps={getFieldProps}
                   error={errors.oldPassword}
                   touched={touched.oldPassword}
                 />      
                   <PasswordTextField
-                  label="New Password"
-                  fieldId="newPassword"
+                  label='New Password'
+                  fieldId='newPassword'
                   getFieldProps={getFieldProps}
                   error={errors.newPassword}
                   touched={touched.newPassword}
                 />   
                 <LoadingButton
-                  color="success"
+                  color='success'
                   disabled={!(isValid && formik.dirty)}
-                  type="submit"
-                  variant="contained"
+                  type='submit'
+                  variant='contained'
                   loading={isSubmitting}
                 >
                   Change Password

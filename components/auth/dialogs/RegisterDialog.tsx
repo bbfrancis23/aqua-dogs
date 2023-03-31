@@ -16,8 +16,8 @@ export default function RegisterDialog(props: RegDialogProps) {
   return (
     <DraggableDialog
       dialogIsOpen={dialogIsOpen}
-      ariaLabel="register-dialog"
-      title="REGISTER"
+      ariaLabel='register-dialog'
+      title='REGISTER'
     > 
       <RegisterForm closeDialog={closeDialog} openAuthDialog={openAuthDialog}/>    
     </DraggableDialog>

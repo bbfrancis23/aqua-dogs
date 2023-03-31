@@ -33,7 +33,7 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
       newPassword: ''
     },
     validationSchema: CodeSchema,
-    onSubmit: async(data) =>{
+    onSubmit: async(data) => {
 
       formik.setSubmitting(false)
 
@@ -66,30 +66,30 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
   return (
     <Box>
       <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
           <Stack spacing={3} sx={{ width: '100%' }}>   
-          { serverError && (<Alert severity="error">{serverError}</Alert>) }
+          { serverError && (<Alert severity='error'>{serverError}</Alert>) }
             <TextField
               fullWidth
-              size="small"
-              type="text"
-              label="Verification Code"
+              size='small'
+              type='text'
+              label='Verification Code'
               {...getFieldProps('code')}
               error={Boolean(touched && errors.code)}
               helperText={touched && errors.code}
             />
              <PasswordTextField
-                label="New Password"
-                fieldId="newPassword"
+                label='New Password'
+                fieldId='newPassword'
                 getFieldProps={getFieldProps}
                 error={errors.newPassword}
                 touched={touched.newPassword}
               />   
              <LoadingButton
-              color="success"
+              color='success'
               disabled={!(isValid && formik.dirty)}
-              type="submit"
-              variant="contained"
+              type='submit'
+              variant='contained'
               loading={isSubmitting}
             >
               Change Password

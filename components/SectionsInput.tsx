@@ -1,5 +1,5 @@
 import { Button, IconButton, FormControl, InputLabel, Select, TextField, Dialog, DialogTitle, OutlinedInput, Stack, Box, InputAdornment,
-  DialogContent,DialogActions, SelectChangeEvent, MenuItem, useTheme, ButtonGroup } from "@mui/material"
+  DialogContent, DialogActions, SelectChangeEvent, MenuItem, useTheme, ButtonGroup } from "@mui/material"
 import { useEffect, useState } from "react"
 
 import AddIcon from '@mui/icons-material/Add';
@@ -11,7 +11,7 @@ export default function SectionsInupt(props: any){
   const {item, setItem} = props
 
  
-  const [ newSectionOrderNumber, setNewSectionOrderNumber] = useState( 2)
+  const [ newSectionOrderNumber, setNewSectionOrderNumber ] = useState( 2)
 
  
 

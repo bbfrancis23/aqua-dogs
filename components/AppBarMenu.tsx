@@ -31,7 +31,7 @@ export default function AppBarMenu(props: AppBarMenuProps){
     <Box key={id}>
       <Button
         aria-controls={open ? `${id}-menu` : undefined}
-        aria-haspopup="true"
+        aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         sx={{ px: 3, color: 'primary.contrastText', display: { xs: 'none', sm: 'block'}}}
@@ -41,7 +41,7 @@ export default function AppBarMenu(props: AppBarMenuProps){
       <IconButton
         id={`${id}-button`}
         aria-controls={open ? `${id}-menu` : undefined}
-        aria-haspopup="true"
+        aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         sx={{ display: {xs:'block', sm: 'none'} }}
@@ -50,7 +50,7 @@ export default function AppBarMenu(props: AppBarMenuProps){
       </IconButton>
 
       <Menu
-        id="fade-menu"
+        id='fade-menu'
         MenuListProps={{
           'aria-labelledby': 'fade-button',
         }}

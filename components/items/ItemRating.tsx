@@ -123,10 +123,10 @@ export default function ItemRating(props: ItemRatingProps){
   return (
     <> 
       Rating: {rating}
-      <IconButton aria-label="thumb up" onClick={handleUpVote}>
+      <IconButton aria-label='thumb up' onClick={handleUpVote}>
         {  memberVote === 1 ? <ThumbUpFilledIcon /> : <ThumbUpIcon /> }
       </IconButton>
-      <IconButton aria-label="thumb down" onClick={handleDownVote}>
+      <IconButton aria-label='thumb down' onClick={handleDownVote}>
         { memberVote === -1 ? <ThumbDownFilledIcon /> : <ThumbDownIcon />   }
       </IconButton>
     </>

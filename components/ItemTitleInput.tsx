@@ -6,7 +6,7 @@ import { TextField } from "@mui/material"
 export default function ItemTitleInput(props: any){
 
   const {item, setItem} = props
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [ isSubmitting, setIsSubmitting ] = useState(false)
 
   const handleTitleBlur = async (e:any) => {   
 
@@ -34,7 +34,7 @@ export default function ItemTitleInput(props: any){
 
   return (
     <>
-      <TextField fullWidth size={'small'} defaultValue={item?.title} id="itemTitle" label='Title' sx={{ mt: 1}}  onBlur={(e:any) => handleTitleBlur(e)} disabled={isSubmitting} />                         
+      <TextField fullWidth size={'small'} defaultValue={item?.title} id='itemTitle' label='Title' sx={{ mt: 1}}  onBlur={(e:any) => handleTitleBlur(e)} disabled={isSubmitting} />                         
     </>
   )
 }

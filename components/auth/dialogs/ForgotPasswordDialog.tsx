@@ -1,5 +1,5 @@
 
-import { FormikProvider, useFormik,Form } from 'formik';
+import { FormikProvider, useFormik, Form } from 'formik';
 import React, { useState } from 'react'
 import DraggableDialog from '../../../ui/DraggableDialog'
 
@@ -63,24 +63,24 @@ export default function AuthDialog(props: ForgotPasswordDialogProps) {
   return (
     <DraggableDialog
       dialogIsOpen={dialogIsOpen}
-      ariaLabel="forgot-dialog"
-      title="FORGOT PASSWORD DIALOG"
+      ariaLabel='forgot-dialog'
+      title='FORGOT PASSWORD DIALOG'
     >      
       <DialogContent> 
         <FormikProvider value={formik}>
-          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>  
+          <Form autoComplete='off' noValidate onSubmit={handleSubmit}>  
             <Stack spacing={3} sx={{ width: '100%', mt: 3 }}> 
-            { serverError && (<Alert severity="error">{serverError}</Alert>) }    
+            { serverError && (<Alert severity='error'>{serverError}</Alert>) }    
               <EmailTextField
                 getFieldProps={getFieldProps}
                 error={errors.email}
                 touched={touched.email}
               />
               <LoadingButton
-                color="success"
+                color='success'
                 disabled={!(isValid && formik.dirty)}
-                type="submit"
-                variant="contained"
+                type='submit'
+                variant='contained'
                 loading={isSubmitting}
               >
                 { displayVeificationCodeField ? 'RESEND ' : 'SEND '}VERIFICATION CODE

@@ -20,7 +20,7 @@ export default function AuthNav(params: AuthNavProps){
       { session && (
         <Link href={'/member'} >
           <IconButton
-            color="secondary"             
+            color='secondary'             
             sx={{ color: 'primary.contrastText'}}
             disabled={loading}
           >
@@ -30,7 +30,7 @@ export default function AuthNav(params: AuthNavProps){
       )}
       { !session && (
         <IconButton
-          color="secondary"             
+          color='secondary'             
           onClick={() => setAuthDialogIsOpen(true)}            
           disabled={loading}
           sx={{ color: 'primary.contrastText'}}

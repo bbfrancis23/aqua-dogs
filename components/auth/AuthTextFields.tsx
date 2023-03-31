@@ -11,9 +11,9 @@ export function EmailTextField(props: any) {
   return (
     <TextField
       fullWidth
-      size="small"
-      type="email"
-      label="Email address"
+      size='small'
+      type='email'
+      label='Email address'
       {...getFieldProps('email')}
       error={Boolean(touched && error)}
       helperText={touched && error}
@@ -34,15 +34,15 @@ export function PasswordTextField(props: any) {
   return (
     <TextField
       fullWidth
-      size="small"
-      autoComplete="current-password"
+      size='small'
+      autoComplete='current-password'
       type={showPassword ? 'text' : 'password'}
       label={label}
       {...getFieldProps(fieldId)}
       InputProps={{
         endAdornment: (
-          <InputAdornment position="end">
-            <IconButton edge="end" onClick={() => setShowPassword((prev) => !prev)}>
+          <InputAdornment position='end'>
+            <IconButton edge='end' onClick={() => setShowPassword((prev) => !prev)}>
               { showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
             </IconButton>
           </InputAdornment>

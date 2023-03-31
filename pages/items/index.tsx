@@ -31,11 +31,11 @@ const Items = (props: ItemsProps) => {
   const confirm = useConfirm()
   const { enqueueSnackbar } = useSnackbar()
 
-  const [selectedRows, setSelectedRows] = useState<GridSelectionModel>([])
+  const [ selectedRows, setSelectedRows ] = useState<GridSelectionModel>([])
 
   useEffect( 
     () =>  errors.forEach( e => enqueueSnackbar(`Error: ${e}`, {variant: 'error'})), 
-    [errors, enqueueSnackbar]
+    [ errors, enqueueSnackbar ]
   )
   
   const itemsToRows = () => {
@@ -48,7 +48,7 @@ const Items = (props: ItemsProps) => {
     } )
   }
   
-  const [rows, setRows] = useState( itemsToRows())   
+  const [ rows, setRows ] = useState( itemsToRows())   
 
   const handleDelete = async () => {
 
@@ -75,7 +75,7 @@ const Items = (props: ItemsProps) => {
   return (
     <Box style={{ height: '100vh', width: '100%' }} sx={{ mt: 12}}>
       <Toolbar>       
-        <Permission roles={[PermissionCodes.SITEADMIN]}>
+        <Permission roles={[ PermissionCodes.SITEADMIN ]}>
           <IconButton onClick={handleDelete}><DeleteIcon /></IconButton>
         </Permission>
       </Toolbar>
@@ -83,7 +83,7 @@ const Items = (props: ItemsProps) => {
         rows={rows}
         columns={columns}
         pageSize={100}
-        rowsPerPageOptions={[100]}
+        rowsPerPageOptions={[ 100 ]}
         checkboxSelection
         onSelectionModelChange={(ids) => handleSelectionChange(ids)}
       />

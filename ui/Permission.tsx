@@ -15,7 +15,7 @@ const Permission = (props: any) => {
   
   const loading = status === "loading"  
 
-  const [hasPermission, setHasPermission] = useState<boolean>(false)
+  const [ hasPermission, setHasPermission ] = useState<boolean>(false)
 
   useEffect( () => {
     setHasPermission(false)
@@ -31,7 +31,7 @@ const Permission = (props: any) => {
       });
     }
 
-  }, [session, roles])
+  }, [ session, roles ])
 
   return ( <>{ (hasPermission && !loading ) && children}</> )
 }

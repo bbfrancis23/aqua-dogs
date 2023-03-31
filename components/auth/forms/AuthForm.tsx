@@ -20,7 +20,7 @@ interface AuthFormProps{
 
 export default function AuthForm(props: AuthFormProps) {
 
-  const [loginError, setLoginError] = useState<string>('')
+  const [ loginError, setLoginError ] = useState<string>('')
   const { enqueueSnackbar } = useSnackbar();
 
   const { closeDialog, openRegisterDialog, openForgotDialog } = props
@@ -65,10 +65,10 @@ export default function AuthForm(props: AuthFormProps) {
 
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
         <DialogContent>
           <Stack spacing={3} sx={{ width: '100%' }}>               
-            { loginError && (<Alert severity="error">{loginError}</Alert>) }
+            { loginError && (<Alert severity='error'>{loginError}</Alert>) }
             <EmailTextField
               getFieldProps={getFieldProps}
               error={errors.email}
@@ -86,10 +86,10 @@ export default function AuthForm(props: AuthFormProps) {
         <DialogActions disableSpacing={false}>
           <Button onClick={closeForm}> CANCEL </Button>
           <LoadingButton
-            color="success"
+            color='success'
             disabled={!(isValid && formik.dirty)}
-            type="submit"
-            variant="contained"
+            type='submit'
+            variant='contained'
             loading={isSubmitting}
           >
             Login

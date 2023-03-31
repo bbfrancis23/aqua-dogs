@@ -55,10 +55,10 @@ export default function RegisterForm(props: RegisterFormProps) {
 
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
         <DialogContent>
           <Stack spacing={3} sx={{ width: '100%' }}>
-            { serverError && (<Alert severity="error">{serverError}</Alert>) }
+            { serverError && (<Alert severity='error'>{serverError}</Alert>) }
             <EmailTextField
               getFieldProps={getFieldProps}
               error={errors.email}
@@ -75,10 +75,10 @@ export default function RegisterForm(props: RegisterFormProps) {
         <DialogActions disableSpacing={false}>
           <Button onClick={closeForm}> CANCEL </Button>
           <LoadingButton
-            color="success"
+            color='success'
             disabled={!(isValid && formik.dirty)}
-            type="submit"
-            variant="contained"
+            type='submit'
+            variant='contained'
             loading={isSubmitting}
           >
             Register

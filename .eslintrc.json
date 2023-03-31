@@ -1,7 +1,6 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "array-bracket-spacing": ["error", "always"],
     "arrow-spacing": ["error"],
     "comma-spacing": ["error", { "before": false, "after": true }],
     "computed-property-spacing": ["error", "never"],

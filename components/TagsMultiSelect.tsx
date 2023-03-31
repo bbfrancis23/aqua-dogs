@@ -20,9 +20,9 @@ export default function TagsMultiSelect(props: any) {
 
   const {item, setItem} = props
   const theme = useTheme();
-  const [ tags, setTags] =  useState([])
-  const [itemTags, setItemTags] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [ tags, setTags ] =  useState([])
+  const [ itemTags, setItemTags ] = useState([]);
+  const [ isSubmitting, setIsSubmitting ] = useState(false)
 
   const { data, error } = useSWR("/api/tags", fetcher);  
 
@@ -35,7 +35,7 @@ export default function TagsMultiSelect(props: any) {
     if(item.tags){
       setItemTags( item.tags?.map( (t:any) => t.id))
     }
-  }, [data, item]);
+  }, [ data, item ]);
 
 
   const handleTagsChange = (event: any) => {
@@ -76,16 +76,16 @@ export default function TagsMultiSelect(props: any) {
   return (  
    
       <FormControl sx={{width: '100%'}}>
-        <InputLabel id="tags-label">Tags</InputLabel>
+        <InputLabel id='tags-label'>Tags</InputLabel>
         <Select
-          labelId="tags-label"
-          id="tags"
+          labelId='tags-label'
+          id='tags'
           multiple
           fullWidth
           disabled={isSubmitting || !item?.id}
           value={itemTags}
           onChange={handleTagsChange}
-          input={<OutlinedInput label="Name" />}
+          input={<OutlinedInput label='Name' />}
           onClose={handleTagsCloseMenu}
         >
           {
@@ -93,7 +93,7 @@ export default function TagsMultiSelect(props: any) {
             <MenuItem 
               key={tag.id} 
               value={tag.id}
-              style={getStyles(tag.title,itemTags, theme)}
+              style={getStyles(tag.title, itemTags, theme)}
             >
               {tag.title}
             </MenuItem>

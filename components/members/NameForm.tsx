@@ -59,11 +59,11 @@ export default function NameForm(params: {name: string}){
       {(name && !displayTextField)&& <Box  onClick={() => setDisplayTextField(!displayTextField)} sx={{ cursor: 'pointer' }}><Typography  sx={{ display: 'inline', mr: 1, cursor: 'pointer' }}>Member Name:</Typography> {name}</ Box> }     
       { displayTextField &&  (
         <FormikProvider value={formik}>    
-          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+          <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
 
             <TextField
-              size="small"
-              autoComplete="name"
+              size='small'
+              autoComplete='name'
               label={'Member Name'} 
               {...getFieldProps('memberName')}
               error={Boolean(touched && errors.memberName)}
@@ -71,10 +71,10 @@ export default function NameForm(params: {name: string}){
               sx={{ mr: 1}}
             />      
             <LoadingButton
-              color="success"
+              color='success'
               disabled={!(isValid && formik.dirty)}
-              type="submit"
-              variant="contained"
+              type='submit'
+              variant='contained'
               loading={isSubmitting}
               sx={{ mr: 1}}
             >

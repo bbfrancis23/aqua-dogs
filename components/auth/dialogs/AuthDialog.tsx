@@ -15,8 +15,8 @@ export default function AuthDialog(props: AuthDialogProps) {
   return (
     <DraggableDialog
       dialogIsOpen={dialogIsOpen}
-      ariaLabel="auth-dialog"
-      title="LOGIN"
+      ariaLabel='auth-dialog'
+      title='LOGIN'
     >
       <AuthForm
         openRegisterDialog={openRegDialog}

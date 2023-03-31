@@ -1,5 +1,5 @@
 import {  useMemo, useState} from "react"
-import { Button,Stack,  DialogContent,DialogActions, Typography,  } from "@mui/material"
+import { Button, Stack,  DialogContent, DialogActions, Typography,  } from "@mui/material"
 import TagsMultiSelect from "../TagsMultiSelect"
 import SectionsInupt from "../SectionsInput";
 import { useSession} from "next-auth/react";
@@ -32,7 +32,7 @@ export default function ItemFormDialog(props: any){
       //updateEditedItem(editItem)
     }
 
-  },[editItem,mode])
+  }, [editItem, mode])
 
 
  
@@ -78,7 +78,7 @@ export default function ItemFormDialog(props: any){
     }else{
     }
    
-  },[dialogIsOpen, session, item, mode, enqueueSnackbar])  
+  }, [dialogIsOpen, session, item, mode, enqueueSnackbar])  
 
 
  
@@ -103,7 +103,7 @@ export default function ItemFormDialog(props: any){
 
     <DraggableDialog 
       dialogIsOpen={dialogIsOpen}
-      ariaLabel="add-item"
+      ariaLabel='add-item'
       title={`${mode} ITEM`}
       fullWidth={true}
     >

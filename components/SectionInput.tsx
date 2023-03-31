@@ -25,9 +25,9 @@ export default function SelectionInput(props: any){
 
   const {item, setItem, index, section} = props
 
-  const [ sectionType, setSectionType] = useState('text')
+  const [ sectionType, setSectionType ] = useState('text')
   
-  const [code, setCode] = useState('')
+  const [ code, setCode ] = useState('')
 
   useMemo(() => {
 
@@ -39,7 +39,7 @@ export default function SelectionInput(props: any){
     }
     
     
-  }, [section])  
+  }, [ section ])  
 
   const handleDeleteSection = (id: string) => {
     try {
@@ -95,7 +95,7 @@ export default function SelectionInput(props: any){
       {
         sectionType == 'text' && (
 
-          <FormControl  variant="outlined" >
+          <FormControl  variant='outlined' >
             <InputLabel htmlFor={section.id}>{`Section ${index + 1}`}</InputLabel>
             <OutlinedInput
               id={section.id}
@@ -104,8 +104,8 @@ export default function SelectionInput(props: any){
               defaultValue={item.sections[index]?.content}
               onBlur={(e) => handleSectionBlur(e, section)}
               endAdornment={ (index === 0 && item.sections.length === 1)  ? '' :
-                <InputAdornment position="end">
-                  <IconButton edge="end" onClick={() => handleDeleteSection(section.id)}>
+                <InputAdornment position='end'>
+                  <IconButton edge='end' onClick={() => handleDeleteSection(section.id)}>
                       <DeleteIcon />
                   </IconButton>
                 </InputAdornment>
@@ -120,8 +120,8 @@ export default function SelectionInput(props: any){
           <>
              <CodeEditor
               value={code}
-              language="jsx"
-              placeholder=""
+              language='jsx'
+              placeholder=''
               onChange={(evn) => setCode(evn.target.value)}
               onBlur={(e) => handleSectionBlur(e, section)}
               padding={15}
