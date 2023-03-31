@@ -22,17 +22,17 @@ import { appMenuItems } from '../data/appMenuItems';
 
 export default function App({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
 
-  const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)  
-  const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)  
-  const [regDialogIsOpen, setRegDialogIsOpen] = useState(false)      
-  const [forgotDialogIsOpen, setForgotDialogIsOpen] = useState(false)     
+  const [ settingsDialogIsOpen, setSettingsDialogIsOpen ] = useState(false)   
+  const [ authDialogIsOpen, setAuthDialogIsOpen ] = useState(false)  
+  const [ regDialogIsOpen, setRegDialogIsOpen ] = useState(false)      
+  const [ forgotDialogIsOpen, setForgotDialogIsOpen ] = useState(false)      
   
-  const [theme, setTheme] = useState(createFxTheme( appThemes[0]))
-  
-  const handleUpdateTheme = (options: any) => {
+  const [ theme, setTheme ] = useState(createFxTheme( appThemes[0]))
+   
+  const handleUpdateTheme = (options: any) => { 
     let fxOptions:any = {}
 
-    if (options) {
+    if (options) { 
       fxOptions = localStorage.getItem('themeOptions')
 
       fxOptions = fxOptions ? (JSON.parse(fxOptions)) : {
@@ -53,7 +53,7 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
     const themeOptions = localStorage.getItem('themeOptions')
     
     setTheme(createFxTheme(themeOptions ? (JSON.parse(themeOptions)) : appThemes[0]))
-  },[]) 
+  }, []) 
 
   return(
     <SessionProvider session={session} refetchInterval={5 * 60}>
@@ -63,15 +63,15 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
           <SnackbarProvider 
             maxSnack={3} 
             anchorOrigin={{horizontal: 'right', vertical: 'bottom'}} 
-            hideIconVariant={true}
+            hideIconVariant={ true }
           >
             <AppBar enableColorOnDark>
               <Toolbar>
                 <Link href={'/'} style={{textDecoration: 'none'}} >
                 <Typography
-                  variant="h6"
+                  variant='h6'
                   noWrap
-                  component="div"
+                  component='div'
                   sx={{ color: 'primary.contrastText'}}
                 >                
                   AquaDogs
@@ -90,12 +90,12 @@ export default function App({ Component, pageProps: { session, ...pageProps }, }
                 <Box sx={{ flexGrow: 1 }} />
                 <AuthNav  setAuthDialogIsOpen={setAuthDialogIsOpen} />
                 <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="app settings"
-                  aria-haspopup="true"
-                  color="inherit"
-                  onClick={() => setSettingsDialogIsOpen(true)}
+                  size='large'
+                  edge='end'
+                  aria-label='app settings'
+                  aria-haspopup='true'
+                  color='inherit'
+                  onClick={ () => setSettingsDialogIsOpen(true)}
                 >
                   <SettingsIcon />
                 </IconButton>            
