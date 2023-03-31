@@ -1,6 +1,6 @@
 import Item from '/mongo/schemas/ItemSchema';
 
-import Section from '/mogno/schemas/SectionSchema';
+import Section from '/mongo/schemas/SectionSchema';
 import Tag from '/mongo/schemas/TagSchema';
 import db from '/mongo/db';
 
