@@ -15,7 +15,7 @@ import "@uiw/react-textarea-code-editor/dist.css";
 import ItemFormDialog from "../../components/items/ItemFormDialog";
 import EditableItemTitle from "../../components/EditableItemTitle";
 import ItemRating from "../../components/items/ItemRating";
-import { Item } from '../../interfaces/Item';
+import { Item } from '../../interfaces/ItemInterface';
 import { getItems, getItem } from '../../mongo/controllers/item';
 import Permission from "../../ui/Permission";
 import PermissionCodes from "../../enums/PermissionCodes";

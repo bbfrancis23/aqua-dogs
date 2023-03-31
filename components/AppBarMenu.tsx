@@ -3,7 +3,7 @@ import { useState, MouseEvent } from "react";
 import { Box, Button, IconButton, Menu, MenuItem, useTheme, Fade } from "@mui/material"
 
 import Link from 'next/link'
-import { Tag } from "../interfaces/Tag";
+import { Tag } from "../interfaces/TagInterface";
 
 export interface AppBarMenuProps{
   title: string;

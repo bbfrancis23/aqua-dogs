@@ -8,7 +8,7 @@ import { useSnackbar } from 'notistack';
 
 import axios, { HttpStatusCode } from 'axios';
 
-import { Item } from '../../interfaces/Item';
+import { Item } from '../../interfaces/ItemInterface';
 import { getItems } from '../../mongo/controllers/item';
 import Permission from '../../ui/Permission';
 import PermissionCodes from '../../enums/PermissionCodes';

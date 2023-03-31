@@ -10,7 +10,7 @@ import { getMember } from '../../lib/controlers/member';
 import ChangePasswordForm from "../../components/auth/forms/ChangePasswordForm";
 import NameForm from "../../components/members/NameForm";
 import EmailForm from "../../components/members/EmailForm";
-import { Member } from "../../interfaces/Member";
+import { Member } from "../../interfaces/MemberInterface";
 
 
 export interface MemberProps{

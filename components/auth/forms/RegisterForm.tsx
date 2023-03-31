@@ -8,8 +8,6 @@ import AuthSchema from '../AuthFormSchema'
 
 import {EmailTextField, PasswordTextField} from '../AuthTextFields'
 
-import HttpStatusCodes from '../../../enums/HttpStatusCodes'
-
 interface RegisterFormProps{
   closeDialog: () => void;
   openAuthDialog: () => void;
@@ -38,7 +36,7 @@ export default function RegisterForm(props: RegisterFormProps) {
         .then((res) => {
           
           formik.setSubmitting(false)
-          if (res.status === HttpStatusCodes.CREATED){
+          if (res.status === axios.HttpStatusCode.Created){
             startAuth();
             enqueueSnackbar('You are now Registered Please Login', {variant: 'success'});
           } 

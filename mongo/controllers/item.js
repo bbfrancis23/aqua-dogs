@@ -1,6 +1,6 @@
 import db from '/mongo/db';
 
-import Item from '../../mongo/schemas/Item';
+import Item from '../schemas/ItemSchema';
 import Tag from '/mongoose_models/Tag';
 import Section from '/mongoose_models/Section';
 import { getSession } from 'next-auth/react';

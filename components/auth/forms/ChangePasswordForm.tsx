@@ -13,7 +13,6 @@ import { useSnackbar } from 'notistack';
 import * as Yup from 'yup';
 
 import { passwordSchema } from "../AuthFormSchema";
-import HttpStatusCodes from '../../../enums/HttpStatusCodes'
 
 
 const ChangePasswordFormSchema = Yup.object().shape({
@@ -41,7 +40,7 @@ export default function ChangePasswordForm(){
       )
       .then((res) => {        
         formik.setSubmitting(false)
-        if (res.status === HttpStatusCodes.OK ){
+        if (res.status === axios.HttpStatusCode.Ok ){
           enqueueSnackbar('Password changed', {variant: 'success'});
         } 
       })

@@ -5,7 +5,7 @@ import ThumbUpFilledIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDownOutlined';
 import ThumbDownFilledIcon from '@mui/icons-material/ThumbDown';
 
-import { Item } from "../../interfaces/Item";
+import { Item } from "../../interfaces/ItemInterface";
 import { IconButton } from "@mui/material";
 import axios from "axios";
 

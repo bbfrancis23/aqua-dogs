@@ -10,7 +10,7 @@ import { useSnackbar } from 'notistack';
 
 import AuthSchema from '../AuthFormSchema'
 import {EmailTextField, PasswordTextField} from '../AuthTextFields'
-import HttpStatusCodes from '../../../enums/HttpStatusCodes'
+import axios from 'axios'
 
 interface AuthFormProps{
   closeDialog: () => void;
@@ -39,12 +39,12 @@ export default function AuthForm(props: AuthFormProps) {
         password: data.password,
       });
 
-      if(result?.status && result.status === HttpStatusCodes.OK && result.ok === true && result.error === null ){
+      if(result?.status && result.status === axios.HttpStatusCode.Ok && result.ok === true && result.error === null ){
         closeDialog();
         enqueueSnackbar('You are now Logged In', {variant: 'success'});
 
       }else{
-        if(result?.status === HttpStatusCodes.UNAUTHORIZED){
+        if(result?.status === axios.HttpStatusCode.Unauthorized){
           if(result.error){
             setLoginError(result?.error)
           }else{

@@ -1,5 +1,5 @@
-import { Section } from './Section';
-import { Tag } from './Tag';
+import { Section } from './SectionInterface';
+import { Tag } from './TagInterface';
 
 export interface Item {
   title: string;
