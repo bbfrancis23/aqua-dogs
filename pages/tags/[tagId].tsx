@@ -1,8 +1,8 @@
 import {  Card,  CardHeader, Grid,  useTheme } from "@mui/material";
 
-import { getTags } from '../../lib/controlers/tags';
+import { getTags } from '../../mongo/controllers/tagsControllers';
 
-import {  groupItemsByTag } from '../../lib/controlers/item';
+import {  groupItemsByTag } from '../../mongo/controllers/itemOld';
 
 import Link from 'next/link'
 

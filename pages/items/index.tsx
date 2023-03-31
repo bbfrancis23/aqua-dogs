@@ -9,7 +9,7 @@ import { useSnackbar } from 'notistack';
 import axios, { HttpStatusCode } from 'axios';
 
 import { Item } from '../../interfaces/ItemInterface';
-import { getItems } from '../../mongo/controllers/item';
+import { getItems } from '../../mongo/controllers/itemControllers';
 import Permission from '../../ui/Permission';
 import PermissionCodes from '../../enums/PermissionCodes';
 

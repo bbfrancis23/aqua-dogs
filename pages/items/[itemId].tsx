@@ -16,7 +16,7 @@ import ItemFormDialog from "../../components/items/ItemFormDialog";
 import EditableItemTitle from "../../components/EditableItemTitle";
 import ItemRating from "../../components/items/ItemRating";
 import { Item } from '../../interfaces/ItemInterface';
-import { getItems, getItem } from '../../mongo/controllers/item';
+import { getItems, getItem } from '../../mongo/controllers/itemControllers';
 import Permission from "../../ui/Permission";
 import PermissionCodes from "../../enums/PermissionCodes";
 
