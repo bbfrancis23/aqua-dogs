@@ -1,10 +1,10 @@
 import { getSession } from 'next-auth/react';
-import Section from '/mongoose_models/Section';
-import SectionType from '/mongoose_models/SectionType';
+import Section from '/mongo/schemas/SectionSchema';
+import SectionType from '/mongo/schemas/SectionTypeSchema';
 
-import Tag from '/mongoose_models/Tag';
+import Tag from '/mongo/schemas/TagSchema';
 
-import Item from '/mongo/schemas/Item';
+import Item from '/mongo/schemas/ItemSchema';
 import db from '/mongo/db';
 
 import mongoose from 'mongoose';

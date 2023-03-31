@@ -2,11 +2,11 @@ import { getSession } from 'next-auth/react';
 
 import mongoose from 'mongoose';
 
-import Item from '/mongo/schemas/Item';
-import Tag from '/mongoose_models/Tag';
-import Section from '/mongoose_models/Section';
+import Item from '/mongo/schemas/ItemSchema';
+import Tag from '/mongo/schemas/TagSchema';
+import Section from '/mongo/schemas/SectionSchema';
 import db from '/mongo/db';
-import { getItems } from '../../../lib/controlers/item';
+import { getItems } from '/mongo/controllers/itemOld';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {

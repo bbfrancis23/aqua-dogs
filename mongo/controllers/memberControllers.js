@@ -1,6 +1,6 @@
 import db from '/mongo/db';
-import Member from '/mongoose_models/Member';
-import Role from '/mongoose_models/Role';
+import Member from '/mongo/schemas/MemberSchema';
+import Role from '/mongo/schemas/RoleSchema';
 import { ObjectId } from 'mongodb';
 
 export async function getMember(email) {

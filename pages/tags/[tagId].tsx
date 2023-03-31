@@ -86,6 +86,30 @@ export async function getStaticProps({params}: any){
   const result = await groupItemsByTag(tagId);
 
 
+  result.items = result.items.map( (i:any) => {
+
+   
+    i.tags = i.tags.map( (t:any) => {
+
+      if(t.tagetype){
+          
+        t.tagetype = 'grot'  
+          // return 'grot';
+        
+      }
+     
+      return t
+
+    })
+    
+
+      
+
+     
+  
+    return i
+  })
+
   return {props: {items: result.items ? result.items : []}} 
 
 }

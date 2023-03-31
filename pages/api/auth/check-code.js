@@ -1,6 +1,6 @@
 import db from '/mongo/db';
 
-import Member from '../../../mongoose_models/Member';
+import Member from '../../../mongo/schemas/MemberSchema';
 
 import bcryptjs from 'bcryptjs';
 

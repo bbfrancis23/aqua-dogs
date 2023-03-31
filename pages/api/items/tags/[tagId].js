@@ -1,17 +1,16 @@
-import Item from '/mongo/schemas/Item';
+import Item from '/mongo/schemas/ItemSchema';
 
-import Section from '/mongoose_models/Section';
-import Tag from '/mongoose_models/Tag';
+import Section from '/mogno/schemas/SectionSchema';
+import Tag from '/mongo/schemas/TagSchema';
 import db from '/mongo/db';
 
 import { ObjectId } from 'mongodb';
-import { groupItemsByTag } from '../../../../lib/controlers/item';
+import { groupItemsByTag } from '../../../../mongo/controllers/itemOld';
 
 export default async function handler(req, res) {
   const { tagId } = req.query;
 
   if (req.method === 'GET') {
-    console.log('trying to get');
     const result = await groupItemsByTag(tagId);
 
     res.status(result.status).json({

@@ -1,12 +1,12 @@
 import db from '/mongo/db';
-import Item from '/mongo/schemas/Item';
-import Tag from '/mongoose_models/Tag';
-import Section from '/mongoose_models/Section';
+import Item from '/mongo/schemas/ItemSchema';
+import Tag from '/mongo/schemas/TagSchema';
+import Section from '/mongo/schemas/SectionSchema';
 import { getSession } from 'next-auth/react';
 import { ObjectId } from 'mongodb';
 
 import mongoose from 'mongoose';
-import { getItem } from '../../../lib/controlers/item';
+import { getItem } from '../../../mongo/controllers/itemOld';
 
 export default async function handler(req, res) {
   const { itemId } = req.query;

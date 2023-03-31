@@ -20,9 +20,6 @@ export default NextAuth({
       if (token?._id) session.member._id = token._id;
 
       await db.connect();
-      console.log('trying to get seesion');
-
-      console.log('session', session);
 
       const member = await Member.findOne({
         email: session.user.email,
@@ -33,8 +30,6 @@ export default NextAuth({
       session.user.id = token.sub;
 
       session.user.roles = roles;
-
-      console.log('session:', session);
       await db.disconnect();
       return session;
     },
@@ -50,8 +45,6 @@ export default NextAuth({
         });
 
         const roles = member.roles.map((r) => r.title);
-
-        // console.log('roles', roles);
 
         await db.disconnect();
 
