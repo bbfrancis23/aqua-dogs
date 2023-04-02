@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose"
 
 const tagTypeSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-});
+  title: {type: String, required: true},
+})
 
 const TagType =
-  mongoose.models.tagtypes || mongoose.model('tagtypes', tagTypeSchema);
+  mongoose.models.tagtypes || mongoose.model("tagtypes", tagTypeSchema)
 
-export default TagType;
+export default TagType

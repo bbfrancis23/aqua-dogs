@@ -3,8 +3,27 @@ import db from '/mongo/db';
 import Item from '../schemas/ItemSchema';
 import Tag from '/mongo/schemas/TagSchema';
 import Section from '/mongo/schemas/SectionSchema';
-import { getSession } from 'next-auth/react';
-import { ObjectId } from 'mongodb';
+
+export function flattenItem(item) {
+  delete item._id;
+  item.tags = item.tags.map((t) => {
+    delete t._id;
+    if (t.tagtype) {
+      t.tagtype = t.tagtype.toString();
+    }
+    return t;
+  });
+
+  item.sections = item.sections.map((s) => {
+    delete s._id;
+
+    s.sectiontype = s.sectiontype.toString();
+    s.itemid = s.itemid.toString();
+    return s;
+  });
+
+  return item;
+}
 
 export const getItem = async (itemId) => {
   await db.connect();
@@ -59,25 +78,4 @@ export const getItems = async () => {
   return items;
 };
 
-export const groupItemsByTag = (tagId) => {};
-
-export function flattenItem(item) {
-  delete item._id;
-  item.tags = item.tags.map((t) => {
-    delete t._id;
-    if (t.tagtype) {
-      t.tagtype = t.tagtype.toString();
-    }
-    return t;
-  });
-
-  item.sections = item.sections.map((s) => {
-    delete s._id;
-
-    s.sectiontype = s.sectiontype.toString();
-    s.itemid = s.itemid.toString();
-    return s;
-  });
-
-  return item;
-}
+// export const groupItemsByTag = (tagId) => {};

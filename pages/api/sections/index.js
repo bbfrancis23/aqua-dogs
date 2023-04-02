@@ -1,83 +1,83 @@
-import { getSession } from 'next-auth/react';
+import {getSession} from "next-auth/react"
 
-import mongoose from 'mongoose';
+import mongoose from "mongoose"
 
-import db from '/mongo/db';
-import Section from '/mongo/schemas/SectionSchema';
-import Item from '/mongo/schemas/ItemSchema';
+import db from "/mongo/db"
+import Section from "/mongo/schemas/SectionSchema"
+import Item from "/mongo/schemas/ItemSchema"
 
-import Tag from '/mongo/schemas/TagSchema';
+import Tag from "/mongo/schemas/TagSchema"
 
 async function hadnler(req, res) {
-  if (req.method === 'POST') {
-    const session = await getSession({ req: req });
+  if (req.method === "POST") {
+    const session = await getSession({req: req})
 
     if (!session) {
-      res.status(401).json({ message: 'Not Authenticated' });
+      res.status(401).json({message: "Not Authenticated"})
     }
 
-    const { sectiontype, content, itemId, order } = req.body;
+    const {sectiontype, content, itemId, order} = req.body
 
-    await db.connect();
+    await db.connect()
 
     const newSection = new Section({
       sectiontype,
       content,
       order,
       itemid: itemId,
-    });
+    })
 
-    let item;
+    let item
 
     try {
-      item = await Item.findById(itemId);
+      item = await Item.findById(itemId)
     } catch (error) {
-      await db.disconnect();
-      res.status(500).json({ message: 'Error finding Item' });
-      return;
+      await db.disconnect()
+      res.status(500).json({message: "Error finding Item"})
+      return
     }
 
     if (!item) {
-      await db.disconnect();
-      res.status(404).json({ message: 'Invalid item. item does not exist' });
-      return;
+      await db.disconnect()
+      res.status(404).json({message: "Invalid item. item does not exist"})
+      return
     }
 
     try {
-      const session = await mongoose.startSession();
-      session.startTransaction();
-      await newSection.save({ session });
-      await item.sections.push(newSection);
-      await item.save({ session });
+      const session = await mongoose.startSession()
+      session.startTransaction()
+      await newSection.save({session})
+      await item.sections.push(newSection)
+      await item.save({session})
 
-      await session.commitTransaction();
+      await session.commitTransaction()
     } catch (error) {
-      await db.disconnect();
-      res.status(500).json({ message: `Server Error:  ${error}` });
-      return;
+      await db.disconnect()
+      res.status(500).json({message: `Server Error:  ${error}`})
+      return
     }
 
     try {
       item = await Item.findById(itemId)
-        .populate({ path: 'tags', model: Tag })
-        .populate({ path: 'sections', model: Section });
+        .populate({path: "tags", model: Tag})
+        .populate({path: "sections", model: Section})
     } catch (error) {
-      await db.disconnect();
-      res.status(500).json({ message: `Error finding Item: ${error}` });
-      return;
+      await db.disconnect()
+      res.status(500).json({message: `Error finding Item: ${error}`})
+      return
     }
 
     if (!item) {
-      await db.disconnect();
-      res.status(404).json({ message: 'Invalid item. item does not exist' });
-      return;
+      await db.disconnect()
+      res.status(404).json({message: "Invalid item. item does not exist"})
+      return
     }
 
-    await db.disconnect();
+    await db.disconnect()
     res.status(201).json({
-      message: 'Section Created',
-      item: item.toObject({ getters: true }),
-    });
+      message: "Section Created",
+      item: item.toObject({getters: true}),
+    })
   }
 }
-export default hadnler;
+export default hadnler

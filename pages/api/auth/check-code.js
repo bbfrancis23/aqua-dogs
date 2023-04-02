@@ -38,7 +38,7 @@ async function handler(req, res) {
 
       const hashedPassword = await bcryptjs.hash(req.body.newPassword, 12);
 
-      const result = await Member.updateOne(
+      await Member.updateOne(
         { email: req.body.email },
         { $set: { password: hashedPassword } }
       );

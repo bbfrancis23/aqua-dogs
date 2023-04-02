@@ -22,8 +22,6 @@ async function handler(req, res) {
 
   await db.connect();
 
-  let existingMember;
-
   let existingUser;
   try {
     existingUser = await Member.findOne({ email });

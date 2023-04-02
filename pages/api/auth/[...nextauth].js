@@ -44,7 +44,7 @@ export default NextAuth({
           email: credentials.email,
         });
 
-        const roles = member.roles.map((r) => r.title);
+        // const roles = member.roles.map((r) => r.title)
 
         await db.disconnect();
 

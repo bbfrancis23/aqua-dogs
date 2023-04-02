@@ -25,7 +25,6 @@ async function handler(req, res) {
       }
 
       if (existingUser) {
-        const password = process.env.MAIL;
         const transporter = nodemailer.createTransport({
           host: 'smtp.zoho.com',
           secure: true,
@@ -39,9 +38,8 @@ async function handler(req, res) {
         const code = Math.floor(100000 + Math.random() * 900000);
         const authTime = new Date();
 
-        let result = undefined;
         try {
-          result = await Member.updateOne(
+          await Member.updateOne(
             { email: email },
             { $set: { authTime: authTime, authCode: code } }
           );

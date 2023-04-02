@@ -1,20 +1,20 @@
 
-import { useState } from "react"
-import axios from "axios";
-import { TextField } from "@mui/material"
+import {useState} from "react"
+import axios from "axios"
+import {TextField} from "@mui/material"
 
 export default function ItemTitleInput(props: any){
 
   const {item, setItem} = props
-  const [ isSubmitting, setIsSubmitting ] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleTitleBlur = async (e:any) => {   
+  const handleTitleBlur = async (e:any) => {
 
-    setIsSubmitting(true)  
-      
-      try {
+    setIsSubmitting(true)
 
-        axios.patch('/api/items/${item.id}', {title: e.target.value})
+    try {
+
+      axios.patch(`/api/items/${item.id}`, {title: e.target.value})
         .then((res) => {
           setItem(res.data.item)
           setIsSubmitting(false)
@@ -23,18 +23,25 @@ export default function ItemTitleInput(props: any){
           console.log(error)
           setIsSubmitting(false)
         })
-      } catch (e) {
-        console.log(e)
-        setIsSubmitting(false)
-      }
+    } catch (e) {
+      console.log(e)
+      setIsSubmitting(false)
+    }
 
-      setIsSubmitting(false) 
-   
-  }  
+    setIsSubmitting(false)
+
+  }
 
   return (
     <>
-      <TextField fullWidth size={'small'} defaultValue={item?.title} id='itemTitle' label='Title' sx={{ mt: 1}}  onBlur={(e:any) => handleTitleBlur(e)} disabled={isSubmitting} />                         
+      <TextField
+        fullWidth
+        size={"small"}
+        defaultValue={item?.title}
+        id="itemTitle"
+        label="Title"
+        sx={{mt: 1}}
+        onBlur={(e:any) => handleTitleBlur(e)} disabled={isSubmitting} />
     </>
   )
 }
