@@ -1,4 +1,4 @@
 enum PermissionCodes {
-  SITEADMIN = 'SiteAdmin', // GOD MODE
+  SITEADMIN = "SiteAdmin", // GOD MODE
 }
-export default PermissionCodes;
+export default PermissionCodes

@@ -34,8 +34,6 @@ async function handler(req, res) {
         return;
       }
 
-      let existingMember;
-
       let existingUser;
       try {
         existingUser = await Member.findOne({ email });

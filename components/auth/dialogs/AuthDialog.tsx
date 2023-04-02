@@ -1,6 +1,6 @@
 
-import DraggableDialog from '../../../ui/DraggableDialog'
-import AuthForm from '../forms/AuthForm'
+import DraggableDialog from "../../../ui/DraggableDialog"
+import AuthForm from "../forms/AuthForm"
 
 interface AuthDialogProps {
   dialogIsOpen: boolean;
@@ -10,7 +10,7 @@ interface AuthDialogProps {
 }
 
 export default function AuthDialog(props: AuthDialogProps) {
-  const { dialogIsOpen, closeDialog,  openRegDialog, openForgotDialog } = props
+  const {dialogIsOpen, closeDialog, openRegDialog, openForgotDialog} = props
 
   return (
     <DraggableDialog

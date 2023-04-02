@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import {useState} from "react"
 
-import { IconButton, InputAdornment, TextField } from '@mui/material'
+import {IconButton, InputAdornment, TextField} from "@mui/material"
 
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import VisibilityIcon from "@mui/icons-material/Visibility"
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 
 export function EmailTextField(props: any) {
-  const { getFieldProps, touched, error } = props
+  const {getFieldProps, touched, error} = props
 
   return (
     <TextField
@@ -14,7 +14,7 @@ export function EmailTextField(props: any) {
       size="small"
       type="email"
       label="Email address"
-      {...getFieldProps('email')}
+      {...getFieldProps("email")}
       error={Boolean(touched && error)}
       helperText={touched && error}
     />
@@ -22,12 +22,12 @@ export function EmailTextField(props: any) {
 }
 
 export function PasswordTextField(props: any) {
-  const { getFieldProps, touched, error, } = props
+  const {getFieldProps, touched, error,} = props
 
   let {label, fieldId} = props
 
-  label = label ? label : 'Password'
-  fieldId = fieldId ? fieldId : 'password'
+  label = label ? label : "Password"
+  fieldId = fieldId ? fieldId : "password"
 
   const [showPassword, setShowPassword] = useState(false)
 
@@ -36,7 +36,7 @@ export function PasswordTextField(props: any) {
       fullWidth
       size="small"
       autoComplete="current-password"
-      type={showPassword ? 'text' : 'password'}
+      type={showPassword ? "text" : "password"}
       label={label}
       {...getFieldProps(fieldId)}
       InputProps={{

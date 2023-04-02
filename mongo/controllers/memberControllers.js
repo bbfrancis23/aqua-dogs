@@ -1,7 +1,16 @@
 import db from '/mongo/db';
 import Member from '/mongo/schemas/MemberSchema';
 import Role from '/mongo/schemas/RoleSchema';
-import { ObjectId } from 'mongodb';
+
+export function flattenMember(member) {
+  delete member._id;
+  member.roles = member.roles.map((r) => {
+    delete r._id;
+    return r;
+  });
+
+  return member;
+}
 
 export async function getMember(email) {
   let status = 200;
@@ -37,14 +46,4 @@ export async function getMember(email) {
     message: message,
     member: member ? member : undefined,
   };
-}
-
-export function flattenMember(member) {
-  delete member._id;
-  member.roles = member.roles.map((r) => {
-    delete r._id;
-    return r;
-  });
-
-  return member;
 }

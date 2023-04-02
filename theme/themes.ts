@@ -11,13 +11,16 @@ import {
   deepPurple,
   indigo,
   yellow,
-  cyan,
 } from '@mui/material/colors';
 
 export const palettes = [
   {
     name: 'Hawaii',
-    primary: { main: teal[800], light: teal[200], dark: teal[900] },
+    primary: {
+      main: teal[800],
+      light: teal[200],
+      dark: teal[900],
+    },
     secondary: { main: lightBlue[400], light: lightBlue[50] },
   },
   {

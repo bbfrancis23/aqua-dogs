@@ -4,9 +4,6 @@ import Tag from '/mongo/schemas/TagSchema';
 import Section from '/mongo/schemas/SectionSchema';
 
 import { getSession } from 'next-auth/react';
-import { ObjectId } from 'mongodb';
-
-import mongoose from 'mongoose';
 
 export default async function handler(req, res) {
   const { itemId } = req.query;

@@ -1,10 +1,3 @@
-import Item from '/mongo/schemas/ItemSchema';
-
-import Section from '/mongo/schemas/SectionSchema';
-import Tag from '/mongo/schemas/TagSchema';
-import db from '/mongo/db';
-
-import { ObjectId } from 'mongodb';
 import { groupItemsByTag } from '../../../../mongo/controllers/itemOld';
 
 export default async function handler(req, res) {

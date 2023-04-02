@@ -1,11 +1,11 @@
-import React from 'react';
-import Draggable from 'react-draggable';
-import { Paper } from '@mui/material';
+import React from "react"
+import Draggable from "react-draggable"
+import {Paper} from "@mui/material"
 
 export default function DraggablePaper(props: any) {
-  const { 'aria-labelledby': labelId } = props;
+  const {"aria-labelledby": labelId} = props
 
-  const nodeRef = React.useRef(null);
+  const nodeRef = React.useRef(null)
 
   return (
     <Draggable
@@ -15,5 +15,5 @@ export default function DraggablePaper(props: any) {
     >
       <Paper ref={nodeRef} {...props} />
     </Draggable>
-  );
+  )
 }

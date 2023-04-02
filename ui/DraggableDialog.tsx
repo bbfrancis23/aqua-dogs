@@ -1,6 +1,8 @@
-import React from 'react'
-import { Box, Dialog, DialogTitle } from '@mui/material'
-import DraggablePaper from './DraggablePaper'
+import React from "react"
+import {
+  Box, Dialog, DialogTitle
+} from "@mui/material"
+import DraggablePaper from "./DraggablePaper"
 
 export interface DraggableDialogProps {
   dialogIsOpen: boolean;
@@ -11,7 +13,9 @@ export interface DraggableDialogProps {
 }
 
 export default function DraggableDialog(props: DraggableDialogProps) {
-  const { dialogIsOpen, ariaLabel, title, children, fullWidth } = props
+  const {
+    dialogIsOpen, ariaLabel, title, children, fullWidth
+  } = props
 
   return (
     <Dialog
@@ -20,7 +24,7 @@ export default function DraggableDialog(props: DraggableDialogProps) {
       aria-labelledby={ariaLabel}
       fullWidth={fullWidth}
     >
-      <DialogTitle style={{ cursor: 'move' }} id={ariaLabel}>
+      <DialogTitle style={{cursor: "move"}} id={ariaLabel}>
         <Box>
           <div>{title}</div>
         </Box>

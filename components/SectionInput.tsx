@@ -1,129 +1,144 @@
-import { useState, useMemo } from "react";
-import { Button, IconButton, FormControl, InputLabel,  OutlinedInput, Stack,  InputAdornment,
-   ButtonGroup } from "@mui/material"
+import {useState, useMemo} from "react"
+import {Button, IconButton, FormControl, InputLabel, OutlinedInput, Stack, InputAdornment,
+  ButtonGroup} from "@mui/material"
 
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import axios from "axios";
+import DeleteIcon from "@mui/icons-material/Delete"
+import axios from "axios"
 
-import { useSnackbar } from 'notistack';
+import {useSnackbar} from "notistack"
 
 
-import dynamic from "next/dynamic";
-import "@uiw/react-textarea-code-editor/dist.css";
+import dynamic from "next/dynamic"
+import "@uiw/react-textarea-code-editor/dist.css"
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
-  { ssr: false }
-);
+  {ssr: false}
+)
 
 
 export default function SelectionInput(props: any){
 
-  const { enqueueSnackbar } = useSnackbar();
+  const {enqueueSnackbar} = useSnackbar()
 
   // TODO Create section type interface
 
   const {item, setItem, index, section} = props
 
-  const [ sectionType, setSectionType] = useState('text')
-  
-  const [code, setCode] = useState('')
+  const [sectionType, setSectionType] = useState("text")
 
-  useMemo(() => {
+  const [code, setCode] = useState("")
 
-    if(section.sectiontype === '63b2503c49220f42d9fc17d9'){
-      setSectionType('text')
-    }else{
-      setSectionType('code')
-      setCode(section.content)
-    }
-    
-    
-  }, [section])  
+  useMemo(
+    () => {
+
+      if(section.sectiontype === "63b2503c49220f42d9fc17d9"){
+        setSectionType("text")
+      }else{
+        setSectionType("code")
+        setCode(section.content)
+      }
+
+
+    }, [section]
+  )
 
   const handleDeleteSection = (id: string) => {
     try {
       axios.delete(`/api/sections/${id}`)
-      .then((res) => {
-        setItem(res.data.item)
-      })
-      .catch((error) => {
-        
-      })
+        .then((res) => {
+          setItem(res.data.item)
+        })
+        .catch((error) => {
+
+        })
     } catch (e) {
       console.log(e)
     }
-    
+
   }
 
-  const handleSectionBlur = async (event: any, section: any) => {
+  const handleSectionBlur = async (
+    event: any, section: any
+  ) => {
 
     try {
-      axios.patch(`/api/sections/${section.id}`, {
-        content: event.target.value,
-        sectiontype: sectionType === 'text' ?  '63b2503c49220f42d9fc17d9' : '63b88d18379a4f30bab59bad',
-      })
-      .then((res) => {
-        setItem(res.data.item)
-      })
-      .catch((e:any) => {
-        enqueueSnackbar(e, {variant: 'error'})    
-      })
+      axios.patch(
+        `/api/sections/${section.id}`, {
+          content: event.target.value,
+          sectiontype: sectionType ===
+            "text" ? "63b2503c49220f42d9fc17d9" : "63b88d18379a4f30bab59bad",
+        }
+      )
+        .then((res) => {
+          setItem(res.data.item)
+        })
+        .catch((e:any) => {
+          enqueueSnackbar(
+            e, {variant: "error"}
+          )
+        })
     } catch (e:any) {
-      enqueueSnackbar(e, {variant: 'error'})    
+      enqueueSnackbar(
+        e, {variant: "error"}
+      )
     }
   }
 
   return (
-    
-     
-    <Stack spacing={3}>  
+
+
+    <Stack spacing={3}>
       <ButtonGroup>
-        <Button 
-          variant={sectionType === 'text' ? 'contained' : 'outlined'} 
-          onClick={() => setSectionType('text')}
+        <Button
+          variant={sectionType === "text" ? "contained" : "outlined"}
+          onClick={() => setSectionType("text")}
         >
           T
         </Button>
-        <Button 
-          variant={sectionType === 'code' ? 'contained' : 'outlined'}
-          onClick={() => setSectionType('code')}
+        <Button
+          variant={sectionType === "code" ? "contained" : "outlined"}
+          onClick={() => setSectionType("code")}
         >
-          {'{}'}
+          {"{}"}
         </Button>
-      </ButtonGroup> 
+      </ButtonGroup>
       {
-        sectionType == 'text' && (
+        sectionType == "text" && (
 
-          <FormControl  variant="outlined" >
+          <FormControl variant="outlined" >
             <InputLabel htmlFor={section.id}>{`Section ${index + 1}`}</InputLabel>
             <OutlinedInput
               id={section.id}
-              multiline 
+              multiline
               rows={4}
               defaultValue={item.sections[index]?.content}
-              onBlur={(e) => handleSectionBlur(e, section)}
-              endAdornment={ (index === 0 && item.sections.length === 1)  ? '' :
+              onBlur={(e) => handleSectionBlur(
+                e, section
+              )}
+              endAdornment={ (index === 0 && item.sections.length === 1) ? "" :
                 <InputAdornment position="end">
                   <IconButton edge="end" onClick={() => handleDeleteSection(section.id)}>
-                      <DeleteIcon />
+                    <DeleteIcon />
                   </IconButton>
                 </InputAdornment>
               }
-            label={`Section ${index + 1}`}
-          />
+              label={`Section ${index + 1}`}
+            />
           </FormControl>
-        )           
+        )
       }
-    {
-        sectionType == 'code' && (
+      {
+        sectionType == "code" && (
           <>
-             <CodeEditor
+            <CodeEditor
               value={code}
               language="jsx"
               placeholder=""
               onChange={(evn) => setCode(evn.target.value)}
-              onBlur={(e) => handleSectionBlur(e, section)}
+              onBlur={(e) => handleSectionBlur(
+                e, section
+              )}
               padding={15}
               style={{
                 fontSize: 12,
@@ -134,10 +149,10 @@ export default function SelectionInput(props: any){
             />
           </>
         )
-    }
-  </Stack>   
-     
-    
+      }
+    </Stack>
+
+
   )
 
 }
