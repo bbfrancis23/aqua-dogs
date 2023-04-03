@@ -1,8 +1,8 @@
-import {useSession} from "next-auth/react"
 import {
   ReactNode, useEffect, useState
 } from "react"
 
+import {useSession} from "next-auth/react"
 export interface PermissionProps {
   roles: string[];
   children: ReactNode
@@ -10,14 +10,14 @@ export interface PermissionProps {
 
 const Permission = (props: any) => {
 
-  const {roles, children} = props
+  const {roles, children} = props,
 
-  const {data: session, status} = useSession()
+    {"data": session, status} = useSession(),
 
 
-  const loading = status === "loading"
+    loading = status === "loading",
 
-  const [hasPermission, setHasPermission] = useState<boolean>(false)
+    [hasPermission, setHasPermission] = useState<boolean>(false)
 
   useEffect( () => {
     setHasPermission(false)

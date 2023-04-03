@@ -11,11 +11,10 @@ export default async function handler(req, res) {
       message: result.message,
       items: result.items,
     });
-    return;
   } else if (req.method === 'POST') {
     await db.connect();
 
-    const session = await getSession({ req: req });
+    const session = await getSession({ req });
     const isSiteAdmin = session?.user.roles.includes('SiteAdmin');
 
     if (!isSiteAdmin) {

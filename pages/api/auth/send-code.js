@@ -1,13 +1,13 @@
 import Member from '../../../mongo/schemas/MemberSchema';
 import db from '/mongo/db';
-var nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 
 async function handler(req, res) {
   if (req.method === 'POST') {
     await db.connect();
 
     if (req.body.email) {
-      const email = req.body.email;
+      const { email } = req.body;
 
       if (!email || !email.includes('@')) {
         await db.disconnect();
@@ -40,8 +40,8 @@ async function handler(req, res) {
 
         try {
           await Member.updateOne(
-            { email: email },
-            { $set: { authTime: authTime, authCode: code } }
+            { email },
+            { $set: { authTime, authCode: code } }
           );
         } catch (e) {
           console.log(e);
@@ -66,16 +66,13 @@ async function handler(req, res) {
         res.status(200).json({
           message: 'Reset Email sent',
         });
-        return;
       } else {
         await db.disconnect();
         res.status(404).json({ message: 'User not found' });
-        return;
       }
     } else {
       await db.disconnect();
       res.status(422).json({ message: 'Invalid Input' });
-      return;
     }
   }
 }

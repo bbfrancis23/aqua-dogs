@@ -53,7 +53,6 @@ async function handler(req, res) {
 
   await db.disconnect();
   res.status(201).json({ message: 'New Member Registered' });
-  return;
 }
 export default handler;
 

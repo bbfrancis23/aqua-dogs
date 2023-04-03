@@ -30,13 +30,9 @@ export const getItem = async (itemId) => {
 
   let item;
 
-  try {
-    item = await Item.findById(itemId)
-      .populate({ path: 'tags', model: Tag })
-      .populate({ path: 'sections', model: Section });
-  } catch (e) {
-    throw e;
-  }
+  item = await Item.findById(itemId)
+    .populate({ path: 'tags', model: Tag })
+    .populate({ path: 'sections', model: Section });
 
   await db.disconnect();
 
@@ -55,13 +51,10 @@ export const getItems = async () => {
   await db.connect();
 
   let items;
-  try {
-    items = await Item.find()
-      .populate({ path: 'tags', model: Tag })
-      .populate({ path: 'sections', model: Section });
-  } catch (e) {
-    throw e;
-  }
+
+  items = await Item.find()
+    .populate({ path: 'tags', model: Tag })
+    .populate({ path: 'sections', model: Section });
 
   await db.disconnect();
 

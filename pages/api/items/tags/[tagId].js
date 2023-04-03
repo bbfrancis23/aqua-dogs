@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       message: result.message,
       items: result.items,
     });
-    return;
+
     // let status = 200;
     // let message = '';
     // await db.connect();

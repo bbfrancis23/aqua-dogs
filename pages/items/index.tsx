@@ -38,15 +38,12 @@ const Items = (props: ItemsProps) => {
     [errors, enqueueSnackbar]
   )
 
-  const itemsToRows = () => {
-    return items.map( (i:any) => {
-      return {
-        id: i.id,
-        title: i.title,
-        tags: i.tags.map( (t:any) => t.title).join(", ")
-      }
-    } )
-  }
+  const itemsToRows = () => items.map( (i:any) => ({
+    id: i.id,
+    title: i.title,
+    tags: i.tags.map( (t:any) => t.title).join(", ")
+  }))
+
 
   const [rows, setRows] = useState( itemsToRows())
 

@@ -4,7 +4,7 @@ import db from '/mongo/db';
 
 async function handler(req, res) {
   if (req.method === 'PATCH') {
-    const session = await getSession({ req: req });
+    const session = await getSession({ req });
 
     if (!session) {
       res.status(401).json({ message: 'Not Authenticated' });
@@ -27,7 +27,7 @@ async function handler(req, res) {
     if (req.body.memberName) {
       updateOptions = { name: req.body.memberName };
     } else if (req.body.email) {
-      const email = req.body.email;
+      const { email } = req.body;
 
       if (!email || !email.includes('@')) {
         res.status(422).json({ message: 'Invalid Input' });
@@ -71,8 +71,6 @@ async function handler(req, res) {
       message: 'name updated',
       user: result.user ? result.user : undefined,
     });
-    return;
   }
-  return;
 }
 export default handler;

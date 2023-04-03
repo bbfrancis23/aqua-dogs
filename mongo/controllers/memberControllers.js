@@ -20,7 +20,7 @@ export async function getMember(email) {
   await db.connect();
 
   try {
-    member = await Member.findOne({ email: email }).populate({
+    member = await Member.findOne({ email }).populate({
       path: 'roles',
       model: Role,
     });
@@ -36,14 +36,14 @@ export async function getMember(email) {
       member = await member.toObject({ getters: true, flattenMaps: true });
       member = await flattenMember(member);
     } else {
-      status === 404;
+      status = 404;
       message = `Member: ${email} not found.`;
     }
   }
 
   return {
-    status: status,
-    message: message,
+    status,
+    message,
     member: member ? member : undefined,
   };
 }

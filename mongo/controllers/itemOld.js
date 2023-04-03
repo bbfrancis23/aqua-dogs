@@ -45,7 +45,7 @@ export async function getItem(itemId) {
 
   if (status === 200) {
     if (!item) {
-      status === 404;
+      status = 404;
       message = `Item: ${itemId} not found.`;
     }
   }
@@ -61,9 +61,9 @@ export async function getItem(itemId) {
   }
 
   return {
-    status: status,
-    message: message,
-    item: item,
+    status,
+    message,
+    item,
   };
 }
 
@@ -86,15 +86,15 @@ export async function getItems() {
       return i;
     });
   } else {
-    status: 404;
+    status = 404;
     message = 'Not';
     item = undefined;
   }
 
   return {
-    status: status,
-    message: message,
-    items: items,
+    status,
+    message,
+    items,
   };
 }
 
@@ -122,14 +122,14 @@ export async function groupItemsByTag(tagId) {
       return i;
     });
   } else {
-    status: 404;
+    status = 404;
     message = 'Not';
     item = undefined;
   }
 
   return {
-    status: status,
-    message: message,
-    items: items,
+    status,
+    message,
+    items,
   };
 }

@@ -39,7 +39,7 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
 
       axios.post(
         "/api/auth/check-code",
-        {email: email, code: data.code, newPassword: data.newPassword}
+        {email, code: data.code, newPassword: data.newPassword}
       )
         .then((res) => {
 
