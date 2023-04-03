@@ -26,14 +26,14 @@ export async function getTags() {
       return t;
     });
   } else {
-    status: 404;
+    status = 404;
     message = 'Not found';
     tags = undefined;
   }
 
   return {
-    status: status,
-    message: message,
-    tags: tags,
+    status,
+    message,
+    tags,
   };
 }

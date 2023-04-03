@@ -9,15 +9,15 @@ async function handler(req, res) {
     return;
   }
 
-  const session = await getSession({ req: req });
+  const session = await getSession({ req });
 
   if (!session) {
     res.status(401).json({ message: 'Not Authenticated' });
   }
 
   const memberEmail = session?.user?.email;
-  const oldPassword = req.body.oldPassword;
-  const newPassword = req.body.newPassword;
+  const { oldPassword } = req.body;
+  const { newPassword } = req.body;
 
   await db.connect();
   const member = await Member.findOne({ email: memberEmail });
@@ -48,6 +48,5 @@ async function handler(req, res) {
 
   await db.disconnect();
   res.status(200).json({ message: 'Password updated!' });
-  return;
 }
 export default handler;

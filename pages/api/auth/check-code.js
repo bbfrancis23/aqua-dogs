@@ -45,11 +45,9 @@ async function handler(req, res) {
 
       await db.disconnect();
       res.status(200).json({ message: 'Password updated!' });
-      return;
     } else {
       await db.disconnect();
       res.status(422).json({ message: 'Invalid Input' });
-      return;
     }
   }
 }

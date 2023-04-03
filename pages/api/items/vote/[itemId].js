@@ -9,10 +9,10 @@ export default async function handler(req, res) {
   const { itemId } = req.query;
   let status = 405;
   let message = 'Invalid Method';
-  let item = undefined;
+  const item = undefined;
 
   if (req.method === 'PATCH') {
-    const session = await getSession({ req: req });
+    const session = await getSession({ req });
 
     if (session) {
       let item;
@@ -71,8 +71,7 @@ export default async function handler(req, res) {
 
   await db.disconnect();
   res.status(status).json({
-    message: message,
-    item: item,
+    message,
+    item,
   });
-  return;
 }

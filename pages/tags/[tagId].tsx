@@ -11,7 +11,7 @@ export default function ItemsByTag(props: any){
   const {items} = props
   const theme = useTheme()
 
-  let bestpracItems:any = []
+  const bestpracItems:any = []
 
   items.forEach( (i:any) => {
 
@@ -25,12 +25,12 @@ export default function ItemsByTag(props: any){
 
 
   const standardItems: any = []
-  // const standardItems = items.filter( (i:any) => {
+  // Const standardItems = items.filter( (i:any) => {
 
-  //   const isBestPractice = i.tags.filter((t: any) => t === "63c88c117e51170d8d8c6df1")
+  //   Const isBestPractice = i.tags.filter((t: any) => t === "63c88c117e51170d8d8c6df1")
 
-  //   if(isBestPractice.length > 0){
-  //     return i
+  //   If(isBestPractice.length > 0){
+  //     Return i
   //   }
 
   // })
@@ -92,9 +92,8 @@ export async function getStaticPaths(){
 
 
   const result = await getTags()
-  const paths = result.tags.map( (t:any) => {
-    return {params: {tagId: t.id}}
-  })
+  const paths = result.tags.map( (t:any) => ({ params: { tagId: t.id } })
+  )
 
   return {paths, fallback: false}
 
@@ -102,7 +101,7 @@ export async function getStaticPaths(){
 
 export async function getStaticProps({params}: any){
 
-  const tagId = params.tagId
+  const {tagId} = params
   const result = await groupItemsByTag(tagId)
 
 
@@ -114,7 +113,7 @@ export async function getStaticProps({params}: any){
       if(t.tagetype){
 
         t.tagetype = "grot"
-        // return 'grot';
+        // Return 'grot';
 
       }
 

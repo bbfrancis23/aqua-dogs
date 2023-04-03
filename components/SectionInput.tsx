@@ -50,7 +50,7 @@ export default function SelectionInput(props: any){
           setItem(res.data.item)
         })
         .catch((error) => {
-
+          console.log(error)
         })
     } catch (e) {
       console.log(e)
@@ -104,7 +104,7 @@ export default function SelectionInput(props: any){
         </Button>
       </ButtonGroup>
       {
-        sectionType == "text" && (
+        sectionType === "text" && (
 
           <FormControl variant="outlined" >
             <InputLabel htmlFor={section.id}>{`Section ${index + 1}`}</InputLabel>
@@ -129,7 +129,7 @@ export default function SelectionInput(props: any){
         )
       }
       {
-        sectionType == "code" && (
+        sectionType === "code" && (
           <>
             <CodeEditor
               value={code}

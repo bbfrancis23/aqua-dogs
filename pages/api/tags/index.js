@@ -7,10 +7,7 @@ async function handler(req, res) {
       message: result.message,
       tags: result.tags,
     });
-    return;
   }
-
-  return;
 }
 
 export default handler;

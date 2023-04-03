@@ -33,7 +33,6 @@ export interface ItemDetailsProps{
 const ItemDetails = (props: ItemDetailsProps) => {
 
   const {openAuthDialog, errors} = props
-
   const {enqueueSnackbar} = useSnackbar()
 
   useEffect(
@@ -46,16 +45,11 @@ const ItemDetails = (props: ItemDetailsProps) => {
   const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState<boolean>(false)
   const [itemDialogMode, setItemDialogMode] = useState("ADD")
 
-
   const [item, setItem] = useState(props.item)
 
   useMemo(
     () => { setItem(item) }, [item]
   )
-
-  function handleSetItem(item: any){
-    setItem(item)
-  }
 
   const handleCloseDialog = () => {
     setItemDialogMode("ADD")
@@ -72,22 +66,17 @@ const ItemDetails = (props: ItemDetailsProps) => {
     <Box sx={{display: "flex", justifyContent: "center", pt: 12}}>
       <Card sx={{width: {xs: "100vw", md: "50vw"}}}>
         <CardHeader
-          title={<EditableItemTitle item={item} setItem={ (item:any) => handleSetItem(item) } />}
+          title={<EditableItemTitle item={item} setItem={ (i:any) => setItem(i) } />}
           action={
             <Permission roles={[PermissionCodes.SITEADMIN]}>
               <IconButton onClick={() => handleOpenDialog("EDIT") }><EditIcon /></IconButton>
               <IconButton onClick={() => handleOpenDialog("ADD") }><AddIcon /></IconButton>
-            </Permission>
-          }
+            </Permission> }
         />
         <CardContent>
           <Stack spacing={1} direction="row">
             { item.tags && (
-
-
-              item.tags.map( (t:any) => {
-                return ( <Chip label={t.title} variant="outlined" key={t.id} /> )
-              })
+              item.tags.map( (t:any) => ( <Chip label={t.title} variant="outlined" key={t.id} /> ))
             )}
           </Stack>
           <Stack spacing={1} sx={{pt: 2}}>
@@ -111,9 +100,9 @@ const ItemDetails = (props: ItemDetailsProps) => {
                   />
                 )
 
-              } else {
-                return (<Typography key={s.id}>{s.content}</Typography>)
               }
+              return (<Typography key={s.id}>{s.content}</Typography>)
+
             })}
           </Stack>
 
@@ -128,17 +117,17 @@ const ItemDetails = (props: ItemDetailsProps) => {
         mode={itemDialogMode}
         dialogIsOpen={addItemDialogIsOpen}
         closeDialog={handleCloseDialog}
-        editItem={item} updateEditedItem={(item:any) => handleSetItem(item)} />
+        editItem={item} updateEditedItem={(i:any) => setItem(i)} />
     </Box>
   )
 }
 export default ItemDetails
-export async function getStaticPaths(){
+export const getStaticPaths = async() => {
 
-  let items
+  let items = [{}]
   try { items = await getItems() } catch (e) { console.log(e) }
 
-  let paths
+  let paths = [{}]
 
   if(items){
     paths = items.map((item: any) => ({params: {itemId: item.id}}))
@@ -149,7 +138,7 @@ export async function getStaticPaths(){
 }
 export const getStaticProps = async ({params}:any) => {
 
-  let item
+  let item : Item | null = null
   let errors = []
 
   try {

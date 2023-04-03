@@ -92,5 +92,5 @@ export async function getServerSideProps(context: any){
     return {redirect: {destination: "/", permanent: false}}
   }
 
-  return {props: {authSession: authSession, member}}
+  return {props: {authSession, member}}
 }

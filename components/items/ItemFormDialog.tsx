@@ -73,7 +73,6 @@ export default function ItemFormDialog(props: any){
           setIsSubmitting(false)
         }
       }
-    }else{
     }
 
   }, [
