@@ -121,7 +121,7 @@ const Items = (props: ItemsProps) => {
 export default Items
 export const getStaticProps = async() => {
 
-  let items = [{}]
+  let items:any = [{}]
   const errors = []
   try { items = await getItems() } catch (e) { errors.push(e) }
 
