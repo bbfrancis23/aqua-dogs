@@ -1,5 +1,5 @@
-import {Section} from "./SectionInterface"
-import {Tag} from "./TagInterface"
+import { Section } from './SectionInterface';
+import { Tag } from './TagInterface';
 
 export interface Item {
   title: string;
@@ -7,5 +7,6 @@ export interface Item {
   sections?: Section[];
   upvotes?: string[];
   downvotes?: string[];
+  rating?: number;
   id: string;
 }

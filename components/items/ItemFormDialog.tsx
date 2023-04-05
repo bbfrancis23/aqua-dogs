@@ -28,7 +28,6 @@ export default function ItemFormDialog(props: any){
 
     if(mode === "EDIT"){
       setItem(editItem)
-      //updateEditedItem(editItem)
     }
 
   }, [editItem, mode])
@@ -51,10 +50,10 @@ export default function ItemFormDialog(props: any){
                   {
                     sectiontype: "63b2503c49220f42d9fc17d9",
                     content: "", itemId: res.data.item.id, order: 1})
-                  .then((res) => {
+                  .then((sectionsRes) => {
 
                     enqueueSnackbar("Created a new Item", {variant: "success"})
-                    setItem(res.data.item)
+                    setItem(sectionsRes.data.item)
                   })
                   .catch((e:any) => {
                     enqueueSnackbar(e, {variant: "error"})
@@ -80,12 +79,12 @@ export default function ItemFormDialog(props: any){
   ])
 
 
-  function handleSetItem(item: any){
-    setItem(item)
+  const handleSetItem = (i: any) => {
+    setItem(i)
 
     if(mode === "EDIT"){
 
-      updateEditedItem(item)
+      updateEditedItem(i)
     }
   }
 
@@ -116,10 +115,10 @@ export default function ItemFormDialog(props: any){
             <>
               <DialogContent >
                 <Stack spacing={3}>
-                  <ItemTitleInput item={item} setItem={(item: any) => handleSetItem(item)}/>
+                  <ItemTitleInput item={item} setItem={(i: any) => handleSetItem(i)}/>
                   <TagsMultiSelect
-                    item={item} setItem={(item: any) => handleSetItem(item)} />
-                  <SectionsInupt item={item} setItem={(item: any) => handleSetItem(item)} />
+                    item={item} setItem={(i: any) => handleSetItem(i)} />
+                  <SectionsInupt item={item} setItem={(i: any) => handleSetItem(i)} />
                 </Stack>
               </DialogContent>
             </>

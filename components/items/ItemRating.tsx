@@ -21,7 +21,9 @@ export interface ItemRatingProps {
 
 
 export default function ItemRating(props: ItemRatingProps){
-  const {item, openAuthDialog} = props
+  const {openAuthDialog} = props
+
+  const [item, setItem] = useState<any>(props.item)
 
   const {data: session, status} = useSession()
 
@@ -30,28 +32,6 @@ export default function ItemRating(props: ItemRatingProps){
   const {enqueueSnackbar} = useSnackbar()
 
   const [memberVote, setMemberVote] = useState<number>(0)
-
-  useEffect(() => {
-
-    let vote = 0
-
-    if(session){
-      const user: any = session?.user
-      let upvote: number = 0
-      let downvote: number = 0
-
-      if(item.upvotes) upvote = item?.upvotes.filter((v) => v === user?.id).length
-
-      if(item.downvotes) downvote = item?.downvotes.filter((v) => v === user?.id).length
-
-      if(upvote === 1) vote = 1
-      else if(downvote === 1) vote = -1
-
-    }
-
-    setMemberVote(vote)
-  }, [session, item])
-
 
   const calculateRating = () => {
 
@@ -63,23 +43,47 @@ export default function ItemRating(props: ItemRatingProps){
   const [rating, setRating] = useState<number>(calculateRating())
 
 
+  useEffect(() => {
+
+    console.log('item:', item)
+
+    let vote = 0
+
+    if(session){
+      const user: any = session?.user
+      let upvote: number = 0
+      let downvote: number = 0
+
+      if(item.upvotes) upvote = item?.upvotes.filter((v:string) => v === user?.id).length
+
+      if(item.downvotes) downvote = item?.downvotes.filter((v:string) => v === user?.id).length
+
+      if(upvote === 1) vote = 1
+      else if(downvote === 1) vote = -1
+
+    }
+
+    setMemberVote(vote)
+
+    const upvotes = item?.upvotes?.length ? item?.upvotes?.length : 0
+    const downvotes = item?.downvotes?.length ? item?.downvotes?.length : 0
+    setRating( upvotes - downvotes);
+
+  }, [session, item])
+
+
   const handleUpVote = () => {
 
     if(session){
       if(memberVote === 1){
-        axios.patch(`/api/items/vote/${item.id}`, {vote: "reset"})
-        setMemberVote(0)
-        setRating( (r) => r - 1)
+        axios.patch(`/api/items/vote/${item.id}`, {vote: "reset"}).then( (r) => {
+          setItem(r.data.item)
+        })
       }else{
 
-        axios.patch(`/api/items/vote/${item.id}`, {vote: "up"})
-
-        if(memberVote === 0){
-          setRating( (r) => r + 1)
-        }else{
-          setRating( (r) => r + 2)
-        }
-        setMemberVote(1)
+        axios.patch(`/api/items/vote/${item.id}`, {vote: "up"}).then((r) => {
+          setItem(r.data.item)
+        })
       }
 
     }else{
