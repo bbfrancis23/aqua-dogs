@@ -4,7 +4,7 @@ import Item from '../schemas/ItemSchema';
 import Tag from '/mongo/schemas/TagSchema';
 import Section from '/mongo/schemas/SectionSchema';
 
-export function flattenItem(item) {
+export const flattenItem = (item) => {
   delete item._id;
   item.tags = item.tags.map((t) => {
     delete t._id;
@@ -23,12 +23,12 @@ export function flattenItem(item) {
   });
 
   return item;
-}
+};
 
 export const getItem = async (itemId) => {
   await db.connect();
 
-  let item;
+  let item = {};
 
   item = await Item.findById(itemId)
     .populate({ path: 'tags', model: Tag })
@@ -50,7 +50,7 @@ export const getItem = async (itemId) => {
 export const getItems = async () => {
   await db.connect();
 
-  let items;
+  let items = {};
 
   items = await Item.find()
     .populate({ path: 'tags', model: Tag })

@@ -139,7 +139,7 @@ export const getStaticPaths = async() => {
 export const getStaticProps = async ({params}:any) => {
 
   let item : Item | null = null
-  let errors = []
+  const errors = []
 
   try {
     item = await getItem(params.itemId)

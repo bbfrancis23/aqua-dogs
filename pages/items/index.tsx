@@ -1,8 +1,7 @@
 import {useEffect, useState} from "react"
 
-import {Box, IconButton, Toolbar} from "@mui/material"
+import {Box, IconButton} from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete"
-import {DataGrid, GridSelectionModel} from "@mui/x-data-grid"
 import {useConfirm} from "material-ui-confirm"
 import {useSnackbar} from "notistack"
 
@@ -13,10 +12,23 @@ import {getItems} from "../../mongo/controllers/itemControllers"
 import Permission from "../../ui/Permission"
 import PermissionCodes from "../../enums/PermissionCodes"
 
-const columns = [
-  {field: "id", headerName: "ID", width: 300},
-  {field: "title", headerName: "Title", width: 500},
-  {field: "tags", headerName: "Tags", width: 1000}
+import Link from "next/link"
+import { DataGrid, GridColDef, GridFooter, GridRenderCellParams,
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarExport,
+  GridToolbarDensitySelector, } from "@mui/x-data-grid";
+
+
+const RenderLink = (props: GridRenderCellParams) => (
+  <Link href={`/items/${props.id}`} >{props.row.title}</Link>
+)
+
+const columns: GridColDef[] = [
+  {field: "title", headerName: "Title", minWidth: 200, renderCell: RenderLink},
+  {field: "tags", headerName: "Tags", minWidth: 300},
+  {field: "rating", headerName: "Rating", minWidth: 10},
 ]
 
 export interface ItemsProps{
@@ -26,12 +38,12 @@ export interface ItemsProps{
 
 const Items = (props: ItemsProps) => {
 
-  let {items, errors} = props
-
+  let {items} = props
+  const {errors} = props
   const confirm = useConfirm()
   const {enqueueSnackbar} = useSnackbar()
 
-  const [selectedRows, setSelectedRows] = useState<GridSelectionModel>([])
+  const [selectedRows, setSelectedRows] = useState<any>([])
 
   useEffect(
     () => errors.forEach( (e:any) => enqueueSnackbar(`Error: ${e}`, {variant: "error"})),
@@ -41,9 +53,9 @@ const Items = (props: ItemsProps) => {
   const itemsToRows = () => items.map( (i:any) => ({
     id: i.id,
     title: i.title,
-    tags: i.tags.map( (t:any) => t.title).join(", ")
+    tags: i.tags.map( (t:any) => t.title).join(", "),
+    rating: i.rating
   }))
-
 
   const [rows, setRows] = useState( itemsToRows())
 
@@ -67,32 +79,63 @@ const Items = (props: ItemsProps) => {
     } catch(e){ enqueueSnackbar(`Error Deleting ${e}`, {variant: "error"}) }
   }
 
-  const handleSelectionChange = (ids: GridSelectionModel) => setSelectedRows(ids)
+  const handleSelectionChange = (ids: SelectionMode) => setSelectedRows(ids)
+
+  const CustomToolbar = () => (
+    <Box style={{ width: "100%"}} sx={{mt: 12}}>
+      <GridToolbarContainer sx={{ pl: 1.75}}>
+        {
+          selectedRows.length > 0 &&
+        <Box >
+          <Permission roles={[PermissionCodes.SITEADMIN]}>
+            <IconButton onClick={handleDelete} size="small"><DeleteIcon /></IconButton> |
+          </Permission>
+        </Box>
+        }
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector />
+        <GridToolbarExport />
+      </GridToolbarContainer>
+    </Box>
+  )
 
   return (
-    <Box style={{height: "100vh", width: "100%"}} sx={{mt: 12}}>
-      <Toolbar>
-        <Permission roles={[PermissionCodes.SITEADMIN]}>
-          <IconButton onClick={handleDelete}><DeleteIcon /></IconButton>
-        </Permission>
-      </Toolbar>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={100}
-        rowsPerPageOptions={[100]}
-        checkboxSelection
-        onSelectionModelChange={(ids) => handleSelectionChange(ids)}
-      />
-    </Box>
+    <>
+
+      <div style={{height: "500px", width: "100%"}} >
+        <DataGrid
+          slots={{
+            toolbar: CustomToolbar,
+            footer: GridFooter
+          }}
+          rows={rows}
+          columns={columns}
+          checkboxSelection
+          onRowSelectionModelChange={(ids:any) => handleSelectionChange(ids)}
+        />
+      </div>
+    </>
   )
 }
 export default Items
 export const getStaticProps = async() => {
 
-  let items
-  let errors = []
+  let items = [{}]
+  const errors = []
   try { items = await getItems() } catch (e) { errors.push(e) }
+
+  if(items){
+    items = items.map((i:any) => {
+
+      const upvotes = i?.upvotes?.length ? i?.upvotes?.length : 0
+      const downvotes = i?.downvotes?.length ? i?.downvotes?.length : 0
+      i.rating = upvotes - downvotes
+
+      return i
+
+    })
+  }
 
   return {
     props: {

@@ -3,22 +3,37 @@ import Item from '/mongo/schemas/ItemSchema';
 import Tag from '/mongo/schemas/TagSchema';
 import Section from '/mongo/schemas/SectionSchema';
 
+import { getItem, flattenItem } from '/mongo/controllers/itemControllers';
+
 import { getSession } from 'next-auth/react';
+
+const processVote = async (item, vote, userId) => {
+  console.log(item);
+
+  item.upvotes = await item.upvotes.filter((v) => v !== userId);
+  item.downvotes = await item.downvotes.filter((v) => v !== userId);
+
+  if (vote === 'up') {
+    await item.upvotes.push(userId);
+  } else if (vote === 'down') {
+    await item.downvotes.push(userId);
+  }
+
+  return item;
+};
 
 export default async function handler(req, res) {
   const { itemId } = req.query;
   let status = 405;
   let message = 'Invalid Method';
-  const item = undefined;
+  let item = {};
+  await db.connect();
 
   if (req.method === 'PATCH') {
     const session = await getSession({ req });
 
     if (session) {
-      let item;
       try {
-        await db.connect();
-
         item = await Item.findById(itemId)
           .populate({ path: 'tags', model: Tag })
           .populate({ path: 'sections', model: Section });
@@ -30,24 +45,14 @@ export default async function handler(req, res) {
       if (item) {
         const { vote } = req.body;
 
-        // console.log(item);
-
         if (vote) {
           if (vote === 'up' || vote === 'down' || vote === 'reset') {
-            // remove previous votes
-
-            item.upvotes = item.upvotes.filter((v) => v !== session.user.id);
-            item.downvotes = item.downvotes.filter(
-              (v) => v !== session.user.id
-            );
-
-            if (vote === 'up') {
-              item.upvotes.push(session.user.id);
-            } else if (vote === 'down') {
-              item.downvotes.push(session.user.id);
-            }
-
+            item = await processVote(item, vote, session.user.id);
             await item.save();
+
+            item = await item.toObject({ getters: true, flattenMaps: true });
+
+            item = await flattenItem(item);
 
             status = 200;
             message = 'Vote Registered';
