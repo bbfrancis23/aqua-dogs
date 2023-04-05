@@ -124,7 +124,7 @@ const ItemDetails = (props: ItemDetailsProps) => {
 export default ItemDetails
 export const getStaticPaths = async() => {
 
-  let items = [{}]
+  let items:any = [{}]
   try { items = await getItems() } catch (e) { console.log(e) }
 
   let paths = [{}]
@@ -138,7 +138,7 @@ export const getStaticPaths = async() => {
 }
 export const getStaticProps = async ({params}:any) => {
 
-  let item : Item | null = null
+  let item: any = null
   const errors = []
 
   try {
