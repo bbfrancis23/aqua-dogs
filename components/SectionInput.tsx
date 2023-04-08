@@ -16,6 +16,7 @@ const CodeEditor = dynamic(
   {ssr: false}
 )
 
+/*eslint-disable */
 
 export default function SelectionInput(props: any){
 
@@ -62,6 +63,8 @@ export default function SelectionInput(props: any){
     event: any, section: any
   ) => {
 
+
+    console.log('section blur: patching: sectionType', sectionType)
     try {
       axios.patch(
         `/api/sections/${section.id}`, {
@@ -71,6 +74,8 @@ export default function SelectionInput(props: any){
         }
       )
         .then((res) => {
+
+          console.log(res)
           setItem(res.data.item)
         })
         .catch((e:any) => {

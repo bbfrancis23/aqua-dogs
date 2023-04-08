@@ -9,6 +9,8 @@ import db from '/mongo/db';
 
 import mongoose from 'mongoose';
 
+/* eslint-disable */
+
 export default async function handler(req, res) {
   const { sectionId } = req.query;
 
@@ -40,9 +42,8 @@ export default async function handler(req, res) {
             const { sectiontype, content } = req.body;
 
             if (sectiontype) {
-              section.sectionType = sectiontype;
+              section.sectiontype = sectiontype;
             }
-
             if (content) {
               section.content = content;
             }
