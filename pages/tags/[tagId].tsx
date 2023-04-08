@@ -1,130 +1,115 @@
-import {Card, CardHeader, Grid, useTheme} from "@mui/material"
+import {Box, Card, CardHeader, Grid, Typography, useTheme} from "@mui/material"
 
 import {getTags} from "../../mongo/controllers/tagsControllers"
 
 import {groupItemsByTag} from "../../mongo/controllers/itemOld"
 
 import Link from "next/link"
+import { Item } from "../../interfaces/ItemInterface"
 
 export default function ItemsByTag(props: any){
 
-  const {items} = props
+  const {items, tagId, tagTitle, tagCols} = props
   const theme = useTheme()
 
-  const bestpracItems:any = []
-
-  items.forEach( (i:any) => {
-
-    const isBestPractice = i.tags.filter((t: any) => t.id === "63b0d7302beee78c4a512880" )
-
-    if(isBestPractice.length > 0){
-      bestpracItems.push(i)
-    }
-
-  })
+  let medCols = 12;
+  let lgCols = 12;
 
 
-  const standardItems: any = []
-  // Const standardItems = items.filter( (i:any) => {
+  if(tagCols.length === 2){
+    lgCols = 6
+  }else if(tagCols > 2){
+    medCols = 6
+    lgCols = 4
+  }
 
-  //   Const isBestPractice = i.tags.filter((t: any) => t === "63c88c117e51170d8d8c6df1")
-
-  //   If(isBestPractice.length > 0){
-  //     Return i
-  //   }
-
-  // })
 
   return (
-    <Grid container spacing={3} sx={{p: 3, pt: 12, height: "100vh"}}>
-      <Grid item xs={12} md={6} lg={4} >
-        <Card sx={{height: "100%"}}>
-          <CardHeader
-            title="Best Practices"
-            sx={{bgcolor: "primary.main", color: "primary.contrastText",}} />
-          <ul>{
-            bestpracItems.map( (i:any, ) => (
-              <li key={i.id}>
-                <Link
-                  href={`/items/${i.id}`}
-                  style={{textDecoration: "none", color: theme.palette.text.primary}} >
-                  {i.title}
-                </Link>
-              </li>)
-            )
-          }</ul>
-        </Card>
+    <Box sx={{mt: 8, p: 3}}>
+      <Typography
+        variant={'h1'}
+        sx={{ fontWeight: '800', pl: 3, fontSize: '3rem'}}
+        gutterBottom={true}
+      >
+        {tagTitle}
+      </Typography>
+      <Grid container spacing={3} sx={{ height: "100%"}}>
+
+        {
+          tagCols.map((tc:any) => (
+            <Grid item xs={12} md={medCols} lg={lgCols} key={tc.id}>
+              <Card sx={{height: "100%"}}>
+                <CardHeader
+                  title={tc.title}
+                  sx={{bgcolor: "primary.main", color: "primary.contrastText",}} />
+                <ul>{
+                  tc.items.map( (i:any, ) => (
+                    <li key={i.id}>
+                      <Link
+                        href={`/items/${i.id}`}
+                        style={{textDecoration: "none", color: theme.palette.text.primary}} >
+                        {i.title}
+                      </Link>
+                    </li>)
+                  )
+                }</ul>
+              </Card>
+            </Grid>
+          ))
+        }
+
       </Grid>
-      <Grid item xs={12} md={6} lg={4} >
-        <Card sx={{height: "100%"}}>
-          <CardHeader
-            title="Standards"
-            sx={{bgcolor: "primary.main", color: "primary.contrastText",}} />
-          <ul>{
-            standardItems.map(
-              (i:any, ) => (
-                <li key={i.id}>
-                  <Link
-                    href={`/items/${i.id}`}
-                    style={{textDecoration: "none", color: theme.palette.text.primary}} >
-                    {i.title}
-                  </Link></li>
-              )
-            )
-          }</ul>
-        </Card>
-      </Grid>
-      <Grid item xs={12} md={6} lg={4} >
-        <Card sx={{height: "100%"}}>
-          <CardHeader
-            title="Examples"
-            sx={{bgcolor: "primary.main", color: "primary.contrastText",}} />
-          <ul>
-            <li>Coming soon</li>
-          </ul>
-        </Card>
-      </Grid>
-    </Grid>
+    </Box>
   )
 }
 
-export async function getStaticPaths(){
-
+export const getStaticPaths = async () => {
 
   const result = await getTags()
-  const paths = result.tags.map( (t:any) => ({ params: { tagId: t.id } })
-  )
+  const paths = result.tags.map( (t:any) => ({ params: { tagId: t.id } }))
 
   return {paths, fallback: false}
 
 }
 
-export async function getStaticProps({params}: any){
+export const getStaticProps = async ({params}: any) => {
 
   const {tagId} = params
   const result = await groupItemsByTag(tagId)
 
+  const tagCols:any = [];
 
-  result.items = result.items.map( (i:any) => {
+  if(result.items){
+    result.items.forEach( (i: Item) => {
+      if(i.tags){
+        i.tags.forEach( (t: any) => {
+          if(t.id !== tagId){
+
+            let found = false
+            let index: number | null = null
+            tagCols.forEach( (tc:any, tcIndex: number) => {
+              if(tc.id === t.id){
+                found = true;
+                index = tcIndex
+              }
+            })
+
+            if(!found){
+              tagCols.push({id: t.id, title: t.title, items: [i]})
+            }else{
+              if(index !== null){
+
+                tagCols[index].items.push(i)
+              }
+            }
 
 
-    i.tags = i.tags.map( (t:any) => {
-
-      if(t.tagetype){
-
-        t.tagetype = "grot"
-        // Return 'grot';
-
+          }
+        })
       }
-
-      return t
-
     })
+  }
 
-
-    return i
-  })
-
-  return {props: {items: result.items ? result.items : []}}
+  return {props: {items: result.items ? result.items : [], tagCols, tagId, tagTitle: 'Javascript'}}
 
 }
