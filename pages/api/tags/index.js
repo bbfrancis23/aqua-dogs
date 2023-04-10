@@ -1,13 +1,12 @@
-import { getTags } from '../../../mongo/controllers/tagsControllers';
+import { getTags } from '/mongo/controllers/tagsControllers';
 
-async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method === 'GET') {
-    const result = await getTags();
-    res.status(result.status).json({
-      message: result.message,
-      tags: result.tags,
+    const tags = await getTags();
+
+    res.status(200).json({
+      message: 'success',
+      tags,
     });
   }
 }
-
-export default handler;

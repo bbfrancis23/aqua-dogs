@@ -1,18 +1,15 @@
 import db from '/mongo/db';
 import Tag from '/mongo/schemas/TagSchema';
 
-export function flattenTag(tag) {
+export const flattenTag = (tag) => {
   delete tag._id;
   if (tag.tagtype) {
     tag.tagtype = tag.tagtype.toString();
   }
   return tag;
-}
+};
 
-export async function getTags() {
-  let status = 200;
-  let message = '';
-
+export const getTags = async () => {
   await db.connect();
 
   let tags = await Tag.find();
@@ -26,14 +23,25 @@ export async function getTags() {
       return t;
     });
   } else {
-    status = 404;
-    message = 'Not found';
     tags = undefined;
   }
 
-  return {
-    status,
-    message,
-    tags,
-  };
-}
+  return tags;
+};
+
+export const getTag = async (tagId) => {
+  await db.connect;
+
+  let tag = await Tag.findById(tagId);
+
+  await db.disconnect();
+
+  if (tag) {
+    tag = await tag.toObject({ getters: true });
+    tag = flattenTag(tag);
+  } else {
+    tag = undefined;
+  }
+
+  return tag;
+};

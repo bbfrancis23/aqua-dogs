@@ -103,7 +103,7 @@ const Items = (props: ItemsProps) => {
   return (
     <>
 
-      <div style={{height: "500px", width: "100%"}} >
+      <div style={{height: "900px", width: "100%"}} >
         <DataGrid
           slots={{
             toolbar: CustomToolbar,
