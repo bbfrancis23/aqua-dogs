@@ -1,6 +1,6 @@
 import {Box, Card, CardHeader, Grid, Typography, useTheme} from "@mui/material"
 
-import {getTags} from "../../mongo/controllers/tagsControllers"
+import {getTag, getTags} from "../../mongo/controllers/tagsControllers"
 
 import {groupItemsByTag} from "../../mongo/controllers/itemOld"
 
@@ -9,7 +9,7 @@ import { Item } from "../../interfaces/ItemInterface"
 
 export default function ItemsByTag(props: any){
 
-  const {items, tagId, tagTitle, tagCols} = props
+  const {tag, tagCols} = props
   const theme = useTheme()
 
   let medCols = 12;
@@ -31,10 +31,14 @@ export default function ItemsByTag(props: any){
         sx={{ fontWeight: '800', pl: 3, fontSize: '3rem'}}
         gutterBottom={true}
       >
-        {tagTitle}
+        {tag.title}
       </Typography>
       <Grid container spacing={3} sx={{ height: "100%"}}>
-
+        {
+          tagCols.length === 0 && (
+            <Typography sx={{pl: 7, pt: 4}}>Content Comming soon.</Typography>
+          )
+        }
         {
           tagCols.map((tc:any) => (
             <Grid item xs={12} md={medCols} lg={lgCols} key={tc.id}>
@@ -65,8 +69,8 @@ export default function ItemsByTag(props: any){
 
 export const getStaticPaths = async () => {
 
-  const result = await getTags()
-  const paths = result.tags.map( (t:any) => ({ params: { tagId: t.id } }))
+  const tags = await getTags()
+  const paths = tags.map( (t:any) => ({ params: { tagId: t.id } }))
 
   return {paths, fallback: false}
 
@@ -76,6 +80,8 @@ export const getStaticProps = async ({params}: any) => {
 
   const {tagId} = params
   const result = await groupItemsByTag(tagId)
+
+  const tag = await getTag(tagId)
 
   const tagCols:any = [];
 
@@ -110,6 +116,6 @@ export const getStaticProps = async ({params}: any) => {
     })
   }
 
-  return {props: {items: result.items ? result.items : [], tagCols, tagId, tagTitle: 'Javascript'}}
+  return {props: {tag, tagCols}}
 
 }
