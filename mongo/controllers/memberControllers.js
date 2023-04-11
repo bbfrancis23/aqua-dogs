@@ -2,7 +2,7 @@ import db from '/mongo/db';
 import Member from '/mongo/schemas/MemberSchema';
 import Role from '/mongo/schemas/RoleSchema';
 
-export function flattenMember(member) {
+export const flattenMember = (member) => {
   delete member._id;
   member.roles = member.roles.map((r) => {
     delete r._id;
@@ -10,12 +10,12 @@ export function flattenMember(member) {
   });
 
   return member;
-}
+};
 
-export async function getMember(email) {
+export const getMember = async (email) => {
   let status = 200;
   let message = 'found member';
-  let member;
+  let member = null;
 
   await db.connect();
 
@@ -46,4 +46,4 @@ export async function getMember(email) {
     message,
     member: member ? member : undefined,
   };
-}
+};

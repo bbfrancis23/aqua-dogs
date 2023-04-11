@@ -8,8 +8,6 @@ import { getItem, flattenItem } from '/mongo/controllers/itemControllers';
 import { getSession } from 'next-auth/react';
 
 const processVote = async (item, vote, userId) => {
-  console.log(item);
-
   item.upvotes = await item.upvotes.filter((v) => v !== userId);
   item.downvotes = await item.downvotes.filter((v) => v !== userId);
 

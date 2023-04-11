@@ -23,7 +23,7 @@ export interface ItemRatingProps {
 export default function ItemRating(props: ItemRatingProps){
   const {openAuthDialog} = props
 
-  const [item, setItem] = useState<any>(props.item)
+  const [item, setItem] = useState<Item>(props.item)
 
   const {data: session, status} = useSession()
 
@@ -44,8 +44,6 @@ export default function ItemRating(props: ItemRatingProps){
 
 
   useEffect(() => {
-
-    console.log('item:', item)
 
     let vote = 0
 

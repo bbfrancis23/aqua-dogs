@@ -17,6 +17,7 @@ import {Item} from "../../interfaces/ItemInterface"
 import {getItems, getItem} from "../../mongo/controllers/itemControllers"
 import Permission from "../../ui/Permission"
 import PermissionCodes from "../../enums/PermissionCodes"
+import ItemFavorite from "../../components/items/ItemFavorite"
 
 
 const CodeEditor = dynamic(
@@ -109,7 +110,7 @@ const ItemDetails = (props: ItemDetailsProps) => {
         </CardContent>
         <CardActions>
           <ItemRating item={item} openAuthDialog={openAuthDialog}/>
-
+          <ItemFavorite item={item} openAuthDialog={openAuthDialog} />
         </CardActions>
       </Card>
 

@@ -34,7 +34,7 @@ export default function MemberPage(props: MemberProps){
   }
 
 
-  async function logoutHandler(){
+  const logoutHandler = async() => {
     await signOut()
     window.location.href = "/"
     enqueueSnackbar("You are now Logged Out", {variant: "success"})
@@ -66,14 +66,14 @@ export default function MemberPage(props: MemberProps){
   )
 }
 
-export async function getServerSideProps(context: any){
+export const getServerSideProps = async(context: any) => {
   const authSession = await getSession({req: context.req})
 
   if(!authSession){
     return {redirect: {destination: "/", permanent: false}}
   }
 
-  let member: Member
+  let member: Member | {} = {}
 
   if(authSession.user && authSession.user.email){
     const result = await getMember(authSession.user.email)
