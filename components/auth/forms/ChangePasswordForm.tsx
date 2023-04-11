@@ -33,7 +33,7 @@ export default function ChangePasswordForm(){
       newPassword: ""
     },
     validationSchema: ChangePasswordFormSchema,
-    onSubmit: async (data) => {
+    onSubmit: (data) => {
       axios.patch(
         "/api/auth/change-password",
         {oldPassword: data.oldPassword, newPassword: data.newPassword},
@@ -57,7 +57,7 @@ export default function ChangePasswordForm(){
     <Box sx={{m: 3}}>
       { session && (
         <>
-          <Typography sx={{display: "block"}}>Change Password:</Typography>
+
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
               <Stack spacing={3} sx={{width: "300px"}}>

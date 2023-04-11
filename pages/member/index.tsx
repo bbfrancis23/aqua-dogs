@@ -8,6 +8,7 @@ import {useSnackbar} from "notistack"
 import {getMember} from "../../mongo/controllers/memberControllers"
 
 import ChangePasswordForm from "../../components/auth/forms/ChangePasswordForm"
+import OrgForm from "../../components/org/forms/OrgForm"
 import NameForm from "../../components/members/NameForm"
 import EmailForm from "../../components/members/EmailForm"
 import {Member} from "../../interfaces/MemberInterface"
@@ -22,7 +23,8 @@ export default function MemberPage(props: MemberProps){
 
   const {authSession, member} = props
 
-  const [showChangePasswordForm, setChangePasswordForm] = useState<boolean>(false)
+  const [showChangePasswordForm, setShowChangePasswordForm] = useState<boolean>(false)
+  const [showOrgForm, setShowOrgForm] = useState<boolean>(false)
 
   const {enqueueSnackbar} = useSnackbar()
   const {status} = useSession()
@@ -51,12 +53,20 @@ export default function MemberPage(props: MemberProps){
             <EmailForm email={member?.email ? member.email : ""} />
             <Box>
               <Button
-                onClick={() => setChangePasswordForm(!showChangePasswordForm)}
+                onClick={() => setShowChangePasswordForm(!showChangePasswordForm)}
               >
                 Change Password
               </Button>
             </Box>
             { showChangePasswordForm && <ChangePasswordForm />}
+            <Box>
+              <Button
+                onClick={() => setShowOrgForm(!showOrgForm)}
+              >
+                Found organization
+              </Button>
+            </Box>
+            { showOrgForm && <OrgForm />}
             <Box><Button onClick={logoutHandler} >LOG OUT</Button></Box>
           </CardContent>
         </Card>
