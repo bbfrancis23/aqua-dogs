@@ -10,10 +10,6 @@ import {LoadingButton} from "@mui/lab"
 
 const NameSchema = Yup.object().shape({
   memberName: Yup.string()
-    .min(
-      2,
-      "Name must be at least 2 characters"
-    )
     .required("Member Name is required"),
 })
 
@@ -32,7 +28,7 @@ export default function NameForm(params: {name: string}){
       memberName: name ? name : ""
     },
     validationSchema: NameSchema,
-    onSubmit: async (data) => {
+    onSubmit: (data) => {
       axios.patch(
         "/api/auth/member",
         {memberName: data.memberName},

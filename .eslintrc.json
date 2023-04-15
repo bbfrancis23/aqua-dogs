@@ -99,7 +99,6 @@
     "id-match": "error",
     "init-declarations": "warn",
     "logical-assignment-operators": "error",
-    "max-depth": ["warn", 5],
     "max-lines": "warn",
     "max-lines-per-function": [
       "warn",
@@ -142,7 +141,6 @@
     "no-new-wrappers": "error",
     "no-redeclare": "error",
     "no-return-await": "error",
-    "no-shadow": "warn",
     "no-shadow-restricted-names": "error",
     "no-throw-literal": "error",
     "no-unused-expressions": "error",
@@ -162,7 +160,6 @@
     "one-var-declaration-per-line": "error",
     "operator-assignment": "error",
     "prefer-arrow-callback": "error",
-    "prefer-destructuring": "error",
     "prefer-object-spread": "error",
     "prefer-rest-params": "error",
     "prefer-spread": "error",

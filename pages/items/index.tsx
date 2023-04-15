@@ -87,7 +87,7 @@ const Items = (props: ItemsProps) => {
         {
           selectedRows.length > 0 &&
         <Box >
-          <Permission roles={[PermissionCodes.SITEADMIN]}>
+          <Permission roles={[PermissionCodes.SITE_ADMIN]}>
             <IconButton onClick={handleDelete} size="small"><DeleteIcon /></IconButton> |
           </Permission>
         </Box>
