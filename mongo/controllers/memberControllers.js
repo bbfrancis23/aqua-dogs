@@ -2,14 +2,42 @@ import db from '/mongo/db';
 import Member from '/mongo/schemas/MemberSchema';
 import Role from '/mongo/schemas/RoleSchema';
 
-export const flattenMember = (member) => {
-  delete member._id;
-  member.roles = member.roles.map((r) => {
-    delete r._id;
-    return r;
-  });
+import Organization from '/mongo/schemas/OrganizationSchema';
+
+import axios from 'axios';
+import mongoose from 'mongoose';
+
+import { ObjectId } from 'mongodb';
+
+export const flattenMember = async (member, basic = false) => {
+  await delete member._id;
+  member.roles = await member.roles.map((r) => r.toString());
+
+  console.log('roles', member.roles);
+
+  if (basic) {
+    member = {
+      id: member.id,
+      email: member.email,
+      name: member.name ? member.name : '',
+    };
+  }
 
   return member;
+};
+
+export const getMemberOrgs = async (memberId) => {
+  await db.connect();
+
+  let orgs = {};
+
+  orgs = await Organization.find({
+    $or: [{ leader: memberId }, { members: memberId }],
+  });
+
+  await db.disconnect();
+
+  return orgs;
 };
 
 export const getMember = async (email) => {

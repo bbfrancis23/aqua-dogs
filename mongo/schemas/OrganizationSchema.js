@@ -5,7 +5,6 @@ const orgSchema = new mongoose.Schema({
   leader: { type: mongoose.Types.ObjectId, required: false, ref: 'members' },
   admins: [{ type: mongoose.Types.ObjectId, required: false, ref: 'members' }],
   members: [{ type: mongoose.Types.ObjectId, required: false, ref: 'members' }],
-  tags: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Tag' }],
 });
 
 const Organization =

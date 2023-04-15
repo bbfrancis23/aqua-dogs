@@ -1,4 +1,10 @@
 enum PermissionCodes {
-  SITEADMIN = "SiteAdmin", // GOD MODE
+  SITE_ADMIN = 'SiteAdmin',
+  ORG_LEADER = 'OrgLeader',
+  ORG_ADMIN = 'OrgAdmin',
+  ORG_MEMEBER = 'OrgMember',
+  PROJECT_LEADER = 'ProjectLeader',
+  PROJECT_ADMIN = 'ProjectAdmin',
+  PROJECT_MEMBER = 'ProjectMember',
 }
-export default PermissionCodes
+export default PermissionCodes;

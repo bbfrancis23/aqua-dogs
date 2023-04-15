@@ -1,43 +1,43 @@
-import {Box, Button, TextField, Typography} from "@mui/material"
-import axios from "axios"
-import {useSnackbar} from "notistack"
-import {useState} from "react"
 
 import {FormikProvider, useFormik, Form} from "formik"
 
 import * as Yup from "yup"
-import {LoadingButton} from "@mui/lab"
+import { useState } from "react"
+import { useSnackbar } from "notistack"
 
-const NameSchema = Yup.object().shape({
-  memberName: Yup.string()
-    .required("Member Name is required"),
+
+import {LoadingButton} from "@mui/lab"
+import axios from "axios"
+import { Box, Button, TextField, Typography } from "@mui/material"
+
+const TitleSchema = Yup.object().shape({
+  orgTitle: Yup.string()
+    .required("Title is required"),
 })
 
-export default function NameForm(params: {name: string}){
+export default function OrgTitleForm(params: {title: string, id: string }){
 
-
-  const [name, setName] = useState(params.name)
+  const [title, setTitle] = useState(params.title)
 
   const {enqueueSnackbar} = useSnackbar()
   const [formError, setFormError] = useState<string>("")
   const [displayTextField, setDisplayTextField] = useState<boolean>(false)
 
-
   const formik = useFormik({
     initialValues: {
-      memberName: name ? name : ""
+      orgTitle: title
     },
-    validationSchema: NameSchema,
+    validationSchema: TitleSchema,
     onSubmit: (data) => {
       axios.patch(
-        "/api/auth/member",
-        {memberName: data.memberName},
+        `/api/org/${params.id}`,
+        {title: data.orgTitle},
       )
         .then((res) => {
           formik.setSubmitting(false)
-          if (res.status === 200 ){
-            enqueueSnackbar("Member Name Updated", {variant: "success"})
-            setName(data.memberName)
+          if (res.status === axios.HttpStatusCode.Ok ){
+            enqueueSnackbar("Org Title Updated", {variant: "success"})
+            setTitle(data.orgTitle)
             setDisplayTextField(false)
           }
         })
@@ -52,25 +52,22 @@ export default function NameForm(params: {name: string}){
 
   return (
     <Box >
-      {(name && !displayTextField) &&
+      {(title && !displayTextField) &&
         <Box onClick={() => setDisplayTextField(!displayTextField)} sx={{cursor: "pointer"}}>
-          <Typography sx={{display: "inline", mr: 1, cursor: "pointer"}}>
-            Member Name:
-          </Typography>
-          {name}
+          {title}
         </ Box>
       }
+
       { displayTextField && (
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
 
             <TextField
               size="small"
-              autoComplete="name"
-              label={"Member Name"}
-              {...getFieldProps("memberName")}
-              error={Boolean(touched && errors.memberName)}
-              helperText={touched && errors.memberName}
+              label={"Org Title"}
+              {...getFieldProps("orgTitle")}
+              error={Boolean(touched && errors.orgTitle)}
+              helperText={touched && errors.orgTitle}
               sx={{mr: 1}}
             />
             <LoadingButton
@@ -83,13 +80,7 @@ export default function NameForm(params: {name: string}){
             >
               Save
             </LoadingButton>
-            {!name && (
-              <Button onClick={() => setDisplayTextField(!displayTextField)}>
-                {displayTextField ? "Cancel" : "Add Member Name"}
-              </Button>
-            )}
-
-            {(name && displayTextField) && (
+            {(title && displayTextField) && (
               <Button onClick={() => setDisplayTextField(!displayTextField)}>
               Cancel
               </Button>
@@ -97,7 +88,6 @@ export default function NameForm(params: {name: string}){
           </Form>
         </FormikProvider>
       )}
-
 
     </Box>
   )

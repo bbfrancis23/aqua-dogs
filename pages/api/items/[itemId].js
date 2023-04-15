@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
     await db.connect();
 
-    let item;
+    let item = {};
 
     try {
       item = await Item.findById(itemId)

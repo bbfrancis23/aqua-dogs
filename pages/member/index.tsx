@@ -1,27 +1,29 @@
 import {useState} from "react"
 
-import {Box, Card, CardContent, CardHeader, Button} from "@mui/material"
+import {Box, Card, CardContent, CardHeader, Button, Typography, Stack} from "@mui/material"
 import {useSession, signOut, getSession} from "next-auth/react"
 
 import {useSnackbar} from "notistack"
 
-import {getMember} from "../../mongo/controllers/memberControllers"
+import {getMember, getMemberOrgs} from "../../mongo/controllers/memberControllers"
 
 import ChangePasswordForm from "../../components/auth/forms/ChangePasswordForm"
 import OrgForm from "../../components/org/forms/OrgForm"
 import NameForm from "../../components/members/NameForm"
 import EmailForm from "../../components/members/EmailForm"
 import {Member} from "../../interfaces/MemberInterface"
+import Link from "next/link"
 
 
 export interface MemberProps{
   authSession: any;
-  member: Member
+  member: Member;
+  orgs: any;
 }
 
 export default function MemberPage(props: MemberProps){
 
-  const {authSession, member} = props
+  const {authSession, member, orgs} = props
 
   const [showChangePasswordForm, setShowChangePasswordForm] = useState<boolean>(false)
   const [showOrgForm, setShowOrgForm] = useState<boolean>(false)
@@ -49,25 +51,46 @@ export default function MemberPage(props: MemberProps){
         <Card sx={{width: {xs: "100vw", md: "50vw"}}}>
           <CardHeader title="Member Information" />
           <CardContent sx={{pl: 3}}>
-            <NameForm name={member?.name ? member.name : ""} />
-            <EmailForm email={member?.email ? member.email : ""} />
-            <Box>
-              <Button
-                onClick={() => setShowChangePasswordForm(!showChangePasswordForm)}
-              >
+            <Stack spacing={3}>
+              <NameForm name={member?.name ? member.name : ""} />
+              <EmailForm email={member?.email ? member.email : ""} />
+              <Typography>My Organizations:</Typography>
+              {
+                orgs.map( (o:any) => (
+                  <Box key={o.id}>
+                    <Link
+                      href={`/member/orgs/${o.id}`}
+
+                    >
+                      <Button >
+                        {o.title}
+                      </Button>
+                    </Link>
+
+                  </Box>
+                ))
+              }
+              <Typography>Actions:</Typography>
+              <Box>
+                <Button
+                  onClick={() => setShowChangePasswordForm(!showChangePasswordForm)}
+                >
                 Change Password
-              </Button>
-            </Box>
-            { showChangePasswordForm && <ChangePasswordForm />}
-            <Box>
-              <Button
-                onClick={() => setShowOrgForm(!showOrgForm)}
-              >
+                </Button>
+              </Box>
+              { showChangePasswordForm && <ChangePasswordForm />}
+              <Box>
+                <Button
+                  onClick={() => setShowOrgForm(!showOrgForm)}
+                >
                 Found organization
-              </Button>
-            </Box>
-            { showOrgForm && <OrgForm />}
-            <Box><Button onClick={logoutHandler} >LOG OUT</Button></Box>
+                </Button>
+              </Box>
+              { showOrgForm && <OrgForm />}
+
+              <Box><Button onClick={logoutHandler} >LOG OUT</Button></Box>
+            </Stack>
+
           </CardContent>
         </Card>
       )
@@ -83,7 +106,7 @@ export const getServerSideProps = async(context: any) => {
     return {redirect: {destination: "/", permanent: false}}
   }
 
-  let member: Member | {} = {}
+  let member: any = {}
 
   if(authSession.user && authSession.user.email){
     const result = await getMember(authSession.user.email)
@@ -102,5 +125,8 @@ export const getServerSideProps = async(context: any) => {
     return {redirect: {destination: "/", permanent: false}}
   }
 
-  return {props: {authSession, member}}
+  let orgs:any = await getMemberOrgs(member.id)
+  orgs = orgs.map( (o:any) => ({ id: o._id.toString(), title: o.title}))
+
+  return {props: {authSession, member, orgs}}
 }

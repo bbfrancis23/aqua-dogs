@@ -69,7 +69,7 @@ const ItemDetails = (props: ItemDetailsProps) => {
         <CardHeader
           title={<EditableItemTitle item={item} setItem={ (i:any) => setItem(i) } />}
           action={
-            <Permission roles={[PermissionCodes.SITEADMIN]}>
+            <Permission roles={[PermissionCodes.SITE_ADMIN]}>
               <IconButton onClick={() => handleOpenDialog("EDIT") }><EditIcon /></IconButton>
               <IconButton onClick={() => handleOpenDialog("ADD") }><AddIcon /></IconButton>
             </Permission> }
