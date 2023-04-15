@@ -160,7 +160,6 @@
     "one-var-declaration-per-line": "error",
     "operator-assignment": "error",
     "prefer-arrow-callback": "error",
-    "prefer-destructuring": "error",
     "prefer-object-spread": "error",
     "prefer-rest-params": "error",
     "prefer-spread": "error",

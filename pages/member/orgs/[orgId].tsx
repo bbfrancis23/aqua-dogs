@@ -1,10 +1,12 @@
 import {
   Avatar, Badge, Box, Button, Card, CardContent, CardHeader,
   Divider,
+  Icon,
   IconButton,
   List, ListItem, ListItemAvatar, ListItemText, Stack, Tooltip, Typography, } from "@mui/material"
 import Details from "../../../ui/Details"
 
+import AddIcon from "@mui/icons-material/Add"
 
 import { getOrg } from '../../../mongo/controllers/orgControllers';
 import OrgTitleForm from "../../../components/org/forms/OrgTitleForm";
@@ -15,6 +17,7 @@ import { getSession } from "next-auth/react";
 import { getMember } from "../../../mongo/controllers/memberControllers";
 import Permission from "../../../ui/Permission";
 import PermissionCodes from "../../../enums/PermissionCodes";
+import AddMemberIcon from '@mui/icons-material/PersonAdd';
 
 export default function MemberOrgPage(props:any){
 
@@ -34,15 +37,33 @@ export default function MemberOrgPage(props:any){
     return avatar
   }
 
+  const handleOpenDialog = (mode: string) => {
+    console.log(mode)
+  }
+
   return (
     <Details>
       <Card sx={{width: {xs: "100vw", md: "50vw"}}}>
         <CardHeader
-          title={<OrgTitleForm title={org.title} id={org.id} />}
-
+          title={<OrgTitleForm title={org.title} id={org.id} org={org}/>}
+          action={
+            <Permission roles={[PermissionCodes.ORG_LEADER, PermissionCodes.ORG_ADMIN]} org={org}>
+              <IconButton onClick={() => handleOpenDialog("ADD") }><AddIcon /></IconButton>
+            </Permission> }
         />
         <CardContent sx={{pl: 1}}>
-          <Typography variant={'h5'} sx={{ pl: 3}}>Team</Typography>
+          <Box sx={{ display: 'flex'}}>
+            <Typography variant={'h5'} sx={{ pl: 3}}>Members:</Typography>
+            <Permission roles={[PermissionCodes.ORG_LEADER, PermissionCodes.ORG_ADMIN]} org={org}>
+
+              <Tooltip title="Add Member">
+                <IconButton size="small" sx={{ ml: 1}}>
+                  <AddMemberIcon />
+                </IconButton>
+              </Tooltip>
+            </Permission>
+          </Box>
+
 
           <Stack spacing={3} sx={{ pl: 3}}>
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -58,7 +79,7 @@ export default function MemberOrgPage(props:any){
                   </Badge>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={`Org Leader: ${org.leader.name}`}
+                  primary={`Leader: ${org.leader.name}`}
                   secondary={` ${org.leader.email}`}
                 />
               </ListItem>
@@ -93,7 +114,7 @@ export default function MemberOrgPage(props:any){
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText
-                      primary={`Team Member: ${m.name}`}
+                      primary={`Member: ${m.name}`}
                       secondary={` ${m.email}`}
                     />
                   </ListItem>

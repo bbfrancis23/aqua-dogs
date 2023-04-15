@@ -15,9 +15,16 @@ const TitleSchema = Yup.object().shape({
     .required("Title is required"),
 })
 
-export default function OrgTitleForm(params: {title: string, id: string }){
 
-  const [title, setTitle] = useState(params.title)
+import { useSession } from "next-auth/react";
+
+export default function OrgTitleForm(props: {title: string, id: string, org: any }){
+
+  const {org} = props
+  const {data: session, status} = useSession()
+  const loading = status === "loading"
+
+  const [title, setTitle] = useState(props.title)
 
   const {enqueueSnackbar} = useSnackbar()
   const [formError, setFormError] = useState<string>("")
@@ -30,7 +37,7 @@ export default function OrgTitleForm(params: {title: string, id: string }){
     validationSchema: TitleSchema,
     onSubmit: (data) => {
       axios.patch(
-        `/api/org/${params.id}`,
+        `/api/org/${props.id}`,
         {title: data.orgTitle},
       )
         .then((res) => {
@@ -50,10 +57,22 @@ export default function OrgTitleForm(params: {title: string, id: string }){
 
   const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
 
+  const showTextField = () => {
+
+    if(session && session.user){
+      const user:any = session.user
+      if(user.id === props.org.leader.id){
+        setDisplayTextField(true)
+      }
+    }
+
+
+  }
+
   return (
     <Box >
       {(title && !displayTextField) &&
-        <Box onClick={() => setDisplayTextField(!displayTextField)} sx={{cursor: "pointer"}}>
+        <Box onClick={() => showTextField()} sx={{cursor: "pointer"}}>
           {title}
         </ Box>
       }
@@ -81,7 +100,7 @@ export default function OrgTitleForm(params: {title: string, id: string }){
               Save
             </LoadingButton>
             {(title && displayTextField) && (
-              <Button onClick={() => setDisplayTextField(!displayTextField)}>
+              <Button onClick={() => setDisplayTextField(false)}>
               Cancel
               </Button>
             )}
