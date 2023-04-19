@@ -36,16 +36,17 @@ export default async function handler(req, res) {
       org = await Organization.findById(orgId);
 
       if (org) {
-        console.log(org);
         if (org.leader._id.toString() === session.user.id) {
-          const { title } = req.body;
-
-          org.title = title;
-          console.log(org);
+          if (req.body.title) {
+            const { title } = req.body;
+            org.title = title;
+          } else if (req.body.addMember) {
+            org.members.push(req.body.addMember);
+          }
 
           try {
             await org.save();
-            org = getOrg(orgId);
+            org = await getOrg(orgId);
           } catch (e) {
             status = 500;
             message = `Updating Item failed: ${e}`;
@@ -53,7 +54,7 @@ export default async function handler(req, res) {
 
           if (org) {
             status = axios.HttpStatusCode.Ok;
-            message = 'Org Title updated';
+            message = 'Org updated';
           }
         } else {
           status = axios.HttpStatusCode.Unauthorized;
