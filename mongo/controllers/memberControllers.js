@@ -9,11 +9,12 @@ import mongoose from 'mongoose';
 
 import { ObjectId } from 'mongodb';
 
-export const flattenMember = async (member, basic = false) => {
-  await delete member._id;
-  member.roles = await member.roles.map((r) => r.toString());
+export const flattenMember = (member, basic = false) => {
+  delete member._id;
 
-  console.log('roles', member.roles);
+  if (member.roles) {
+    member.roles = member.roles.map((r) => r.toString());
+  }
 
   if (basic) {
     member = {
@@ -38,6 +39,26 @@ export const getMemberOrgs = async (memberId) => {
   await db.disconnect();
 
   return orgs;
+};
+
+export const getMembers = async () => {
+  await db.connect();
+
+  let members = null;
+
+  members = await Member.find();
+
+  if (members) {
+    members = await members.map((m) => {
+      m = m.toObject({ getters: true });
+      m = flattenMember(m, true);
+      return m;
+    });
+  }
+
+  await db.disconnect();
+
+  return members;
 };
 
 export const getMember = async (email) => {
