@@ -42,11 +42,21 @@ export default async function handler(req, res) {
             org.title = title;
           } else if (req.body.addMember) {
             org.members.push(req.body.addMember);
+          } else if (req.body.removeMember) {
+            org.members.pull({ _id: req.body.removeMember });
+          } else if (req.body.makeAdmin) {
+            org.members.pull({ _id: req.body.makeAdmin });
+            org.admins.push(req.body.makeAdmin);
+          } else if (req.body.removeAdmin) {
+            org.admins.pull({ _id: req.body.removeAdmin });
+            org.members.push(req.body.removeAdmin);
           }
 
           try {
             await org.save();
             org = await getOrg(orgId);
+
+            console.log(org);
           } catch (e) {
             status = 500;
             message = `Updating Item failed: ${e}`;

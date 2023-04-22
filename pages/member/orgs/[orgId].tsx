@@ -2,17 +2,14 @@ import { useState } from "react";
 
 import { getSession } from "next-auth/react";
 
-import {
-  Avatar, Badge, Box, Card, CardContent, CardHeader, Divider, IconButton,
-  List, ListItem, ListItemAvatar, ListItemText, Stack, Tooltip, Typography
-} from "@mui/material"
+import { Box, Card, CardContent, CardHeader, Divider, IconButton, List, Stack,
+  Typography } from "@mui/material"
 
 import AddOrgIcon from "@mui/icons-material/Add"
-import DeleteIcon from '@mui/icons-material/Delete';
-import LeaderBadge from '@mui/icons-material/Star';
-import AdminBadge from '@mui/icons-material/AutoAwesome';
 
 import OrgTitleForm from "../../../components/org/forms/OrgTitleForm";
+import AddOrgMemberForm from "../../../components/org/forms/AddOrgMemberForm";
+import MemberListItem from "../../../components/members/MemberListItem";
 
 import Details from "../../../ui/Details"
 import Permission from "../../../ui/Permission";
@@ -22,33 +19,16 @@ import { getMember } from "../../../mongo/controllers/memberControllers";
 
 import PermissionCodes from "../../../enums/PermissionCodes";
 
-import AddOrgMemberForm from "../../../components/org/forms/AddOrgMemberForm";
-import { Member } from "../../../interfaces/MemberInterface";
 import { Org } from "../../../interfaces/OrgInterface";
 
 export interface MemberOrgProps {
-  member: Member;
   org: Org;
+  setOrg: () => void
 }
 
 export default function MemberOrgPage(props: MemberOrgProps){
 
-  const { member} = props
   const [org, setOrg] = useState(props.org)
-
-
-  const getAvatar = (m: any) => {
-    let avatar = '';
-    if(m){
-      if(m.name){
-        const names = m.name.split(' ')
-        const firstInitial = names[0].charAt(0);
-        const secondInitial = names[1] ? names[1].charAt(0) : '';
-        avatar = [firstInitial, secondInitial].join('')
-      }else{ avatar = m.email.charAt(0) }
-    }
-    return avatar
-  }
 
 
   return (
@@ -57,10 +37,11 @@ export default function MemberOrgPage(props: MemberOrgProps){
         <CardHeader
           title={<OrgTitleForm org={org}/>}
           action={
-            <Permission roles={[PermissionCodes.ORG_LEADER, PermissionCodes.ORG_ADMIN]} org={org}>{
+            <Permission roles={[PermissionCodes.ORG_LEADER, PermissionCodes.ORG_ADMIN]} org={org}>
               <IconButton><AddOrgIcon /></IconButton>
-            }
-            </Permission>} />
+            </Permission>
+          }
+        />
         <CardContent sx={{pl: 1}}>
           <Box sx={{ display: 'flex', pb: 1}}>
             <Typography variant={'h5'} sx={{ pl: 3, }}>Members:</Typography>
@@ -70,56 +51,24 @@ export default function MemberOrgPage(props: MemberOrgProps){
           </Box>
           <Stack spacing={3} sx={{ pl: 3}}>
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Badge
-                    overlap="circular"
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                    badgeContent={ <LeaderBadge color="primary" fontSize="small" /> } >
-                    <Avatar sx={{ bgcolor: 'secondary.main', width: 50, height: 50}} >
-                      {getAvatar(org.leader)}
-                    </Avatar>
-                  </Badge>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={`Leader: ${org.leader?.name}`}
-                  secondary={` ${org.leader?.email}`}
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              {
-                org.members?.map( (m:any) => (
-                  <ListItem
-                    alignItems="flex-start"
-                    key={m.id}
-                    secondaryAction={
-                      <Permission
-                        roles={[PermissionCodes.ORG_LEADER, PermissionCodes.ORG_ADMIN]}
-                        org={org}
-                      >
-                        <IconButton aria-label="delete">
-                          <DeleteIcon />
-                        </IconButton>
-                        <Tooltip title="Make Admin">
-                          <IconButton aria-label="make admin">
-                            <AdminBadge />
-                          </IconButton>
-                        </Tooltip>
-                      </Permission>
-                    }
-                  >
-                    <ListItemAvatar>
-                      <Avatar sx={{ bgcolor: 'secondary.main', width: 50, height: 50}} >
-                        {getAvatar(m)}
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={`Member: ${m.name}`}
-                      secondary={` ${m.email}`}
-                    />
-                  </ListItem>
-                ))
-              }
+              { org.leader && (
+                <MemberListItem member={org.leader} type={PermissionCodes.ORG_LEADER}
+                  org={org} setOrg={setOrg} />
+              )}
+              {org.admins?.map( (m:any) => (
+                <>
+                  <Divider variant="inset" component="li" />
+                  <MemberListItem member={m} type={PermissionCodes.ORG_ADMIN}
+                    org={org} setOrg={setOrg}/>
+                </>
+              ))}
+              { org.members?.map( (m:any) => (
+                <>
+                  <Divider variant="inset" component="li" />
+                  <MemberListItem member={m} type={PermissionCodes.ORG_MEMEBER}
+                    org={org} setOrg={setOrg}/>
+                </>
+              ))}
             </List>
           </Stack>
         </CardContent>
@@ -157,5 +106,5 @@ export const getServerSideProps = async (context: any) => {
 
   const org = await getOrg(context.query.orgId)
 
-  return {props: {authSession, member, org}}
+  return {props: {authSession, org}}
 }
