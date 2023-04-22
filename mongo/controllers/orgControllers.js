@@ -14,6 +14,16 @@ export const flattenOrg = async (org) => {
   delete org._id;
 
   org.leader = await flattenMember(org.leader, true);
+
+  let tempAdmins = [];
+
+  for (let admin of org.admins) {
+    admin = await flattenMember(admin, true);
+    tempAdmins.push(admin);
+  }
+
+  org.admins = tempAdmins;
+
   let tempMembers = [];
 
   for (let member of org.members) {
@@ -33,6 +43,7 @@ export const getOrg = async (orgId) => {
 
   org = await Organization.findById(orgId)
     .populate({ path: 'leader', model: Member })
+    .populate({ path: 'admins', model: Member })
     .populate({ path: 'members', model: Member });
 
   org = await flattenOrg(org);
