@@ -12,7 +12,7 @@ export const flattenTag = (tag) => {
 export const getTags = async () => {
   await db.connect();
 
-  let tags = await Tag.find();
+  let tags = await Tag.find({ scope: 'public' });
 
   await db.disconnect();
 

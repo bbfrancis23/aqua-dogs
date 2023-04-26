@@ -1,4 +1,5 @@
 import { Member } from './MemberInterface';
+import { Tag } from './TagInterface';
 
 export interface Org {
   id: string;
@@ -6,4 +7,5 @@ export interface Org {
   leader?: Member;
   admins?: Member[];
   members?: Member[];
+  tags?: Tag[];
 }

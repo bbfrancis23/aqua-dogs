@@ -7,7 +7,10 @@ import { ObjectId } from 'mongodb';
 
 import mongoose from 'mongoose';
 import { getItem } from '../../../mongo/controllers/itemOld';
-import { getOrg } from '../../../mongo/controllers/orgControllers';
+import {
+  createOrgTag,
+  getOrg,
+} from '../../../mongo/controllers/orgControllers';
 
 import Organization from '/mongo/schemas/OrganizationSchema';
 
@@ -50,13 +53,20 @@ export default async function handler(req, res) {
           } else if (req.body.removeAdmin) {
             org.admins.pull({ _id: req.body.removeAdmin });
             org.members.push(req.body.removeAdmin);
+          } else if (req.body.addTag) {
+            try {
+              await createOrgTag(org, req.body.addTag);
+            } catch (e) {
+              status = 500;
+              message = `Error Adding Org Tag: ${e}`;
+            }
+          } else if (req.body.removeTag) {
+            org.tags.pull({ _id: req.body.removeTag });
           }
 
           try {
             await org.save();
             org = await getOrg(orgId);
-
-            console.log(org);
           } catch (e) {
             status = 500;
             message = `Updating Item failed: ${e}`;

@@ -8,6 +8,10 @@ import Member from '/mongo/schemas/MemberSchema';
 import Organization from '/mongo/schemas/OrganizationSchema';
 import { flattenMember } from './memberControllers';
 
+import { flattenTag } from './tagsControllers';
+
+import mongoose from 'mongoose';
+
 export const flattenOrg = async (org) => {
   org = await org.toObject({ getters: true, flattenMaps: true });
 
@@ -33,6 +37,13 @@ export const flattenOrg = async (org) => {
 
   org.members = tempMembers;
 
+  let tempTags = [];
+  for (let tag of org.tags) {
+    tag = await flattenTag(tag);
+    tempTags.push(tag);
+  }
+
+  org.tags = tempTags;
   return org;
 };
 
@@ -44,9 +55,41 @@ export const getOrg = async (orgId) => {
   org = await Organization.findById(orgId)
     .populate({ path: 'leader', model: Member })
     .populate({ path: 'admins', model: Member })
+    .populate({ path: 'tags', model: Tag })
     .populate({ path: 'members', model: Member });
 
   org = await flattenOrg(org);
+
+  await db.disconnect();
+
+  return org;
+};
+
+export const createOrgTag = async (org, title) => {
+  await db.connect();
+
+  if (org && title) {
+    const dbSession = await mongoose.startSession();
+    try {
+      dbSession.startTransaction();
+
+      const newTag = new Tag({ title });
+      await newTag.save({ dbSession });
+
+      await org.tags.push(newTag);
+
+      await org.save({ dbSession });
+      await dbSession.commitTransaction();
+
+      console.log('org: ', org);
+    } catch (e) {
+      await dbSession.abortTransaction();
+      dbSession.endSession();
+      throw new Error({ message: `Error: ${e}` });
+    }
+  } else {
+    throw new Error({ message: 'Missing Data' });
+  }
 
   await db.disconnect();
 

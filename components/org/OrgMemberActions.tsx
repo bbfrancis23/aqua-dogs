@@ -1,7 +1,7 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 
 import MakeAdminIcon from '@mui/icons-material/AddModerator';
-import RemoveMemberIcon from '@mui/icons-material/PersonRemove';
+import RemoveMemberIcon from '@mui/icons-material/PersonOff';
 import RemoveAdminIcon from '@mui/icons-material/RemoveModerator';
 
 import axios from "axios";

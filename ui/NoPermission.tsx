@@ -4,13 +4,13 @@ import {
 
 import {useSession} from "next-auth/react"
 import PermissionCodes from "../enums/PermissionCodes";
-export interface PermissionProps {
+export interface NoPermissionProps {
   roles: string[];
   children: ReactNode;
   org ?: any;
 }
 
-const Permission = (props: PermissionProps) => {
+const NoPermission = (props: NoPermissionProps) => {
 
   const {roles, children} = props,
 
@@ -50,7 +50,7 @@ const Permission = (props: PermissionProps) => {
 
   console.log(children)
 
-  return ( <>{ (hasPermission && !loading ) && children}</> )
+  return ( <>{ (!hasPermission && !loading ) && children}</> )
 }
 
-export default Permission
+export default NoPermission
