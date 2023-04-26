@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { getSession } from "next-auth/react";
 
-import { Box, Card, CardContent, CardHeader, Divider, IconButton, List, Stack,
+import { Box, Card, CardContent, CardHeader, Chip, Divider, IconButton, List, Stack,
   Typography } from "@mui/material"
 
 import AddOrgIcon from "@mui/icons-material/Add"
@@ -10,9 +10,14 @@ import AddOrgIcon from "@mui/icons-material/Add"
 import OrgTitleForm from "../../../components/org/forms/OrgTitleForm";
 import AddOrgMemberForm from "../../../components/org/forms/AddOrgMemberForm";
 import MemberListItem from "../../../components/members/MemberListItem";
+import AddOrgTagForm from "../../../components/org/forms/AddOrgTagForm";
+
+import { useSnackbar } from "notistack";
+import axios from "axios";
 
 import Details from "../../../ui/Details"
 import Permission from "../../../ui/Permission";
+import NoPermission from "../../../ui/NoPermission";
 
 import { getOrg } from '../../../mongo/controllers/orgControllers';
 import { getMember } from "../../../mongo/controllers/memberControllers";
@@ -20,16 +25,20 @@ import { getMember } from "../../../mongo/controllers/memberControllers";
 import PermissionCodes from "../../../enums/PermissionCodes";
 
 import { Org } from "../../../interfaces/OrgInterface";
+import { Member } from "../../../interfaces/MemberInterface";
+import { Tag } from "../../../interfaces/TagInterface";
+import OrgTag from "../../../components/org/OrgTag";
 
 export interface MemberOrgProps {
+  authSession: any;
   org: Org;
-  setOrg: () => void
 }
 
 export default function MemberOrgPage(props: MemberOrgProps){
 
   const [org, setOrg] = useState(props.org)
 
+  const {enqueueSnackbar} = useSnackbar()
 
   return (
     <Details>
@@ -42,35 +51,54 @@ export default function MemberOrgPage(props: MemberOrgProps){
             </Permission>
           }
         />
-        <CardContent sx={{pl: 1}}>
-          <Box sx={{ display: 'flex', pb: 1}}>
-            <Typography variant={'h5'} sx={{ pl: 3, }}>Members:</Typography>
-            <Permission roles={[PermissionCodes.ORG_LEADER, PermissionCodes.ORG_ADMIN]} org={org}>
-              <AddOrgMemberForm org={org} setOrg={(o:any) => setOrg(o)}/>
-            </Permission>
+        <CardContent sx={{pl: 1, display: 'flex'}}>
+          <Box width={'50%'}>
+            <Box sx={{ display: 'flex', pb: 1}}>
+              <Typography variant={'h5'} sx={{ pl: 3, }}>Members:</Typography>
+              <Permission roles={[PermissionCodes.ORG_LEADER, PermissionCodes.ORG_ADMIN]} org={org}>
+                <AddOrgMemberForm org={org} setOrg={(o: Org) => setOrg(o)}/>
+              </Permission>
+            </Box>
+            <Stack spacing={3} sx={{ pl: 3}}>
+              <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                { org.leader && (
+                  <MemberListItem
+                    member={org.leader}
+                    type={PermissionCodes.ORG_LEADER} org={org} setOrg={setOrg} />
+                )}
+                {org.admins?.map( (m:Member) => (
+                  <Box key={m.id}>
+                    <Divider variant="inset" component="li" />
+                    <MemberListItem member={m} type={PermissionCodes.ORG_ADMIN}
+                      org={org} setOrg={setOrg}/>
+                  </ Box>
+                ))}
+                { org.members?.map( (m:Member) => (
+                  <Box key={m.id}>
+                    <Divider variant="inset" component="li" />
+                    <MemberListItem member={m} type={PermissionCodes.ORG_MEMEBER}
+                      org={org} setOrg={setOrg}/>
+                  </Box>
+                ))}
+              </List>
+            </Stack>
           </Box>
-          <Stack spacing={3} sx={{ pl: 3}}>
-            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-              { org.leader && (
-                <MemberListItem member={org.leader} type={PermissionCodes.ORG_LEADER}
-                  org={org} setOrg={setOrg} />
-              )}
-              {org.admins?.map( (m:any) => (
-                <>
-                  <Divider variant="inset" component="li" />
-                  <MemberListItem member={m} type={PermissionCodes.ORG_ADMIN}
-                    org={org} setOrg={setOrg}/>
-                </>
+
+          <Box width={'50%'}>
+            <Box sx={{ display: 'flex', pb: 1}}>
+              <Typography variant={'h5'} sx={{ pl: 3, }}>Tags:</Typography>
+              <Permission roles={[PermissionCodes.ORG_LEADER, PermissionCodes.ORG_ADMIN]} org={org}>
+                <AddOrgTagForm org={org} setOrg={(o:Org) => setOrg(o)}/>
+              </Permission>
+            </Box>
+            <div >
+
+              { org.tags?.map( (t:Tag) => (
+                <OrgTag tag={t} org={org} setOrg={setOrg} key={t.id} />
               ))}
-              { org.members?.map( (m:any) => (
-                <>
-                  <Divider variant="inset" component="li" />
-                  <MemberListItem member={m} type={PermissionCodes.ORG_MEMEBER}
-                    org={org} setOrg={setOrg}/>
-                </>
-              ))}
-            </List>
-          </Stack>
+            </div>
+          </Box>
+
         </CardContent>
       </Card>
     </Details>

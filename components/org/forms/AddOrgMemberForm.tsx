@@ -89,11 +89,9 @@ export default function AddOrgMemberForm(props: AddOrgMemberFormProps){
               <Autocomplete
                 {...defaultProps}
                 options={canidateMembers}
-                sx={{ width: 300 }}
                 size={'small'}
-
+                sx={{ minWidth: '150px'}}
                 onChange={(e, value) => {
-                  console.log(value);
                   setFieldValue(
                     "member",
                     value !== null ? value.id : initialValues.member
@@ -117,7 +115,7 @@ export default function AddOrgMemberForm(props: AddOrgMemberFormProps){
               >
             Save
               </LoadingButton>
-              <Button onClick={() => setDisplayAddOrgMemberForm(false)} >Canel</Button></Box>
+              <Button onClick={() => setDisplayAddOrgMemberForm(false)} >Cancel</Button></Box>
             </ Box>
           </Form>
         </FormikProvider>
