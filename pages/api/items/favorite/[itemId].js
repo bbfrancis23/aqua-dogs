@@ -63,8 +63,6 @@ export const handler = async (req, res) => {
   } else if (req.method === 'GET') {
     const session = await getSession({ req });
 
-    console.log('tring to GET');
-
     if (session) {
       try {
         member = await Member.findById(session.user.id).populate({
