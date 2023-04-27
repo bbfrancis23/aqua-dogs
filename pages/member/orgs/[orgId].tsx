@@ -17,7 +17,6 @@ import axios from "axios";
 
 import Details from "../../../ui/Details"
 import Permission from "../../../ui/Permission";
-import NoPermission from "../../../ui/NoPermission";
 
 import { getOrg } from '../../../mongo/controllers/orgControllers';
 import { getMember } from "../../../mongo/controllers/memberControllers";
@@ -133,6 +132,7 @@ export const getServerSideProps = async (context: any) => {
 
 
   const org = await getOrg(context.query.orgId)
+
 
   return {props: {authSession, org}}
 }

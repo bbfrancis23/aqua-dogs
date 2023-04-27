@@ -113,7 +113,7 @@ export const getServerSideProps = async(context: any) => {
     if(result.member){
       member = {
         email: result.member.email,
-        name: result.member.name,
+        name: result.member.name ? result.member.name : '',
         roles: result.member.roles,
         id: result.member.id
       }
