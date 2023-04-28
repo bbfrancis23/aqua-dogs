@@ -22,16 +22,18 @@ export const ItemFavorite = (props: ItemFavoriteProps) => {
 
   const [isFavorite, setIsFavoirite] = useState<boolean>(false)
 
+  const {data: session, status} = useSession()
+
   useEffect(() => {
 
+    if(session){
 
-    axios.get(`/api/items/favorite/${item.id}`).then((r) => {
-      setIsFavoirite(r.data.isFavorite)
-    })
-  }, [item])
+      axios.get(`/api/items/favorite/${item.id}`).then((r) => {
+        setIsFavoirite(r.data.isFavorite)
+      })
+    }
+  }, [item, session])
 
-
-  const {data: session, status} = useSession()
 
   const loading = status === "loading"
 

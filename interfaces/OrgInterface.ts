@@ -4,8 +4,8 @@ import { Tag } from './TagInterface';
 export interface Org {
   id: string;
   title: string;
-  leader?: Member;
-  admins?: Member[];
-  members?: Member[];
-  tags?: Tag[];
+  leader: Member;
+  admins: Member[];
+  members: Member[];
+  tags: Tag[];
 }
