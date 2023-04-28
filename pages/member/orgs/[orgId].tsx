@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { getSession } from "next-auth/react";
 
-import { Box, Card, CardContent, CardHeader, Chip, Divider, IconButton, List, Stack,
+import { Box, Card, CardContent, CardHeader, Divider, IconButton, List, Stack,
   Typography } from "@mui/material"
 
 import AddOrgIcon from "@mui/icons-material/Add"
@@ -13,7 +13,6 @@ import MemberListItem from "../../../components/members/MemberListItem";
 import AddOrgTagForm from "../../../components/org/forms/AddOrgTagForm";
 
 import { useSnackbar } from "notistack";
-import axios from "axios";
 
 import Details from "../../../ui/Details"
 import Permission from "../../../ui/Permission";
@@ -28,6 +27,9 @@ import { Member } from "../../../interfaces/MemberInterface";
 import { Tag } from "../../../interfaces/TagInterface";
 import OrgTag from "../../../components/org/OrgTag";
 
+
+import Link from "next/link"
+
 export interface MemberOrgProps {
   authSession: any;
   org: Org;
@@ -36,8 +38,6 @@ export interface MemberOrgProps {
 export default function MemberOrgPage(props: MemberOrgProps){
 
   const [org, setOrg] = useState(props.org)
-
-  const {enqueueSnackbar} = useSnackbar()
 
   return (
     <Details>
@@ -93,7 +93,11 @@ export default function MemberOrgPage(props: MemberOrgProps){
             <div >
 
               { org.tags?.map( (t:Tag) => (
-                <OrgTag tag={t} org={org} setOrg={setOrg} key={t.id} />
+                <Link key={t.id}
+                  href={`/member/orgs/${org.id}/tags/${t.id}`}
+                >
+                  <OrgTag tag={t} org={org} setOrg={setOrg} />
+                </Link>
               ))}
             </div>
           </Box>

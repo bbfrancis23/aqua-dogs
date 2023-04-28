@@ -1,16 +1,22 @@
 import { getSession } from "next-auth/react"
-import { getMember } from "../../../../mongo/controllers/memberControllers"
-import { getOrg } from "../../../../mongo/controllers/orgControllers"
+import { getMember } from "../../../../../mongo/controllers/memberControllers"
+import { getOrg } from "../../../../../mongo/controllers/orgControllers"
+import TagsComponent from "../../../../../ui/TagComponent"
+import { getTag } from "../../../../../mongo/controllers/tagsControllers"
 
 export default function OrgItemsByTag(props: any){
 
+  const {authSession, tag, org} = props
+  const tagCols: [] = []
 
   return (
-    <>
-      Org Tags
-    </>
+    <TagsComponent tag={tag} tagCols={tagCols} />
   )
+
+
 }
+
+
 export const getServerSideProps = async (context: any) => {
 
   const authSession = await getSession({req: context.req})
@@ -38,8 +44,9 @@ export const getServerSideProps = async (context: any) => {
     return {redirect: {destination: "/", permanent: false}}
   }
 
+  const tag = await getTag(context.query.tagId)
 
   const org = await getOrg(context.query.orgId)
 
-  return {props: {authSession, org}}
+  return {props: {authSession, tag, org} }
 }
