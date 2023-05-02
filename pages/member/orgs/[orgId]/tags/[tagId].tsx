@@ -7,10 +7,10 @@ import { getTag } from "../../../../../mongo/controllers/tagsControllers"
 export default function OrgItemsByTag(props: any){
 
   const {authSession, tag, org} = props
-  const tagCols: [] = []
+  const tagItems: [] = []
 
   return (
-    <TagsComponent tag={tag} tagCols={tagCols} />
+    <TagsComponent tag={tag} tagItems={tagItems} />
   )
 
 
