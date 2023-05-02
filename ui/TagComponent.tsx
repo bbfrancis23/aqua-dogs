@@ -24,6 +24,8 @@ const TagsComponent = (props: TagComponentProps) => {
 
   const [tagItems, setTagItems] = useState(props.tagItems)
 
+  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([tag.id])
+
   const theme = useTheme()
 
   let medCols = 12;
@@ -45,14 +47,19 @@ const TagsComponent = (props: TagComponentProps) => {
       if(res.status === axios.HttpStatusCode.Ok){
         setTagItems(getTagItems(tag, res.data.items))
       }else{
-        enqueueSnackbar(`Error getting Tagged Items: ${res.data.message}`, {variant: "error"})
+        enqueueSnackbar(`Error getting Tagged Items1: ${res.data.message}`, {variant: "error"})
       }
     }).catch((error) => {
-      enqueueSnackbar(`Error getting Tagged Items: ${error}`, {variant: "error"})
+      enqueueSnackbar(`Error getting Tagged Items2: ${error}`, {variant: "error"})
     })
+    setSelectedTagIds([tag.id])
   }
 
-  const handleOpenDialog = () => {
+  const handleOpenDialog = (tagId?: string ) => {
+    if(tagId){
+
+      setSelectedTagIds([tag.id, tagId])
+    }
     setAddItemDialogIsOpen(true)
   }
 
@@ -86,7 +93,13 @@ const TagsComponent = (props: TagComponentProps) => {
               <Card sx={{height: "100%"}}>
                 <CardHeader
                   title={ti.tag.title}
-                  sx={{bgcolor: "primary.main", color: "primary.contrastText",}} />
+                  sx={{bgcolor: "primary.main", color: "primary.contrastText",}}
+                  action={
+                    <IconButton onClick={ () => handleOpenDialog(ti.tag.id)} sx={{ ml: 3}} >
+                      <AddItemIcon sx={{color: 'primary.contrastText'}}/>
+                    </IconButton>
+                  }
+                />
                 <ul>{
                   ti.items.map( (i: Item, ) => (
                     <li key={i.id}>
@@ -108,7 +121,7 @@ const TagsComponent = (props: TagComponentProps) => {
         mode={FormModes.ADD}
         dialogIsOpen={addItemDialogIsOpen}
         closeDialog={handleCloseDialog}
-        tagId={tag.id}
+        tagIds={selectedTagIds}
       />
     </Box>
   )

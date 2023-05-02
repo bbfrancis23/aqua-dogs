@@ -20,7 +20,7 @@ export interface ItemFormDialogProps{
   mode: FormModes;
   editItem ?: Item;
   updateEditedItem? : (i: Item) => void;
-  tagId ?: string;
+  tagIds ?: string[];
 }
 
 
@@ -31,7 +31,7 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
   const loading = status === "loading"
 
-  const {dialogIsOpen, closeDialog, mode, editItem, updateEditedItem, tagId} = props
+  const {dialogIsOpen, closeDialog, mode, editItem, updateEditedItem, tagIds} = props
   const [item, setItem] = useState<any>({id: ""})
 
 
@@ -123,7 +123,7 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
               <DialogContent >
                 <Stack spacing={3}>
                   <ItemTitleInput item={item} setItem={(i: any) => handleSetItem(i)}/>
-                  <TagsMultiSelect tagId={tagId ? tagId : null}
+                  <TagsMultiSelect tagIds={tagIds ? tagIds : null}
                     item={item} setItem={(i: any) => handleSetItem(i)} />
                   <SectionsInupt item={item} setItem={(i: any) => handleSetItem(i)} />
                 </Stack>

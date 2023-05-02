@@ -10,16 +10,12 @@ export default async function handler(req, res) {
     let message = 'Accepted';
     let items = [];
 
-    await db.connect();
-
     try {
       items = await getItemsByTag(tagId);
     } catch (e) {
       status = axios.HttpStatusCode.InternalServerError;
       message = `Error Getting Items by TagId: ${e}`;
     }
-
-    await db.disconnect();
 
     res.status(status).json({
       message,

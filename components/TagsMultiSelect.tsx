@@ -21,10 +21,10 @@ export default function TagsMultiSelect(props: any) {
 
   const {enqueueSnackbar} = useSnackbar()
 
-  const {item, setItem, tagId} = props
+  const {item, setItem, tagIds} = props
   const theme = useTheme()
   const [tags, setTags] = useState([])
-  const [itemTags, setItemTags] = useState([tagId ? tagId : null])
+  const [itemTags, setItemTags] = useState(tagIds ? tagIds : null)
 
   const [isSubmitting, setIsSubmitting] = useState(false)
 
