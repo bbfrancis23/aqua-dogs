@@ -87,8 +87,6 @@ export const getItemsByTag = async (tagId) => {
     message = `Error finding Item: ${e}`;
   }
 
-  await db.disconnect();
-
   if (items) {
     items = items.map((i) => {
       i = i.toObject({ getters: true });
@@ -97,5 +95,6 @@ export const getItemsByTag = async (tagId) => {
     });
   }
 
+  await db.disconnect();
   return items;
 };
