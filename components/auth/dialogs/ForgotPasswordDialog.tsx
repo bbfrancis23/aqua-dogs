@@ -34,7 +34,7 @@ export default function AuthDialog(props: ForgotPasswordDialogProps) {
       email: "",
     },
     validationSchema: ForgetPasswordSchema,
-    onSubmit: async (data) => {
+    onSubmit: (data) => {
 
       axios.post(
         "/api/auth/send-code/",

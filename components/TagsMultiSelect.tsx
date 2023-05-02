@@ -1,28 +1,31 @@
 import {useState, useEffect} from "react"
-import {
-  Box, FormControl, InputLabel, Select, OutlinedInput, MenuItem, useTheme} from "@mui/material"
+import { Box, FormControl, InputLabel, Select, OutlinedInput, MenuItem,
+  useTheme} from "@mui/material"
 
 import useSWR from "swr"
 import axios from "axios"
+import { useSnackbar } from "notistack"
 
 
-function getStyles(tag:any, itemTags:any, theme: any) {
-  return {
-    fontWeight:
+const getStyles = (tag:any, itemTags:any, theme: any) => ({
+  fontWeight:
       itemTags?.indexOf(tag) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
-  }
-}
+})
 
 const fetcher = (url: any) => fetch(url).then((res) => res.json())
 
 export default function TagsMultiSelect(props: any) {
 
-  const {item, setItem} = props
+
+  const {enqueueSnackbar} = useSnackbar()
+
+  const {item, setItem, tagId} = props
   const theme = useTheme()
   const [tags, setTags] = useState([])
-  const [itemTags, setItemTags] = useState([])
+  const [itemTags, setItemTags] = useState([tagId ? tagId : null])
+
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {data, error} = useSWR("/api/tags", fetcher)
@@ -33,7 +36,8 @@ export default function TagsMultiSelect(props: any) {
       setTags(data.tags)
     }
 
-    if(item.tags){
+    if(item.tags && item.tags.length > 0){
+
       setItemTags( item.tags?.map( (t:any) => t.id))
     }
   }, [data, item])
@@ -63,11 +67,9 @@ export default function TagsMultiSelect(props: any) {
             setIsSubmitting(false)
           })
           .catch((error) => {
-            console.log(error)
             setIsSubmitting(false)
           })
       } catch (e) {
-        console.log(e)
         setIsSubmitting(false)
       }
       setIsSubmitting(false)

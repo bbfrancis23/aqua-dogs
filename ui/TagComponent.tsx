@@ -1,55 +1,94 @@
-import { Box, Card, CardHeader, Grid, Typography, useTheme } from "@mui/material";
-import { Item } from "../interfaces/ItemInterface";
-import { Tag } from "../interfaces/TagInterface";
-
+import { useState } from "react";
 
 import Link from "next/link"
+import axios from "axios";
+import { useSnackbar } from "notistack";
+
+import { Box, Card, CardHeader, Grid, IconButton, Typography, useTheme } from "@mui/material";
+import AddItemIcon from '@mui/icons-material/PostAdd';
+
+import { Tag } from "../interfaces/TagInterface";
+import { TagItems, getTagItems } from "../interfaces/TagItems";
+import ItemFormDialog from "../components/items/ItemFormDialog";
+import FormModes from "../enums/FormModes";
+import { Item } from "../interfaces/ItemInterface";
 
 export interface TagComponentProps {
   tag: Tag ;
-  tagCols: Item[] | [];
+  tagItems: TagItems[];
 }
 
 const TagsComponent = (props: TagComponentProps) => {
-  const {tag, tagCols} = props
+  const {tag} = props
+  const {enqueueSnackbar} = useSnackbar()
+
+  const [tagItems, setTagItems] = useState(props.tagItems)
+
   const theme = useTheme()
 
   let medCols = 12;
   let lgCols = 12;
 
-
-  if(tagCols.length === 2){
+  if(tagItems.length === 2){
     lgCols = 6
-  }else if(tagCols.length > 2){
+  }else if(tagItems.length > 2){
     medCols = 6
     lgCols = 4
   }
 
+  const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState<boolean>(false)
+
+  const handleCloseDialog = () => {
+    setAddItemDialogIsOpen(false)
+
+    axios.get(`/api/items/tags/${tag.id}`).then((res) => {
+      if(res.status === axios.HttpStatusCode.Ok){
+        setTagItems(getTagItems(tag, res.data.items))
+      }else{
+        enqueueSnackbar(`Error getting Tagged Items: ${res.data.message}`, {variant: "error"})
+      }
+    }).catch((error) => {
+      enqueueSnackbar(`Error getting Tagged Items: ${error}`, {variant: "error"})
+    })
+  }
+
+  const handleOpenDialog = () => {
+    setAddItemDialogIsOpen(true)
+  }
 
   return (
     <Box sx={{mt: 8, p: 3}}>
-      <Typography
-        variant={'h1'}
-        sx={{ fontWeight: '800', pl: 3, fontSize: '3rem'}}
-        gutterBottom={true}
-      >
-        {tag.title}
-      </Typography>
+      <Box sx={{ display: 'flex'}}>
+        <Typography
+          variant={'h1'}
+          sx={{ fontWeight: '800', pl: 3, fontSize: '3rem'}}
+          gutterBottom={true}
+        >
+          {tag.title}
+        </Typography>
+        <Box>
+
+          <IconButton onClick={ () => handleOpenDialog()} sx={{ ml: 3}} >
+            <AddItemIcon />
+          </IconButton>
+        </Box>
+      </Box>
+
       <Grid container spacing={3} sx={{ height: "100%"}}>
         {
-          tagCols.length === 0 && (
+          tagItems.length === 0 && (
             <Typography sx={{pl: 7, pt: 4}}>Content Comming soon.</Typography>
           )
         }
         {
-          tagCols.map((tc:any) => (
-            <Grid item xs={12} md={medCols} lg={lgCols} key={tc.id}>
+          tagItems.map((ti: TagItems) => (
+            <Grid item xs={12} md={medCols} lg={lgCols} key={ti.tag.id}>
               <Card sx={{height: "100%"}}>
                 <CardHeader
-                  title={tc.title}
+                  title={ti.tag.title}
                   sx={{bgcolor: "primary.main", color: "primary.contrastText",}} />
                 <ul>{
-                  tc.items.map( (i:any, ) => (
+                  ti.items.map( (i: Item, ) => (
                     <li key={i.id}>
                       <Link
                         href={`/items/${i.id}`}
@@ -65,6 +104,12 @@ const TagsComponent = (props: TagComponentProps) => {
         }
 
       </Grid>
+      <ItemFormDialog
+        mode={FormModes.ADD}
+        dialogIsOpen={addItemDialogIsOpen}
+        closeDialog={handleCloseDialog}
+        tagId={tag.id}
+      />
     </Box>
   )
 }

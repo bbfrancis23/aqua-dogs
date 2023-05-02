@@ -98,13 +98,13 @@ export async function getItems() {
   };
 }
 
-export async function groupItemsByTag(tagId) {
+export const groupItemsByTag = async (tagId) => {
   let status = 200;
   let message = '';
 
   await db.connect();
 
-  let items;
+  let items = [];
 
   try {
     items = await Item.find({ tags: new ObjectId(tagId.toString()) })
@@ -132,4 +132,4 @@ export async function groupItemsByTag(tagId) {
     message,
     items,
   };
-}
+};

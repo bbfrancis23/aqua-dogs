@@ -4,8 +4,11 @@ import Item from '../schemas/ItemSchema';
 import Tag from '/mongo/schemas/TagSchema';
 import Section from '/mongo/schemas/SectionSchema';
 
+import { ObjectId } from 'mongodb';
+
 export const flattenItem = (item) => {
   delete item._id;
+
   item.tags = item.tags.map((t) => {
     delete t._id;
     if (t.tagtype) {
@@ -71,4 +74,28 @@ export const getItems = async () => {
   return items;
 };
 
-// export const groupItemsByTag = (tagId) => {};
+export const getItemsByTag = async (tagId) => {
+  await db.connect();
+
+  let items = [];
+
+  try {
+    items = await Item.find({ tags: new ObjectId(tagId.toString()) })
+      .populate({ path: 'tags', model: Tag })
+      .populate({ path: 'sections', model: Section });
+  } catch (e) {
+    message = `Error finding Item: ${e}`;
+  }
+
+  await db.disconnect();
+
+  if (items) {
+    items = items.map((i) => {
+      i = i.toObject({ getters: true });
+      i = flattenItem(i);
+      return i;
+    });
+  }
+
+  return items;
+};
