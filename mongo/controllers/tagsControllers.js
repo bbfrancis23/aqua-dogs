@@ -29,7 +29,7 @@ export const getTags = async () => {
 };
 
 export const getTag = async (tagId) => {
-  await db.connect;
+  await db.connect();
 
   let tag = await Tag.findById(tagId);
 
