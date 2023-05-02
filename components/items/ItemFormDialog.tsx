@@ -46,12 +46,6 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
   useMemo( () => {
 
 
-    if(item.id){
-      console.log('there is an item id:', item.id)
-    }else{
-      console.log('item id undefinded')
-    }
-
     if(!item.id){
 
 
