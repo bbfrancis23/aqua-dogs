@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react"
+import {useMemo, useState, useEffect} from "react"
 import {useSession} from "next-auth/react"
 
 import {Button, Stack, DialogContent, DialogActions, Typography,} from "@mui/material"
@@ -23,13 +23,13 @@ export interface ItemFormDialogProps{
   tagIds ?: string[];
 }
 
-
 export default function ItemFormDialog(props: ItemFormDialogProps){
 
   const {enqueueSnackbar} = useSnackbar()
   const {data: session, status} = useSession()
 
   const loading = status === "loading"
+
 
   const {dialogIsOpen, closeDialog, mode, editItem, updateEditedItem, tagIds} = props
   const [item, setItem] = useState<any>({id: ""})
@@ -45,14 +45,19 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
   useMemo( () => {
 
-
     if(!item.id){
 
 
       if(dialogIsOpen && session && mode === "ADD"){
 
+        let fields: any = {title: ''}
+
+        if(tagIds){
+          fields.tags = tagIds
+        }
+
         try {
-          axios.post("/api/items", {title: ""})
+          axios.post("/api/items", fields)
             .then((res) => {
               setItem(res.data.item)
               try {
@@ -82,21 +87,22 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
     }
 
   }, [
-    dialogIsOpen, session, item, mode, enqueueSnackbar
+    dialogIsOpen, session, item, mode, enqueueSnackbar, tagIds
   ])
 
 
   const handleSetItem = (i: any) => {
-    setItem(i)
 
     if(mode === "EDIT" && updateEditedItem){
 
       updateEditedItem(i)
+
     }
+
   }
 
   const handleCloseDialog = () => {
-    setItem({id: ""})
+    setItem({id: ''})
     closeDialog()
   }
 
@@ -122,10 +128,16 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
             <>
               <DialogContent >
                 <Stack spacing={3}>
-                  <ItemTitleInput item={item} setItem={(i: any) => handleSetItem(i)}/>
+                  <ItemTitleInput
+                    item={item}
+                    setItem={(i: any) => handleSetItem(i)}
+                  />
                   <TagsMultiSelect tagIds={tagIds ? tagIds : null}
-                    item={item} setItem={(i: any) => handleSetItem(i)} />
-                  <SectionsInupt item={item} setItem={(i: any) => handleSetItem(i)} />
+                    item={item} setItem={(i: any) => handleSetItem(i)}
+                  />
+                  <SectionsInupt item={item} setItem={(i: any) => handleSetItem(i)}
+
+                  />
                 </Stack>
               </DialogContent>
             </>
@@ -134,8 +146,11 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
       </>
 
       <DialogActions>
+
         <Button onClick={handleCloseDialog} >CLOSE</Button>
       </DialogActions>
     </DraggableDialog>
   )
 }
+
+

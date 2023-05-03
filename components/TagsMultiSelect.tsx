@@ -24,7 +24,7 @@ export default function TagsMultiSelect(props: any) {
   const {item, setItem, tagIds} = props
   const theme = useTheme()
   const [tags, setTags] = useState([])
-  const [itemTags, setItemTags] = useState(tagIds ? tagIds : null)
+  const [itemTags, setItemTags] = useState(tagIds ? tagIds : [])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
 
