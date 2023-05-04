@@ -4,7 +4,8 @@ import Link from "next/link"
 import axios from "axios";
 import { useSnackbar } from "notistack";
 
-import { Box, Card, CardHeader, Grid, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Card, CardHeader, Grid, IconButton, List, ListItem, ListItemText, Typography,
+  useTheme } from "@mui/material";
 import AddItemIcon from '@mui/icons-material/PostAdd';
 
 import { Tag } from "../interfaces/TagInterface";
@@ -13,13 +14,24 @@ import ItemFormDialog from "../components/items/ItemFormDialog";
 import FormModes from "../enums/FormModes";
 import { Item } from "../interfaces/ItemInterface";
 
+
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import EditIcon from '@mui/icons-material/Edit';
+import Permission from "./Permission";
+import PermissionCodes from "../enums/PermissionCodes";
+import { Org } from "../interfaces/OrgInterface";
+
+/* eslint-disable */
+
 export interface TagComponentProps {
   tag: Tag ;
   tagItems: TagItems[];
+  org?: Org;
 }
 
 const TagsComponent = (props: TagComponentProps) => {
-  const {tag} = props
+  const {tag, org} = props
   const {enqueueSnackbar} = useSnackbar()
 
   const [tagItems, setTagItems] = useState(props.tagItems)
@@ -100,17 +112,24 @@ const TagsComponent = (props: TagComponentProps) => {
                     </IconButton>
                   }
                 />
-                <ul>{
+                <List>{
                   ti.items.map( (i: Item, ) => (
-                    <li key={i.id}>
-                      <Link
-                        href={`/items/${i.id}`}
-                        style={{textDecoration: "none", color: theme.palette.text.primary}} >
-                        {i.title}
-                      </Link>
-                    </li>)
+                    <ListItem key={i.id}
+                     >
+                      <ListItemText inset={false}
+                        primary={
+                          <Link
+                            href={`/items/${i.id}`}
+                            style={{textDecoration: "none", color: theme.palette.text.primary}} >
+                            {i.title}
+                          </Link>
+                        }>
+
+                      </ListItemText>
+
+                    </ListItem>)
                   )
-                }</ul>
+                }</List>
               </Card>
             </Grid>
           ))
@@ -122,6 +141,7 @@ const TagsComponent = (props: TagComponentProps) => {
         dialogIsOpen={addItemDialogIsOpen}
         closeDialog={handleCloseDialog}
         tagIds={selectedTagIds}
+        org={org ? org : undefined}
       />
     </Box>
   )

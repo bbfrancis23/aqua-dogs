@@ -21,19 +21,27 @@ export default function TagsMultiSelect(props: any) {
 
   const {enqueueSnackbar} = useSnackbar()
 
-  const {item, setItem, tagIds} = props
+  const {item, setItem, tagIds, org} = props
   const theme = useTheme()
   const [tags, setTags] = useState([])
   const [itemTags, setItemTags] = useState(tagIds ? tagIds : [])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const {data, error} = useSWR("/api/tags", fetcher)
+  const apiPath = org ? `/api/org/${org.id}` : '/api/tags'
+
+  const {data, error} = useSWR(apiPath, fetcher)
+
 
   useEffect(() => {
 
+
     if (data) {
-      setTags(data.tags)
+      if(org){
+        setTags(data.org.tags)
+      }else{
+        setTags(data.tags)
+      }
     }
 
     if(item.tags && item.tags.length > 0){

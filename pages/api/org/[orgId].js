@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     const session = await getSession({ req });
 
     if (session) {
-      org = getOrg(orgId);
+      org = await getOrg(orgId);
     } else {
       status = axios.HttpStatusCode.Unauthorized;
       message = 'Permission denied';
