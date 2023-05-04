@@ -3,14 +3,18 @@ import { getMember } from "../../../../../mongo/controllers/memberControllers"
 import { getOrg } from "../../../../../mongo/controllers/orgControllers"
 import TagsComponent from "../../../../../ui/TagComponent"
 import { getTag } from "../../../../../mongo/controllers/tagsControllers"
+import { TagItems, getTagItems } from "../../../../../interfaces/TagItems"
+import { getItemsByTag } from "../../../../../mongo/controllers/itemControllers"
+import { useState } from "react"
 
 export default function OrgItemsByTag(props: any){
 
   const {authSession, tag, org} = props
-  const tagCols: [] = []
+
+  const [tagItems, setTagItems] = useState(props.tagItems)
 
   return (
-    <TagsComponent tag={tag} tagCols={tagCols} />
+    <TagsComponent tag={tag} tagItems={tagItems} org={org} />
   )
 
 
@@ -48,5 +52,14 @@ export const getServerSideProps = async (context: any) => {
 
   const org = await getOrg(context.query.orgId)
 
-  return {props: {authSession, tag, org} }
+  let tagItems: TagItems[] | [] = [];
+
+  const items = await getItemsByTag(context.query.tagId)
+
+  console.log(items)
+  if(items){
+    tagItems = getTagItems(tag, items)
+  }
+
+  return {props: {authSession, tag, org, tagItems} }
 }

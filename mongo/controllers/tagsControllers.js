@@ -14,8 +14,6 @@ export const getTags = async () => {
 
   let tags = await Tag.find({ scope: 'public' });
 
-  await db.disconnect();
-
   if (tags) {
     tags = tags.map((t) => {
       t = t.toObject({ getters: true });
@@ -26,15 +24,14 @@ export const getTags = async () => {
     tags = undefined;
   }
 
+  await db.disconnect();
   return tags;
 };
 
 export const getTag = async (tagId) => {
-  await db.connect;
+  await db.connect();
 
   let tag = await Tag.findById(tagId);
-
-  await db.disconnect();
 
   if (tag) {
     tag = await tag.toObject({ getters: true });
@@ -43,5 +40,6 @@ export const getTag = async (tagId) => {
     tag = undefined;
   }
 
+  await db.disconnect();
   return tag;
 };

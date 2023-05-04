@@ -1,35 +1,25 @@
-import { groupItemsByTag } from '../../../../mongo/controllers/itemOld';
+import { getItemsByTag } from '../../../../mongo/controllers/itemControllers';
+
+import axios from 'axios';
 
 export default async function handler(req, res) {
   const { tagId } = req.query;
 
   if (req.method === 'GET') {
-    const result = await groupItemsByTag(tagId);
+    let status = axios.HttpStatusCode.Ok;
+    let message = 'Accepted';
+    let items = [];
 
-    res.status(result.status).json({
-      message: result.message,
-      items: result.items,
+    try {
+      items = await getItemsByTag(tagId);
+    } catch (e) {
+      status = axios.HttpStatusCode.InternalServerError;
+      message = `Error Getting Items by TagId: ${e}`;
+    }
+
+    res.status(status).json({
+      message,
+      items,
     });
-
-    // let status = 200;
-    // let message = '';
-    // await db.connect();
-    // let items;
-    // try {
-    //   items = await Item.find({ tags: new ObjectId(tagId.toString()) })
-    //     .populate({ path: 'tags', model: Tag })
-    //     .populate({ path: 'sections', model: Section });
-    // } catch (e) {
-    //   message = `Error finding Item: ${e}`;
-    //   status = 500;
-    // }
-    // if (items) {
-    //   res.json({ items: items.map((i) => i.toObject({ getters: true })) });
-    //   return;
-    // } else {
-    //   res.status(404).json({ items: [], message: 'No Items found' });
-    //   return;
-    // }
-    // return;
   }
 }

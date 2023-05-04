@@ -1,27 +1,40 @@
-import {useMemo, useState} from "react"
-import {Button, Stack, DialogContent, DialogActions, Typography,} from "@mui/material"
-import TagsMultiSelect from "../TagsMultiSelect"
-import SectionsInupt from "../SectionsInput"
+import {useMemo, useState, useEffect} from "react"
 import {useSession} from "next-auth/react"
 
-import ItemTitleInput from "../ItemTitleInput"
-import axios from "axios"
-import DraggableDialog from "../../ui/DraggableDialog"
+import {Button, Stack, DialogContent, DialogActions, Typography,} from "@mui/material"
 
+import axios from "axios"
 import {useSnackbar} from "notistack"
 
-export default function ItemFormDialog(props: any){
+import TagsMultiSelect from "../TagsMultiSelect"
+import SectionsInupt from "../SectionsInput"
+import ItemTitleInput from "../ItemTitleInput"
+import DraggableDialog from "../../ui/DraggableDialog"
+import { Item } from "../../interfaces/ItemInterface"
+import FormModes from "../../enums/FormModes"
+import { Org } from "../../interfaces/OrgInterface"
+
+
+export interface ItemFormDialogProps{
+  dialogIsOpen: boolean;
+  closeDialog: () => void;
+  mode: FormModes;
+  editItem ?: Item;
+  updateEditedItem? : (i: Item) => void;
+  tagIds ?: string[];
+  org ?: Org;
+}
+
+export default function ItemFormDialog(props: ItemFormDialogProps){
 
   const {enqueueSnackbar} = useSnackbar()
   const {data: session, status} = useSession()
 
   const loading = status === "loading"
 
-  const {dialogIsOpen, closeDialog, mode, editItem, updateEditedItem} = props
-  const [item, setItem] = useState<any>({id: ""})
 
-  // TODO ADD Submitting disable
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const {dialogIsOpen, closeDialog, mode, editItem, updateEditedItem, tagIds, org} = props
+  const [item, setItem] = useState<any>({id: ""})
 
 
   useMemo(() => {
@@ -29,20 +42,24 @@ export default function ItemFormDialog(props: any){
     if(mode === "EDIT"){
       setItem(editItem)
     }
-
   }, [editItem, mode])
 
 
   useMemo( () => {
-
 
     if(!item.id){
 
 
       if(dialogIsOpen && session && mode === "ADD"){
 
+        let fields: any = {title: ''}
+
+        if(tagIds){
+          fields.tags = tagIds
+        }
+
         try {
-          axios.post("/api/items", {title: ""})
+          axios.post("/api/items", fields)
             .then((res) => {
               setItem(res.data.item)
               try {
@@ -61,35 +78,33 @@ export default function ItemFormDialog(props: any){
               } catch (e:any) {
                 enqueueSnackbar(e, {variant: "error"})
               }
-              setIsSubmitting(false)
             })
             .catch((e:any) => {
               enqueueSnackbar(e, {variant: "error"})
-              setIsSubmitting(false)
             })
         } catch (e:any) {
           enqueueSnackbar(e, {variant: "error"})
-          setIsSubmitting(false)
         }
       }
     }
 
   }, [
-    dialogIsOpen, session, item, mode, enqueueSnackbar
+    dialogIsOpen, session, item, mode, enqueueSnackbar, tagIds
   ])
 
 
   const handleSetItem = (i: any) => {
-    setItem(i)
 
-    if(mode === "EDIT"){
+    if(mode === "EDIT" && updateEditedItem){
 
       updateEditedItem(i)
+
     }
+
   }
 
   const handleCloseDialog = () => {
-    setItem({id: ""})
+    setItem({id: ''})
     closeDialog()
   }
 
@@ -115,10 +130,16 @@ export default function ItemFormDialog(props: any){
             <>
               <DialogContent >
                 <Stack spacing={3}>
-                  <ItemTitleInput item={item} setItem={(i: any) => handleSetItem(i)}/>
-                  <TagsMultiSelect
-                    item={item} setItem={(i: any) => handleSetItem(i)} />
-                  <SectionsInupt item={item} setItem={(i: any) => handleSetItem(i)} />
+                  <ItemTitleInput
+                    item={item}
+                    setItem={(i: any) => handleSetItem(i)}
+                  />
+                  <TagsMultiSelect tagIds={tagIds ? tagIds : null} org={org ? org : undefined}
+                    item={item} setItem={(i: any) => handleSetItem(i)}
+                  />
+                  <SectionsInupt item={item} setItem={(i: any) => handleSetItem(i)}
+
+                  />
                 </Stack>
               </DialogContent>
             </>
@@ -127,8 +148,11 @@ export default function ItemFormDialog(props: any){
       </>
 
       <DialogActions>
+
         <Button onClick={handleCloseDialog} >CLOSE</Button>
       </DialogActions>
     </DraggableDialog>
   )
 }
+
+

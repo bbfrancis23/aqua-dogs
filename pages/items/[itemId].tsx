@@ -18,6 +18,7 @@ import {getItems, getItem} from "../../mongo/controllers/itemControllers"
 import Permission from "../../ui/Permission"
 import PermissionCodes from "../../enums/PermissionCodes"
 import ItemFavorite from "../../components/items/ItemFavorite"
+import FormModes from "../../enums/FormModes"
 
 
 const CodeEditor = dynamic(
@@ -44,7 +45,7 @@ const ItemDetails = (props: ItemDetailsProps) => {
   )
 
   const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState<boolean>(false)
-  const [itemDialogMode, setItemDialogMode] = useState("ADD")
+  const [itemDialogMode, setItemDialogMode] = useState<FormModes>(FormModes.ADD)
 
   const [item, setItem] = useState(props.item)
 
@@ -53,11 +54,11 @@ const ItemDetails = (props: ItemDetailsProps) => {
   )
 
   const handleCloseDialog = () => {
-    setItemDialogMode("ADD")
+    setItemDialogMode(FormModes.ADD)
     setAddItemDialogIsOpen(false)
   }
 
-  const handleOpenDialog = (mode: string) => {
+  const handleOpenDialog = (mode: FormModes) => {
     setItemDialogMode(mode)
     setAddItemDialogIsOpen(true)
   }
@@ -70,8 +71,10 @@ const ItemDetails = (props: ItemDetailsProps) => {
           title={<EditableItemTitle item={item} setItem={ (i:any) => setItem(i) } />}
           action={
             <Permission roles={[PermissionCodes.SITE_ADMIN]}>
-              <IconButton onClick={() => handleOpenDialog("EDIT") }><EditIcon /></IconButton>
-              <IconButton onClick={() => handleOpenDialog("ADD") }><AddIcon /></IconButton>
+              <IconButton onClick={() => handleOpenDialog(FormModes.EDIT) }>
+                <EditIcon />
+              </IconButton>
+              <IconButton onClick={() => handleOpenDialog(FormModes.ADD) }><AddIcon /></IconButton>
             </Permission> }
         />
         <CardContent>
