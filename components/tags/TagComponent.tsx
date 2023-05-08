@@ -14,6 +14,7 @@ import ItemFormDialog from "../items/ItemFormDialog";
 import FormModes from "../../enums/FormModes";
 import { Item } from "../../interfaces/ItemInterface";
 
+/* eslint-disable */
 
 import { Org } from "../../interfaces/OrgInterface";
 
@@ -30,6 +31,8 @@ const TagsComponent = (props: TagComponentProps) => {
   const [tagItems, setTagItems] = useState(props.tagItems)
 
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([tag.id])
+
+  const linkPath = org ? `/member/orgs/${org.id}/items` : '/items'
 
   const theme = useTheme()
 
@@ -112,7 +115,7 @@ const TagsComponent = (props: TagComponentProps) => {
                       <ListItemText inset={false}
                         primary={
                           <Link
-                            href={`/items/${i.id}`}
+                            href={`${linkPath}/${i.id}`}
                             style={{textDecoration: "none", color: theme.palette.text.primary}} >
                             {i.title}
                           </Link>

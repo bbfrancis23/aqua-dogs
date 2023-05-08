@@ -29,11 +29,7 @@ const ItemDetails = (props: ItemDetailsProps) => {
 
 
   return (
-    <>
-
-
-      <ItemComponent item={item} openAuthDialog={openAuthDialog}/>
-    </>
+    <ItemComponent item={item} openAuthDialog={openAuthDialog}/>
   )
 }
 export default ItemDetails

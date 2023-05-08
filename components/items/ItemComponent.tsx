@@ -19,6 +19,7 @@ import "@uiw/react-textarea-code-editor/dist.css"
 import { Item } from "../../interfaces/ItemInterface"
 import { useMemo, useState } from "react"
 import FormModes from "../../enums/FormModes"
+import { Org } from "../../interfaces/OrgInterface"
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -27,12 +28,13 @@ const CodeEditor = dynamic(
 
 export interface ItemComponentProps{
   item: Item;
-  openAuthDialog: () => void
+  openAuthDialog: () => void,
+  org ?: Org;
 }
 
 const ItemComponent = (props: ItemComponentProps) => {
 
-  const { openAuthDialog} = props
+  const { openAuthDialog, org} = props
 
   const [item, setItem] = useState(props.item)
 
@@ -112,6 +114,7 @@ const ItemComponent = (props: ItemComponentProps) => {
         mode={itemDialogMode}
         dialogIsOpen={addItemDialogIsOpen}
         closeDialog={handleCloseDialog}
+        org={org ? org : undefined}
         editItem={item} updateEditedItem={(i:any) => setItem(i)} />
     </Box>)
 }

@@ -56,7 +56,6 @@ export const getServerSideProps = async (context: any) => {
 
   const items = await getItemsByTag(context.query.tagId)
 
-  console.log(items)
   if(items){
     tagItems = getTagItems(tag, items)
   }
