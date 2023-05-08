@@ -15,14 +15,7 @@ import FormModes from "../../enums/FormModes";
 import { Item } from "../../interfaces/ItemInterface";
 
 
-import DeleteIcon from '@mui/icons-material/Delete';
-
-import EditIcon from '@mui/icons-material/Edit';
-import Permission from "../../ui/Permission";
-import PermissionCodes from "../../enums/PermissionCodes";
 import { Org } from "../../interfaces/OrgInterface";
-
-/* eslint-disable */
 
 export interface TagComponentProps {
   tag: Tag ;
@@ -115,7 +108,7 @@ const TagsComponent = (props: TagComponentProps) => {
                 <List>{
                   ti.items.map( (i: Item, ) => (
                     <ListItem key={i.id}
-                     >
+                    >
                       <ListItemText inset={false}
                         primary={
                           <Link
