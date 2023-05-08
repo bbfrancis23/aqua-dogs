@@ -1,7 +1,7 @@
 import { getSession } from "next-auth/react"
 import { getMember } from "../../../../../mongo/controllers/memberControllers"
 import { getOrg } from "../../../../../mongo/controllers/orgControllers"
-import TagsComponent from "../../../../../ui/TagComponent"
+import TagsComponent from "../../../../../components/tags/TagComponent"
 import { getTag } from "../../../../../mongo/controllers/tagsControllers"
 import { TagItems, getTagItems } from "../../../../../interfaces/TagItems"
 import { getItemsByTag } from "../../../../../mongo/controllers/itemControllers"

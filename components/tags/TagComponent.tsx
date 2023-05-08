@@ -8,19 +8,19 @@ import { Box, Card, CardHeader, Grid, IconButton, List, ListItem, ListItemText, 
   useTheme } from "@mui/material";
 import AddItemIcon from '@mui/icons-material/PostAdd';
 
-import { Tag } from "../interfaces/TagInterface";
-import { TagItems, getTagItems } from "../interfaces/TagItems";
-import ItemFormDialog from "../components/items/ItemFormDialog";
-import FormModes from "../enums/FormModes";
-import { Item } from "../interfaces/ItemInterface";
+import { Tag } from "../../interfaces/TagInterface";
+import { TagItems, getTagItems } from "../../interfaces/TagItems";
+import ItemFormDialog from "../items/ItemFormDialog";
+import FormModes from "../../enums/FormModes";
+import { Item } from "../../interfaces/ItemInterface";
 
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import EditIcon from '@mui/icons-material/Edit';
-import Permission from "./Permission";
-import PermissionCodes from "../enums/PermissionCodes";
-import { Org } from "../interfaces/OrgInterface";
+import Permission from "../../ui/Permission";
+import PermissionCodes from "../../enums/PermissionCodes";
+import { Org } from "../../interfaces/OrgInterface";
 
 /* eslint-disable */
 
