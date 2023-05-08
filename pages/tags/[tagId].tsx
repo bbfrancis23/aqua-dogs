@@ -7,7 +7,7 @@ import {getItemsByTag }from "../../mongo/controllers/itemControllers"
 import { Tag } from "../../interfaces/TagInterface"
 import { TagItems, getTagItems } from "../../interfaces/TagItems"
 
-import TagsComponent from "../../ui/TagComponent"
+import TagsComponent from "../../components/tags/TagComponent"
 
 export interface ItemsByTagProps{
   tag: Tag;

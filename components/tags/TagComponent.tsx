@@ -8,21 +8,15 @@ import { Box, Card, CardHeader, Grid, IconButton, List, ListItem, ListItemText, 
   useTheme } from "@mui/material";
 import AddItemIcon from '@mui/icons-material/PostAdd';
 
-import { Tag } from "../interfaces/TagInterface";
-import { TagItems, getTagItems } from "../interfaces/TagItems";
-import ItemFormDialog from "../components/items/ItemFormDialog";
-import FormModes from "../enums/FormModes";
-import { Item } from "../interfaces/ItemInterface";
-
-
-import DeleteIcon from '@mui/icons-material/Delete';
-
-import EditIcon from '@mui/icons-material/Edit';
-import Permission from "./Permission";
-import PermissionCodes from "../enums/PermissionCodes";
-import { Org } from "../interfaces/OrgInterface";
+import { Tag } from "../../interfaces/TagInterface";
+import { TagItems, getTagItems } from "../../interfaces/TagItems";
+import ItemFormDialog from "../items/ItemFormDialog";
+import FormModes from "../../enums/FormModes";
+import { Item } from "../../interfaces/ItemInterface";
 
 /* eslint-disable */
+
+import { Org } from "../../interfaces/OrgInterface";
 
 export interface TagComponentProps {
   tag: Tag ;
@@ -37,6 +31,8 @@ const TagsComponent = (props: TagComponentProps) => {
   const [tagItems, setTagItems] = useState(props.tagItems)
 
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([tag.id])
+
+  const linkPath = org ? `/member/orgs/${org.id}/items` : '/items'
 
   const theme = useTheme()
 
@@ -115,11 +111,11 @@ const TagsComponent = (props: TagComponentProps) => {
                 <List>{
                   ti.items.map( (i: Item, ) => (
                     <ListItem key={i.id}
-                     >
+                    >
                       <ListItemText inset={false}
                         primary={
                           <Link
-                            href={`/items/${i.id}`}
+                            href={`${linkPath}/${i.id}`}
                             style={{textDecoration: "none", color: theme.palette.text.primary}} >
                             {i.title}
                           </Link>
