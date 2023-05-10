@@ -8,6 +8,7 @@ import { Tag } from "../../interfaces/TagInterface"
 import { TagItems, getTagItems } from "../../interfaces/TagItems"
 
 import TagsComponent from "../../components/tags/TagComponent"
+import { resetServerContext } from "react-beautiful-dnd";
 
 export interface ItemsByTagProps{
   tag: Tag;
@@ -47,6 +48,8 @@ export const getStaticProps = async ({params}: any) => {
   if(items){
     tagItems = getTagItems(tag, items)
   }
+
+  resetServerContext() // <-- CALL RESET SERVER CONTEXT, SERVER SIDE
 
   return {props: {tag, tagItems}}
 

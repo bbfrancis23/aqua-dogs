@@ -17,6 +17,7 @@ import { Item } from "../../interfaces/ItemInterface";
 /* eslint-disable */
 
 import { Org } from "../../interfaces/OrgInterface";
+import Board from "../../ui/Board";
 
 export interface TagComponentProps {
   tag: Tag ;
@@ -29,6 +30,7 @@ const TagsComponent = (props: TagComponentProps) => {
   const {enqueueSnackbar} = useSnackbar()
 
   const [tagItems, setTagItems] = useState(props.tagItems)
+
 
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([tag.id])
 
@@ -72,6 +74,7 @@ const TagsComponent = (props: TagComponentProps) => {
   }
 
   return (
+    <>
     <Box sx={{mt: 8, p: 3}}>
       <Box sx={{ display: 'flex'}}>
         <Typography
@@ -89,7 +92,7 @@ const TagsComponent = (props: TagComponentProps) => {
         </Box>
       </Box>
 
-      <Grid container spacing={3} sx={{ height: "100%"}}>
+      {/* <Grid container spacing={3} sx={{ height: "100%"}}>
         {
           tagItems.length === 0 && (
             <Typography sx={{pl: 7, pt: 4}}>Content Comming soon.</Typography>
@@ -131,7 +134,11 @@ const TagsComponent = (props: TagComponentProps) => {
           ))
         }
 
-      </Grid>
+      </Grid> */}
+      
+
+      <Board tagItems={tagItems} tag={tag}/>
+      
       <ItemFormDialog
         mode={FormModes.ADD}
         dialogIsOpen={addItemDialogIsOpen}
@@ -140,6 +147,8 @@ const TagsComponent = (props: TagComponentProps) => {
         org={org ? org : undefined}
       />
     </Box>
+    
+    </>
   )
 }
 
