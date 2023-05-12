@@ -1,6 +1,3 @@
-import { useState } from "react"
-
-import db from '../../mongo/db';
 import {getTag, getTags} from "../../mongo/controllers/tagsControllers"
 import {getItemsByTag }from "../../mongo/controllers/itemControllers"
 
@@ -10,17 +7,19 @@ import { TagItems, getTagItems } from "../../interfaces/TagItems"
 import TagsComponent from "../../components/tags/TagComponent"
 import { resetServerContext } from "react-beautiful-dnd";
 
+export const draggableDnDMagic = () => {
+  resetServerContext()
+}
+
 export interface ItemsByTagProps{
   tag: Tag;
   tagItems: TagItems[];
 }
 
-
 export default function ItemsByTag(props: ItemsByTagProps){
 
-  const {tag} = props
+  const {tag, tagItems} = props
 
-  const [tagItems, setTagItems] = useState(props.tagItems)
 
   return (
     <TagsComponent tag={tag} tagItems={tagItems} />
@@ -49,8 +48,9 @@ export const getStaticProps = async ({params}: any) => {
     tagItems = getTagItems(tag, items)
   }
 
-  resetServerContext() // <-- CALL RESET SERVER CONTEXT, SERVER SIDE
+  draggableDnDMagic()
 
   return {props: {tag, tagItems}}
 
 }
+

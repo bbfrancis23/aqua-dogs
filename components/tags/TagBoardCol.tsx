@@ -1,14 +1,10 @@
-import { Card, CardHeader, Grid, IconButton, List, ListItem, ListItemText,
-  useTheme } from "@mui/material"
+import { Card, CardHeader, Grid, IconButton, useTheme } from "@mui/material"
 
 import AddItemIcon from '@mui/icons-material/PostAdd';
 
 import { Draggable } from "react-beautiful-dnd";
-import { Item } from "../interfaces/ItemInterface";
-
-import Link from "next/link"
-import { Org } from "../interfaces/OrgInterface";
-import BoardColList from "./BoardColList";
+import { Org } from "../../interfaces/OrgInterface";
+import TagBoardColList from "./TagBoardColList";
 
 export interface BoardColProps{
   medCols: number;
@@ -19,7 +15,7 @@ export interface BoardColProps{
   org?: Org;
 }
 
-const BoardCol = (props: BoardColProps) => {
+const TagBoardCol = (props: BoardColProps) => {
   const {medCols, lgCols, id, tagItem, index, org} = props
 
   const theme = useTheme()
@@ -42,13 +38,12 @@ const BoardCol = (props: BoardColProps) => {
                 </IconButton>
               }
             />
-            <BoardColList tagItemList={tagItem} linkPath={linkPath} index={index}/>
+            <TagBoardColList tagItemList={tagItem} linkPath={linkPath} index={index}/>
           </Card>
         </Grid>
-
       )}
     </Draggable>
   )
 }
 
-export default BoardCol
+export default TagBoardCol
