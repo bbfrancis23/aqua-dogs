@@ -1,5 +1,5 @@
 import { List, ListItem, ListItemText, useTheme } from "@mui/material"
-import { Item } from "../interfaces/ItemInterface"
+import { Item } from "../../interfaces/ItemInterface"
 
 
 import Link from "next/link"
@@ -11,7 +11,7 @@ export interface BoardColListProps {
   index: number
 }
 
-const BoardColList = (props: BoardColListProps) => {
+const TagBoardColList = (props: BoardColListProps) => {
 
 
   const theme = useTheme()
@@ -51,4 +51,4 @@ const BoardColList = (props: BoardColListProps) => {
   )
 }
 
-export default BoardColList
+export default TagBoardColList
