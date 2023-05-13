@@ -6,5 +6,5 @@ export interface Tag {
   imgTitle?: string;
   tagType?: TagType;
   sections?: string[];
-  tagCols: string[];
+  tagCols?: string[];
 }
