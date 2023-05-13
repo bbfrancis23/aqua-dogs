@@ -8,10 +8,14 @@ import { TagItems } from "../../interfaces/TagItems";
 import { Tag } from "../../interfaces/TagInterface";
 
 import TagBoardCol from "./TagBoardCol";
+import axios from "axios";
+
+import { useSnackbar } from "notistack";
 
 export interface TagBoardProps{
   tagItems: TagItems[];
   tag: Tag;
+  setItemFormDialogOpen: (tagId ?:string) => void
 }
 
 const reorder = (list:any, startIndex:number, endIndex:number):string[] => {
@@ -69,7 +73,10 @@ export const reorderBoard = ({ boardCols, source, destination }:any) => {
 
 const TagBoard = (props: TagBoardProps) => {
 
-  const {tagItems, tag} = props
+
+  const {enqueueSnackbar} = useSnackbar()
+
+  const {tagItems, tag, setItemFormDialogOpen} = props
 
   let medCols = 12;
   let lgCols = 12;
@@ -81,33 +88,56 @@ const TagBoard = (props: TagBoardProps) => {
     lgCols = 4
   }
 
+  const [tagCols, setTagCols] = useState<any>()
+  const [orderedTagColKeys, setOrderedTagColKeys] = useState<string[]>();
 
-  const [boardCols, setBoardCols] = useState<any>()
-  const [orderedBoardColKeys, setOrderedBoardColKeys] = useState<string[]>();
 
+  const handleSetOrderedTagColKeys = (boardCols: string[]) => {
+
+    setOrderedTagColKeys(boardCols)
+
+    axios.patch(`/api/tags/${tag.id}`, {tagCols: boardCols})
+      .then((res) => {
+        setOrderedTagColKeys(boardCols)
+      })
+      .catch((e:string) => {
+        enqueueSnackbar(`Error Moving Columns: ${e}`, {variant: "error"})
+      })
+  }
 
   useMemo ( () => {
 
-    const initBoardCols = () => {
+
+    const initTagCols = () => {
       let bc:any = {}
       tagItems.forEach( (t) => bc[t.tag.id] = {tag: t.tag, items: t.items})
-      setBoardCols(bc);
-      setOrderedBoardColKeys(Object.keys(bc))
+      setTagCols(bc);
+
+      return bc
     }
 
-    initBoardCols()
+    if(tag.tagCols.length > 0){
+      initTagCols()
+      setOrderedTagColKeys(tag.tagCols)
+    }else{
 
-  }, [tagItems])
-
-  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([tag.id])
-  const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState<boolean>(false)
-
-  const handleOpenDialog = (tagId?: string ) => {
-    if(tagId){
-      setSelectedTagIds([tag.id, tagId])
+      const bc = initTagCols()
+      setOrderedTagColKeys(Object.keys(bc))
     }
-    setAddItemDialogIsOpen(true)
-  }
+
+
+  }, [tagItems, tag])
+
+  // const [selectedTagIds, setSelectedTagIds] = useState<string[]>([tag.id])
+  // const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState<boolean>(false)
+
+  // const handleOpenDialog = (tagId?: string ) => {
+
+  //   if(tagId){
+  //     setSelectedTagIds([tag.id, tagId])
+  //   }
+  //   setAddItemDialogIsOpen(true)
+  // }
 
   const onDragEnd = (result: any) => {
 
@@ -126,17 +156,17 @@ const TagBoard = (props: TagBoardProps) => {
     }
 
     if (result.type === 'COLUMN') {
-      const redorder: string[] = reorder(orderedBoardColKeys, source.index, destination.index);
+      const redorder: string[] = reorder(orderedTagColKeys, source.index, destination.index);
 
-      setOrderedBoardColKeys(redorder);
+      handleSetOrderedTagColKeys(redorder);
 
       return;
     }
 
-    const data:any = reorderBoard({boardCols, source, destination})
+    const data:any = reorderBoard({tagCols, source, destination})
 
 
-    setBoardCols(data.boardCols)
+    setTagCols(data.boardCols)
 
   }
 
@@ -154,10 +184,11 @@ const TagBoard = (props: TagBoardProps) => {
               sx={{ height: "100%"}}
               ref={provided.innerRef} {...provided.droppableProps}>
               {
-                orderedBoardColKeys &&
-                orderedBoardColKeys.map((key: string, index:number) => (
-                  <TagBoardCol key={key} medCols={medCols} lgCols={lgCols} tagItem={boardCols[key]}
-                    index={index} id={key} />
+                orderedTagColKeys &&
+                orderedTagColKeys.map((key: string, index:number) => (
+                  <TagBoardCol key={key} medCols={medCols} lgCols={lgCols} tagItem={tagCols[key]}
+                    index={index}
+                    id={key} setItemFormDialogOpen={(id) => setItemFormDialogOpen(id)} />
                 ))}
             </Grid>
 

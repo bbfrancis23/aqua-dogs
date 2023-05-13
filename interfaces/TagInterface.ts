@@ -1,4 +1,4 @@
-import {TagType} from "./TagTypeInterface"
+import { TagType } from './TagTypeInterface';
 
 export interface Tag {
   id: string;
@@ -6,4 +6,5 @@ export interface Tag {
   imgTitle?: string;
   tagType?: TagType;
   sections?: string[];
+  tagCols: string[];
 }

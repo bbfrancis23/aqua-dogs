@@ -13,14 +13,18 @@ export interface BoardColProps{
   tagItem: any;
   index: number;
   org?: Org;
+  setItemFormDialogOpen: (tagId ?:string) => void
 }
 
 const TagBoardCol = (props: BoardColProps) => {
-  const {medCols, lgCols, id, tagItem, index, org} = props
+  const {medCols, lgCols, id, tagItem, index, org, setItemFormDialogOpen} = props
+
 
   const theme = useTheme()
 
   const linkPath = org ? `/member/orgs/${org.id}/items` : '/items'
+
+  console.log('here is the id', tagItem.tag.id)
 
   return (
     <Draggable draggableId={id} index={index}>
@@ -33,7 +37,7 @@ const TagBoardCol = (props: BoardColProps) => {
               title={tagItem.tag.title}
               sx={{bgcolor: "primary.main", color: "primary.contrastText",}}
               action={
-                <IconButton sx={{ ml: 3}} >
+                <IconButton sx={{ ml: 3}} onClick={() => setItemFormDialogOpen(tagItem.tag.id)}>
                   <AddItemIcon sx={{color: 'primary.contrastText'}}/>
                 </IconButton>
               }
