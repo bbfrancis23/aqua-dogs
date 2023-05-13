@@ -116,7 +116,7 @@ const TagBoard = (props: TagBoardProps) => {
       return bc
     }
 
-    if(tag.tagCols.length > 0){
+    if(tag.tagCols && tag.tagCols.length > 0){
       initTagCols()
       setOrderedTagColKeys(tag.tagCols)
     }else{
