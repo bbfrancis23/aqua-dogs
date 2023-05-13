@@ -66,7 +66,8 @@ const TagsComponent = (props: TagComponentProps) => {
           </Permission>
         </Box>
       </Box>
-      <TagBoard tagItems={tagItems} tag={tag} />
+      <TagBoard tagItems={tagItems} tag={tag}
+        setItemFormDialogOpen={(id) => handleOpenDialog(id)} />
       <ItemFormDialog mode={FormModes.ADD} dialogIsOpen={addItemDialogIsOpen}
         closeDialog={handleCloseDialog} tagIds={selectedTagIds} org={org ? org : undefined} />
     </Box>
