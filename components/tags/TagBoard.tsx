@@ -111,8 +111,6 @@ const TagBoard = (props: TagBoardProps) => {
       let bc:any = {}
       tagItems.forEach( (t) => bc[t.tag.id] = {tag: t.tag, items: t.items})
 
-      console.log(bc)
-
 
       setTagCols(bc);
 

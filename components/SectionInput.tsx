@@ -64,7 +64,6 @@ export default function SelectionInput(props: any){
   ) => {
 
 
-    console.log('section blur: patching: sectionType', sectionType)
     try {
       axios.patch(
         `/api/sections/${section.id}`, {
@@ -74,8 +73,6 @@ export default function SelectionInput(props: any){
         }
       )
         .then((res) => {
-
-          console.log(res)
           setItem(res.data.item)
         })
         .catch((e:any) => {

@@ -54,8 +54,6 @@ export const handler = async (req, res) => {
 
         member = await flattenMember(member);
 
-        console.log('member', member);
-
         status = 200;
         message = 'favorite action';
       }
@@ -76,10 +74,9 @@ export const handler = async (req, res) => {
 
       if (member) {
         if (member.favoriteItems) {
-          const favoriteFound = member.favoriteItems.filter((i) => {
-            console.log(i.toString(), itemId);
-            return i.toString() === itemId;
-          });
+          const favoriteFound = member.favoriteItems.filter(
+            (i) => i.toString() === itemId
+          );
 
           console.log('ff', favoriteFound);
 
