@@ -4,7 +4,7 @@ import {getItemsByTag }from "../../mongo/controllers/itemControllers"
 import { Tag } from "../../interfaces/TagInterface"
 import { TagItems, getTagItems } from "../../interfaces/TagItems"
 
-import TagsComponent from "../../components/tags/TagComponent"
+import TagComponent from "../../components/tags/TagComponent"
 import { resetServerContext } from "react-beautiful-dnd";
 
 export const draggableDnDMagic = () => {
@@ -22,7 +22,7 @@ export default function ItemsByTag(props: ItemsByTagProps){
 
 
   return (
-    <TagsComponent tag={tag} tagItems={tagItems} />
+    <TagComponent tag={tag} tagItems={tagItems} />
   )
 }
 

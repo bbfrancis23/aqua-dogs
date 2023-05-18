@@ -1,21 +1,22 @@
 import { useMemo, useState } from "react";
 
-import { Grid } from "@mui/material";
+import axios from "axios";
+import { useSnackbar } from "notistack";
 
+import { Grid } from "@mui/material";
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import { TagItems } from "../../interfaces/TagItems";
 import { Tag } from "../../interfaces/TagInterface";
 
 import TagBoardCol from "./TagBoardCol";
-import axios from "axios";
 
-import { useSnackbar } from "notistack";
 
 export interface TagBoardProps{
   tagItems: TagItems[];
   tag: Tag;
-  setItemFormDialogOpen: (tagId ?:string) => void
+  setItemFormDialogOpen: (tagId ?:string) => void;
+  updateBoardFromDataBase: () => void;
 }
 
 const reorder = (list:any, startIndex:number, endIndex:number):string[] => {
@@ -23,11 +24,9 @@ const reorder = (list:any, startIndex:number, endIndex:number):string[] => {
   const result: string[] = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
-
-  // todo save board map to DB
-
   return result;
 };
+
 
 export const reorderBoard = ({ boardCols, source, destination }:any) => {
 
@@ -76,7 +75,7 @@ const TagBoard = (props: TagBoardProps) => {
 
   const {enqueueSnackbar} = useSnackbar()
 
-  const {tagItems, tag, setItemFormDialogOpen} = props
+  const {tagItems, tag, setItemFormDialogOpen, updateBoardFromDataBase} = props
 
   let medCols = 12;
   let lgCols = 12;
@@ -111,6 +110,10 @@ const TagBoard = (props: TagBoardProps) => {
     const initTagCols = () => {
       let bc:any = {}
       tagItems.forEach( (t) => bc[t.tag.id] = {tag: t.tag, items: t.items})
+
+      console.log(bc)
+
+
       setTagCols(bc);
 
       return bc
@@ -128,16 +131,6 @@ const TagBoard = (props: TagBoardProps) => {
 
   }, [tagItems, tag])
 
-  // const [selectedTagIds, setSelectedTagIds] = useState<string[]>([tag.id])
-  // const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState<boolean>(false)
-
-  // const handleOpenDialog = (tagId?: string ) => {
-
-  //   if(tagId){
-  //     setSelectedTagIds([tag.id, tagId])
-  //   }
-  //   setAddItemDialogIsOpen(true)
-  // }
 
   const onDragEnd = (result: any) => {
 
@@ -163,7 +156,7 @@ const TagBoard = (props: TagBoardProps) => {
       return;
     }
 
-    const data:any = reorderBoard({tagCols, source, destination})
+    const data:any = reorderBoard({boardCols: tagCols, source, destination})
 
 
     setTagCols(data.boardCols)
@@ -186,9 +179,11 @@ const TagBoard = (props: TagBoardProps) => {
               {
                 orderedTagColKeys &&
                 orderedTagColKeys.map((key: string, index:number) => (
-                  <TagBoardCol key={key} medCols={medCols} lgCols={lgCols} tagItem={tagCols[key]}
-                    index={index}
-                    id={key} setItemFormDialogOpen={(id) => setItemFormDialogOpen(id)} />
+                  tagCols[key] && (
+                    <TagBoardCol key={key} medCols={medCols} lgCols={lgCols} tagItem={tagCols[key]}
+                      index={index} updateBoardFromDataBase={() => updateBoardFromDataBase()}
+                      id={key} setItemFormDialogOpen={(id) => setItemFormDialogOpen(id)} />
+                  )
                 ))}
             </Grid>
 

@@ -1,50 +1,38 @@
-import { List, ListItem, ListItemText, useTheme } from "@mui/material"
+import { Box, Card, CardContent, CardHeader, styled,
+  useTheme, IconButton } from "@mui/material"
 import { Item } from "../../interfaces/ItemInterface"
 
-
-import Link from "next/link"
 import { Draggable, Droppable } from "react-beautiful-dnd";
+import TagBoardCard from "./TagBoardCard";
 
 export interface BoardColListProps {
   tagItemList: any;
   linkPath: string;
-  index: number
+  updateBoardFromDataBase: () => void;
 }
+
 
 const TagBoardColList = (props: BoardColListProps) => {
 
+  const {tagItemList, linkPath, updateBoardFromDataBase} = props
 
-  const theme = useTheme()
-  const {tagItemList, linkPath, index} = props
 
   return (
     <Droppable droppableId={tagItemList.tag.id} type="LIST">
       {(dropProvided, dropSnapshot) => (
-        <List {...dropProvided.droppableProps} ref={dropProvided.innerRef}>
+        <Box {...dropProvided.droppableProps} ref={dropProvided.innerRef}>
           {
             tagItemList.items.map( (i: Item, index:number) => (
               <Draggable key={i.id} draggableId={i.id} index={index}>
                 {(dragProvided, dragSnapshot) => (
-                  <ListItem >
-                    <ListItemText inset={false}
-                      ref={dragProvided.innerRef} {...dragProvided.draggableProps}
-                      {...dragProvided.dragHandleProps}
-                      primary={
-                        <Link
-                          href={`${linkPath}/${i.id}`}
-                          style={{textDecoration: "none", color: theme.palette.text.primary}} >
-                          {i.title}
-                        </Link>
-                      }>
-
-                    </ListItemText>
-
-                  </ListItem>
+                  <TagBoardCard
+                    updateBoardFromDataBase={() => updateBoardFromDataBase()}
+                    linkPath={linkPath} dragProvided={dragProvided} item={i}/>
                 )}
               </Draggable>
 
             ) )
-          }</List>
+          }</Box>
       )}
     </Droppable>
 

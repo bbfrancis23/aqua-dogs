@@ -1,8 +1,8 @@
-import { Card, CardHeader, Grid, IconButton, useTheme } from "@mui/material"
+import { Draggable } from "react-beautiful-dnd";
 
+import { Card, CardHeader, Grid, IconButton, useTheme } from "@mui/material"
 import AddItemIcon from '@mui/icons-material/PostAdd';
 
-import { Draggable } from "react-beautiful-dnd";
 import { Org } from "../../interfaces/OrgInterface";
 import TagBoardColList from "./TagBoardColList";
 
@@ -13,18 +13,18 @@ export interface BoardColProps{
   tagItem: any;
   index: number;
   org?: Org;
-  setItemFormDialogOpen: (tagId ?:string) => void
+  setItemFormDialogOpen: (tagId ?:string) => void;
+  updateBoardFromDataBase: () => void;
 }
 
 const TagBoardCol = (props: BoardColProps) => {
-  const {medCols, lgCols, id, tagItem, index, org, setItemFormDialogOpen} = props
+  const {medCols, lgCols, id, tagItem, index, org, setItemFormDialogOpen,
+    updateBoardFromDataBase} = props
 
 
   const theme = useTheme()
 
   const linkPath = org ? `/member/orgs/${org.id}/items` : '/items'
-
-  console.log('here is the id', tagItem.tag.id)
 
   return (
     <Draggable draggableId={id} index={index}>
@@ -42,7 +42,8 @@ const TagBoardCol = (props: BoardColProps) => {
                 </IconButton>
               }
             />
-            <TagBoardColList tagItemList={tagItem} linkPath={linkPath} index={index}/>
+            <TagBoardColList tagItemList={tagItem} linkPath={linkPath}
+              updateBoardFromDataBase={() => updateBoardFromDataBase()}/>
           </Card>
         </Grid>
       )}
