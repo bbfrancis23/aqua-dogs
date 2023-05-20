@@ -80,8 +80,6 @@ export const createOrgTag = async (org, title) => {
 
       await org.save({ dbSession });
       await dbSession.commitTransaction();
-
-      console.log('org: ', org);
     } catch (e) {
       await dbSession.abortTransaction();
       dbSession.endSession();

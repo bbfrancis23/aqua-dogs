@@ -30,56 +30,54 @@ export default async function handler(req, res) {
 
     if (status === 200) {
       if (item) {
-        if (req.method === 'PATCH' || req.method === 'DELETE') {
-          const session = await getSession({ req });
+        const session = await getSession({ req });
 
-          const isSiteAdmin = session?.user.roles.includes('SiteAdmin');
+        const isSiteAdmin = session?.user.roles.includes('SiteAdmin');
 
-          if (isSiteAdmin) {
-            if (req.method === 'PATCH') {
-              const { title, tags } = req.body;
+        if (isSiteAdmin) {
+          if (req.method === 'PATCH') {
+            const { title, tags } = req.body;
 
-              if (title) {
-                item.title = title;
-              }
-
-              if (tags) {
-                item.tags = tags;
-              }
-
-              try {
-                await item.save();
-                item = await Item.findById(itemId)
-                  .populate({ path: 'tags', model: Tag })
-                  .populate({ path: 'sections', model: Section });
-              } catch (e) {
-                status = 500;
-                message = `Updating Item failed: ${e}`;
-              }
-            } else if (req.method === 'DELETE') {
-              const session = await mongoose.startSession();
-
-              try {
-                session.startTransaction();
-
-                await item.sections.forEach((s) => {
-                  Section.deleteOne({ _id: s._id.toString() });
-                });
-
-                await Item.deleteOne({ _id: ObjectId(itemId.toString()) });
-                session.endSession();
-              } catch (e) {
-                await session.abortTransaction();
-                session.endSession();
-
-                status = 500;
-                message = `Error deleting Item: ${e}`;
-              }
+            if (title) {
+              item.title = title;
             }
-          } else {
-            status = 401;
-            message = 'Not Authenticated.';
+
+            if (tags) {
+              item.tags = tags;
+            }
+
+            try {
+              await item.save();
+              item = await Item.findById(itemId)
+                .populate({ path: 'tags', model: Tag })
+                .populate({ path: 'sections', model: Section });
+            } catch (e) {
+              status = 500;
+              message = `Updating Item failed: ${e}`;
+            }
+          } else if (req.method === 'DELETE') {
+            const session = await mongoose.startSession();
+
+            try {
+              session.startTransaction();
+
+              await item.sections.forEach((s) => {
+                Section.deleteOne({ _id: s._id.toString() });
+              });
+
+              await Item.deleteOne({ _id: ObjectId(itemId.toString()) });
+              session.endSession();
+            } catch (e) {
+              await session.abortTransaction();
+              session.endSession();
+
+              status = 500;
+              message = `Error deleting Item: ${e}`;
+            }
           }
+        } else {
+          status = 401;
+          message = 'Not Authenticated.';
         }
       } else {
         status = 404;
