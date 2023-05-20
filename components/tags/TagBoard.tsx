@@ -10,6 +10,7 @@ import { TagItems } from "../../interfaces/TagItems";
 import { Tag } from "../../interfaces/TagInterface";
 
 import TagBoardCol from "./TagBoardCol";
+import { useSession } from "next-auth/react";
 
 
 export interface TagBoardProps{
@@ -19,7 +20,7 @@ export interface TagBoardProps{
   updateBoardFromDataBase: () => void;
 }
 
-const reorder = (list:any, startIndex:number, endIndex:number):string[] => {
+const reorderList = (list:any, startIndex:number, endIndex:number):string[] => {
 
   const result: string[] = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -37,27 +38,32 @@ export const reorderBoard = ({ boardCols, source, destination }:any) => {
   // moving to same list
   if (source.droppableId === destination.droppableId) {
     let reordered = {...current}
-    reordered.items = reorder(current.items, source.index, destination.index);
+    reordered.items = reorderList(current.items, source.index, destination.index);
 
     const result = {
       ...boardCols,
       [source.droppableId]: reordered
     };
-    // todo save board map to localstorage
     return {
       boardCols: result
     };
   }
 
-  // moving to different list
+  // update DB
 
-  // remove from original
+  let tags: string[] = [destination.droppableId]
+  target.tags.forEach((t: Tag) => {
+    if( t.id !== source.droppableId){
+      tags.push(t.id)
+    }
+  })
+  axios.patch(`/api/items/${target.id}`, {tags} )
+    .catch((e:string) => {
+      console.log(`Error: ${e}`)
+    })
+
   current.items.splice(source.index, 1)
-  // TODO remove tag from item
-  // insert into next
   next.items.splice(destination.index, 0, target)
-  // TODO add tag from item
-
   const result = {
     ...boardCols,
     [source.droppableId]: current,
@@ -72,7 +78,7 @@ export const reorderBoard = ({ boardCols, source, destination }:any) => {
 
 const TagBoard = (props: TagBoardProps) => {
 
-
+  const {data: session, status} = useSession()
   const {enqueueSnackbar} = useSnackbar()
 
   const {tagItems, tag, setItemFormDialogOpen, updateBoardFromDataBase} = props
@@ -132,6 +138,10 @@ const TagBoard = (props: TagBoardProps) => {
 
   const onDragEnd = (result: any) => {
 
+    if(!session){
+      return
+    }
+
     if(!result.destination) {
       return
     }
@@ -147,7 +157,7 @@ const TagBoard = (props: TagBoardProps) => {
     }
 
     if (result.type === 'COLUMN') {
-      const redorder: string[] = reorder(orderedTagColKeys, source.index, destination.index);
+      const redorder: string[] = reorderList(orderedTagColKeys, source.index, destination.index);
 
       handleSetOrderedTagColKeys(redorder);
 
