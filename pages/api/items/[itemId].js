@@ -4,9 +4,12 @@ import Tag from '/mongo/schemas/TagSchema';
 import Section from '/mongo/schemas/SectionSchema';
 import { getSession } from 'next-auth/react';
 import { ObjectId } from 'mongodb';
+import { getMember, flattenMember } from '/mongo/controllers/memberControllers';
 
 import mongoose from 'mongoose';
 import { getItem } from '../../../mongo/controllers/itemOld';
+
+/* eslint-disable */
 
 export default async function handler(req, res) {
   const { itemId } = req.query;
@@ -73,6 +76,22 @@ export default async function handler(req, res) {
 
               status = 500;
               message = `Error deleting Item: ${e}`;
+            }
+          }
+        } else if (session) {
+          if (req.method === 'PATCH') {
+            const { title, tags } = req.body;
+
+            if (tags) {
+              const member = await getMember(session.user?.email);
+              item.tags = [];
+              tags.forEach((t) => {
+                member.member.tags.filter((mt) => {
+                  if (mt.id === t) {
+                    item.tags.push(t);
+                  }
+                });
+              });
             }
           }
         } else {

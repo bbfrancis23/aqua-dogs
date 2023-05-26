@@ -21,7 +21,7 @@ export default function TagsMultiSelect(props: any) {
 
   const {enqueueSnackbar} = useSnackbar()
 
-  const {item, setItem, tagIds, org} = props
+  const {item, setItem, tagIds, org, member} = props
   const theme = useTheme()
   const [tags, setTags] = useState([])
   const [itemTags, setItemTags] = useState(tagIds ? tagIds : [])
@@ -37,8 +37,13 @@ export default function TagsMultiSelect(props: any) {
 
 
     if (data) {
+
+
       if(org){
-        setTags(data.org.tags)
+        setTags(org.tags);
+        // setTags(data.org.tags)
+      }else if(member){
+        setTags(member.tags)
       }else{
         setTags(data.tags)
       }
@@ -48,7 +53,7 @@ export default function TagsMultiSelect(props: any) {
 
       setItemTags( item.tags?.map( (t:any) => t.id))
     }
-  }, [data, item])
+  }, [data, item, org, member])
 
 
   const handleTagsChange = (event: any) => {

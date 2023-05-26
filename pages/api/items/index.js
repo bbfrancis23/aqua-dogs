@@ -16,10 +16,7 @@ export default async function handler(req, res) {
     const session = await getSession({ req });
     const isSiteAdmin = session?.user.roles.includes('SiteAdmin');
 
-    if (!isSiteAdmin) {
-      status = axios.HttpStatusCode.Forbidden;
-      message = 'Not Authenticated';
-    } else {
+    if (isSiteAdmin || session) {
       if (req.body.tags) {
         item.tags = req.body.tags;
       }
@@ -30,6 +27,9 @@ export default async function handler(req, res) {
         status = axios.HttpStatusCode.InternalServerError;
         message = `Error Creating Item ${e}`;
       }
+    } else {
+      status = axios.HttpStatusCode.Forbidden;
+      message = 'Not Authenticated';
     }
 
     res.status(status).json({

@@ -6,5 +6,6 @@ enum PermissionCodes {
   PROJECT_LEADER = 'ProjectLeader',
   PROJECT_ADMIN = 'ProjectAdmin',
   PROJECT_MEMBER = 'ProjectMember',
+  MEMBER = 'Member',
 }
 export default PermissionCodes;
