@@ -8,13 +8,21 @@ import { Org } from "../interfaces/OrgInterface";
 export interface PermissionProps {
   roles: string[];
   children: ReactNode;
-  org ?: any;
+  org ?: Org;
+  member ?: Member;
 }
 
 
-export const userHasPermission = (roles: string[], user:any, org?: Org) => {
+// eslint-disable-next-line max-params
+export const userHasPermission = (roles: string[], user:any, org?: Org, member?: Member) => {
 
   let hasPermission: boolean = false
+
+  if(member){
+    if(roles.filter( (r:string) => r === PermissionCodes.MEMBER).length === 1){
+      hasPermission = true
+    }
+  }
 
   if(org){
     if(roles.filter( (r:string) => r === PermissionCodes.ORG_LEADER).length === 1){
@@ -58,9 +66,9 @@ const Permission = (props: PermissionProps) => {
     setHasPermission(false)
     const user: any = session?.user
 
-    setHasPermission(userHasPermission(roles, user, props.org))
+    setHasPermission(userHasPermission(roles, user, props.org, props.member))
 
-  }, [session, roles, props.org])
+  }, [session, roles, props.org, props.member])
 
 
   return ( <>{ (hasPermission && !loading ) && children}</> )

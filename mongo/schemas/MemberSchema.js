@@ -10,6 +10,9 @@ const memberSchema = new mongoose.Schema({
   authCode: { type: String, required: false },
   authTime: { type: Date, required: false },
   favoriteItems: [{ type: String, required: false }],
+  tags: [
+    { type: mongoose.Types.ObjectId, required: true, default: [], ref: 'Tag' },
+  ],
   roles: [{ type: mongoose.Types.ObjectId, required: false, ref: 'roles' }],
 });
 

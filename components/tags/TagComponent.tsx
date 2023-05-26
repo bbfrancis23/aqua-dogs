@@ -16,20 +16,31 @@ import ItemFormDialog from "../items/ItemFormDialog"
 import TagBoard from "./TagBoard"
 
 import Permission from "../../ui/Permission"
+import { Member } from "../../interfaces/MemberInterface"
 
 export interface TagComponentProps {
   tag: Tag ;
   tagItems: TagItems[];
   org?: Org;
+  member?: Member;
 }
 
 const TagsComponent = (props: TagComponentProps) => {
-  const {tag, org} = props
+  const {tag, org, member} = props
   const {enqueueSnackbar} = useSnackbar()
 
   const [tagItems, setTagItems] = useState<TagItems[]>(props.tagItems)
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([tag.id])
   const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState<boolean>(false)
+
+  const initPermissions = () => {
+    let permissions = [PermissionCodes.SITE_ADMIN]
+    if(member){
+      permissions.push(PermissionCodes.MEMBER)
+    }
+    return permissions
+  }
+  const [permissions, setPermissions] = useState<string[]>(initPermissions())
 
   const handleCloseDialog = () => {
     setAddItemDialogIsOpen(false)
@@ -66,6 +77,7 @@ const TagsComponent = (props: TagComponentProps) => {
     setAddItemDialogIsOpen(true)
   }
 
+
   return (
     <Box sx={{mt: 8, p: 3}}>
       <Box sx={{ display: 'flex'}}>
@@ -74,7 +86,7 @@ const TagsComponent = (props: TagComponentProps) => {
           {tag.title}
         </Typography>
         <Box>
-          <Permission roles={[PermissionCodes.SITE_ADMIN]} >
+          <Permission roles={permissions} member={member ? member : undefined}>
             <IconButton onClick={ () => handleOpenDialog()} sx={{ ml: 3}} >
               <AddItemIcon />
             </IconButton>
@@ -85,7 +97,8 @@ const TagsComponent = (props: TagComponentProps) => {
         setItemFormDialogOpen={(id) => handleOpenDialog(id)}
         updateBoardFromDataBase={() => handleUpdateBoardFromDataBase()} />
       <ItemFormDialog mode={FormModes.ADD} dialogIsOpen={addItemDialogIsOpen}
-        closeDialog={handleCloseDialog} tagIds={selectedTagIds} org={org ? org : undefined} />
+        closeDialog={handleCloseDialog} tagIds={selectedTagIds} org={org ? org : undefined}
+        member={member ? member : undefined} />
     </Box>
   )
 }

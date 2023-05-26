@@ -2,7 +2,9 @@ import { getSession } from 'next-auth/react';
 import Member from '../../../mongo/schemas/MemberSchema';
 import db from '/mongo/db';
 
-async function handler(req, res) {
+import { createMemberTag } from '../../../mongo/controllers/memberControllers';
+
+export default async function handler(req, res) {
   if (req.method === 'PATCH') {
     const session = await getSession({ req });
 
@@ -34,7 +36,7 @@ async function handler(req, res) {
         return;
       }
 
-      let existingUser;
+      let existingUser = {};
       try {
         existingUser = await Member.findOne({ email });
       } catch (error) {
@@ -52,6 +54,22 @@ async function handler(req, res) {
       }
 
       updateOptions = { email: req.body.email };
+    } else if (req.body.addTag) {
+      try {
+        await createMemberTag(member, req.body.addTag);
+      } catch (e) {
+        await db.disconnect();
+        res.status(500).json({ message: `error: ${e}` });
+        return;
+      }
+
+      await db.disconnect();
+
+      res.status(200).json({
+        message: 'Tag added',
+        user: 'member would go here',
+      });
+      return;
     }
 
     if (updateOptions) {
@@ -73,4 +91,3 @@ async function handler(req, res) {
     });
   }
 }
-export default handler;

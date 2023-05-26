@@ -13,8 +13,9 @@ import DraggableDialog from "../../ui/DraggableDialog"
 import { Item } from "../../interfaces/ItemInterface"
 import FormModes from "../../enums/FormModes"
 import { Org } from "../../interfaces/OrgInterface"
+import { Member } from "../../interfaces/MemberInterface"
 
-
+/* eslint-disable */
 export interface ItemFormDialogProps{
   dialogIsOpen: boolean;
   closeDialog: () => void;
@@ -23,6 +24,7 @@ export interface ItemFormDialogProps{
   updateEditedItem? : (i: Item) => void;
   tagIds ?: string[];
   org ?: Org;
+  member ?: Member;
 }
 
 export default function ItemFormDialog(props: ItemFormDialogProps){
@@ -33,7 +35,7 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
   const loading = status === "loading"
 
 
-  const {dialogIsOpen, closeDialog, mode, editItem, updateEditedItem, tagIds, org} = props
+  const {dialogIsOpen, closeDialog, mode, editItem, updateEditedItem, tagIds, org, member} = props
   const [item, setItem] = useState<any>({id: ""})
 
 
@@ -134,7 +136,9 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
                     item={item}
                     setItem={(i: any) => handleSetItem(i)}
                   />
-                  <TagsMultiSelect tagIds={tagIds ? tagIds : null} org={org ? org : undefined}
+                  <TagsMultiSelect tagIds={tagIds ? tagIds : null}
+                    org={org ? org : undefined}
+                    member={member ? member : undefined }
                     item={item} setItem={(i: any) => handleSetItem(i)}
                   />
                   <SectionsInupt item={item} setItem={(i: any) => handleSetItem(i)}

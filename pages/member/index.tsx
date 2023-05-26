@@ -13,6 +13,9 @@ import NameForm from "../../components/members/NameForm"
 import EmailForm from "../../components/members/EmailForm"
 import {Member} from "../../interfaces/MemberInterface"
 import Link from "next/link"
+import AddMemberTagForm from "../../components/org/forms/AddMemberTagForm"
+import { Tag } from "../../interfaces/TagInterface"
+import MemberTag from "../../components/members/MemberTag"
 
 
 export interface MemberProps{
@@ -54,6 +57,25 @@ export default function MemberPage(props: MemberProps){
             <Stack spacing={3}>
               <NameForm name={member?.name ? member.name : ""} />
               <EmailForm email={member?.email ? member.email : ""} />
+
+              <Box sx={{ display: 'flex', pb: 1}}>
+                <Typography variant={'h5'} sx={{ pl: 3, }}>Tags:</Typography>
+
+                <AddMemberTagForm />
+
+
+                <Box >
+
+                  { member.tags?.map( (t:Tag) => (
+                    <Link key={t.id}
+                      href={`/member/tags/${t.id}`}
+                    >
+                      <MemberTag tag={t} />
+                    </Link>
+                  ))}
+                </Box>
+              </Box>
+
               <Typography>My Organizations:</Typography>
               {
                 orgs.map( (o:any) => (
@@ -110,11 +132,14 @@ export const getServerSideProps = async(context: any) => {
 
   if(authSession.user && authSession.user.email){
     const result = await getMember(authSession.user.email)
+
+
     if(result.member){
       member = {
         email: result.member.email,
         name: result.member.name ? result.member.name : '',
         roles: result.member.roles,
+        tags: result.member.tags,
         id: result.member.id
       }
 
@@ -127,6 +152,7 @@ export const getServerSideProps = async(context: any) => {
 
   let orgs:any = await getMemberOrgs(member.id)
   orgs = orgs.map( (o:any) => ({ id: o._id.toString(), title: o.title}))
+
 
   return {props: {authSession, member, orgs}}
 }

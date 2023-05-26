@@ -10,19 +10,14 @@ import axios from "axios";
 import * as Yup from "yup"
 import { useSnackbar } from "notistack";
 
-import { Org } from "../../../interfaces/OrgInterface";
-
-
 const AddTagSchema = Yup.object().shape({ tag: Yup.string().required("Tag is required")})
 
-export interface AddOrgTagFormProps{
-  org: Org;
-  setOrg: (org:Org) => void
+export interface AddMemberTagFormProps{
+
 }
 
-export default function AddOrgTagForm(props: AddOrgTagFormProps) {
+export default function AddMemberTagForm(props: AddMemberTagFormProps) {
 
-  const {org, setOrg} = props
   const [displayForm, setDisplayForm] = useState<boolean>(false);
 
   const {enqueueSnackbar} = useSnackbar()
@@ -31,13 +26,13 @@ export default function AddOrgTagForm(props: AddOrgTagFormProps) {
     initialValues: { tag: '' },
     validationSchema: AddTagSchema,
     onSubmit: (data) => {
-      axios.patch( `/api/org/${org.id}`, {addTag: data.tag}, )
+      axios.patch( '/api/auth/member', {addTag: data.tag}, )
         .then((res) => {
           formik.setSubmitting(false)
           formik.resetForm()
           if (res.status === axios.HttpStatusCode.Ok ){
-            enqueueSnackbar("Org Tag Added", {variant: "success"})
-            setOrg(res.data.org);
+            enqueueSnackbar("Member Tag Added", {variant: "success"})
+            // setOrg(res.data.org);
             setDisplayForm(false)
           }else{
             enqueueSnackbar(res.data.message, {variant: "error"})
@@ -48,6 +43,7 @@ export default function AddOrgTagForm(props: AddOrgTagFormProps) {
           formik.resetForm()
           enqueueSnackbar(error, {variant: "error"})
         })
+      formik.setSubmitting(false)
     }
   })
 
@@ -57,7 +53,7 @@ export default function AddOrgTagForm(props: AddOrgTagFormProps) {
   return (
     <>
       { displayForm === false && (
-        <Tooltip title="Add Org Tag">
+        <Tooltip title="Add Tag">
           <IconButton
             size="small" sx={{ ml: 1}}
             onClick={() => setDisplayForm(true) }>
