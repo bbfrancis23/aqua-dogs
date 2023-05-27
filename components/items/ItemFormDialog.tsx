@@ -54,15 +54,10 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
       if(dialogIsOpen && session && mode === "ADD"){
 
-        let fields: any = {title: ''}
-
-        if(tagIds){
-          fields.tags = tagIds
-        }
-
         try {
-          axios.post("/api/items", fields)
+          axios.post("/api/items", {scope: 'public'})
             .then((res) => {
+
               setItem(res.data.item)
               try {
                 axios.post("/api/sections",
