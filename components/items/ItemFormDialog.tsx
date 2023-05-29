@@ -51,7 +51,6 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
     if(!item.id){
 
-
       if(dialogIsOpen && session && mode === "ADD"){
 
         try {
@@ -96,6 +95,8 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
       updateEditedItem(i)
 
+    }else if(mode === 'ADD'){
+      setItem(i)
     }
 
   }
@@ -136,9 +137,7 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
                     member={member ? member : undefined }
                     item={item} setItem={(i: any) => handleSetItem(i)}
                   />
-                  <SectionsInupt item={item} setItem={(i: any) => handleSetItem(i)}
-
-                  />
+                  <SectionsInupt item={item} setItem={(i: any) => handleSetItem(i)} />
                 </Stack>
               </DialogContent>
             </>

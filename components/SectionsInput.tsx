@@ -23,6 +23,7 @@ export default function SectionsInupt(props: any){
         .then((res) => {
 
           setNewSectionOrderNumber((c) => ++c)
+
           setItem(res.data.item)
         })
         .catch((error) => {
