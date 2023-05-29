@@ -3,7 +3,7 @@ import { DraggableProvided } from "react-beautiful-dnd";
 import { useSnackbar } from "notistack";
 import axios, { HttpStatusCode } from "axios";
 
-import { Card, CardContent, CardHeader, IconButton, Link, useTheme, styled,
+import { Card, CardContent, CardHeader, IconButton, useTheme, styled,
   Menu, MenuItem } from "@mui/material"
 import {useConfirm} from "material-ui-confirm"
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -11,6 +11,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Item } from "../../interfaces/ItemInterface";
 import Permission from "../../ui/Permission";
 import PermissionCodes from "../../enums/PermissionCodes";
+
+import Link from "next/link"
 
 export interface TagBoardCardProps{
   linkPath: string;
@@ -108,7 +110,12 @@ export const TagBoardCard = (props: TagBoardCardProps ) => {
                 }}
               >
                 <MenuItem onClick={handleClose}>Edit</MenuItem>
-                <MenuItem onClick={handleClose}>View</MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <Link href={`${linkPath}/${item.id}`}
+                    style={{textDecoration: "none", color: theme.palette.text.primary}}>
+                      View
+                  </Link>
+                </MenuItem>
                 <MenuItem onClick={handleDelete}>Delete</MenuItem>
               </Menu>
             </ Permission>

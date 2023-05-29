@@ -1,10 +1,13 @@
 import db from '/mongo/db';
 
-import Item from '../schemas/ItemSchema';
+import Item from 'mongo/schemas/ItemSchema';
 import Tag from '/mongo/schemas/TagSchema';
 import Section from '/mongo/schemas/SectionSchema';
+import { getSession } from 'next-auth/react';
 
 import { ObjectId } from 'mongodb';
+
+import axios from 'axios';
 
 export const flattenItem = (item) => {
   delete item._id;
@@ -55,7 +58,7 @@ export const getItems = async () => {
 
   let items = {};
 
-  items = await Item.find()
+  items = await Item.find({ scope: 'public' })
     .populate({ path: 'tags', model: Tag })
     .populate({ path: 'sections', model: Section });
 

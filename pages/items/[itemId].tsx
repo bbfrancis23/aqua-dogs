@@ -44,7 +44,7 @@ export const getStaticPaths = async() => {
     paths = items.map((item: any) => ({params: {itemId: item.id}}))
   }
 
-  return {paths, fallback: "blocking"}
+  return {paths, fallback: false}
 
 }
 export const getStaticProps = async ({params}:any) => {

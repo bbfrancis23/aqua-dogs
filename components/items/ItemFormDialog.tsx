@@ -51,18 +51,12 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
     if(!item.id){
 
-
       if(dialogIsOpen && session && mode === "ADD"){
 
-        let fields: any = {title: ''}
-
-        if(tagIds){
-          fields.tags = tagIds
-        }
-
         try {
-          axios.post("/api/items", fields)
+          axios.post("/api/items", {scope: 'public'})
             .then((res) => {
+
               setItem(res.data.item)
               try {
                 axios.post("/api/sections",
@@ -101,6 +95,8 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
       updateEditedItem(i)
 
+    }else if(mode === 'ADD'){
+      setItem(i)
     }
 
   }
@@ -141,9 +137,7 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
                     member={member ? member : undefined }
                     item={item} setItem={(i: any) => handleSetItem(i)}
                   />
-                  <SectionsInupt item={item} setItem={(i: any) => handleSetItem(i)}
-
-                  />
+                  <SectionsInupt item={item} setItem={(i: any) => handleSetItem(i)} />
                 </Stack>
               </DialogContent>
             </>
