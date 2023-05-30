@@ -52,7 +52,7 @@ export default function MemberPage(props: MemberProps){
       { loading && <span>Loading</span> }
       {!loading && authSession && (
         <Card sx={{width: {xs: "100vw", md: "50vw"}}}>
-          <CardHeader title="Member Information" />
+          <CardHeader title="Member Information" variant={'info'} />
           <CardContent sx={{pl: 3}}>
             <Stack spacing={3}>
               <NameForm name={member?.name ? member.name : ""} />

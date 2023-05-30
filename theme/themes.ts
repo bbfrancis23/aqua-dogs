@@ -69,6 +69,9 @@ export const createFxTheme = (themeOptions: any) => {
       MuiDialog: {
         styleOverrides: { root: { backgroundColor: 'rgba(0, 0, 0, 0.0)' } },
       },
+      MuiCardHeader: {
+        styleOverrides: { title: { fontSize: '2rem', fontWeight: '800' } },
+      },
       MuiBackdrop: {
         styleOverrides: {
           root: {
