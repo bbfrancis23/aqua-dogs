@@ -12,6 +12,7 @@ import {
   indigo,
   yellow,
 } from '@mui/material/colors';
+import { globalTheme } from './globalTheme';
 
 export const palettes = [
   {
@@ -63,25 +64,6 @@ export const palettes = [
 export const createFxTheme = (themeOptions: any) => {
   let theme = createTheme(themeOptions);
 
-  const globalTheme = {
-    passwordMinLength: 6,
-    components: {
-      MuiDialog: {
-        styleOverrides: { root: { backgroundColor: 'rgba(0, 0, 0, 0.0)' } },
-      },
-      MuiCardHeader: {
-        styleOverrides: { title: { fontSize: '2rem', fontWeight: '800' } },
-      },
-      MuiBackdrop: {
-        styleOverrides: {
-          root: {
-            backdropFilter: 'blur(1px)',
-            backgroundColor: 'rgba(0, 0, 0, 0.0)',
-          },
-        },
-      },
-    },
-  };
   theme = createTheme(theme, globalTheme);
   return theme;
 };

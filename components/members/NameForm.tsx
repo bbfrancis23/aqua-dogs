@@ -54,7 +54,7 @@ export default function NameForm(params: {name: string}){
     <Box >
       {(name && !displayTextField) &&
         <Box onClick={() => setDisplayTextField(!displayTextField)} sx={{cursor: "pointer"}}>
-          <Typography sx={{display: "inline", mr: 1, cursor: "pointer"}}>
+          <Typography sx={{display: "inline", mr: 1, cursor: "pointer", fontWeight: 'bold'}}>
             Member Name:
           </Typography>
           {name}

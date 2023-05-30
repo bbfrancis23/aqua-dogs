@@ -1,28 +1,27 @@
 import {useState} from "react"
-
-import {Box, Card, CardContent, CardHeader, Button, Typography, Stack} from "@mui/material"
+import Link from "next/link"
 import {useSession, signOut, getSession} from "next-auth/react"
+
+import {Box, Card, CardContent, CardHeader, Button, Typography, Stack,
+  Skeleton, useTheme} from "@mui/material"
 
 import {useSnackbar} from "notistack"
 
 import {getMember, getMemberOrgs} from "../../mongo/controllers/memberControllers"
 
-import ChangePasswordForm from "../../components/auth/forms/ChangePasswordForm"
+import {Member} from "../../interfaces/MemberInterface"
+import { Tag } from "../../interfaces/TagInterface"
+
 import OrgForm from "../../components/org/forms/OrgForm"
+import ChangePasswordForm from "../../components/auth/forms/ChangePasswordForm"
 import NameForm from "../../components/members/NameForm"
 import EmailForm from "../../components/members/EmailForm"
-import {Member} from "../../interfaces/MemberInterface"
-import Link from "next/link"
 import AddMemberTagForm from "../../components/org/forms/AddMemberTagForm"
-import { Tag } from "../../interfaces/TagInterface"
 import MemberTag from "../../components/members/MemberTag"
+import InfoCardContainer from "../../ui/information-card/InfoCardContainer"
+import InfoCard from "../../ui/information-card/InfoCard"
 
-
-export interface MemberProps{
-  authSession: any;
-  member: Member;
-  orgs: any;
-}
+export interface MemberProps{ authSession: any; member: Member; orgs: any;}
 
 export default function MemberPage(props: MemberProps){
 
@@ -32,14 +31,12 @@ export default function MemberPage(props: MemberProps){
   const [showOrgForm, setShowOrgForm] = useState<boolean>(false)
 
   const {enqueueSnackbar} = useSnackbar()
+
   const {status} = useSession()
 
   const loading = status === "loading"
 
-  if(!loading && !authSession){
-    window.location.href = "/"
-  }
-
+  if(!loading && !authSession){ window.location.href = "/" }
 
   const logoutHandler = async() => {
     await signOut()
@@ -48,24 +45,25 @@ export default function MemberPage(props: MemberProps){
   }
 
   return (
-    <Box sx={{display: "flex", justifyContent: "center", pt: 12}}>
-      { loading && <span>Loading</span> }
-      {!loading && authSession && (
-        <Card sx={{width: {xs: "100vw", md: "50vw"}}}>
-          <CardHeader title="Member Information" variant={'info'} />
+    <InfoCardContainer >
+      {authSession && (
+        <InfoCard>
+          <CardHeader title={ 'Member Information' } variant={'info'} />
           <CardContent sx={{pl: 3}}>
-            <Stack spacing={3}>
+            <Stack spacing={3} alignItems={'flex-start'}>
               <NameForm name={member?.name ? member.name : ""} />
               <EmailForm email={member?.email ? member.email : ""} />
+              <Button sx={{ color: 'text.primary'}}
+                onClick={() => setShowChangePasswordForm(!showChangePasswordForm)}
+              >
+                Change Password
+              </Button>
+              { showChangePasswordForm && <ChangePasswordForm />}
 
               <Box sx={{ display: 'flex', pb: 1}}>
-                <Typography variant={'h5'} sx={{ pl: 3, }}>Tags:</Typography>
-
+                <Typography variant={'h6'} >Tags:</Typography>
                 <AddMemberTagForm />
-
-
                 <Box >
-
                   { member.tags?.map( (t:Tag) => (
                     <Link key={t.id}
                       href={`/member/tags/${t.id}`}
@@ -76,7 +74,7 @@ export default function MemberPage(props: MemberProps){
                 </Box>
               </Box>
 
-              <Typography>My Organizations:</Typography>
+              <Typography variant={'h6'}>My Organizations:</Typography>
               {
                 orgs.map( (o:any) => (
                   <Box key={o.id}>
@@ -92,32 +90,24 @@ export default function MemberPage(props: MemberProps){
                   </Box>
                 ))
               }
-              <Typography>Actions:</Typography>
-              <Box>
-                <Button
-                  onClick={() => setShowChangePasswordForm(!showChangePasswordForm)}
-                >
-                Change Password
-                </Button>
-              </Box>
-              { showChangePasswordForm && <ChangePasswordForm />}
-              <Box>
-                <Button
-                  onClick={() => setShowOrgForm(!showOrgForm)}
-                >
+              <Typography variant={'h6'}>Actions:</Typography>
+
+
+              <Button variant="contained"
+                onClick={() => setShowOrgForm(!showOrgForm)}
+              >
                 Found organization
-                </Button>
-              </Box>
+              </Button>
               { showOrgForm && <OrgForm />}
 
-              <Box><Button onClick={logoutHandler} >LOG OUT</Button></Box>
+              <Button sx={{ color: 'text.primary'}} onClick={logoutHandler}>LOG OUT</Button>
             </Stack>
 
           </CardContent>
-        </Card>
+        </InfoCard>
       )
       }
-    </Box>
+    </InfoCardContainer>
   )
 }
 
