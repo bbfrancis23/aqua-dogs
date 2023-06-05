@@ -22,7 +22,7 @@ export default function EmailForm(params: {email: string}){
       email: email ? email : ""
     },
     validationSchema: EmailSchema,
-    onSubmit: async (data) => {
+    onSubmit: (data) => {
       axios.patch(
         "/api/auth/member",
         {email: data.email},
@@ -49,8 +49,8 @@ export default function EmailForm(params: {email: string}){
       {(email && !displayTextField) && (
         <Box onClick={() => setDisplayTextField(!displayTextField)} sx={{cursor: "pointer"}}>
           <>
-            <Typography sx={{display: "inline", mr: 1, cursor: "pointer"}}>
-              Emain:
+            <Typography sx={{display: "inline", mr: 1, cursor: "pointer", fontWeight: 'bold'}}>
+              Email:
             </Typography>
             {email}
           </>

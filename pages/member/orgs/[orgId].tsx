@@ -14,7 +14,7 @@ import AddOrgTagForm from "../../../components/org/forms/AddOrgTagForm";
 
 import { useSnackbar } from "notistack";
 
-import Details from "../../../ui/Details"
+import Details from "../../../ui/information-card/InfoCardContainer"
 import Permission from "../../../ui/Permission";
 
 import { getOrg } from '../../../mongo/controllers/orgControllers';

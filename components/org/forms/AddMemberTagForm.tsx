@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction, } from "react";
 
 import { Badge, Box, Button, IconButton, TextField, Tooltip } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -9,14 +9,17 @@ import { Form, FormikProvider, useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup"
 import { useSnackbar } from "notistack";
+import { Member } from "../../../interfaces/MemberInterface";
 
 const AddTagSchema = Yup.object().shape({ tag: Yup.string().required("Tag is required")})
 
 export interface AddMemberTagFormProps{
-
+  setMember: Dispatch<SetStateAction<Member>>;
 }
 
 export default function AddMemberTagForm(props: AddMemberTagFormProps) {
+
+  const {setMember} = props
 
   const [displayForm, setDisplayForm] = useState<boolean>(false);
 
@@ -32,7 +35,8 @@ export default function AddMemberTagForm(props: AddMemberTagFormProps) {
           formik.resetForm()
           if (res.status === axios.HttpStatusCode.Ok ){
             enqueueSnackbar("Member Tag Added", {variant: "success"})
-            // setOrg(res.data.org);
+            console.log(res.data)
+            setMember(res.data.member);
             setDisplayForm(false)
           }else{
             enqueueSnackbar(res.data.message, {variant: "error"})
@@ -64,7 +68,7 @@ export default function AddMemberTagForm(props: AddMemberTagFormProps) {
                 <AddIcon fontSize="small" sx={{ fontSize: ".90rem", fontWeight: '900'}}
                   style={{ position: 'relative', left: '-7px', bottom: '-7'}}/>
               } >
-              < TagIcon />
+              <TagIcon fontSize="small"/>
             </Badge>
           </IconButton>
         </Tooltip>
