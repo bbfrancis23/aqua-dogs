@@ -9,12 +9,16 @@ import Tag from '/mongo/schemas/TagSchema';
 import axios from 'axios';
 import mongoose from 'mongoose';
 
-import { flattenTag } from './tagsControllers';
+import { flattenTag } from '../tagsControllers';
 
 import { ObjectId } from 'mongodb';
+import { flattenOrg } from '../orgControllers';
 
 export const flattenMember = async (member, basic = false) => {
   delete member._id;
+  delete member.password;
+  delete member.authTime;
+  delete member.authCode;
 
   if (member.roles) {
     member.roles = member.roles.map((r) => r.toString());
@@ -40,13 +44,15 @@ export const flattenMember = async (member, basic = false) => {
 export const getMemberOrgs = async (memberId) => {
   await db.connect();
 
-  let orgs = {};
+  let orgs = [];
 
   orgs = await Organization.find({
     $or: [{ leader: memberId }, { members: memberId }],
   });
 
   await db.disconnect();
+
+  orgs = orgs.map((o) => ({ id: o._id.toString(), title: o.title }));
 
   return orgs;
 };

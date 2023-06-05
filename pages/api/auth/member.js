@@ -2,10 +2,13 @@ import { getSession } from 'next-auth/react';
 import Member from '../../../mongo/schemas/MemberSchema';
 import db from '/mongo/db';
 
-import { createMemberTag } from '../../../mongo/controllers/memberControllers';
+import { createMemberTag } from '../../../mongo/controllers/memberControllers/createMemberTag';
 
 export default async function handler(req, res) {
-  if (req.method === 'PATCH') {
+  if (req.method === 'PATCH' && req.body.addTag) {
+    await createMemberTag(req, res);
+    return;
+  } else if (req.method === 'PATCH') {
     const session = await getSession({ req });
 
     if (!session) {
