@@ -5,7 +5,7 @@ export interface Project {
   id: string;
   title: string;
   leader: Member;
-  admins: Member[];
-  members: Member[];
-  boards: Board[];
+  admins?: Member[];
+  members?: Member[];
+  boards?: Board[];
 }

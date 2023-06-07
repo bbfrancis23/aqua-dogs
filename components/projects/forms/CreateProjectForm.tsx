@@ -8,7 +8,7 @@ import { FormikProvider, useFormik, Form } from "formik";
 import * as Yup from "yup"
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
-import { Project } from "../../interfaces/ProjectInterface";
+import { Project } from "../../../interfaces/ProjectInterface";
 
 
 export interface CreateProjectFormProps{

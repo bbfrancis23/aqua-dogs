@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardHeader, Skeleton, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardHeader, Skeleton, Typography, useTheme } from "@mui/material";
 import { Project } from "../../interfaces/ProjectInterface";
 
 export interface ProjectStubProps{
@@ -7,10 +7,22 @@ export interface ProjectStubProps{
 
 const ProjectStub = (props: ProjectStubProps) => {
 
+  const theme = useTheme()
+
   const {project} = props;
 
+  const getBgColor = () => {
+    if(project){
+      return 'secondary.main'
+    }else if (theme.palette.mode === 'dark'){
+      return 'grey.900'
+    }
+    return''
+
+  }
+
   return (
-    <Card sx={{ bgcolor: project ? 'secondary.main' : '',
+    <Card sx={{ bgcolor: getBgColor(),
       color: project ? 'secondary.contrastText' : ''}}>
       <CardHeader
         title={ project ?

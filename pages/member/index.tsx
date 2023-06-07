@@ -14,14 +14,16 @@ import EmailForm from "../../components/members/EmailForm"
 
 import InfoCardContainer from "../../ui/information-card/InfoCardContainer"
 import InfoCard from "../../ui/information-card/InfoCard"
-import CreateProjectForm from "../../components/projects/CreateProjectForm"
+import CreateProjectForm from "../../components/projects/forms/CreateProjectForm"
 import ProjectStub from "../../components/projects/ProjectStub"
 import { Project } from "../../interfaces/ProjectInterface"
 import { getMemberProjects } from "../../mongo/controllers/memberControllers"
+import { useRouter } from "next/router"
 
 export interface MemberPageProps{ member: Member; projects: Project[]}
 
 export default function MemberPage(props: MemberPageProps){
+  const router = useRouter();
 
   const [projects, setProjects] = useState<Project[]>(props.projects)
   const [member, setMember] = useState<Member>(props.member)
@@ -44,7 +46,7 @@ export default function MemberPage(props: MemberPageProps){
     <InfoCardContainer >
 
       <InfoCard>
-        <CardHeader title={ 'Member Information:' } variant={'info'} />
+        <CardHeader title={ 'Member Information:' } />
         <CardContent sx={{pl: 3}}>
           <Stack spacing={3} alignItems={'flex-start'}>
             <NameForm name={member?.name ? member.name : ""} />
@@ -65,7 +67,11 @@ export default function MemberPage(props: MemberPageProps){
               {
                 projects.map( (p) => (
                   <Grid item xs={3} key={p.id}>
-                    <ProjectStub project={p} />
+                    <Button
+                      onClick={() => router.push(`/member/projects/${p.id}`)} sx={{ m: 0, p: 0}}>
+
+                      <ProjectStub project={p} />
+                    </Button>
                   </Grid>
                 ))
               }
@@ -95,8 +101,6 @@ export const getServerSideProps: GetServerSideProps<MemberPageProps> = async(con
 
   if(member){
     let projects: Project[] | [] = await getMemberProjects(member?.id)
-
-    console.log(projects)
 
     return {props: { member, projects}}
   }
