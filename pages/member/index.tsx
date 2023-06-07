@@ -1,38 +1,33 @@
 import {useState} from "react"
 
 import { GetServerSideProps } from "next"
-import Link from "next/link"
 import { signOut, getSession} from "next-auth/react"
 
-import {Box, CardContent, CardHeader, Button, Typography, Stack } from "@mui/material"
+import {CardContent,
+  CardHeader, Button, Stack, Typography, Card, Skeleton, Box, Tooltip, Grid } from "@mui/material"
 import {useSnackbar} from "notistack"
 
-import { getMemberOrgs} from "../../mongo/controllers/memberControllers"
-
 import {Member, getValidMember} from "../../interfaces/MemberInterface"
-import { Tag } from "../../interfaces/TagInterface"
-import { Org } from "../../interfaces/OrgInterface"
-
-import OrgForm from "../../components/org/forms/OrgForm"
 import ChangePasswordForm from "../../components/auth/forms/ChangePasswordForm"
 import NameForm from "../../components/members/NameForm"
 import EmailForm from "../../components/members/EmailForm"
-import AddMemberTagForm from "../../components/org/forms/AddMemberTagForm"
-import MemberTag from "../../components/members/MemberTag"
 
 import InfoCardContainer from "../../ui/information-card/InfoCardContainer"
 import InfoCard from "../../ui/information-card/InfoCard"
+import CreateProjectForm from "../../components/projects/CreateProjectForm"
+import ProjectStub from "../../components/projects/ProjectStub"
+import { Project } from "../../interfaces/ProjectInterface"
+import { getMemberProjects } from "../../mongo/controllers/memberControllers"
 
-export interface MemberPageProps{ member: Member; orgs: Org[] | []}
+export interface MemberPageProps{ member: Member; projects: Project[]}
 
 export default function MemberPage(props: MemberPageProps){
 
-  const {orgs} = props
-
+  const [projects, setProjects] = useState<Project[]>(props.projects)
   const [member, setMember] = useState<Member>(props.member)
 
   const [showChangePasswordForm, setShowChangePasswordForm] = useState<boolean>(false)
-  const [showOrgForm, setShowOrgForm] = useState<boolean>(false)
+  const [showProjectForm, setShowProjectForm] = useState<boolean>(false)
   const {enqueueSnackbar} = useSnackbar()
 
   const logoutHandler = async() => {
@@ -41,6 +36,9 @@ export default function MemberPage(props: MemberPageProps){
     enqueueSnackbar("You are now Logged Out", {variant: "success"})
   }
 
+  const handleCloseCreateProjectForm = () => {
+    setShowProjectForm(false)
+  }
 
   return (
     <InfoCardContainer >
@@ -56,44 +54,31 @@ export default function MemberPage(props: MemberPageProps){
                 Change Password
             </Button>
             { showChangePasswordForm && <ChangePasswordForm />}
-            <Box sx={{ display: 'flex', pb: 1}}>
-              <Typography variant={'h6'} >My Tags:</Typography>
-              <AddMemberTagForm setMember={(m:any) => setMember(m)}/>
-            </Box>
-
-            <Box >
-              { member.tags?.map( (t:Tag) => (
-                <MemberTag tag={t} key={t.id} />
-              ))}
-            </Box>
-
-            <Typography variant={'h6'}>My Organizations:</Typography>
-            {
-              orgs.map( (o:Org) => (
-                <Box key={o.id}>
-                  <Link
-                    href={`/member/orgs/${o.id}`}
-
-                  >
-                    <Button >
-                      {o.title}
-                    </Button>
-                  </Link>
-
-                </Box>
-              ))
-            }
-            <Typography variant={'h6'}>Actions:</Typography>
-
-
-            <Button variant="contained"
-              onClick={() => setShowOrgForm(!showOrgForm)}
-            >
-                Found organization
-            </Button>
-            { showOrgForm && <OrgForm />}
-
             <Button sx={{ color: 'text.primary'}} onClick={logoutHandler}>LOG OUT</Button>
+            <Typography>Projects</Typography>
+            { showProjectForm && (
+              <CreateProjectForm setProjects={(p:any) => setProjects(p)}
+                closeForm={() => handleCloseCreateProjectForm()}/>
+            ) }
+            <Grid container spacing={1}>
+
+              {
+                projects.map( (p) => (
+                  <Grid item xs={3} key={p.id}>
+                    <ProjectStub project={p} />
+                  </Grid>
+                ))
+              }
+              <Grid item xs={3} >
+                <Tooltip title="Create Project">
+
+                  <Button onClick={() => setShowProjectForm(true)} sx={{ m: 0, p: 0}}>
+                    <ProjectStub />
+                  </Button>
+                </Tooltip>
+              </Grid>
+            </Grid>
+
           </Stack>
 
         </CardContent>
@@ -109,8 +94,11 @@ export const getServerSideProps: GetServerSideProps<MemberPageProps> = async(con
   const member: Member | false = await getValidMember(authSession)
 
   if(member){
-    let orgs: Org[] | [] = await getMemberOrgs(member?.id)
-    return {props: { member, orgs}}
+    let projects: Project[] | [] = await getMemberProjects(member?.id)
+
+    console.log(projects)
+
+    return {props: { member, projects}}
   }
 
   return {redirect: {destination: "/", permanent: false}}

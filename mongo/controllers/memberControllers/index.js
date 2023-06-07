@@ -4,6 +4,8 @@ import Role from '/mongo/schemas/RoleSchema';
 
 import Organization from '/mongo/schemas/OrganizationSchema';
 
+import Project from '/mongo/schemas/ProjectSchema';
+
 import Tag from '/mongo/schemas/TagSchema';
 
 import axios from 'axios';
@@ -55,6 +57,22 @@ export const getMemberOrgs = async (memberId) => {
   orgs = orgs.map((o) => ({ id: o._id.toString(), title: o.title }));
 
   return orgs;
+};
+
+export const getMemberProjects = async (memberId) => {
+  await db.connect();
+
+  let projects = [];
+
+  projects = await Project.find({
+    $or: [{ leader: memberId }, { members: memberId }],
+  });
+
+  await db.disconnect();
+
+  projects = projects.map((p) => ({ id: p._id.toString(), title: p.title }));
+
+  return projects;
 };
 
 export const getMembers = async () => {
