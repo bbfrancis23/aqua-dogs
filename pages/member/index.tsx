@@ -57,7 +57,7 @@ export default function MemberPage(props: MemberPageProps){
             </Button>
             { showChangePasswordForm && <ChangePasswordForm />}
             <Button sx={{ color: 'text.primary'}} onClick={logoutHandler}>LOG OUT</Button>
-            <Typography>Projects</Typography>
+            <Typography variant={'h5'}>Projects:</Typography>
             { showProjectForm && (
               <CreateProjectForm setProjects={(p:any) => setProjects(p)}
                 closeForm={() => handleCloseCreateProjectForm()}/>

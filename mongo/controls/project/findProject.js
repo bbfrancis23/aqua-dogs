@@ -12,10 +12,10 @@ export const findProject = async (id) => {
 
   await db.connect();
 
-  project = await Project.findOne({ _id: id }, { password: 0 }).populate(
-    'leader',
-    '-password -authCode'
-  );
+  project = await Project.findOne({ _id: id })
+    .populate('leader', '-password -authCode')
+    .populate('admins', '-password -authCode')
+    .populate('members', '-password -authCode');
 
   project = await project.toObject({
     getters: true,

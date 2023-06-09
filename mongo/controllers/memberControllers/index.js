@@ -80,12 +80,11 @@ export const getMembers = async () => {
 
   let members = null;
 
-  members = await Member.find();
+  members = await Member.find().select('_id email name');
 
   if (members) {
     members = await members.map((m) => {
       m = m.toObject({ getters: true });
-      m = flattenMember(m, true);
       return m;
     });
   }

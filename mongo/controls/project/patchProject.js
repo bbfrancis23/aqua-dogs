@@ -25,15 +25,31 @@ export const patchProject = async (req, res) => {
         if (req.body.title) {
           const { title } = req.body;
           project.title = title;
+        } else if (req.body.addMember) {
+          project.members.push(req.body.addMember);
+        } else if (req.body.removeMember) {
+          project.members.pull({ _id: req.body.removeMember });
+        } else if (req.body.makeAdmin) {
+          project.members.pull({ _id: req.body.makeAdmin });
+          project.admins.push(req.body.makeAdmin);
+        } else if (req.body.removeAdmin) {
+          project.admins.pull({ _id: req.body.removeAdmin });
+          project.members.push(req.body.removeAdmin);
         }
 
         try {
           await project.save();
 
-          project = await Project.findOne({ _id: projectId }).populate(
-            'leader',
-            '-password -authCode'
-          );
+          project = await Project.findOne({ _id: projectId })
+            .populate('leader', '-password -authCode')
+            .populate('admins', '-password -authCode')
+            .populate('members', '-password -authCode');
+
+          project = await project.toObject({
+            getters: true,
+          });
+
+          console.log(project);
         } catch (e) {
           status = 500;
           message = `Updating Item failed: ${e}`;
