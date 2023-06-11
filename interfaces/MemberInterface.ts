@@ -6,7 +6,7 @@ export interface Member {
   name?: string;
   roles?: string[];
   id: string;
-  tags: Tag[];
+  tags?: Tag[];
 }
 
 export const getValidMember = async (
