@@ -1,4 +1,4 @@
-import { Box, Button, Stack, TextField} from "@mui/material"
+import { Box, Button, TextField} from "@mui/material"
 import { useSnackbar } from "notistack";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -8,22 +8,24 @@ import { FormikProvider, useFormik, Form } from "formik";
 import * as Yup from "yup"
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
-import { Project } from "../../../interfaces/ProjectInterface";
+import { Board } from "../../../../interfaces/BoardInterface";
+import { Project } from "../../../../interfaces/ProjectInterface";
 
 
-export interface CreateProjectFormProps{
-  setProjects: Dispatch<SetStateAction<Project[]>>;
+export interface CreateBoardFormProps{
+  project: Project;
+  setBoards: Dispatch<SetStateAction<Board[]>>;
   closeForm: () => void;
 }
 
-const createProjectSchema = Yup.object().shape({
+const createBoardSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
 })
 
 
-const CreateProjectForm = (props: CreateProjectFormProps) => {
+const CreateBoardForm = (props: CreateBoardFormProps) => {
 
-  const {setProjects, closeForm} = props
+  const {setBoards, closeForm, project} = props
 
   const {enqueueSnackbar} = useSnackbar()
 
@@ -32,20 +34,19 @@ const CreateProjectForm = (props: CreateProjectFormProps) => {
 
   const formik = useFormik({
     initialValues: { title: '' },
-    validationSchema: createProjectSchema,
+    validationSchema: createBoardSchema,
     onSubmit: (data) => {
       axios.post(
-        "/api/projects",
+        `/api/projects/${project.id}/boards`,
         {title: data.title},
       )
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Created ){
 
+            setBoards(res.data.boards)
 
-            setProjects(res.data.projects)
-
-            enqueueSnackbar("Project created", {variant: "success"})
+            enqueueSnackbar("Board created", {variant: "success"})
             closeForm()
             formik.resetForm()
           }
@@ -72,7 +73,7 @@ const CreateProjectForm = (props: CreateProjectFormProps) => {
                 <TextField
 
                   size={'small'}
-                  label="New Project"
+                  label="New Board"
                   {...getFieldProps('title')}
                   error={Boolean(touched && errors.title)}
                   helperText={touched && errors.title}
@@ -97,4 +98,4 @@ const CreateProjectForm = (props: CreateProjectFormProps) => {
   )
 }
 
-export default CreateProjectForm
+export default CreateBoardForm

@@ -5,14 +5,6 @@ const projSchema = new mongoose.Schema({
   leader: { type: mongoose.Types.ObjectId, required: true, ref: 'members' },
   admins: [{ type: mongoose.Types.ObjectId, required: false, ref: 'members' }],
   members: [{ type: mongoose.Types.ObjectId, required: false, ref: 'members' }],
-  columns: [
-    {
-      type: mongoose.Types.ObjectId,
-      required: true,
-      default: [],
-      ref: 'Column',
-    },
-  ],
 });
 
 const Project =
