@@ -1,4 +1,4 @@
-// import '../styles/globals.css'
+import '../styles/globals.css'
 import {useState, useEffect} from "react"
 
 import {
@@ -66,7 +66,7 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
             anchorOrigin={{horizontal: "right", vertical: "bottom"}}
             hideIconVariant={ true }
           >
-            <AppBar enableColorOnDark>
+            <AppBar enableColorOnDark position="static">
               <Toolbar>
                 <Link href={"/"} style={{textDecoration: "none"}} >
                   <Typography

@@ -95,9 +95,9 @@ export const MemberProjectPage = (props: MemberProjectPageProps) => {
 
               {
                 boards.map( (b) => (
-                  <Grid item xs={3} key={b.title}>
+                  <Grid item xs={3} key={b.id}>
                     <Button
-                      onClick={() => router.push(`/member/projects/boards/${b.id}`)}
+                      onClick={() => router.push(`/member/projects/${project.id}/boards/${b.id}`)}
                       sx={{ m: 0, p: 0}}>
 
                       <BoardStub board={b}/>
@@ -144,7 +144,14 @@ export const getServerSideProps: GetServerSideProps<MemberProjectPageProps> = as
 
     if(hasPermission){
 
-      let boards: Board[] | [] = await findProjectBoards(project.id)
+      let boards: any = await findProjectBoards(project.id)
+
+      boards = boards.map((b: any) => ({
+        id: b._id,
+        title: b.title,
+        project: b.project
+      })
+      )
 
       return {props: {project, member, boards}}
     }

@@ -1,17 +1,18 @@
 import { useSession } from "next-auth/react";
-import { Project } from "../../../interfaces/ProjectInterface";
-import { useSnackbar } from "notistack";
-import { useState } from "react";
-
+import { Board } from "../../../../interfaces/BoardInterface";
 
 import * as Yup from "yup"
+import { useSnackbar } from "notistack";
+import { useState } from "react";
 import { Form, FormikProvider, useFormik } from "formik";
 import axios from "axios";
+import { Project } from "../../../../interfaces/ProjectInterface";
 import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
-export interface ProjectTitleFormProps{
-  project: Project
+export interface BoardTitleFormProps {
+  board: Board;
+  project: Project;
 }
 
 const TitleSchema = Yup.object().shape({
@@ -19,35 +20,31 @@ const TitleSchema = Yup.object().shape({
     .required("Title is required"),
 })
 
-
-export const ProjectTitleForm = (props: ProjectTitleFormProps) => {
-
-  const {project} = props
-
+export const BoardTitleForm = (props: BoardTitleFormProps) => {
+  const {board, project} = props
 
   const {data: session} = useSession()
   const {enqueueSnackbar} = useSnackbar()
 
-  const [title, setTitle] = useState<string>(project.title)
+  const [title, setTitle] = useState<string>(board.title)
   const [displayTextField, setDisplayTextField] = useState<boolean>(false)
 
   const formik = useFormik({
     initialValues: { title },
     validationSchema: TitleSchema,
     onSubmit: (data) => {
-      axios.patch(`/api/projects/${project.id}`, {title: data.title})
+      axios.patch(`/api/projects/${project.id}/boards/${board.id}`, {title: data.title})
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
-            enqueueSnackbar("Project Title Updated", {variant: "success"})
+            enqueueSnackbar("Board Title Updated", {variant: "success"})
             setTitle(data.title)
             setDisplayTextField(false)
           }else{ enqueueSnackbar(res.data.message, {variant: "error"}) }
         }).catch((error) => {
 
-
           formik.setSubmitting(false)
-          enqueueSnackbar(`Error updating Project Title: ${error}`, {variant: "error"})
+          enqueueSnackbar(`Error updating Board Title: ${error}`, {variant: "error"})
         })
     }
   })
@@ -67,7 +64,7 @@ export const ProjectTitleForm = (props: ProjectTitleFormProps) => {
 
         <Typography
           onClick={() => showTextField()}
-          sx={{cursor: "pointer", fontSize: '2rem', display: 'contents'}}>
+          sx={{cursor: "pointer", display: 'contents', fontSize: '1.85rem'}}>
           { title ? title : <Skeleton /> }
         </Typography>
       }
@@ -103,4 +100,3 @@ export const ProjectTitleForm = (props: ProjectTitleFormProps) => {
     </Box>
   )
 }
-export default ProjectTitleForm
