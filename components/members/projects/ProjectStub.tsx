@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, CardHeader, Skeleton, Typography, useTheme } from "@mui/material";
-import { Project } from "../../interfaces/ProjectInterface";
+import { Project } from "../../../interfaces/ProjectInterface";
 
 export interface ProjectStubProps{
   project ?: Project

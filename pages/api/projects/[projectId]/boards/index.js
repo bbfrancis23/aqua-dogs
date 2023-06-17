@@ -5,5 +5,6 @@ const handler = async (req, res) => {
     await createBoard(req, res);
     return;
   }
+  return;
 };
 export default handler;

@@ -50,6 +50,4 @@ export const createBoard = async (req, res) => {
     message,
     boards,
   });
-  // must be valid project
-  // must be project leader or admin
 };

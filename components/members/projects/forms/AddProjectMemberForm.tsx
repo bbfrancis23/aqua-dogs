@@ -16,8 +16,8 @@ import { useSnackbar } from "notistack"
 import axios from "axios"
 import {FormikProvider, useFormik, Form} from "formik"
 import * as Yup from "yup"
-import { Member } from "../../../interfaces/MemberInterface";
-import { Project } from "../../../interfaces/ProjectInterface";
+import { Member } from "../../../../interfaces/MemberInterface";
+import { Project } from "../../../../interfaces/ProjectInterface";
 
 const AddMemberSchema = Yup.object().shape({ member: Yup.string().required("Member is required")})
 

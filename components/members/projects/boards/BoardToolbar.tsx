@@ -8,7 +8,7 @@ import AdminBadge from '@mui/icons-material/Shield';
 import { Member } from "../../../../interfaces/MemberInterface";
 import { ProjectMemberAvatar } from "../ProjectMemberAvatar";
 import { PermissionCodes } from "../../../../ui/permission/Permission";
-import { BoardTitleForm } from "../../../projects/boards/forms/BoardTitleForm";
+import { BoardTitleForm } from "./forms/BoardTitleForm";
 
 export interface BoardToolbarProps{
   project: Project;
@@ -36,7 +36,7 @@ export const BoardToolbar = (props: BoardToolbarProps) => {
   return (
     <Box
       sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-        p: 1, pl: 3, pr: 3, bgcolor: 'rgba(255, 255, 255, .40)'}} >
+        p: 1, pl: 3, pr: 3, bgcolor: 'rgba(0, 0, 0, .40)'}} >
       {/* <Typography variant="h6" sx={{ display: 'inline'}}>{board.title}</Typography> */}
       <BoardTitleForm board={board} project={project}/>
       <Stack direction={'row'} spacing={1}>

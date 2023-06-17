@@ -1,7 +1,7 @@
 import { Avatar, Badge, ListItem, ListItemAvatar, ListItemText } from "@mui/material"
-import { PermissionCodes } from "../../ui/permission/Permission"
-import { Member } from "../../interfaces/MemberInterface";
-import { Project } from "../../interfaces/ProjectInterface";
+import { PermissionCodes } from "../../../ui/permission/Permission"
+import { Member } from "../../../interfaces/MemberInterface";
+import { Project } from "../../../interfaces/ProjectInterface";
 import { Dispatch, SetStateAction } from "react";
 
 import LeaderBadge from '@mui/icons-material/Star';

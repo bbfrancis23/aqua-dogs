@@ -1,4 +1,4 @@
-import { Box, Button, TextField} from "@mui/material"
+import { Box, Button, Stack, TextField} from "@mui/material"
 import { useSnackbar } from "notistack";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -8,24 +8,22 @@ import { FormikProvider, useFormik, Form } from "formik";
 import * as Yup from "yup"
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
-import { Board } from "../../../../interfaces/BoardInterface";
 import { Project } from "../../../../interfaces/ProjectInterface";
 
 
-export interface CreateBoardFormProps{
-  project: Project;
-  setBoards: Dispatch<SetStateAction<Board[]>>;
+export interface CreateProjectFormProps{
+  setProjects: Dispatch<SetStateAction<Project[]>>;
   closeForm: () => void;
 }
 
-const createBoardSchema = Yup.object().shape({
+const createProjectSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
 })
 
 
-const CreateBoardForm = (props: CreateBoardFormProps) => {
+const CreateProjectForm = (props: CreateProjectFormProps) => {
 
-  const {setBoards, closeForm, project} = props
+  const {setProjects, closeForm} = props
 
   const {enqueueSnackbar} = useSnackbar()
 
@@ -34,19 +32,20 @@ const CreateBoardForm = (props: CreateBoardFormProps) => {
 
   const formik = useFormik({
     initialValues: { title: '' },
-    validationSchema: createBoardSchema,
+    validationSchema: createProjectSchema,
     onSubmit: (data) => {
       axios.post(
-        `/api/projects/${project.id}/boards`,
+        "/api/projects",
         {title: data.title},
       )
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Created ){
 
-            setBoards(res.data.boards)
 
-            enqueueSnackbar("Board created", {variant: "success"})
+            setProjects(res.data.projects)
+
+            enqueueSnackbar("Project created", {variant: "success"})
             closeForm()
             formik.resetForm()
           }
@@ -73,7 +72,7 @@ const CreateBoardForm = (props: CreateBoardFormProps) => {
                 <TextField
 
                   size={'small'}
-                  label="New Board"
+                  label="New Project"
                   {...getFieldProps('title')}
                   error={Boolean(touched && errors.title)}
                   helperText={touched && errors.title}
@@ -98,4 +97,4 @@ const CreateBoardForm = (props: CreateBoardFormProps) => {
   )
 }
 
-export default CreateBoardForm
+export default CreateProjectForm

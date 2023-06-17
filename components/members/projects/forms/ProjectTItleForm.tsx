@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { Project } from "../../../interfaces/ProjectInterface";
+import { Project } from "../../../../interfaces/ProjectInterface";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 

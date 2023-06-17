@@ -7,11 +7,11 @@ import RemoveAdminIcon from '@mui/icons-material/RemoveModerator';
 import axios from "axios";
 
 
-import Permission, { PermissionCodes } from "../../ui/permission/Permission"
+import Permission, { PermissionCodes } from "../../../ui/permission/Permission"
 
 import { useSnackbar } from "notistack"
-import { Member } from "../../interfaces/MemberInterface";
-import { Project } from "../../interfaces/ProjectInterface";
+import { Member } from "../../../interfaces/MemberInterface";
+import { Project } from "../../../interfaces/ProjectInterface";
 
 export interface ProjectMemberActionsProps{
   project: Project;
