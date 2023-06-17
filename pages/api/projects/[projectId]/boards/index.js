@@ -1,4 +1,4 @@
-import { createBoard } from '/mongo/controls/project/board/createBoard';
+import { createBoard } from '/mongo/controls/member/project/board/createBoard';
 
 const handler = async (req, res) => {
   if (req.method === 'POST') {

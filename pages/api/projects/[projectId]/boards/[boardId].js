@@ -1,4 +1,4 @@
-import { patchBoard } from '/mongo/controls/project/board/patchBoard';
+import { patchBoard } from '/mongo/controls/member/project/board/patchBoard';
 
 const handler = async (req, res) => {
   if (req.method === 'PATCH') {

@@ -1,4 +1,4 @@
-import { patchProject } from '/mongo/controls/project/patchProject';
+import { patchProject } from '/mongo/controls/member/project/patchProject';
 
 const handler = async (req, res) => {
   if (req.method === 'PATCH') {
