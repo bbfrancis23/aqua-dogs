@@ -2,6 +2,14 @@ import mongoose from 'mongoose';
 
 const columnSchema = new mongoose.Schema({
   title: { type: String, required: true },
+  items: [
+    {
+      type: mongoose.Types.ObjectId,
+      required: true,
+      default: [],
+      ref: 'items',
+    },
+  ],
 });
 
 const Column =

@@ -87,7 +87,7 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
                 orderedColKeys.map((key: string, index:number) => (
                   colKeys[key] && (
 
-                    <BoardColumn key={key}
+                    <BoardColumn key={key} member={member} project={project} board={board}
                       index={index} setBoard={setBoard} column={colKeys[key]}/>
 
 

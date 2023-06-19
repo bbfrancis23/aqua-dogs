@@ -17,6 +17,10 @@ import { findProject } from "@/mongo/controls/member/project/findProject";
 import { findProjectBoards } from "@/mongo/controls/member/project/findProjectBoards";
 
 import { PermissionCodes, permission } from "@/ui/permission/Permission";
+import ItemFormDialog from "@/components/items/ItemFormDialog";
+import FormModes from "enums/FormModes";
+import axios from "axios";
+import { useSnackbar } from "notistack";
 
 export interface MemberProjectBoardPageProps {
   project: Project;
@@ -29,6 +33,7 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
   const {member, project} = props
 
   const theme = useTheme()
+  const {enqueueSnackbar} = useSnackbar()
 
   const [board, setBoard] = useState<Board>(props.board)
   const [showColForm, setShowColForm] = useState<boolean>(false)
@@ -36,7 +41,9 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
 
   const handleCloseColForm = () => setShowColForm(false)
 
+
   const fxPalette:any = theme.palette
+
 
   return (
     <Box
@@ -59,6 +66,7 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
           </Tooltip>
         </Box>
       </Stack>
+
     </Box>
   )
 }
