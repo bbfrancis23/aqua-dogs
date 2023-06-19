@@ -139,7 +139,7 @@ export const getStaticProps = async() => {
 
   return {
     props: {
-      items: items ? items : [],
+      items: [],
       errors
     },
   }
