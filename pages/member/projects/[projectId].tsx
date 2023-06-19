@@ -10,18 +10,18 @@ import { Box, Button, CardContent, CardHeader, Divider,
 import { useState } from "react";
 
 
-import {findProject} from "../../../mongo/controls/project/findProject"
+import {findProject} from "../../../mongo/controls/member/project/findProject"
 
 
-import {findProjectBoards} from "../../../mongo/controls/project/findProjectBoards"
+import {findProjectBoards} from "../../../mongo/controls/member/project/findProjectBoards"
 
 import { Board } from "../../../interfaces/BoardInterface";
-import ProjectTitleForm from "../../../components/projects/forms/ProjectTItleForm";
-import ProjectMember from "../../../components/projects/ProjectMember";
-import AddProjectMemberForm from "../../../components/projects/forms/AddProjectMemberForm";
-import CreateBoardForm from "../../../components/projects/boards/forms/CreateBoardForm";
-import ProjectStub from "../../../components/projects/ProjectStub";
-import BoardStub from "../../../components/projects/boards/BoardStub";
+import ProjectTitleForm from "../../../components/members/projects/forms/ProjectTItleForm";
+import ProjectMember from "../../../components/members/projects/ProjectMember";
+import AddProjectMemberForm from "../../../components/members/projects/forms/AddProjectMemberForm";
+import CreateBoardForm from "../../../components/members/projects/boards/forms/CreateBoardForm";
+import ProjectStub from "../../../components/members/projects/ProjectStub";
+import BoardStub from "../../../components/members/projects/boards/BoardStub";
 import router from "next/router";
 export interface MemberProjectPageProps{
   project: Project;
@@ -37,7 +37,7 @@ export const MemberProjectPage = (props: MemberProjectPageProps) => {
 
   const [project, setProject] = useState<Project>(props.project)
 
-  const [showBoardForm, setShowBoardForm] = useState<boolean>(true)
+  const [showBoardForm, setShowBoardForm] = useState<boolean>(false)
 
   const handleCloseCreateBoardForm = () => {
     setShowBoardForm(false)

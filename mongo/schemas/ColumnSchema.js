@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
 
-const colSchema = new mongoose.Schema({
+const columnSchema = new mongoose.Schema({
   title: { type: String, required: true },
 });
 
-const Column = mongoose.models.columns || mongoose.model('columns', tagSchema);
+const Column =
+  mongoose.models.columns || mongoose.model('columns', columnSchema);
 
 export default Column;

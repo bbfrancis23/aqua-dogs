@@ -1,12 +1,12 @@
 import { useSession } from "next-auth/react";
-import { Board } from "../../../../interfaces/BoardInterface";
+import { Board } from "../../../../../interfaces/BoardInterface";
 
 import * as Yup from "yup"
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { Form, FormikProvider, useFormik } from "formik";
 import axios from "axios";
-import { Project } from "../../../../interfaces/ProjectInterface";
+import { Project } from "../../../../../interfaces/ProjectInterface";
 import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 

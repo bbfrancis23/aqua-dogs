@@ -1,19 +1,22 @@
 import { useState } from "react";
-import { Board } from "../../../../../interfaces/BoardInterface";
-import { Project } from "../../../../../interfaces/ProjectInterface";
-import { Avatar, Badge,
-  Box, Breadcrumbs, Button, IconButton, Toolbar, Typography, useTheme } from "@mui/material";
-
-import Link from "next/link"
-import MenuIcon from '@mui/icons-material/Menu';
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
-import { Member, getValidMember } from "../../../../../interfaces/MemberInterface";
-import { findProject } from "../../../../../mongo/controls/project/findProject";
-import { PermissionCodes, permission } from "../../../../../ui/permission/Permission";
-import { findProjectBoards } from "../../../../../mongo/controls/project/findProjectBoards";
-import { BoardToolbar } from "../../../../../components/members/projects/boards/BoardToolbar";
+import { Box, Button, Stack, Tooltip, useTheme } from "@mui/material";
+import { resetServerContext } from "react-beautiful-dnd";
 
+import { BoardToolbar } from "@/components/members/projects/boards/BoardToolbar";
+import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
+import ColumnStub from "@/components/members/projects/boards/columns/ColStub";
+import CreateColForm from "@/components/members/projects/boards/columns/forms/CreateColForm";
+
+import { Board } from "@/interfaces/BoardInterface";
+import { Project } from "@/interfaces/ProjectInterface";
+import { Member, getValidMember } from "@/interfaces/MemberInterface";
+
+import { findProject } from "@/mongo/controls/member/project/findProject";
+import { findProjectBoards } from "@/mongo/controls/member/project/findProjectBoards";
+
+import { PermissionCodes, permission } from "@/ui/permission/Permission";
 
 export interface MemberProjectBoardPageProps {
   project: Project;
@@ -23,28 +26,42 @@ export interface MemberProjectBoardPageProps {
 
 export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
 
-  const {member} = props
+  const {member, project} = props
 
   const theme = useTheme()
 
-  const [project, setProject] = useState<Project>(props.project);
   const [board, setBoard] = useState<Board>(props.board)
+  const [showColForm, setShowColForm] = useState<boolean>(false)
+
+
+  const handleCloseColForm = () => setShowColForm(false)
 
   const fxPalette:any = theme.palette
 
   return (
-    <Box sx={{background: `url(/images/themes/${fxPalette.name}/hero.jpg)`,
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover',
-      backgroundAttachment: 'fixed',
-      backgroundPosition: 'center',
-      width: '100vw', height: '100vh'}} >
+    <Box
+      sx={{background: `url(/images/themes/${fxPalette.name}/hero.jpg)`,
+        backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundAttachment: 'fixed',
+        backgroundPosition: 'center', width: '100vw', height: '100vh'}} >
       <BoardToolbar project={project} board={board} setBoard={(b) => setBoard(b)}/>
+      { showColForm && (
+        <CreateColForm project={project} board={board} setBoard={(b) => setBoard(b) }
+          closeForm={() => handleCloseColForm() } />
+      )}
+      <Stack spacing={2} direction={'row'} sx={{ p: 2}}>
+        <ProjectBoard setBoard={(b) => setBoard(b)} board={board} member={member}
+          project={project} />
+        <Box>
+          <Tooltip title="Create Column">
+            <Button onClick={() => setShowColForm(true)} sx={{ m: 0, p: 0}}>
+              <ColumnStub />
+            </Button>
+          </Tooltip>
+        </Box>
+      </Stack>
     </Box>
   )
-
 }
-
 
 export default MemberProjectBoardPage
 
@@ -70,15 +87,17 @@ GetServerSideProps<MemberProjectBoardPageProps> = async(context) => {
 
       let boards: any = await findProjectBoards(project.id)
 
+
       boards = boards.map((b: any) => ({
         id: b._id,
         title: b.title,
-        project: b.project
+        project: b.project,
+        columns: b.columns
       })
       )
 
       const board = boards.find( (b: any) => b.id === context.query.boardId)
-
+      resetServerContext()
       return {props: {project, member, board}}
     }
   }

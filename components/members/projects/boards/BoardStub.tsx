@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, CardHeader, Skeleton, Typography, useTheme } from "@mui/material";
-import { Board } from "../../../interfaces/BoardInterface";
+import { Board } from "../../../../interfaces/BoardInterface";
 
 
 export interface BoardStubProps{
