@@ -16,9 +16,10 @@ export const patchItem = async (req, res) => {
   await db.connect();
 
   try {
-    item = await Item.findById(itemId)
-      .populate({ path: 'tags', model: Tag })
-      .populate({ path: 'sections', model: Section });
+    item = await Item.findById(itemId).populate({
+      path: 'sections',
+      model: Section,
+    });
   } catch (e) {
     message = e;
     status = axios.HttpStatusCode.InternalServerError;
@@ -42,9 +43,10 @@ export const patchItem = async (req, res) => {
 
         try {
           await item.save();
-          item = await Item.findById(itemId)
-            .populate({ path: 'tags', model: Tag })
-            .populate({ path: 'sections', model: Section });
+          item = await Item.findById(itemId).populate({
+            path: 'sections',
+            model: Section,
+          });
         } catch (e) {
           status = axios.HttpStatusCode.InternalServerError;
           message = e;

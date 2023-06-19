@@ -36,9 +36,10 @@ export const getItem = async (itemId) => {
 
   let item = {};
 
-  item = await Item.findById(itemId)
-    .populate({ path: 'tags', model: Tag })
-    .populate({ path: 'sections', model: Section });
+  item = await Item.findById(itemId).populate({
+    path: 'sections',
+    model: Section,
+  });
 
   await db.disconnect();
 
@@ -58,9 +59,10 @@ export const getItems = async () => {
 
   let items = {};
 
-  items = await Item.find({ scope: 'public' })
-    .populate({ path: 'tags', model: Tag })
-    .populate({ path: 'sections', model: Section });
+  items = await Item.find({ scope: 'public' }).populate({
+    path: 'sections',
+    model: Section,
+  });
 
   await db.disconnect();
 
