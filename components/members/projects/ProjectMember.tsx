@@ -48,8 +48,6 @@ const ProjectMember = ( props: ProjectMemberProps) => {
 
   const getMemberActions = () => {
 
-    console.log(type)
-
     if(type === PermissionCodes.PROJECT_LEADER){
       return <></>
     }

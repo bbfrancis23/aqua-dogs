@@ -55,22 +55,15 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
   useMemo( () => {
 
-    console.log('item', item)
-
     if(!item){
 
       if(dialogIsOpen && session && mode === "ADD"){
-        console.log('creating an item')
         try {
           axios.post(`/api/projects/${project.id}/boards/${board.id}/columns/${column.id}/items`, {scope: 'privare'})
             .then((res) => {
 
-              console.log('item', res.data)
-
               setItem(res.data.item)
               try {
-
-                console.log('here', res.data.item.id)
 
                 axios.post("/api/sections",
                   {
@@ -79,8 +72,6 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
                   .then((sectionsRes) => {
 
                     enqueueSnackbar("Created a new Item", {variant: "success"})
-
-                    console.log('create section',sectionsRes.data)
                     setItem(sectionsRes.data.item)
                   })
                   .catch((e:any) => {

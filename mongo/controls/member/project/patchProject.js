@@ -48,8 +48,6 @@ export const patchProject = async (req, res) => {
           project = await project.toObject({
             getters: true,
           });
-
-          console.log(project);
         } catch (e) {
           status = 500;
           message = `Updating Item failed: ${e}`;

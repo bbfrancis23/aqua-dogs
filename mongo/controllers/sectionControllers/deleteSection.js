@@ -39,23 +39,12 @@ export const deleteSection = async (req, res) => {
       message = e;
     }
 
-    console.log('is there an item', item);
-
     if (item) {
-      console.log('there is an item');
-
       if (item.scope === 'public') {
-        console.log('it is a public item');
-
         const session = await getSession({ req });
         const isSiteAdmin = session?.user.roles.includes('SiteAdmin');
 
-        console.log('isSiteAdmin?', isSiteAdmin);
-
-        console.log('section', section);
-
         if (isSiteAdmin) {
-          console.log('section', section);
           const dbSession = await mongoose.startSession();
           try {
             dbSession.startTransaction();

@@ -73,8 +73,6 @@ const AddProjectMemberForm = (props: AddProjectMemberFormProps) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
             enqueueSnackbar("Project Member Added Updated", {variant: "success"})
-            
-            console.log(res.data.project)
             setProject(res.data.project);
             setShowForm(false)
           }

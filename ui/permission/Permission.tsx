@@ -16,10 +16,6 @@ export const permission = (
   project?: Project
 ): boolean => {
 
-  //console.log('code', code)
-  //console.log('member', member)
-  //console.log('project', project)
-
   let hasPermission = false;
   if (code === PermissionCodes.PROJECT_MEMBER) {
     if (member) {

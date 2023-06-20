@@ -19,15 +19,11 @@ export const patchBoard = async (req, res) => {
   await db.connect();
 
   if (authSession) {
-    console.log('projectId', projectId);
-
     const project = await Project.findById(projectId);
 
     if (project) {
       if (project.leader._id.toString() === authSession.user.id) {
         board = await Board.findById(boardId);
-
-        console.log(board.project, projectId);
 
         if (board.project.toString() === projectId) {
           if (req.body.title) {

@@ -29,8 +29,6 @@ export const createBoard = async (req, res) => {
 
         boards = await Board.find({ project: projectId });
 
-        console.log('boards');
-
         status = axios.HttpStatusCode.Created;
       } else {
         status = axios.HttpStatusCode.Forbidden;

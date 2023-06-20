@@ -35,7 +35,6 @@ export default function AddMemberTagForm(props: AddMemberTagFormProps) {
           formik.resetForm()
           if (res.status === axios.HttpStatusCode.Ok ){
             enqueueSnackbar("Member Tag Added", {variant: "success"})
-            console.log(res.data)
             setMember(res.data.member);
             setDisplayForm(false)
           }else{
