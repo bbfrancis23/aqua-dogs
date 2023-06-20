@@ -1,13 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
-import { Board } from "../../../../interfaces/BoardInterface";
-import { Project } from "../../../../interfaces/ProjectInterface";
-import { Avatar, Badge, Box, Stack, Typography } from "@mui/material";
-
-import LeaderBadge from '@mui/icons-material/Star';
-import AdminBadge from '@mui/icons-material/Shield';
-import { Member } from "../../../../interfaces/MemberInterface";
+import { Board } from "@/interfaces/BoardInterface";
+import { Project } from "@/interfaces/ProjectInterface";
+import { Box, Stack, alpha, useTheme } from "@mui/material";
+import { Member } from "@/interfaces/MemberInterface";
 import { ProjectMemberAvatar } from "../ProjectMemberAvatar";
-import { PermissionCodes } from "../../../../ui/permission/Permission";
+import { PermissionCodes } from "@/ui/permission/Permission";
 import { BoardTitleForm } from "./forms/BoardTitleForm";
 
 export interface BoardToolbarProps{
@@ -32,12 +29,11 @@ export const BoardToolbar = (props: BoardToolbarProps) => {
     return avatar
   }
 
+  const theme = useTheme()
 
   return (
-    <Box
-      sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-        p: 1, pl: 3, pr: 3, bgcolor: 'rgba(0, 0, 0, .40)'}} >
-      {/* <Typography variant="h6" sx={{ display: 'inline'}}>{board.title}</Typography> */}
+    <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+      py: 1, px: 3, bgcolor: alpha(theme.palette.background.default, 0.4)}} >
       <BoardTitleForm board={board} project={project}/>
       <Stack direction={'row'} spacing={1}>
 
@@ -45,7 +41,7 @@ export const BoardToolbar = (props: BoardToolbarProps) => {
         {
           project?.admins?.map( (a) => (
             <ProjectMemberAvatar type={PermissionCodes.PROJECT_ADMIN} member={a} key={a.id}/>
-          ) )
+          ))
         }
         {
           project?.members?.map( (a) => (

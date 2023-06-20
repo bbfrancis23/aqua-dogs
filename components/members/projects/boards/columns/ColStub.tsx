@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardHeader, Skeleton, useTheme } from "@mui/material"
+import { Box, alpha, Skeleton, Typography, useTheme } from "@mui/material"
 
 export interface ColumnStubProps{
 
@@ -10,16 +10,16 @@ export const ColumnStub = (props: ColumnStubProps) => {
   const theme = useTheme()
 
   return (
-
-    <Card sx={{ width: '272px', bgcolor: theme.palette.mode === 'dark' ? 'grey.900' : ''}}>
-      <CardHeader
-        title={<Skeleton animation={false}/>}
-        sx={{ pb: 0}}
-      />
-      <CardContent sx={{ pb: 0, pt: 0,}}>
-        <Skeleton animation={false} width={240} height={100}/>
-      </CardContent>
-    </ Card>
+    <Box sx={{ width: '272px', borderRadius: 2, display: 'inline-block' }} >
+      <Box sx={{
+        display: 'flex', flexDirection: 'column',
+        bgcolor: alpha(theme.palette.background.default, 0.4), borderRadius: 3, width: 272
+      }}>
+        <Typography sx={{p: 2}} >
+          <Skeleton animation={false} />
+        </Typography>
+      </Box>
+    </Box>
   )
 }
 
