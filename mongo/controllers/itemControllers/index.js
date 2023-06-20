@@ -12,13 +12,13 @@ import axios from 'axios';
 export const flattenItem = (item) => {
   delete item._id;
 
-  item.tags = item.tags.map((t) => {
-    delete t._id;
-    if (t.tagtype) {
-      t.tagtype = t.tagtype.toString();
-    }
-    return t;
-  });
+  // item.tags = item.tags.map((t) => {
+  //   delete t._id;
+  //   if (t.tagtype) {
+  //     t.tagtype = t.tagtype.toString();
+  //   }
+  //   return t;
+  // });
 
   item.sections = item.sections.map((s) => {
     delete s._id;
@@ -36,9 +36,10 @@ export const getItem = async (itemId) => {
 
   let item = {};
 
-  item = await Item.findById(itemId)
-    .populate({ path: 'tags', model: Tag })
-    .populate({ path: 'sections', model: Section });
+  item = await Item.findById(itemId).populate({
+    path: 'sections',
+    model: Section,
+  });
 
   await db.disconnect();
 
@@ -58,9 +59,10 @@ export const getItems = async () => {
 
   let items = {};
 
-  items = await Item.find({ scope: 'public' })
-    .populate({ path: 'tags', model: Tag })
-    .populate({ path: 'sections', model: Section });
+  items = await Item.find({ scope: 'public' }).populate({
+    path: 'sections',
+    model: Section,
+  });
 
   await db.disconnect();
 
@@ -83,11 +85,12 @@ export const getItemsByTag = async (tagId) => {
   let items = [];
 
   try {
-    items = await Item.find({ tags: new ObjectId(tagId.toString()) })
-      .populate({ path: 'tags', model: Tag })
-      .populate({ path: 'sections', model: Section });
+    items = await Item.find({ tags: new ObjectId(tagId.toString()) }).populate({
+      path: 'sections',
+      model: Section,
+    });
   } catch (e) {
-    message = `Error finding Item: ${e}`;
+    // message = `Error finding Item: ${e}`;
   }
 
   if (items) {

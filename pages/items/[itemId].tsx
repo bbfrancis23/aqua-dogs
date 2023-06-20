@@ -15,52 +15,51 @@ export interface ItemDetailsProps{
   openAuthDialog: () => void
 }
 
-const ItemDetails = (props: ItemDetailsProps) => {
+const ItemDetails = () =>
 
-  const { openAuthDialog, errors, item} = props
-  const {enqueueSnackbar} = useSnackbar()
+// const { openAuthDialog, errors, item} = props
+// const {enqueueSnackbar} = useSnackbar()
 
-  useEffect(
-    () => errors.forEach( (e:any) => enqueueSnackbar(
-      `Error: ${e}`, {variant: "error"}
-    )),
-    [errors, enqueueSnackbar]
+// useEffect(
+//   () => errors.forEach( (e:any) => enqueueSnackbar(
+//     `Error: ${e}`, {variant: "error"}
+//   )),
+//   [errors, enqueueSnackbar]
+// )
+  (
+    <>Items used to be here</>
+    // <ItemComponent item={item} openAuthDialog={openAuthDialog}/>
   )
 
-
-  return (
-    <ItemComponent item={item} openAuthDialog={openAuthDialog}/>
-  )
-}
 export default ItemDetails
-export const getStaticPaths = async() => {
+// export const getStaticPaths = async() => {
 
-  let items:any = [{}]
-  try { items = await getItems() } catch (e) { console.log(e) }
+//   let items:any = [{}]
+//   try { items = await getItems() } catch (e) { console.log(e) }
 
-  let paths = [{}]
+//   let paths = [{}]
 
-  if(items){
-    paths = items.map((item: any) => ({params: {itemId: item.id}}))
-  }
+//   if(items){
+//     paths = items.map((item: any) => ({params: {itemId: item.id}}))
+//   }
 
-  return {paths, fallback: false}
+//   return {paths, fallback: false}
 
-}
-export const getStaticProps = async ({params}:any) => {
+// }
+// export const getStaticProps = async ({params}:any) => {
 
-  let item: any = null
-  const errors = []
+//   let item: any = null
+//   const errors = []
 
-  try {
-    item = await getItem(params.itemId)
-  } catch (e) { errors.push(e) }
+//   try {
+//     item = await getItem(params.itemId)
+//   } catch (e) { errors.push(e) }
 
-  return {
-    props: {
-      item: item ? item : null,
-      errors
-    }
-  }
+//   return {
+//     props: {
+//       item: item ? item : null,
+//       errors
+//     }
+//   }
 
-}
+// }

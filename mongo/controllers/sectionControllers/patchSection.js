@@ -53,9 +53,10 @@ export const patchSection = async (req, res) => {
 
           try {
             await section.save();
-            item = await Item.findById(section.itemid)
-              .populate({ path: 'tags', model: Tag })
-              .populate({ path: 'sections', model: Section });
+            item = await Item.findById(section.itemid).populate({
+              path: 'sections',
+              model: Section,
+            });
           } catch (e) {
             status = axios.HttpStatusCode.InternalServerError;
             message = e;

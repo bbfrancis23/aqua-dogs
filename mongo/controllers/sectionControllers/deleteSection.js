@@ -66,9 +66,10 @@ export const deleteSection = async (req, res) => {
             await item.save({ dbSession });
             await dbSession.commitTransaction();
 
-            item = await Item.findById(section.itemid)
-              .populate({ path: 'tags', model: Tag })
-              .populate({ path: 'sections', model: Section });
+            item = await Item.findById(section.itemid).populate({
+              path: 'sections',
+              model: Section,
+            });
           } catch (e) {
             await dbSession.abortTransaction();
             dbSession.endSession();

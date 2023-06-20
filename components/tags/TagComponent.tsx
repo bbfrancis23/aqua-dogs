@@ -96,9 +96,9 @@ const TagsComponent = (props: TagComponentProps) => {
       <TagBoard tagItems={tagItems} tag={tag}
         setItemFormDialogOpen={(id) => handleOpenDialog(id)}
         updateBoardFromDataBase={() => handleUpdateBoardFromDataBase()} />
-      <ItemFormDialog mode={FormModes.ADD} dialogIsOpen={addItemDialogIsOpen}
+      {/* <ItemFormDialog mode={FormModes.ADD} dialogIsOpen={addItemDialogIsOpen}
         closeDialog={handleCloseDialog} tagIds={selectedTagIds} org={org ? org : undefined}
-        member={member ? member : undefined} />
+        member={member ? member : undefined} /> */}
     </Box>
   )
 }

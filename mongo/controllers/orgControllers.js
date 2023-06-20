@@ -55,7 +55,6 @@ export const getOrg = async (orgId) => {
   org = await Organization.findById(orgId)
     .populate({ path: 'leader', model: Member })
     .populate({ path: 'admins', model: Member })
-    .populate({ path: 'tags', model: Tag })
     .populate({ path: 'members', model: Member });
 
   org = await flattenOrg(org);

@@ -26,51 +26,48 @@ export const createSection = async (req, res) => {
   }
 
   if (item) {
-    if (item.scope === 'public') {
-      const session = await getSession({ req });
-      const isSiteAdmin = session?.user.roles.includes('SiteAdmin');
+    const session = await getSession({ req });
+    const isSiteAdmin = session?.user.roles.includes('SiteAdmin');
 
-      if (isSiteAdmin) {
-        const newSection = new Section({
-          sectiontype,
-          content,
-          order,
-          itemid: itemId,
-        });
+    if (isSiteAdmin) {
+      const newSection = new Section({
+        sectiontype,
+        content,
+        order,
+        itemid: itemId,
+      });
 
+      try {
+        const dbSession = await mongoose.startSession();
+        dbSession.startTransaction();
+        await newSection.save({ dbSession });
+        await item.sections.push(newSection);
+        await item.save({ dbSession });
+
+        await dbSession.commitTransaction();
+      } catch (e) {
+        status = axios.HttpStatusCode.InternalServerError;
+        message = e;
+      }
+
+      if (item) {
         try {
-          const dbSession = await mongoose.startSession();
-          dbSession.startTransaction();
-          await newSection.save({ dbSession });
-          await item.sections.push(newSection);
-          await item.save({ dbSession });
-
-          await dbSession.commitTransaction();
+          item = await Item.findById(itemId).populate({
+            path: 'sections',
+            model: Section,
+          });
         } catch (e) {
           status = axios.HttpStatusCode.InternalServerError;
           message = e;
         }
-
-        if (item) {
-          try {
-            item = await Item.findById(itemId)
-              .populate({ path: 'tags', model: Tag })
-              .populate({ path: 'sections', model: Section });
-          } catch (e) {
-            status = axios.HttpStatusCode.InternalServerError;
-            message = e;
-          }
-          item = await item.toObject({ getters: true, flattenMaps: true });
-          item = await flattenItem(item);
-        }
-      } else {
-        status = axios.HttpStatusCode.Forbidden;
+        item = await item.toObject({ getters: true, flattenMaps: true });
+        item = await flattenItem(item);
       }
     } else {
-      // TODO
+      status = axios.HttpStatusCode.Forbidden;
     }
   } else {
-    status = axios.HttpStatusCode.NotFound;
+    // TODO
   }
 
   await db.disconnect();

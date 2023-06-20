@@ -13,7 +13,7 @@
     "comma-style": ["error"],
     "computed-property-spacing": ["error", "never"],
     "dot-location": ["error", "property"],
-    "implicit-arrow-linebreak": ["error"],
+    // "implicit-arrow-linebreak": ["error"],
     "indent": ["error", 2],
     "jsx-quotes": ["error"],
     "key-spacing": ["error"],

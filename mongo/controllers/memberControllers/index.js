@@ -134,12 +134,10 @@ export const getMember = async (email) => {
   await db.connect();
 
   try {
-    member = await Member.findOne({ email })
-      .populate({
-        path: 'roles',
-        model: Role,
-      })
-      .populate({ path: 'tags', model: Tag });
+    member = await Member.findOne({ email }).populate({
+      path: 'roles',
+      model: Role,
+    });
   } catch (e) {
     message = `Error finding Member: ${e}`;
     status = 500;

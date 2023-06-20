@@ -35,9 +35,10 @@ export async function getItem(itemId) {
   let item;
 
   try {
-    item = await Item.findById(itemId)
-      .populate({ path: 'tags', model: Tag })
-      .populate({ path: 'sections', model: Section });
+    item = await Item.findById(itemId).populate({
+      path: 'sections',
+      model: Section,
+    });
   } catch (e) {
     message = `Error finding Item: ${e}`;
     status = 500;
@@ -73,9 +74,7 @@ export async function getItems() {
 
   await db.connect();
 
-  let items = await Item.find()
-    .populate({ path: 'tags', model: Tag })
-    .populate({ path: 'sections', model: Section });
+  let items = await Item.find().populate({ path: 'sections', model: Section });
 
   await db.disconnect();
 
@@ -107,9 +106,10 @@ export const groupItemsByTag = async (tagId) => {
   let items = [];
 
   try {
-    items = await Item.find({ tags: new ObjectId(tagId.toString()) })
-      .populate({ path: 'tags', model: Tag })
-      .populate({ path: 'sections', model: Section });
+    items = await Item.find({ tags: new ObjectId(tagId.toString()) }).populate({
+      path: 'sections',
+      model: Section,
+    });
   } catch (e) {
     message = `Error finding Item: ${e}`;
     status = 500;

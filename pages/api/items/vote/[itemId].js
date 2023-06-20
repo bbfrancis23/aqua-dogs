@@ -32,9 +32,10 @@ export default async function handler(req, res) {
 
     if (session) {
       try {
-        item = await Item.findById(itemId)
-          .populate({ path: 'tags', model: Tag })
-          .populate({ path: 'sections', model: Section });
+        item = await Item.findById(itemId).populate({
+          path: 'sections',
+          model: Section,
+        });
       } catch (e) {
         status = 500;
         message = `Server Error: ${e}`;

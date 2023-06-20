@@ -110,12 +110,12 @@ const ItemComponent = (props: ItemComponentProps) => {
         </CardActions>
       </Card>
 
-      <ItemFormDialog
+      {/* <ItemFormDialog
         mode={itemDialogMode}
         dialogIsOpen={addItemDialogIsOpen}
         closeDialog={handleCloseDialog}
         org={org ? org : undefined}
-        editItem={item} updateEditedItem={(i:any) => setItem(i)} />
+        editItem={item} updateEditedItem={(i:any) => setItem(i)} /> */}
     </Box>)
 }
 export default ItemComponent;
