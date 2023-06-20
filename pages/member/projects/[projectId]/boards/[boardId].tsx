@@ -17,9 +17,6 @@ import { findProject } from "@/mongo/controls/member/project/findProject";
 import { findProjectBoards } from "@/mongo/controls/member/project/findProjectBoards";
 
 import { PermissionCodes, permission } from "@/ui/permission/Permission";
-import ItemFormDialog from "@/components/items/ItemFormDialog";
-import FormModes from "enums/FormModes";
-import axios from "axios";
 import { useSnackbar } from "notistack";
 
 export interface MemberProjectBoardPageProps {
@@ -48,13 +45,13 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
     <Box
       sx={{background: `url(/images/themes/${fxPalette.name}/hero.jpg)`,
         backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundAttachment: 'fixed',
-        backgroundPosition: 'center', width: '100vw', height: '100vh'}} >
+        backgroundPosition: 'center', width: '100vw', height: '100vh' }} >
       <BoardToolbar project={project} board={board} setBoard={(b) => setBoard(b)}/>
       { showColForm && (
         <CreateColForm project={project} board={board} setBoard={(b) => setBoard(b) }
           closeForm={() => handleCloseColForm() } />
       )}
-      <Stack spacing={2} direction={'row'} sx={{ p: 2}}>
+      <Stack spacing={2} direction={'row'} sx={{ p: 2, overflowX: 'auto'}} >
         <ProjectBoard setBoard={(b) => setBoard(b)} board={board} member={member}
           project={project} />
         <Box>
