@@ -29,7 +29,10 @@ export const patchBoard = async (req, res) => {
           if (req.body.title) {
             const { title } = req.body;
             board.title = title;
+          } else if (req.body.columns) {
+            board.columns = req.body.columns;
           }
+
           try {
             await board.save();
             board = await Board.findById(boardId);

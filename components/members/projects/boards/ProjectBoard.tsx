@@ -7,6 +7,8 @@ import { Box, Grid, Stack } from "@mui/material";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { Column } from "../../../../interfaces/Column";
 import { BoardColumn } from "./columns/BoardColumn";
+import axios from "axios";
+import { useSnackbar } from "notistack";
 
 export interface ProjectBoardProps {
   project: Project;
@@ -28,6 +30,7 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
 
   const [colKeys, setcolKeys] = useState<any>();
   const [orderedColKeys, setOrderedColKeys] = useState<string[]>();
+  const {enqueueSnackbar} = useSnackbar();
 
   useMemo( () => {
 
@@ -39,6 +42,19 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
     setcolKeys(colKeys)
 
   }, [board.columns])
+
+  const updateBoardCols = (boardCols: string[]) => {
+    setOrderedColKeys(boardCols)
+
+    axios.patch(`/api/projects/${project.id}/boards/${board.id}`, {columns: boardCols})
+      .then((res) => {
+        enqueueSnackbar(`Columns Reordered `, {variant: "success"})
+      })
+      .catch((e:string) => {
+        enqueueSnackbar(`Error Moving Columns: ${e}`, {variant: "error"})
+      })
+  }
+
 
   const onDragEnd = (result: any) => {
     if(!result.destination) {
@@ -58,8 +74,7 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
     if (result.type === 'COLUMN') {
       const redorder: string[] = reorderList(orderedColKeys, source.index, destination.index);
 
-      // handleSetOrderedTagColKeys(redorder);
-      setOrderedColKeys(redorder)
+      updateBoardCols(redorder);
 
       return;
     }
