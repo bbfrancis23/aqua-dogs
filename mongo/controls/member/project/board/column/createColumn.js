@@ -43,13 +43,23 @@ export const createColumn = async (req, res) => {
             await board.save({ dbSession });
             await dbSession.commitTransaction();
 
-            board = await board.toObject({ getters: true });
             status = axios.HttpStatusCode.Created;
+
+            board = await Board.findOne({ _id: board._id });
           } catch (e) {
             await dbSession.abortTransaction();
             dbSession.endSession();
             status = axios.HttpStatusCode.InternalServerError;
             message = e;
+          }
+
+          if (status === axios.HttpStatusCode.Created) {
+            board = await Board.findById(board._id).populate({
+              path: 'columns',
+              model: Column,
+            });
+
+            board = await board.toObject({ getters: true });
           }
         } else {
           status = axios.HttpStatusCode.NotFound;

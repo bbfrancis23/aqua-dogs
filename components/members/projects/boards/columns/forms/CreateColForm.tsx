@@ -1,15 +1,14 @@
 import { Dispatch, SetStateAction } from "react";
-import { Board } from "../../../../../../interfaces/BoardInterface";
-import { Project } from "../../../../../../interfaces/ProjectInterface";
-
-
+import { useSession } from "next-auth/react";
 import * as Yup from "yup"
 import { useSnackbar } from "notistack";
-import { useSession } from "next-auth/react";
-import { Form, FormikProvider, useFormik } from "formik";
 import axios from "axios";
+import { Form, FormikProvider, useFormik } from "formik";
 import { Box, Button, Paper, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+
+import { Board } from "@/interfaces/BoardInterface";
+import { Project } from "@/interfaces/ProjectInterface";
 
 export interface CreateColFormProps{
   project: Project;
@@ -24,12 +23,11 @@ const createColSchema = Yup.object().shape({
 
 
 export const CreateColForm = (props: CreateColFormProps) => {
+
   const {setBoard, closeForm, project, board} = props
 
   const {enqueueSnackbar} = useSnackbar()
-
   const {data: session, status} = useSession()
-
 
   const formik = useFormik({
     initialValues: { title: '' },
@@ -43,7 +41,6 @@ export const CreateColForm = (props: CreateColFormProps) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Created ){
 
-
             setBoard(res.data.board)
 
             enqueueSnackbar("Column created", {variant: "success"})
@@ -54,7 +51,6 @@ export const CreateColForm = (props: CreateColFormProps) => {
         .catch((error) => {
 
           formik.setSubmitting(false)
-          console.log(error)
           enqueueSnackbar(error.message, {variant: "error"})
         })
     }
@@ -65,32 +61,19 @@ export const CreateColForm = (props: CreateColFormProps) => {
   return(
     <Box sx={{m: 3, display: 'flex'}}>
       <Paper sx={{p: 1}}>
-
         { session && (
           <>
-
             <FormikProvider value={formik}>
               <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                 <Box sx={{ ml: 1, display: 'flex'}}>
-                  <TextField
-
-                    size={'small'}
-                    label="New Column"
-                    {...getFieldProps('title')}
-                    error={Boolean(touched && errors.title)}
-                    helperText={touched && errors.title}
-                  />
-                  <Box><LoadingButton
-                    color="success"
-                    disabled={!(isValid && formik.dirty)}
-                    type="submit"
-                    variant="contained"
-                    loading={isSubmitting}
-                    sx={{mr: 1, ml: 1}}
-                  >
-                Save
-                  </LoadingButton>
-                  <Button onClick={() => closeForm()} >Cancel</Button></Box>
+                  <TextField size={'small'} label="New Column" {...getFieldProps('title')}
+                    error={Boolean(touched && errors.title)} helperText={touched && errors.title} />
+                  <Box>
+                    <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+                      type="submit" variant="contained" loading={isSubmitting} sx={{mr: 1, ml: 1}} >
+                      Save
+                    </LoadingButton>
+                    <Button onClick={() => closeForm()} >Cancel</Button></Box>
                 </ Box>
               </Form>
             </FormikProvider>
