@@ -41,6 +41,7 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
 
   const handleCloseColForm = () => setShowColForm(false)
 
+  console.log('board', board)
 
   const fxPalette:any = theme.palette
 

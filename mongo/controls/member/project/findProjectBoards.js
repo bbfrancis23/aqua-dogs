@@ -4,6 +4,7 @@ import Board from '/mongo/schemas/BoardSchema';
 import Project from '/mongo/schemas/ProjectSchema';
 
 import Column from '/mongo/schemas/ColumnSchema';
+import Item from '/mongo/schemas/ItemSchema';
 
 import mongoose from 'mongoose';
 
@@ -16,7 +17,7 @@ export const findProjectBoards = async (id) => {
 
   boards = await Board.find({ project: id }).populate({
     path: 'columns',
-    Model: Column,
+    populate: { path: 'items', model: Item },
   });
 
   boards = boards.map((b) => b.toObject({ getters: true, flattenMaps: true }));
