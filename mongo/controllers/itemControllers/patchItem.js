@@ -26,36 +26,32 @@ export const patchItem = async (req, res) => {
   }
 
   if (item) {
-    if (item.scope === 'public') {
-      const session = await getSession({ req });
-      const isSiteAdmin = session?.user.roles.includes('SiteAdmin');
+    const session = await getSession({ req });
+    const isSiteAdmin = session?.user.roles.includes('SiteAdmin');
 
-      if (isSiteAdmin) {
-        const { title, tags } = req.body;
+    if (isSiteAdmin) {
+      const { title, tags } = req.body;
 
-        if (title) {
-          item.title = title;
-        }
+      if (title) {
+        item.title = title;
+      }
 
-        if (tags) {
-          item.tags = tags;
-        }
+      if (tags) {
+        item.tags = tags;
+      }
 
-        try {
-          await item.save();
-          item = await Item.findById(itemId).populate({
-            path: 'sections',
-            model: Section,
-          });
-        } catch (e) {
-          status = axios.HttpStatusCode.InternalServerError;
-          message = e;
-        }
-      } else {
-        status = axios.HttpStatusCode.Forbidden;
+      try {
+        await item.save();
+        item = await Item.findById(itemId).populate({
+          path: 'sections',
+          model: Section,
+        });
+      } catch (e) {
+        status = axios.HttpStatusCode.InternalServerError;
+        message = e;
       }
     } else {
-      // TODO
+      status = axios.HttpStatusCode.Forbidden;
     }
   } else {
     status = axios.HttpStatusCode.NotFound;
