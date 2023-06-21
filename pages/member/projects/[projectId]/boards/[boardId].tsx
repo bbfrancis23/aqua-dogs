@@ -51,7 +51,8 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
         <CreateColForm project={project} board={board} setBoard={(b) => setBoard(b) }
           closeForm={() => handleCloseColForm() } />
       )}
-      <Stack spacing={2} direction={'row'} sx={{ p: 2, overflowX: 'auto'}} >
+      <Stack spacing={2} direction={'row'} sx={{ p: 2, overflowX: 'auto',
+        height: 'calc(100vh - 124px)'}} >
         <ProjectBoard setBoard={(b) => setBoard(b)} board={board} member={member}
           project={project} />
         <Box>
