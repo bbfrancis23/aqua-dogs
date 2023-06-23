@@ -55,6 +55,8 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
   useMemo( () => {
 
+    console.log('here is the item',item)
+
     if(!item){
 
       if(dialogIsOpen && session && mode === "ADD"){
@@ -107,9 +109,12 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
   }
 
-  const handleCloseDialog = () => {
-    setItem({id: ''})
-    closeDialog()
+  const handleCloseDialog = async() => {
+    console.log('close dialog')
+
+    closeDialog() 
+    await setItem(undefined)
+    console.log(item)
   }
 
 

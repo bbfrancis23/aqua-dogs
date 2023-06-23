@@ -1,12 +1,19 @@
 
-import {useState} from "react"
+import { Dispatch, SetStateAction, useState} from "react"
 import axios from "axios"
 import {TextField} from "@mui/material"
+import { Item } from "@/interfaces/ItemInterface"
+
+export interface ItemTitleInputProps{
+  item: Item,
+  setItem: Dispatch<SetStateAction<Item>>;
+}
 
 export default function ItemTitleInput(props: any){
 
   const {item, setItem} = props
   const [isSubmitting, setIsSubmitting] = useState(false)
+
 
   const handleTitleBlur = async (e:any) => {
 
@@ -14,8 +21,9 @@ export default function ItemTitleInput(props: any){
 
     try {
 
-      axios.patch(`/api/items/${item.id}`, {title: e.target.value})
+      await axios.patch(`/api/items/${item.id}`, {title: e.target.value})
         .then((res) => {
+          console.log('setting item from api')
           setItem(res.data.item)
           setIsSubmitting(false)
         })

@@ -36,7 +36,8 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
 
     let colKeys: any = {};
 
-    board.columns.forEach( (c: Column) => colKeys[c.id] = {title: c.title, id: c.id} )
+    board.columns.forEach( (c: Column) =>
+      colKeys[c.id] = {title: c.title, id: c.id, items: c.items} )
 
     setOrderedColKeys(Object.keys(colKeys))
     setcolKeys(colKeys)
