@@ -71,11 +71,11 @@ const ItemComponent = (props: ItemComponentProps) => {
             </Permission> }
         />
         <CardContent>
-          <Stack spacing={1} direction="row">
+          {/* <Stack spacing={1} direction="row">
             { item.tags && (
               item.tags.map( (t:any) => ( <Chip label={t.title} variant="outlined" key={t.id} /> ))
             )}
-          </Stack>
+          </Stack> */}
           <Stack spacing={1} sx={{pt: 2}}>
             { item.sections?.map( ( s:any) => {
 
