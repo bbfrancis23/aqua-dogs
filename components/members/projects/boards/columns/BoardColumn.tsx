@@ -10,6 +10,7 @@ import axios from "axios";
 import { useSnackbar } from "notistack";
 import { CreateItemFormDialog } from "./items/dialogs/CreateItemFormDialog";
 import { Item } from "@/interfaces/ItemInterface";
+import ColumnList from "./ColumnList";
 
 export interface BoardColumnProps {
   index: number;
@@ -97,17 +98,9 @@ export const BoardColumn = (props: BoardColumnProps) => {
               <Typography sx={{p: 2}} {...provided.dragHandleProps}>
                 {column.title}
               </Typography>
-              <Stack spacing={2} direction={'column'} >
-                {
-                  column.items.map( (i) => (
-                    <Card key={i.id}>
-                      <CardHeader title={
-                        <Typography>{i.title ? i.title : 'DRAFT'}</Typography>
-                      } />
-                    </Card>
-                  ))
-                }
-              </Stack>
+
+              <ColumnList column={column} setBoard={setBoard } project={project}
+                board={board} member={member} />
 
               <Button onClick={() => handleOpenDialog()}>Add item</Button>
             </Box>
@@ -122,3 +115,4 @@ export const BoardColumn = (props: BoardColumnProps) => {
   )
 }
 
+export default BoardColumn

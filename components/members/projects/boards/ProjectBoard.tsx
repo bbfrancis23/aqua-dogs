@@ -6,7 +6,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Box, Grid, Stack } from "@mui/material";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { Column } from "../../../../interfaces/Column";
-import { BoardColumn } from "./columns/BoardColumn";
+import BoardColumn from "./columns/BoardColumn";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 
@@ -25,11 +25,66 @@ const reorderList = (list:any, startIndex:number, endIndex:number):string[] => {
   return result;
 };
 
+export const reorderBoard = ({ boardCols, source, destination }:any) => {
+
+  const current = {...boardCols[source.droppableId]};
+  const next = {...boardCols[destination.droppableId]};
+  const target = current.items[source.index];
+
+  // // moving to same list
+  if (source.droppableId === destination.droppableId) {
+    let reordered = {...current}
+    reordered.items = reorderList(current.items, source.index, destination.index);
+
+    boardCols = {
+      ...boardCols,
+      [source.droppableId]: reordered
+    };
+
+    return boardCols;
+  }else{
+    let destinationList: string[] = [destination.droppableId]
+
+
+    //destinationList.push(target.id)
+    // target.tags.forEach((t: Tag) => {
+    //   if( t.id !== source.droppableId){
+    //     tags.push(t.id)
+    //   }
+    // })
+    // axios.patch(`/api/items/${target.id}`, {tags} )
+    //   .catch((e:string) => {
+    //     console.log(`Error: ${e}`)
+    //   })
+
+    current.items.splice(source.index, 1)
+    next.items.splice(destination.index, 0, target)
+    boardCols = {
+      ...boardCols,
+      [source.droppableId]: current,
+      [destination.droppableId]: next
+    }
+
+  // for resultkeys -> c
+  // ids c.items.map ( i => item.id)
+  // patch(/api/projects/${project.is}/boards/${board.id}/columns/${key},
+  // {items})
+  }
+
+  // // update DB
+
+
+  return boardCols
+
+};
+
+
 export const ProjectBoard = (props: ProjectBoardProps ) => {
   const {project, board, member, setBoard} = props
 
-  const [colKeys, setcolKeys] = useState<any>();
+  const [colKeys, setColKeys] = useState<any>();
   const [orderedColKeys, setOrderedColKeys] = useState<string[]>();
+
   const {enqueueSnackbar} = useSnackbar();
 
   useMemo( () => {
@@ -40,7 +95,7 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
       colKeys[c.id] = {title: c.title, id: c.id, items: c.items} )
 
     setOrderedColKeys(Object.keys(colKeys))
-    setcolKeys(colKeys)
+    setColKeys(colKeys)
 
   }, [board.columns])
 
@@ -57,7 +112,7 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
   }
 
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = async (result: any) => {
     if(!result.destination) {
       return
     }
@@ -72,6 +127,7 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
       return;
     }
 
+
     if (result.type === 'COLUMN') {
       const redorder: string[] = reorderList(orderedColKeys, source.index, destination.index);
 
@@ -80,8 +136,16 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
       return;
     }
 
-    // const data:any = reorderBoard({boardCols: tagCols, source, destination})
-    // setTagCols(data.boardCols)
+    const boardCols:any = await reorderBoard({boardCols: colKeys, source, destination})
+
+    console.log('boardCols', boardCols)
+
+    axios.patch(`/api/projects/${project.id}/boards/${board.id}`, {boardCols} )
+      .catch((e:string) => {
+        console.log(`Error: ${e}`)
+      })
+
+    setColKeys(boardCols)
   }
 
 
