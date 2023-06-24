@@ -3,3 +3,9 @@ body {
   height: 100vh;
   overflow: hidden;
 }
+
+@media only screen and (max-height: 700px) {
+  body {
+    overflow: auto;
+  }
+}
