@@ -1,11 +1,6 @@
 import { Box, alpha, Skeleton, Typography, useTheme } from "@mui/material"
 
-export interface ColumnStubProps{
-
-}
-
-
-export const ColumnStub = (props: ColumnStubProps) => {
+export const ColumnStub = () => {
 
   const theme = useTheme()
 

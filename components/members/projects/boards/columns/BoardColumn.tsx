@@ -5,12 +5,9 @@ import { Box, Button, Card, CardHeader, Stack, Typography, useTheme } from "@mui
 import { Draggable } from "react-beautiful-dnd";
 import { Member } from "@/interfaces/MemberInterface";
 import { Project } from "@/interfaces/ProjectInterface";
-import axios from "axios";
-
-import { useSnackbar } from "notistack";
-import { CreateItemFormDialog } from "./items/dialogs/CreateItemFormDialog";
-import { Item } from "@/interfaces/ItemInterface";
 import ColumnList from "./ColumnList";
+import CreateItemForm from "./items/forms/CreateItemForm";
+import Permission, { PermissionCodes } from "@/ui/permission/Permission";
 
 export interface BoardColumnProps {
   index: number;
@@ -24,62 +21,6 @@ export interface BoardColumnProps {
 export const BoardColumn = (props: BoardColumnProps) => {
   const {index, setBoard, column, member, project, board} = props;
 
-  const [addItemDialogIsOpen, setAddItemDialogIsOpen] = useState<boolean>(false)
-
-  const [item, setItem] = useState<Item>({title: '', id: 'stub'})
-
-
-  const {enqueueSnackbar} = useSnackbar();
-
-  const handleOpenDialog = () => {
-    try {
-      axios.post(`/api/projects/${project.id}/boards/${board.id}/columns/${column.id}/items`,
-        {scope: 'privare'})
-        .then((res) => {
-
-          setItem(res.data.item)
-          try {
-
-            axios.post("/api/sections",
-              {
-                sectiontype: "63b2503c49220f42d9fc17d9",
-                content: "", itemId: res.data.item.id, order: 1})
-              .then((sectionsRes) => {
-
-                enqueueSnackbar("Created a new Item", {variant: "success"})
-                setItem(sectionsRes.data.item)
-                setAddItemDialogIsOpen(true)
-              })
-              .catch((e:any) => {
-                enqueueSnackbar(e, {variant: "error"})
-              })
-          } catch (e:any) {
-            enqueueSnackbar(e, {variant: "error"})
-          }
-        })
-        .catch((e:any) => {
-          enqueueSnackbar(e, {variant: "error"})
-        })
-    } catch (e:any) {
-      enqueueSnackbar(e, {variant: "error"})
-    }
-
-  }
-
-  const handleCloseDialog = () => {
-    setAddItemDialogIsOpen(false)
-
-    axios.get(`/api/projects/${project.id}/boards/${board.id}`)
-      .then((res) => {
-        if(res.status === axios.HttpStatusCode.Ok){
-          setBoard(res.data.board)
-        }else{
-          enqueueSnackbar(`Error getting board info ${res.data.message}`, {variant: "error"})
-        }
-      }).catch((error) => {
-        enqueueSnackbar(`Error getting board info: ${error}`, {variant: "error"})
-      })
-  }
 
   const theme = useTheme()
 
@@ -101,16 +42,15 @@ export const BoardColumn = (props: BoardColumnProps) => {
 
               <ColumnList column={column} setBoard={setBoard } project={project}
                 board={board} member={member} />
+              <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
+                <CreateItemForm project={project}
+                  board={board} column={column} member={member} setBoard={setBoard } />
+              </Permission>
 
-              <Button onClick={() => handleOpenDialog()}>Add item</Button>
             </Box>
           </Box>
         )}
       </Draggable>
-      <CreateItemFormDialog dialogIsOpen={addItemDialogIsOpen} item={item}
-        setItem={setItem}
-        closeDialog={handleCloseDialog} project={project} board={board} column={column}
-        member={member} />
     </>
   )
 }
