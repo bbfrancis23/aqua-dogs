@@ -138,7 +138,6 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
 
     const boardCols:any = await reorderBoard({boardCols: colKeys, source, destination})
 
-    console.log('boardCols', boardCols)
 
     axios.patch(`/api/projects/${project.id}/boards/${board.id}`, {boardCols} )
       .catch((e:string) => {

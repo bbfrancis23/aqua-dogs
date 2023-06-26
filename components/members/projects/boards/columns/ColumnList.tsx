@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { CreateItemFormDialog } from "./items/dialogs/CreateItemFormDialog";
 import { Project } from "@/interfaces/ProjectInterface";
 import { Member } from "@/interfaces/MemberInterface";
+import ColumnListItem from "./items/ColumnListItem";
 
 export interface ColumnListProps {
   column: Column;
@@ -22,14 +23,6 @@ export interface ColumnListProps {
 const ColumnList = (props: ColumnListProps) => {
   const {column, setBoard, project, board, member} = props
 
-  const [showEditItem, setShowEditItem] = useState<boolean>(false)
-  const [selectedItem, setSelectedItem] = useState(column.items[0])
-  const [dialogIsOpen, setDialogIsOpen] = useState(false)
-
-  const handleEditItem = (item: any) => {
-    setSelectedItem(item)
-    setDialogIsOpen(true)
-  }
 
   return (
     <>
@@ -44,24 +37,11 @@ const ColumnList = (props: ColumnListProps) => {
                 <Draggable key={i.id} draggableId={i.id} index={index}>
                   {(dragProvided, dragSnapshot) => (
 
-                    <Card ref={dragProvided.innerRef} {...dragProvided.draggableProps}
-                      {...dragProvided.dragHandleProps}
-                      onMouseOver={() => setShowEditItem(true)}
-                      onMouseOut={() => setShowEditItem(false)}
-                    >
-                      <CardHeader
-                        title={ <Typography>{i.title ? i.title : 'DRAFT'}</Typography> }
-                        action={
-
-                          showEditItem && (
-                            <IconButton aria-label="edit" onClick={() => handleEditItem(i)}>
-                              <EditIcon />
-                            </IconButton>
-                          )
-
-
-                        } />
-                    </Card>
+                    <div ref={dragProvided.innerRef} {...dragProvided.draggableProps}
+                      {...dragProvided.dragHandleProps}>
+                      <ColumnListItem column={column} setBoard={setBoard } project={project}
+                        board={board} member={member} item={i}/>
+                    </ div>
 
                   )}
                 </Draggable>
@@ -72,10 +52,7 @@ const ColumnList = (props: ColumnListProps) => {
           </Stack>
         )}
       </Droppable>
-      <CreateItemFormDialog dialogIsOpen={dialogIsOpen} item={selectedItem}
-        setItem={setSelectedItem}
-        closeDialog={() => setDialogIsOpen(false)} project={project} board={board} column={column}
-        member={member} />
+
     </>
 
   )

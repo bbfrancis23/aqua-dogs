@@ -14,6 +14,7 @@ export const createItem = async (req, res) => {
   let status = axios.HttpStatusCode.Created;
   let message = '';
   let item = undefined;
+  let board = undefined;
 
   await db.connect();
 
@@ -25,7 +26,7 @@ export const createItem = async (req, res) => {
     const project = await Project.findOne({ _id: req.query.projectId });
 
     if (authSession.user.id === project.leader.toString()) {
-      const board = await Board.findOne({ _id: req.query.boardId }).populate({
+      board = await Board.findOne({ _id: req.query.boardId }).populate({
         path: 'columns',
         model: Column,
       });
@@ -39,7 +40,10 @@ export const createItem = async (req, res) => {
           try {
             dbSession.startTransaction();
 
-            const newItem = new Item({ title: '', scope: 'private' });
+            const newItem = new Item({
+              title: req.body.title,
+              scope: 'private',
+            });
 
             await newItem.save({ dbSession });
 
@@ -52,6 +56,16 @@ export const createItem = async (req, res) => {
             status = axios.HttpStatusCode.Created;
 
             item = newItem.toObject({ getters: true });
+
+            board = await Board.findOne({
+              _id: req.query.boardId,
+              project: req.query.projectId,
+            }).populate({
+              path: 'columns',
+              populate: { path: 'items', model: Item },
+            });
+
+            board = board.toObject({ getters: true, flattenMaps: true });
           } catch (e) {
             await dbSession.abortTransaction();
             dbSession.endSession();
@@ -79,7 +93,7 @@ export const createItem = async (req, res) => {
   await db.disconnect();
   res.status(status).json({
     message,
-    item,
+    board,
   });
 };
 
