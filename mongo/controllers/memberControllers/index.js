@@ -65,7 +65,7 @@ export const getMemberProjects = async (memberId) => {
   let projects = [];
 
   projects = await Project.find({
-    $or: [{ leader: memberId }, { members: memberId }],
+    $or: [{ leader: memberId }, { admins: memberId }, { members: memberId }],
   });
 
   await db.disconnect();

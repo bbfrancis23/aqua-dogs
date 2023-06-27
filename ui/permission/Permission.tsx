@@ -21,26 +21,28 @@ export const permission = (
     if (member) {
       if (project?.leader.id === member.id) {
         hasPermission = true;
+      }else if(project?.admins?.find( (a) => a.id === member.id)){
+        hasPermission = true;
+      }else if(project?.members?.find( (a) => a.id === member.id)){
+        hasPermission = true;
       }
     }
   } else if(code === PermissionCodes.PROJECT_ADMIN){
     if(member){
-
-
       if(project?.leader.id === member.id){
         hasPermission = true
+      }else if(project?.admins?.find( (a) => a.id === member.id)){
+        hasPermission = true;
       }
     }
   } else if(code === PermissionCodes.PROJECT_LEADER){
     if(member){
-
 
       if(project?.leader.id === member.id){
         hasPermission = true
       }
     }
   }
-
   return hasPermission;
 };
 

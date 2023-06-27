@@ -7,6 +7,7 @@ const itemSchema = new mongoose.Schema({
   ],
   upvotes: [{ type: String, required: false }],
   downvotes: [{ type: String, required: false }],
+  owners: [{ type: mongoose.Types.ObjectId, required: false, ref: 'members' }],
   scope: { type: String },
 });
 

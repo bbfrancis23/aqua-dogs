@@ -42,6 +42,7 @@ export const createItem = async (req, res) => {
 
             const newItem = new Item({
               title: req.body.title,
+              owners: [authSession.user.id],
               scope: 'private',
             });
 

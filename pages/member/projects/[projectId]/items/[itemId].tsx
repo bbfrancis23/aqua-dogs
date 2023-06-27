@@ -2,27 +2,16 @@ import { useState } from "react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { CardContent, CardHeader, Stack, Typography, useTheme } from "@mui/material";
-import { resetServerContext } from "react-beautiful-dnd";
-
-import { BoardToolbar } from "@/components/members/projects/boards/BoardToolbar";
-import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
-import ColumnStub from "@/components/members/projects/boards/columns/ColStub";
-import CreateColForm from "@/components/members/projects/boards/columns/forms/CreateColForm";
-
-import { Board } from "@/interfaces/BoardInterface";
 import { Project } from "@/interfaces/ProjectInterface";
 import { Member, getValidMember } from "@/interfaces/MemberInterface";
 
 import { findProject } from "@/mongo/controls/member/project/findProject";
-import { findProjectBoards } from "@/mongo/controls/member/project/findProjectBoards";
 
 import { PermissionCodes, permission } from "@/ui/permission/Permission";
 import { useSnackbar } from "notistack";
-import { Item } from "@/interfaces/ItemInterface";
 import { getItem } from "@/mongo/controllers/itemControllers";
 import InfoCardContainer from "@/ui/information-card/InfoCardContainer";
 import InfoCard from "@/ui/information-card/InfoCard";
-import EditItemForm from "@/components/members/projects/boards/columns/items/forms/EditItemForm";
 import EditItemTitleForm from
   "@/components/members/projects/boards/columns/items/forms/EditItemTitleForm";
 

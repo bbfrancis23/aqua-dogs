@@ -5,12 +5,12 @@ import { Item } from "@/interfaces/ItemInterface";
 
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { Column } from "@/interfaces/Column";
-import { Box, Card, CardHeader, IconButton, Stack, Typography } from "@mui/material";
-import EditIcon from '@mui/icons-material/Edit';
-import { CreateItemFormDialog } from "./items/dialogs/CreateItemFormDialog";
+import { Stack } from "@mui/material";
 import { Project } from "@/interfaces/ProjectInterface";
 import { Member } from "@/interfaces/MemberInterface";
 import ColumnListItem from "./items/ColumnListItem";
+
+import Link from "next/link"
 
 export interface ColumnListProps {
   column: Column;
@@ -38,9 +38,14 @@ const ColumnList = (props: ColumnListProps) => {
                   {(dragProvided, dragSnapshot) => (
 
                     <div ref={dragProvided.innerRef} {...dragProvided.draggableProps}
+
                       {...dragProvided.dragHandleProps}>
-                      <ColumnListItem column={column} setBoard={setBoard } project={project}
-                        board={board} member={member} item={i}/>
+                      <Link href={`/member/projects/${project.id}/items/${i.id}`}
+                        style={{textDecoration: "none"}}>
+
+                        <ColumnListItem column={column} setBoard={setBoard } project={project}
+                          board={board} member={member} item={i}/>
+                      </Link>
                     </ div>
 
                   )}
