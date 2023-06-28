@@ -8,4 +8,5 @@ export interface Item {
   downvotes?: string[];
   rating?: number;
   id: string;
+  owners: string[];
 }

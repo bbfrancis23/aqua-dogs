@@ -140,7 +140,7 @@ export const getServerSideProps: GetServerSideProps<MemberProjectPageProps> = as
   if(member){
     const project: any = await findProject(context.query.projectId)
 
-    const hasPermission = permission(PermissionCodes.PROJECT_MEMBER, member, project)
+    const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
 
     if(hasPermission){
 

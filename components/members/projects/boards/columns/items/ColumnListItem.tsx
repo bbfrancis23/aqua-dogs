@@ -10,6 +10,8 @@ import { Item } from "@/interfaces/ItemInterface";
 import EditItemForm from "./forms/EditItemForm";
 import Permission, { PermissionCodes } from "@/ui/permission/Permission";
 
+import Link from "next/link"
+
 export interface ColumnListProps {
   column: Column;
   setBoard: Dispatch<SetStateAction<Board>>;
@@ -21,6 +23,7 @@ export interface ColumnListProps {
 
 const ColumnListItem = (props: ColumnListProps) => {
   const {column, setBoard, project, board, member, item} = props
+
 
   const [showForm, setShowForm] = useState<boolean>(false)
 
@@ -38,12 +41,13 @@ const ColumnListItem = (props: ColumnListProps) => {
         title={
           showForm ? <EditItemForm column={column} setBoard={setBoard } project={project}
             board={board} member={member} item={item} closeForm={() => handleCloseForm()}/>
-            : <Typography>{item.title}</Typography>
+            : <Link href={`/member/projects/${project.id}/items/${item.id}`}
+              style={{textDecoration: "none"}}><Typography>{item.title}</Typography></Link>
         }
 
         action={
           (showEdit && !showForm) && (
-            <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
+            <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
               <IconButton size={'small'} onClick={() => setShowForm(true) }>
                 <EditIcon sx={{ fontSize: '1em'}}/>
               </IconButton>

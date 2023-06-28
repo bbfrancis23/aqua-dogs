@@ -68,12 +68,15 @@ GetServerSideProps<MemberItemPageProps> = async(context) => {
   if(member){
     const project: any = await findProject(context.query.projectId)
 
-    const hasPermission = permission(PermissionCodes.PROJECT_MEMBER, member, project)
+    const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
 
     if(hasPermission){
 
 
       const item = await getItem(context.query.itemId)
+
+
+      console.log(item)
 
       return {props: {project, member, item}}
     }

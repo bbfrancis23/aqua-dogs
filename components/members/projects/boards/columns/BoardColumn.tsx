@@ -24,6 +24,7 @@ export const BoardColumn = (props: BoardColumnProps) => {
 
   const theme = useTheme()
 
+  console.log(project)
 
   return (
     <>

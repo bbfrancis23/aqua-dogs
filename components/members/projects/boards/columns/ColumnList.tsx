@@ -10,7 +10,6 @@ import { Project } from "@/interfaces/ProjectInterface";
 import { Member } from "@/interfaces/MemberInterface";
 import ColumnListItem from "./items/ColumnListItem";
 
-import Link from "next/link"
 
 export interface ColumnListProps {
   column: Column;
@@ -40,12 +39,10 @@ const ColumnList = (props: ColumnListProps) => {
                     <div ref={dragProvided.innerRef} {...dragProvided.draggableProps}
 
                       {...dragProvided.dragHandleProps}>
-                      <Link href={`/member/projects/${project.id}/items/${i.id}`}
-                        style={{textDecoration: "none"}}>
 
-                        <ColumnListItem column={column} setBoard={setBoard } project={project}
-                          board={board} member={member} item={i}/>
-                      </Link>
+
+                      <ColumnListItem column={column} setBoard={setBoard } project={project}
+                        board={board} member={member} item={i}/>
                     </ div>
 
                   )}
