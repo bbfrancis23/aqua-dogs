@@ -8,21 +8,16 @@ import InfoCard from "../../../ui/information-card/InfoCard";
 import { Box, Button, CardContent, CardHeader, Divider,
   Grid, List, Stack, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
-
-
 import {findProject} from "../../../mongo/controls/member/project/findProject"
-
-
 import {findProjectBoards} from "../../../mongo/controls/member/project/findProjectBoards"
-
 import { Board } from "../../../interfaces/BoardInterface";
 import ProjectTitleForm from "../../../components/members/projects/forms/ProjectTItleForm";
 import ProjectMember from "../../../components/members/projects/ProjectMember";
 import AddProjectMemberForm from "../../../components/members/projects/forms/AddProjectMemberForm";
 import CreateBoardForm from "../../../components/members/projects/boards/forms/CreateBoardForm";
-import ProjectStub from "../../../components/members/projects/ProjectStub";
 import BoardStub from "../../../components/members/projects/boards/BoardStub";
 import router from "next/router";
+
 export interface MemberProjectPageProps{
   project: Project;
   member: Member;
@@ -108,12 +103,15 @@ export const MemberProjectPage = (props: MemberProjectPageProps) => {
 
 
               <Grid item xs={3} >
-                <Tooltip title="Create Board">
+                <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member} >
+                  <Tooltip title="Create Board">
 
-                  <Button onClick={() => setShowBoardForm(true)} sx={{ m: 0, p: 0}}>
-                    <BoardStub />
-                  </Button>
-                </Tooltip>
+                    <Button onClick={() => setShowBoardForm(true)} sx={{ m: 0, p: 0}}>
+                      <BoardStub />
+                    </Button>
+                  </Tooltip>
+                </Permission>
+
               </Grid>
             </Grid>
 

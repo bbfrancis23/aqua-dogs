@@ -1,19 +1,22 @@
 import { useState } from "react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
-import { CardContent, CardHeader, Stack, Typography, useTheme } from "@mui/material";
+import { Button, CardContent, CardHeader, Stack, Typography, useTheme } from "@mui/material";
 import { Project } from "@/interfaces/ProjectInterface";
 import { Member, getValidMember } from "@/interfaces/MemberInterface";
 
 import { findProject } from "@/mongo/controls/member/project/findProject";
 
-import { PermissionCodes, permission } from "@/ui/permission/Permission";
+import Permission, { PermissionCodes, permission } from "@/ui/permission/Permission";
 import { useSnackbar } from "notistack";
 import { getItem } from "@/mongo/controllers/itemControllers";
 import InfoCardContainer from "@/ui/information-card/InfoCardContainer";
 import InfoCard from "@/ui/information-card/InfoCard";
 import EditItemTitleForm from
   "@/components/members/projects/boards/columns/items/forms/EditItemTitleForm";
+import { Item } from "@/interfaces/ItemInterface";
+import { Section } from "@/interfaces/SectionInterface";
+import SectionStub from "@/components/members/projects/boards/columns/items/sections/SectionStub";
 
 export interface MemberItemPageProps {
   project: Project;
@@ -23,12 +26,17 @@ export interface MemberItemPageProps {
 
 export const MemberItemPage = (props: MemberItemPageProps) => {
 
-  const {member, project, item} = props
+
+  const {member, project} = props
 
   const theme = useTheme()
+  const [item, setItem] = useState<Item>(props.item)
   const {enqueueSnackbar} = useSnackbar()
 
+
   const [showForm, setShowForm] = useState<boolean>(false)
+  const [displayCreateSectionForm, setDisplayCreateSectionForm] = useState<boolean>(false)
+
 
   return (
     <InfoCardContainer >
@@ -42,6 +50,20 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
           } />
         <CardContent sx={{pl: 3}}>
           <Stack spacing={3} alignItems={'flex-start'}>
+            {
+              item.sections?.map( (s: Section) => (
+                <>
+                  Section
+                  <Typography key={s.id}>{s.content}</Typography>
+                </>
+
+              ))
+            }
+
+            <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
+
+              <SectionStub />
+            </Permission>
 
           </Stack>
         </CardContent>
