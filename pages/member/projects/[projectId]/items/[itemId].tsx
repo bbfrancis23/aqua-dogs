@@ -17,6 +17,8 @@ import EditItemTitleForm from
 import { Item } from "@/interfaces/ItemInterface";
 import { Section } from "@/interfaces/SectionInterface";
 import SectionStub from "@/components/members/projects/boards/columns/items/sections/SectionStub";
+import CreateSectionForm from
+  "@/components/members/projects/boards/columns/items/sections/forms/CreateSectionForm";
 
 export interface MemberItemPageProps {
   project: Project;
@@ -62,7 +64,7 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
 
             <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
 
-              <SectionStub />
+              <CreateSectionForm project={project} member={member} setItem={(i) => setItem(i)}/>
             </Permission>
 
           </Stack>

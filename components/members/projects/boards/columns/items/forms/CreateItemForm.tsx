@@ -33,7 +33,7 @@ const CreateItemForm = (props: CreateItemFormProps) => {
 
   const {enqueueSnackbar} = useSnackbar()
 
-  const [showForm, setShowForm] = useState<boolean>(false)
+  const [showForm, setShowForm] = useState<boolean>(true)
 
 
   const formik = useFormik({
