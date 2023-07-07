@@ -1,9 +1,9 @@
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 
 import { Autocomplete,
   Avatar,
-  Badge, Box,
+  Box,
   Button, ListItem,
   ListItemAvatar, ListItemButton, ListItemText,
   Skeleton, TextField, Tooltip, useTheme } from "@mui/material";
@@ -17,15 +17,13 @@ import axios from "axios"
 import {FormikProvider, useFormik, Form} from "formik"
 import * as Yup from "yup"
 import { Member } from "../../../../interfaces/MemberInterface";
-import { Project } from "../../../../interfaces/ProjectInterface";
+import { ProjectContext } from "pages/member/projects/[projectId]";
 
 const AddMemberSchema = Yup.object().shape({ member: Yup.string().required("Member is required")})
 
 /* eslint-disable */
 
 export interface AddProjectMemberFormProps {
-  project: Project;
-  setProject: (project:Project) => void
 }
 
 const AddProjectMemberForm = (props: AddProjectMemberFormProps) => {
@@ -43,8 +41,7 @@ const AddProjectMemberForm = (props: AddProjectMemberFormProps) => {
   }
 
 
-  const {project, setProject} = props
-
+  const {project, setProject} = useContext(ProjectContext)
   const [showForm, setShowForm] = useState<boolean>(false)
   const [canidateMembers, setCanidateMembers] = useState<Member[] | []>([])
 

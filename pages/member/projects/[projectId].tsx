@@ -1,28 +1,36 @@
+import { createContext, useState } from "react";
+
 import { GetServerSideProps } from "next";
-import { Project } from "../../../interfaces/ProjectInterface";
 import { getSession } from "next-auth/react";
-import { Member, getValidMember } from "../../../interfaces/MemberInterface";
-import Permission, { permission, PermissionCodes } from "../../../ui/permission/Permission";
-import InfoCardContainer from "../../../ui/information-card/InfoCardContainer";
-import InfoCard from "../../../ui/information-card/InfoCard";
+import router from "next/router";
+
 import { Box, Button, CardContent, CardHeader, Divider,
   Grid, List, Stack, Tooltip, Typography } from "@mui/material";
-import { useState } from "react";
-import {findProject} from "../../../mongo/controls/member/project/findProject"
-import {findProjectBoards} from "../../../mongo/controls/member/project/findProjectBoards"
-import { Board } from "../../../interfaces/BoardInterface";
-import ProjectTitleForm from "../../../components/members/projects/forms/ProjectTItleForm";
-import ProjectMember from "../../../components/members/projects/ProjectMember";
-import AddProjectMemberForm from "../../../components/members/projects/forms/AddProjectMemberForm";
-import CreateBoardForm from "../../../components/members/projects/boards/forms/CreateBoardForm";
-import BoardStub from "../../../components/members/projects/boards/BoardStub";
-import router from "next/router";
+
+import { Project } from "@/interfaces/ProjectInterface";
+import { Member, getValidMember } from "@/interfaces/MemberInterface";
+import { Board } from "@/interfaces/BoardInterface";
+
+import Permission, { permission, PermissionCodes } from "@/ui/permission/Permission";
+import InfoCardContainer from "@/ui/information-card/InfoCardContainer";
+import InfoCard from "@/ui/information-card/InfoCard";
+
+import {findProject} from "@/mongo/controls/member/project/findProject"
+import {findProjectBoards} from "@/mongo/controls/member/project/findProjectBoards"
+
+import ProjectTitleForm from "@/components/members/projects/forms/ProjectTItleForm";
+import ProjectMember from "@/components/members/projects/ProjectMember";
+import AddProjectMemberForm from "@/components/members/projects/forms/AddProjectMemberForm";
+import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm";
+import BoardStub from "@/components/members/projects/boards/BoardStub";
 
 export interface MemberProjectPageProps{
   project: Project;
   member: Member;
   boards: Board[];
 }
+
+export const ProjectContext = createContext <any>({ project: undefined, setProject: () => {}})
 
 export const MemberProjectPage = (props: MemberProjectPageProps) => {
 
@@ -39,86 +47,90 @@ export const MemberProjectPage = (props: MemberProjectPageProps) => {
   }
 
   return (
-    <InfoCardContainer >
-      <InfoCard>
-        <CardHeader title={<ProjectTitleForm project={project}/>} />
-        <CardContent sx={{ pl: 3}}>
+    <ProjectContext.Provider value={{project, setProject}}>
 
-          <Typography variant="h5">Members:</Typography>
-          <Stack spacing={3} >
-            <Box sx={{ display: 'flex'}}>
+      <InfoCardContainer >
+        <InfoCard>
+          <CardHeader title={<ProjectTitleForm project={project}/>} />
+          <CardContent sx={{ pl: 3}}>
 
-              <List sx={{ bgcolor: 'background.paper' }}>
-                { project?.leader && (
-                  <ProjectMember project={project} setProject={setProject}
-                    sessionMember={member}
-                    member={project.leader} type={PermissionCodes.PROJECT_LEADER} />
-                )}
-                <Divider variant="inset" component="li" />
-                {project?.admins?.map( (m:Member) => (
+            <Typography variant="h5">Members:</Typography>
+            <Stack spacing={3} >
+              <Box sx={{ display: 'flex'}}>
 
-                  <ProjectMember member={m} type={PermissionCodes.PROJECT_ADMIN}
-                    sessionMember={member} key={m.id}
-                    project={project} setProject={setProject}/>
-                ))}
-                <Divider variant="inset" component="li" />
-                { project?.members?.map( (m:Member) => (
-                  <Box key={m.id}>
-
+                <List sx={{ bgcolor: 'background.paper' }}>
+                  { project?.leader && (
                     <ProjectMember
                       sessionMember={member}
-                      member={m} type={PermissionCodes.PROJECT_MEMBER}
-                      project={project} setProject={setProject}/>
-                  </Box>
-                ))}
-                <Divider variant="inset" component="li" />
+                      member={project.leader} type={PermissionCodes.PROJECT_LEADER} />
+                  )}
+                  <Divider variant="inset" component="li" />
+                  {project?.admins?.map( (m:Member) => (
 
-                <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
-                  <AddProjectMemberForm
-                    project={project} setProject={(p: Project) => setProject(p)}/>
-                </Permission>
-              </List>
-            </Box>
+                    <ProjectMember member={m} type={PermissionCodes.PROJECT_ADMIN}
+                      sessionMember={member} key={m.id}
+                    />
+                  ))}
+                  <Divider variant="inset" component="li" />
+                  { project?.members?.map( (m:Member) => (
+                    <Box key={m.id}>
 
-            <Typography variant="h5">Boards:</Typography>
-            { showBoardForm && (
-              <CreateBoardForm setBoards={(b:any) => setBoards(b)} project={project}
-                closeForm={() => handleCloseCreateBoardForm()}/>
-            ) }
+                      <ProjectMember
+                        sessionMember={member}
+                        member={m} type={PermissionCodes.PROJECT_MEMBER}
+                      />
+                    </Box>
+                  ))}
+                  <Divider variant="inset" component="li" />
 
-            <Grid container spacing={1}>
+                  <Permission
+                    code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
+                    <AddProjectMemberForm />
+                  </Permission>
+                </List>
+              </Box>
 
-              {
-                boards.map( (b) => (
-                  <Grid item xs={3} key={b.id}>
-                    <Button
-                      onClick={() => router.push(`/member/projects/${project.id}/boards/${b.id}`)}
-                      sx={{ m: 0, p: 0}}>
+              <Typography variant="h5">Boards:</Typography>
+              { showBoardForm && (
+                <CreateBoardForm setBoards={(b:any) => setBoards(b)} project={project}
+                  closeForm={() => handleCloseCreateBoardForm()}/>
+              ) }
 
-                      <BoardStub board={b}/>
-                    </Button>
-                  </Grid>
-                ))
-              }
+              <Grid container spacing={1}>
+
+                {
+                  boards.map( (b) => (
+                    <Grid item xs={3} key={b.id}>
+                      <Button
+                        onClick={() => router.push(`/member/projects/${project.id}/boards/${b.id}`)}
+                        sx={{ m: 0, p: 0}}>
+
+                        <BoardStub board={b}/>
+                      </Button>
+                    </Grid>
+                  ))
+                }
 
 
-              <Grid item xs={3} >
-                <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member} >
-                  <Tooltip title="Create Board">
+                <Grid item xs={3} >
+                  <Permission
+                    code={PermissionCodes.PROJECT_ADMIN} project={project} member={member} >
+                    <Tooltip title="Create Board">
 
-                    <Button onClick={() => setShowBoardForm(true)} sx={{ m: 0, p: 0}}>
-                      <BoardStub />
-                    </Button>
-                  </Tooltip>
-                </Permission>
+                      <Button onClick={() => setShowBoardForm(true)} sx={{ m: 0, p: 0}}>
+                        <BoardStub />
+                      </Button>
+                    </Tooltip>
+                  </Permission>
 
+                </Grid>
               </Grid>
-            </Grid>
 
-          </Stack>
-        </CardContent>
-      </InfoCard>
-    </InfoCardContainer>
+            </Stack>
+          </CardContent>
+        </InfoCard>
+      </InfoCardContainer>
+    </ProjectContext.Provider>
 
   )
 }
@@ -150,6 +162,7 @@ export const getServerSideProps: GetServerSideProps<MemberProjectPageProps> = as
         project: b.project
       })
       )
+
 
       return {props: {project, member, boards}}
     }
