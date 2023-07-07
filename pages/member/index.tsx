@@ -3,8 +3,7 @@ import {useState} from "react"
 import { GetServerSideProps } from "next"
 import { signOut, getSession} from "next-auth/react"
 
-import {CardContent,
-  CardHeader, Button, Stack, Typography, Card, Skeleton, Box, Tooltip, Grid } from "@mui/material"
+import {CardContent, CardHeader, Button, Stack, Typography, Tooltip, Grid } from "@mui/material"
 import {useSnackbar} from "notistack"
 
 import {Member, getValidMember} from "../../interfaces/MemberInterface"
@@ -102,8 +101,11 @@ export const getServerSideProps: GetServerSideProps<MemberPageProps> = async(con
   if(member){
     let projects: Project[] | [] = await getMemberProjects(member?.id)
 
+    console.log(projects)
+
     return {props: { member, projects}}
   }
+
 
   return {redirect: {destination: "/", permanent: false}}
 

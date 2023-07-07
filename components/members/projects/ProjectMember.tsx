@@ -1,24 +1,24 @@
 import { Avatar, Badge, ListItem, ListItemAvatar, ListItemText } from "@mui/material"
 import { PermissionCodes } from "../../../ui/permission/Permission"
 import { Member } from "../../../interfaces/MemberInterface";
-import { Project } from "../../../interfaces/ProjectInterface";
-import { Dispatch, SetStateAction } from "react";
+import { useContext } from "react";
 
 import LeaderBadge from '@mui/icons-material/Star';
 import AdminBadge from '@mui/icons-material/Shield';
 import ProjectMemberActions from "./ProjectMemberActions";
 
+import { ProjectContext } from "pages/member/projects/[projectId]";
+
 export interface ProjectMemberProps {
   type: PermissionCodes;
   member: Member;
-  project: Project;
-  setProject: Dispatch<SetStateAction<Project>>;
   sessionMember: Member;
 }
 
 const ProjectMember = ( props: ProjectMemberProps) => {
 
-  const {type, member, project, setProject, sessionMember} = props;
+  const {type, member, sessionMember} = props;
+  const {project, setProject} = useContext(ProjectContext)
 
   const getAvatar = () => {
     let avatar = '';
