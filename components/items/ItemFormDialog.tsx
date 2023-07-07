@@ -1,12 +1,10 @@
-import {useMemo, useState, useEffect} from "react"
+import {useMemo, useState} from "react"
 import {useSession} from "next-auth/react"
 
 import {Button, Stack, DialogContent, DialogActions, Typography,} from "@mui/material"
 
 import axios from "axios"
 import {useSnackbar} from "notistack"
-
-import TagsMultiSelect from "../TagsMultiSelect"
 import SectionsInupt from "../SectionsInput"
 import ItemTitleInput from "../ItemTitleInput"
 import DraggableDialog from "../../ui/DraggableDialog"
@@ -18,7 +16,6 @@ import { Project } from "@/interfaces/ProjectInterface"
 import { Board } from "@/interfaces/BoardInterface"
 import { Column } from "@/interfaces/Column"
 
-/* eslint-disable */
 export interface ItemFormDialogProps{
   dialogIsOpen: boolean;
   closeDialog: () => void;
@@ -41,7 +38,8 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
   const loading = status === "loading"
 
 
-  const {dialogIsOpen, closeDialog, mode, editItem, updateEditedItem, tagIds, org, member, project, board, column} = props
+  const {dialogIsOpen, closeDialog, mode, editItem, updateEditedItem, tagIds,
+    org, member, project, board, column} = props
   const [item, setItem] = useState<any>()
 
 
@@ -55,13 +53,12 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
   useMemo( () => {
 
-    console.log('here is the item',item)
-
     if(!item){
 
       if(dialogIsOpen && session && mode === "ADD"){
         try {
-          axios.post(`/api/projects/${project.id}/boards/${board.id}/columns/${column.id}/items`, {scope: 'privare'})
+          axios.post(`/api/projects/${project.id}/boards/${board.id}/columns/${column.id}/items`,
+            {scope: 'privare'})
             .then((res) => {
 
               setItem(res.data.item)
@@ -92,9 +89,7 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
       }
     }
 
-  }, [
-    dialogIsOpen, session, item, mode, enqueueSnackbar, tagIds
-  ])
+  }, [item, dialogIsOpen, session, mode, project.id, board.id, column.id, enqueueSnackbar])
 
 
   const handleSetItem = (i: any) => {
@@ -112,20 +107,14 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
   const handleCloseDialog = async() => {
     console.log('close dialog')
 
-    closeDialog() 
+    closeDialog()
     await setItem(undefined)
     console.log(item)
   }
 
-
   return (
-
-    <DraggableDialog
-      dialogIsOpen={dialogIsOpen}
-      ariaLabel="add-item"
-      title={`${mode} ITEM`}
-      fullWidth={true}
-    >
+    <DraggableDialog dialogIsOpen={dialogIsOpen} ariaLabel="add-item" title={`${mode} ITEM`}
+      fullWidth={true} >
       <>
         {
           (loading || item?.sections?.length === 0)
@@ -143,7 +132,7 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
                     item={item}
                     setItem={(i: any) => handleSetItem(i)}
                   />
-                 
+
                   <SectionsInupt item={item} setItem={(i: any) => handleSetItem(i)} />
                 </Stack>
               </DialogContent>

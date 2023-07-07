@@ -46,7 +46,8 @@ export const getItem = async (itemId) => {
   if (item) {
     item = await item.toObject({ getters: true, flattenMaps: true });
 
-    item = flattenItem(item);
+    item = await JSON.stringify(item);
+    item = await JSON.parse(item);
   } else {
     item = undefined;
   }

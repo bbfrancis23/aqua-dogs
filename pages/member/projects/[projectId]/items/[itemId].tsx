@@ -1,30 +1,24 @@
 import { useState } from "react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
-import { CardContent, CardHeader, Stack, Typography, useTheme } from "@mui/material";
-import { resetServerContext } from "react-beautiful-dnd";
-
-import { BoardToolbar } from "@/components/members/projects/boards/BoardToolbar";
-import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
-import ColumnStub from "@/components/members/projects/boards/columns/ColStub";
-import CreateColForm from "@/components/members/projects/boards/columns/forms/CreateColForm";
-
-import { Board } from "@/interfaces/BoardInterface";
+import { Button, CardContent, CardHeader, Stack, Typography, useTheme } from "@mui/material";
 import { Project } from "@/interfaces/ProjectInterface";
 import { Member, getValidMember } from "@/interfaces/MemberInterface";
 
 import { findProject } from "@/mongo/controls/member/project/findProject";
-import { findProjectBoards } from "@/mongo/controls/member/project/findProjectBoards";
 
-import { PermissionCodes, permission } from "@/ui/permission/Permission";
+import Permission, { PermissionCodes, permission } from "@/ui/permission/Permission";
 import { useSnackbar } from "notistack";
-import { Item } from "@/interfaces/ItemInterface";
 import { getItem } from "@/mongo/controllers/itemControllers";
 import InfoCardContainer from "@/ui/information-card/InfoCardContainer";
 import InfoCard from "@/ui/information-card/InfoCard";
-import EditItemForm from "@/components/members/projects/boards/columns/items/forms/EditItemForm";
 import EditItemTitleForm from
   "@/components/members/projects/boards/columns/items/forms/EditItemTitleForm";
+import { Item } from "@/interfaces/ItemInterface";
+import { Section } from "@/interfaces/SectionInterface";
+import SectionStub from "@/components/members/projects/boards/columns/items/sections/SectionStub";
+import CreateSectionForm from
+  "@/components/members/projects/boards/columns/items/sections/forms/CreateSectionForm";
 
 export interface MemberItemPageProps {
   project: Project;
@@ -34,12 +28,17 @@ export interface MemberItemPageProps {
 
 export const MemberItemPage = (props: MemberItemPageProps) => {
 
-  const {member, project, item} = props
+
+  const {member, project} = props
 
   const theme = useTheme()
+  const [item, setItem] = useState<Item>(props.item)
   const {enqueueSnackbar} = useSnackbar()
 
+
   const [showForm, setShowForm] = useState<boolean>(false)
+  const [displayCreateSectionForm, setDisplayCreateSectionForm] = useState<boolean>(false)
+
 
   return (
     <InfoCardContainer >
@@ -53,6 +52,20 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
           } />
         <CardContent sx={{pl: 3}}>
           <Stack spacing={3} alignItems={'flex-start'}>
+            {
+              item.sections?.map( (s: Section) => (
+                <>
+                  Section
+                  <Typography key={s.id}>{s.content}</Typography>
+                </>
+
+              ))
+            }
+
+            <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
+
+              <CreateSectionForm project={project} member={member} setItem={(i) => setItem(i)}/>
+            </Permission>
 
           </Stack>
         </CardContent>
@@ -79,12 +92,15 @@ GetServerSideProps<MemberItemPageProps> = async(context) => {
   if(member){
     const project: any = await findProject(context.query.projectId)
 
-    const hasPermission = permission(PermissionCodes.PROJECT_MEMBER, member, project)
+    const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
 
     if(hasPermission){
 
 
       const item = await getItem(context.query.itemId)
+
+
+      console.log(item)
 
       return {props: {project, member, item}}
     }
