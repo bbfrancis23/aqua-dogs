@@ -1,26 +1,26 @@
-import { Board } from "@/interfaces/BoardInterface";
-import { Column } from "@/interfaces/Column";
-import { Member } from "@/interfaces/MemberInterface";
-import { Project } from "@/interfaces/ProjectInterface";
-import { Dispatch, SetStateAction, useState } from "react";
-import { Box, Button, IconButton, Paper, TextField } from "@mui/material";
-import { useSnackbar } from "notistack";
 
-import { Form, FormikProvider, useFormik } from "formik";
+import { useContext } from "react";
+
+import { Box, IconButton, Paper, TextField } from "@mui/material";
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 
+import { useSnackbar } from "notistack";
+
+import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup"
 import axios from "axios";
-import { LoadingButton } from "@mui/lab";
+
+
 import { Item } from "@/interfaces/ItemInterface";
+import { Column } from "@/interfaces/Column";
+import { Member } from "@/interfaces/MemberInterface";
+
+import { ProjectContext, BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";
 
 export interface EditItemFormProps{
-  project: Project;
-  board: Board;
   column: Column;
   member: Member;
-  setBoard: Dispatch<SetStateAction<Board>>;
   item: Item;
   closeForm: () => void;
 }
@@ -31,9 +31,12 @@ const editItemSchema = Yup.object().shape({
 
 const EditItemForm = (props: EditItemFormProps) => {
 
-  const {project, board, column, member, setBoard, item, closeForm} = props;
+  const { column, item, closeForm} = props;
 
   const {enqueueSnackbar} = useSnackbar()
+
+  const {project} = useContext(ProjectContext)
+  const {board, setBoard} = useContext(BoardContext)
 
 
   const formik = useFormik({

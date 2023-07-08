@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createContext, useState } from "react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { Box, Button, Stack, Tooltip, useTheme } from "@mui/material";
@@ -25,13 +25,17 @@ export interface MemberProjectBoardPageProps {
   member: Member;
 }
 
+export const ProjectContext = createContext <any>({ project: undefined, setProject: () => {}})
+export const BoardContext = createContext <any>({ board: undefined, setBoard: () => {}})
+
 export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
 
-  const {member, project} = props
+  const {member} = props
 
   const theme = useTheme()
   const {enqueueSnackbar} = useSnackbar()
 
+  const [project, setProject] = useState<Project>(props.project)
   const [board, setBoard] = useState<Board>(props.board)
   const [showColForm, setShowColForm] = useState<boolean>(false)
 
@@ -40,31 +44,32 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
 
   const fxPalette:any = theme.palette
 
-
   return (
-    <Box
-      sx={{background: `url(/images/themes/${fxPalette.name}/hero.jpg)`,
-        backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundAttachment: 'fixed',
-        backgroundPosition: 'center', width: '100vw', height: '100vh' }} >
-      <BoardToolbar project={project} board={board} setBoard={(b) => setBoard(b)}/>
-      { showColForm && (
-        <CreateColForm project={project} board={board} setBoard={(b) => setBoard(b) }
-          closeForm={() => handleCloseColForm() } />
-      )}
-      <Stack spacing={2} direction={'row'} sx={{ p: 2, overflowX: 'auto',
-        height: 'calc(100vh - 124px)'}} >
-        <ProjectBoard setBoard={(b) => setBoard(b)} board={board} member={member}
-          project={project} />
-        <Box>
-          <Tooltip title="Create Column">
-            <Button onClick={() => setShowColForm(true)} sx={{ m: 0, p: 0}}>
-              <ColumnStub />
-            </Button>
-          </Tooltip>
-        </Box>
-      </Stack>
+    <ProjectContext.Provider value={{project, setProject}}>
+      <BoardContext.Provider value={{board, setBoard}}>
+        <Box
+          sx={{background: `url(/images/themes/${fxPalette.name}/hero.jpg)`,
+            backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundAttachment: 'fixed',
+            backgroundPosition: 'center', width: '100vw', height: '100vh' }} >
+          <BoardToolbar />
+          { showColForm && (
+            <CreateColForm closeForm={() => handleCloseColForm() } />
+          )}
+          <Stack spacing={2} direction={'row'} sx={{ p: 2, overflowX: 'auto',
+            height: 'calc(100vh - 124px)'}} >
+            <ProjectBoard member={member}/>
+            <Box>
+              <Tooltip title="Create Column">
+                <Button onClick={() => setShowColForm(true)} sx={{ m: 0, p: 0}}>
+                  <ColumnStub />
+                </Button>
+              </Tooltip>
+            </Box>
+          </Stack>
 
-    </Box>
+        </Box>
+      </BoardContext.Provider>
+    </ProjectContext.Provider>
   )
 }
 

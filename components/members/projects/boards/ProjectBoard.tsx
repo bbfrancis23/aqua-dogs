@@ -1,19 +1,15 @@
-import { Member } from "../../../../interfaces/MemberInterface";
-import { Project } from "../../../../interfaces/ProjectInterface";
+import { Member } from "@/interfaces/MemberInterface";
 
-import { Board } from "../../../../interfaces/BoardInterface";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Box, Grid, Stack } from "@mui/material";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
-import { Column } from "../../../../interfaces/Column";
+import { Stack } from "@mui/material";
+import { useMemo, useState, useContext } from "react";
+import { Column } from "@/interfaces/Column";
 import BoardColumn from "./columns/BoardColumn";
 import axios from "axios";
 import { useSnackbar } from "notistack";
+import { ProjectContext, BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";
 
 export interface ProjectBoardProps {
-  project: Project;
-  board: Board;
-  setBoard: Dispatch<SetStateAction<Board>>;
   member: Member;
 }
 
@@ -31,32 +27,17 @@ export const reorderBoard = ({ boardCols, source, destination }:any) => {
   const next = {...boardCols[destination.droppableId]};
   const target = current.items[source.index];
 
-  // // moving to same list
   if (source.droppableId === destination.droppableId) {
     let reordered = {...current}
-    reordered.items = reorderList(current.items, source.index, destination.index);
+    reordered.items = reorderList(current.items, source.index, destination.index)
 
     boardCols = {
       ...boardCols,
       [source.droppableId]: reordered
-    };
+    }
 
     return boardCols;
   }else{
-    let destinationList: string[] = [destination.droppableId]
-
-
-    //destinationList.push(target.id)
-    // target.tags.forEach((t: Tag) => {
-    //   if( t.id !== source.droppableId){
-    //     tags.push(t.id)
-    //   }
-    // })
-    // axios.patch(`/api/items/${target.id}`, {tags} )
-    //   .catch((e:string) => {
-    //     console.log(`Error: ${e}`)
-    //   })
-
     current.items.splice(source.index, 1)
     next.items.splice(destination.index, 0, target)
     boardCols = {
@@ -64,23 +45,15 @@ export const reorderBoard = ({ boardCols, source, destination }:any) => {
       [source.droppableId]: current,
       [destination.droppableId]: next
     }
-
-  // for resultkeys -> c
-  // ids c.items.map ( i => item.id)
-  // patch(/api/projects/${project.is}/boards/${board.id}/columns/${key},
-  // {items})
   }
-
-  // // update DB
-
-
   return boardCols
-
-};
-
+}
 
 export const ProjectBoard = (props: ProjectBoardProps ) => {
-  const {project, board, member, setBoard} = props
+  const { member,} = props
+
+  const {project} = useContext(ProjectContext)
+  const {board} = useContext(BoardContext)
 
   const [colKeys, setColKeys] = useState<any>();
   const [orderedColKeys, setOrderedColKeys] = useState<string[]>();
@@ -166,8 +139,7 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
                 orderedColKeys.map((key: string, index:number) => (
                   colKeys[key] && (
 
-                    <BoardColumn key={key} member={member} project={project} board={board}
-                      index={index} setBoard={setBoard} column={colKeys[key]}/>
+                    <BoardColumn key={key} member={member} index={index} column={colKeys[key]}/>
 
 
                   )

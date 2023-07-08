@@ -1,20 +1,15 @@
-import { Dispatch, SetStateAction } from "react";
-import { Board } from "@/interfaces/BoardInterface";
-import { Project } from "@/interfaces/ProjectInterface";
+import { useContext } from "react";
 import { Box, Stack, alpha, useTheme } from "@mui/material";
 import { Member } from "@/interfaces/MemberInterface";
 import { ProjectMemberAvatar } from "../ProjectMemberAvatar";
 import { PermissionCodes } from "@/ui/permission/Permission";
 import { BoardTitleForm } from "./forms/BoardTitleForm";
 
-export interface BoardToolbarProps{
-  project: Project;
-  board: Board;
-  setBoard: Dispatch<SetStateAction<Board>>;
-}
+import { ProjectContext, BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";
 
-export const BoardToolbar = (props: BoardToolbarProps) => {
-  const {project, board, setBoard} = props
+export const BoardToolbar = () => {
+
+  const {project} = useContext(ProjectContext)
 
   const getAvatar = (member: Member) => {
     let avatar = '';
@@ -34,17 +29,17 @@ export const BoardToolbar = (props: BoardToolbarProps) => {
   return (
     <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
       py: 1, px: 3, bgcolor: alpha(theme.palette.background.default, 0.4)}} >
-      <BoardTitleForm board={board} project={project}/>
+      <BoardTitleForm />
       <Stack direction={'row'} spacing={1}>
 
         <ProjectMemberAvatar type={PermissionCodes.PROJECT_LEADER} member={project.leader} />
         {
-          project?.admins?.map( (a) => (
+          project?.admins?.map( (a: Member) => (
             <ProjectMemberAvatar type={PermissionCodes.PROJECT_ADMIN} member={a} key={a.id}/>
           ))
         }
         {
-          project?.members?.map( (a) => (
+          project?.members?.map( (a: Member) => (
             <ProjectMemberAvatar type={PermissionCodes.PROJECT_MEMBER} member={a} key={a.id}/>
           ) )
         }
