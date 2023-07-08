@@ -1,27 +1,26 @@
-import { useSession } from "next-auth/react";
-import { Board } from "../../../../../interfaces/BoardInterface";
+import { useState, useContext } from "react";
 
-import * as Yup from "yup"
-import { useSnackbar } from "notistack";
-import { useState } from "react";
-import { Form, FormikProvider, useFormik } from "formik";
-import axios from "axios";
-import { Project } from "../../../../../interfaces/ProjectInterface";
+import { useSession } from "next-auth/react";
+
 import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import { useSnackbar } from "notistack";
 
-export interface BoardTitleFormProps {
-  board: Board;
-  project: Project;
-}
+import { Form, FormikProvider, useFormik } from "formik";
+import axios from "axios";
+import * as Yup from "yup"
+
+import { ProjectContext, BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";
 
 const TitleSchema = Yup.object().shape({
   title: Yup.string()
     .required("Title is required"),
 })
 
-export const BoardTitleForm = (props: BoardTitleFormProps) => {
-  const {board, project} = props
+export const BoardTitleForm = () => {
+  const {board} = useContext(BoardContext)
+
+  const {project} = useContext(ProjectContext)
 
   const {data: session} = useSession()
   const {enqueueSnackbar} = useSnackbar()

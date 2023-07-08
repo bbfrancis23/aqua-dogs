@@ -1,19 +1,17 @@
-import { Dispatch, SetStateAction } from "react";
+import { useContext } from "react";
 import { useSession } from "next-auth/react";
-import * as Yup from "yup"
-import { useSnackbar } from "notistack";
-import axios from "axios";
-import { Form, FormikProvider, useFormik } from "formik";
+
 import { Box, Button, Paper, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import { useSnackbar } from "notistack";
 
-import { Board } from "@/interfaces/BoardInterface";
-import { Project } from "@/interfaces/ProjectInterface";
+import * as Yup from "yup"
+import axios from "axios";
+import { Form, FormikProvider, useFormik } from "formik";
+
+import { ProjectContext, BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";
 
 export interface CreateColFormProps{
-  project: Project;
-  board: Board;
-  setBoard: Dispatch<SetStateAction<Board>>;
   closeForm: () => void;
 }
 
@@ -24,7 +22,11 @@ const createColSchema = Yup.object().shape({
 
 export const CreateColForm = (props: CreateColFormProps) => {
 
-  const {setBoard, closeForm, project, board} = props
+  const { closeForm} = props
+
+  const {project} = useContext(ProjectContext)
+  const {board, setBoard} = useContext(BoardContext)
+
 
   const {enqueueSnackbar} = useSnackbar()
   const {data: session, status} = useSession()
