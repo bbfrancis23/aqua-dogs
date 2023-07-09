@@ -1,5 +1,5 @@
+import { Dispatch, SetStateAction, createContext } from 'react';
 import { Section } from './SectionInterface';
-import { Tag } from './TagInterface';
 
 export interface Item {
   title: string;
@@ -10,3 +10,13 @@ export interface Item {
   id: string;
   owners: string[];
 }
+
+export interface ItemContextProps {
+  item: Item | undefined;
+  setItem: Dispatch<SetStateAction<Item>> | (() => {});
+}
+
+export const ItemContext = createContext<ItemContextProps>({
+  item: undefined,
+  setItem: () => {},
+});
