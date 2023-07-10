@@ -24,6 +24,8 @@ import EditItemTitleForm
   from "@/components/members/projects/boards/columns/items/forms/EditItemTitleForm";
 import CreateSectionForm from
   "@/components/members/projects/boards/columns/items/sections/forms/CreateSectionForm";
+import { TextSection }
+  from "@/components/members/projects/boards/columns/items/sections/TextSection";
 
 
 const CodeEditor = dynamic(
@@ -61,9 +63,7 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
             <CardHeader title={ showForm ? EditItemTitle : ItemTitle } />
             <CardContent sx={{pl: 3}}>
               <Stack spacing={3} alignItems={'flex-start'}>
-                {/* { item.sections?.map( (s: Section) => (
-                  //<Typography key={s.id}>{s.content}</Typography>
-                )) } */}
+
 
                 { item.sections?.map( ( s:any) => {
 
@@ -81,13 +81,13 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
                           fontSize: 12,
                           backgroundColor: "#f5f5f5",
                           fontFamily:
-      "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
+                            "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
                         }}
                       />
                     )
 
                   }
-                  return (<Typography key={s.id}>{s.content}</Typography>)
+                  return ( <TextSection project={project} section={s} member={member} key={s.ic} />)
 
                 })}
 
