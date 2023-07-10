@@ -10,10 +10,16 @@ import { useContext, useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
+import dynamic from "next/dynamic"
+const CodeEditor = dynamic(
+  () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
+  {ssr: false}
+)
 
+/*eslint-disable */
 
 import * as Yup from "yup"
-import Permission, { PermissionCodes, NoPermission } from "@/ui/permission/Permission";
+import Permission, { NoPermission, PermissionCodes } from "@/ui/permission/Permission";
 
 export interface TextSectionProps {
   member: Member;
@@ -25,7 +31,7 @@ const editSectionSchema = Yup.object().shape({
   section: Yup.string().required('Section Content is required'),
 })
 
-export const TextSection = (props: TextSectionProps) => {
+export const CodeSection = (props: TextSectionProps) => {
   const { member, project, section} = props
 
   const {item, setItem} = useContext(ItemContext)
@@ -40,7 +46,7 @@ export const TextSection = (props: TextSectionProps) => {
     validationSchema: editSectionSchema,
     onSubmit: (data) => {
       axios.patch(`/api/projects/${project?.id}/items/${item?.id}/sections/${section.id}`,
-        {content: data.section, sectiontype: "63b2503c49220f42d9fc17d9"})
+        {content: data.section, sectiontype: "63b88d18379a4f30bab59bad"})
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
@@ -66,10 +72,15 @@ export const TextSection = (props: TextSectionProps) => {
           <Box sx={{ width: '100%'}}>
             <FormikProvider value={formik}>
               <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <TextField multiline rows={4} sx={{ width: '100%'}}
-                  label="Update Section" {...getFieldProps('section')}
-                  error={Boolean(touched && errors.section)}
-                  helperText={touched && errors.section}
+                <CodeEditor
+                  language="jsx"
+                  placeholder="Create Code Section"
+                  {...getFieldProps('section')}
+                  padding={15}
+                  style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5",
+                    fontFamily:
+                      "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
+                  }}
                 />
                 <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                   <IconButton color="success" type="submit" disabled={!(isValid && formik.dirty)}>
@@ -91,15 +102,37 @@ export const TextSection = (props: TextSectionProps) => {
         !displayEditTextSectionForm && (
           <>
             <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-              <Typography
-                onClick={() => setDisplayEditTextSectionForm(true)} >
-                {section.content}
-              </Typography>
+              <CodeEditor
+              onClick={() => setDisplayEditTextSectionForm(true)}
+                key={section.id}
+                value={section.content}
+                language="jsx"
+                readOnly
+                padding={15}
+                style={{
+                  width: '100%',
+                  fontSize: 12,
+                  backgroundColor: "#f5f5f5",
+                  fontFamily:
+                            "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
+                }}
+              />
             </Permission>
             <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-              <Typography >
-                {section.content}
-              </Typography>
+              <CodeEditor
+                key={section.id}
+                value={section.content}
+                language="jsx"
+                readOnly
+                padding={15}
+                style={{
+                  width: '100%',
+                  fontSize: 12,
+                  backgroundColor: "#f5f5f5",
+                  fontFamily:
+                            "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
+                }}
+              />
             </NoPermission>
 
           </>
@@ -108,5 +141,3 @@ export const TextSection = (props: TextSectionProps) => {
     </>
   )
 }
-
-

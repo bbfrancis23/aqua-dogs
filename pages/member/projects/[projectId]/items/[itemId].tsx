@@ -26,6 +26,8 @@ import CreateSectionForm from
   "@/components/members/projects/boards/columns/items/sections/forms/CreateSectionForm";
 import { TextSection }
   from "@/components/members/projects/boards/columns/items/sections/TextSection";
+import { CodeSection }
+  from "@/components/members/projects/boards/columns/items/sections/CodeSection";
 
 
 const CodeEditor = dynamic(
@@ -70,20 +72,21 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
                   if(s.sectiontype === "63b88d18379a4f30bab59bad"){
 
                     return (
-                      <CodeEditor
-                        key={s.id}
-                        value={s.content}
-                        language="jsx"
-                        readOnly
-                        padding={15}
-                        style={{
-                          width: '100%',
-                          fontSize: 12,
-                          backgroundColor: "#f5f5f5",
-                          fontFamily:
-                            "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
-                        }}
-                      />
+                      // <CodeEditor
+                      //   key={s.id}
+                      //   value={s.content}
+                      //   language="jsx"
+                      //   readOnly
+                      //   padding={15}
+                      //   style={{
+                      //     width: '100%',
+                      //     fontSize: 12,
+                      //     backgroundColor: "#f5f5f5",
+                      //     fontFamily:
+                      //       "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
+                      //   }}
+                      // />
+                      <CodeSection project={project} section={s} member={member} key={s.ic}/>
                     )
 
                   }
