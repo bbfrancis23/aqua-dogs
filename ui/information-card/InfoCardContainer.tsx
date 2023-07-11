@@ -11,7 +11,8 @@ const InfoCardContainer = (props: InfoCardContainerProps) => {
   const theme: FxTheme = useTheme()
 
   return (
-    <Box sx={{display: "flex", justifyContent: "center", pt: theme.pageContentTopPadding}}>
+    <Box sx={{display: "flex", justifyContent: "center",
+      pt: theme.pageContentTopPadding, maxHeight: 700, overflow: 'auto'}}>
       {props.children}
     </Box>
   )

@@ -89,4 +89,21 @@ const Permission = (props: PermissionProps) => {
   return <>{hasPermission && !loading && children}</>;
 };
 
+export const NoPermission = (props: PermissionProps) => {
+
+  const { code, project, member, children, item } = props;
+  const { data: session, status } = useSession();
+  const loading = status === 'loading';
+
+  const [hasPermission, setHasPermission] = useState<boolean>(false);
+
+  useEffect(() => {
+    setHasPermission(false);
+
+    setHasPermission(permission({code, member, project, item}));
+  }, [session, code, project, member, item]);
+
+  return ( <>{ (!hasPermission && !loading ) && children}</> )
+}
+
 export default Permission;

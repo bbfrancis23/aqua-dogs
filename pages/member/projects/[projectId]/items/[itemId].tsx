@@ -1,76 +1,108 @@
 import { useState } from "react";
+
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
-import { Button, CardContent, CardHeader, Stack, Typography, useTheme } from "@mui/material";
-import { Project } from "@/interfaces/ProjectInterface";
-import { Member, getValidMember } from "@/interfaces/MemberInterface";
+import "@uiw/react-textarea-code-editor/dist.css"
+import { CardContent, CardHeader, Stack, Typography } from "@mui/material";
 
 import { findProject } from "@/mongo/controls/member/project/findProject";
+import { getItem } from "@/mongo/controllers/itemControllers";
+
+import { Project, ProjectContext } from "@/interfaces/ProjectInterface";
+import { Member, getValidMember } from "@/interfaces/MemberInterface";
+import { Item, ItemContext } from "@/interfaces/ItemInterface";
+import { Section } from "@/interfaces/SectionInterface";
+
+
+import dynamic from "next/dynamic"
 
 import Permission, { PermissionCodes, permission } from "@/ui/permission/Permission";
-import { useSnackbar } from "notistack";
-import { getItem } from "@/mongo/controllers/itemControllers";
 import InfoCardContainer from "@/ui/information-card/InfoCardContainer";
 import InfoCard from "@/ui/information-card/InfoCard";
-import EditItemTitleForm from
-  "@/components/members/projects/boards/columns/items/forms/EditItemTitleForm";
-import { Item } from "@/interfaces/ItemInterface";
-import { Section } from "@/interfaces/SectionInterface";
-import SectionStub from "@/components/members/projects/boards/columns/items/sections/SectionStub";
+
+import EditItemTitleForm
+  from "@/components/members/projects/boards/columns/items/forms/EditItemTitleForm";
 import CreateSectionForm from
   "@/components/members/projects/boards/columns/items/sections/forms/CreateSectionForm";
+import { TextSection }
+  from "@/components/members/projects/boards/columns/items/sections/TextSection";
+import { CodeSection }
+  from "@/components/members/projects/boards/columns/items/sections/CodeSection";
+
+
+const CodeEditor = dynamic(
+  () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
+  {ssr: false}
+)
 
 export interface MemberItemPageProps {
   project: Project;
   member: Member;
   item: any;
 }
-
 export const MemberItemPage = (props: MemberItemPageProps) => {
 
-
   const {member, project} = props
-
-  const theme = useTheme()
   const [item, setItem] = useState<Item>(props.item)
-  const {enqueueSnackbar} = useSnackbar()
 
 
   const [showForm, setShowForm] = useState<boolean>(false)
-  const [displayCreateSectionForm, setDisplayCreateSectionForm] = useState<boolean>(false)
 
+  const ItemTitle = (
+    <Typography variant={'h4'} onClick={() => setShowForm(true)} >
+      {item.title}
+    </Typography>
+  )
 
+  const EditItemTitle = (
+    <EditItemTitleForm closeForm={() => setShowForm(false)}/>
+  )
   return (
-    <InfoCardContainer >
-      <InfoCard>
-        <CardHeader
-          title={
-            showForm ? <EditItemTitleForm project={project}
-              item={item} closeForm={() => setShowForm(false)}/>
-              : <Typography variant={'h4'}
-                onClick={() => setShowForm(true)} >{item.title}</Typography>
-          } />
-        <CardContent sx={{pl: 3}}>
-          <Stack spacing={3} alignItems={'flex-start'}>
-            {
-              item.sections?.map( (s: Section) => (
-                <>
-                  Section
-                  <Typography key={s.id}>{s.content}</Typography>
-                </>
+    <ProjectContext.Provider value={{project, setProject: () => {}}}>
+      <ItemContext.Provider value={{item, setItem}}>
+        <InfoCardContainer >
+          <InfoCard>
+            <CardHeader title={ showForm ? EditItemTitle : ItemTitle } />
+            <CardContent sx={{pl: 3}}>
+              <Stack spacing={3} alignItems={'flex-start'}>
 
-              ))
-            }
 
-            <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
+                { item.sections?.map( ( s:any) => {
 
-              <CreateSectionForm project={project} member={member} setItem={(i) => setItem(i)}/>
-            </Permission>
+                  if(s.sectiontype === "63b88d18379a4f30bab59bad"){
 
-          </Stack>
-        </CardContent>
-      </InfoCard>
-    </InfoCardContainer>
+                    return (
+                      // <CodeEditor
+                      //   key={s.id}
+                      //   value={s.content}
+                      //   language="jsx"
+                      //   readOnly
+                      //   padding={15}
+                      //   style={{
+                      //     width: '100%',
+                      //     fontSize: 12,
+                      //     backgroundColor: "#f5f5f5",
+                      //     fontFamily:
+                      //       "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
+                      //   }}
+                      // />
+                      <CodeSection project={project} section={s} member={member} key={s.ic}/>
+                    )
+
+                  }
+                  return ( <TextSection project={project} section={s} member={member} key={s.ic} />)
+
+                })}
+
+                <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
+                  <CreateSectionForm member={member} />
+                </Permission>
+              </Stack>
+            </CardContent>
+          </InfoCard>
+        </InfoCardContainer>
+      </ItemContext.Provider>
+    </ProjectContext.Provider>
   )
 }
 
@@ -86,22 +118,14 @@ GetServerSideProps<MemberItemPageProps> = async(context) => {
     return {redirect: {destination: "/", permanent: false}}
   }
 
-
   const member: Member | false = await getValidMember(authSession)
 
   if(member){
     const project: any = await findProject(context.query.projectId)
-
     const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
 
     if(hasPermission){
-
-
       const item = await getItem(context.query.itemId)
-
-
-      console.log(item)
-
       return {props: {project, member, item}}
     }
   }

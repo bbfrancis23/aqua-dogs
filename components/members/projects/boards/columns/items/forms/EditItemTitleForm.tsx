@@ -1,9 +1,7 @@
-import { Board } from "@/interfaces/BoardInterface";
-import { Column } from "@/interfaces/Column";
-import { Member } from "@/interfaces/MemberInterface";
-import { Project } from "@/interfaces/ProjectInterface";
-import { Dispatch, SetStateAction, useState } from "react";
-import { Box, Button, IconButton, Paper, TextField } from "@mui/material";
+
+import { ProjectContext } from "@/interfaces/ProjectInterface";
+import { useContext } from "react";
+import { Box, IconButton, TextField } from "@mui/material";
 import { useSnackbar } from "notistack";
 
 import { Form, FormikProvider, useFormik } from "formik";
@@ -12,12 +10,9 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import * as Yup from "yup"
 import axios from "axios";
-import { LoadingButton } from "@mui/lab";
-import { Item } from "@/interfaces/ItemInterface";
+import { ItemContext } from "@/interfaces/ItemInterface";
 
 export interface EditItemTitleFormProps{
-  project: Project;
-  item: Item;
   closeForm: () => void;
 }
 
@@ -27,20 +22,21 @@ const editItemSchema = Yup.object().shape({
 
 const EditTitleItemForm = (props: EditItemTitleFormProps) => {
 
-  const {project, closeForm} = props;
+  const {closeForm} = props;
 
-  const [item, setItem] = useState(props.item)
+  const {project} = useContext(ProjectContext)
+  const {item, setItem} = useContext(ItemContext)
 
   const {enqueueSnackbar} = useSnackbar()
 
 
   const formik = useFormik({
-    initialValues: { title: item.title },
+    initialValues: { title: item?.title },
     validationSchema: editItemSchema,
     onSubmit: (data) => {
 
       axios.patch(
-        `/api/projects/${project.id}/items/${item.id}`,
+        `/api/projects/${project?.id}/items/${item?.id}`,
         {title: data.title},
       )
         .then((res) => {
@@ -70,18 +66,16 @@ const EditTitleItemForm = (props: EditItemTitleFormProps) => {
 
 
   return (
-
-
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Box sx={{ ml: 1, display: 'flex'}}>
           <TextField size={'medium'} label="Edit Title" {...getFieldProps('title')}
-            error={Boolean(touched && errors.title)} helperText={touched && errors.title}
+            error={Boolean(touched && errors.title)}
+            helperText={touched && errors.title}
           />
           <Box>
-            <IconButton color="success" disabled={!(isValid && formik.dirty)}
-              type="submit"
-              sx={{ml: 1, }} >
+            <IconButton color="success" type="submit" sx={{ml: 1, }}
+              disabled={!(isValid && formik.dirty)} >
               <DoneIcon />
             </IconButton>
             <IconButton onClick={() => handleCloseForm()}>
@@ -92,8 +86,6 @@ const EditTitleItemForm = (props: EditItemTitleFormProps) => {
       </Form>
     </FormikProvider>
   )
-
-
 }
 
 export default EditTitleItemForm
