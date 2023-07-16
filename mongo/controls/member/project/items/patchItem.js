@@ -8,6 +8,8 @@ import Tag from '/mongo/schemas/TagSchema';
 import Section from '/mongo/schemas/SectionSchema';
 import Project from '/mongo/schemas/ProjectSchema';
 
+import { PermissionCodes, permission } from '/ui/permission/Permission';
+
 export const patchItem = async (req, res) => {
   const { itemId } = req.query;
   let status = axios.HttpStatusCode.Ok;
@@ -16,41 +18,57 @@ export const patchItem = async (req, res) => {
 
   await db.connect();
 
-  try {
-    item = await Item.findById(itemId).populate({
-      path: 'sections',
-      model: Section,
-    });
-  } catch (e) {
-    message = e;
-    status = axios.HttpStatusCode.InternalServerError;
-  }
+  const authSession = await getSession({ req });
 
-  if (item) {
-    const session = await getSession({ req });
-
-    const { title } = req.body;
-
-    if (title) {
-      item.title = title;
-    }
-
+  if (authSession) {
     try {
-      await item.save();
       item = await Item.findById(itemId).populate({
         path: 'sections',
         model: Section,
       });
-
-      item = item.toObject({ getters: true, flattenMaps: true });
     } catch (e) {
-      console.log(e);
-      status = axios.HttpStatusCode.InternalServerError;
       message = e;
+      status = axios.HttpStatusCode.InternalServerError;
+    }
+
+    if (item) {
+      const hasPermission = permission({
+        code: PermissionCodes.ITEM_OWNER,
+        member: { id: authSession.user.id },
+        item,
+      });
+
+      if (hasPermission) {
+        const { title } = req.body;
+
+        if (title) {
+          item.title = title;
+        }
+
+        try {
+          await item.save();
+          item = await Item.findById(itemId).populate({
+            path: 'sections',
+            model: Section,
+          });
+
+          item = item.toObject({ getters: true, flattenMaps: true });
+        } catch (e) {
+          console.log(e);
+          status = axios.HttpStatusCode.InternalServerError;
+          message = e;
+        }
+      } else {
+        status = axios.HttpStatusCode.Unauthorized;
+        message = 'You do not have Authorization.';
+      }
+    } else {
+      status = axios.HttpStatusCode.NotFound;
+      message = `Item ${itemId} not found`;
     }
   } else {
-    status = axios.HttpStatusCode.NotFound;
-    message = `Item ${itemId} not found`;
+    status = axios.HttpStatusCode.Unauthorized;
+    message = 'Authentication Required.';
   }
 
   await db.disconnect();

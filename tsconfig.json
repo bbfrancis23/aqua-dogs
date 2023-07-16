@@ -19,7 +19,10 @@
       "@/components/*": ["components/*"],
       "@/interfaces/*": ["interfaces/*"],
       "@/mongo/*": ["mongo/*"],
-      "@/ui/*": ["ui/*"]
+      "@/ui/*": ["ui/*"],
+      "@/itemComponents/*": [
+        "components/members/projects/boards/columns/items/*"
+      ]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
