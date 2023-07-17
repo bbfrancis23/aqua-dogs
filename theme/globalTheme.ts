@@ -7,7 +7,7 @@ export interface FxTheme extends Theme {
 
 export const globalTheme = {
   passwordMinLength: 6,
-  pageContentTopPadding: 12,
+  pageContentTopPadding: 6,
   components: {
     MuiDialog: {
       styleOverrides: { root: { backgroundColor: 'rgba(0, 0, 0, 0.0)' } },

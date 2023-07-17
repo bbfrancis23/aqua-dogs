@@ -37,12 +37,12 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
   const ItemTitle = (
     <>
       <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-        <Typography variant={'h4'} onClick={() => setShowForm(true)} >
+        <Typography variant={'h6'} onClick={() => setShowForm(true)} >
           {item.title}
         </Typography>
       </ Permission>
       <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-        <Typography variant={'h4'} > {item.title} </Typography>
+        <Typography variant={'h6'} > {item.title} </Typography>
       </NoPermission>
     </>
   )
@@ -54,7 +54,8 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
       <ItemContext.Provider value={{item, setItem}}>
         <InfoCardContainer >
           <InfoCard>
-            <CardHeader title={ showForm ? EditItemTitle : ItemTitle } />
+            <CardHeader title={ showForm ? EditItemTitle : ItemTitle }
+              sx={{backgroundColor: 'secondary.main', color: 'secondary.contrastText'}} />
             <CardContent sx={{pl: 3}}>
               <Stack spacing={3} alignItems={'flex-start'}>
                 { item.sections?.map( ( s: Section) => {
