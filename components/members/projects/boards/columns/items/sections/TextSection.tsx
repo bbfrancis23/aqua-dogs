@@ -35,6 +35,21 @@ export const TextSection = (props: TextSectionProps) => {
 
   const [displayEditTextSectionForm, setDisplayEditTextSectionForm] = useState<boolean>(false)
 
+  const handleDeleteSection = () => {
+
+    axios.delete(`/api/projects/${project?.id}/items/${item?.id}/sections/${section.id}`)
+      .then((res) => {
+        setItem(res.data.item)
+        enqueueSnackbar("Item Section Deleted", {variant: "success"})
+      })
+      .catch((e) => {
+
+
+        enqueueSnackbar(e.response.data.message, {variant: "error"})
+      })
+  }
+
+
   const formik = useFormik({
     initialValues: { section: section.content },
     validationSchema: editSectionSchema,
@@ -50,9 +65,9 @@ export const TextSection = (props: TextSectionProps) => {
             setDisplayEditTextSectionForm(false);
           }
         })
-        .catch((error) => {
+        .catch((e) => {
           formik.setSubmitting(false)
-          enqueueSnackbar(error.message, {variant: "error"})
+          enqueueSnackbar(e.response.data.message, {variant: "error"})
         })
     }
   })
@@ -78,7 +93,7 @@ export const TextSection = (props: TextSectionProps) => {
                   <IconButton onClick={() => setDisplayEditTextSectionForm(false)}>
                     <CancelIcon />
                   </IconButton>
-                  <IconButton onClick={() => setDisplayEditTextSectionForm(false)}>
+                  <IconButton onClick={() => handleDeleteSection()}>
                     <DeleteIcon color={'error'}/>
                   </IconButton>
                 </Box>
@@ -96,7 +111,7 @@ export const TextSection = (props: TextSectionProps) => {
                 {section.content}
               </Typography>
             </Permission>
-            <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
+            <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member} >
               <Typography >
                 {section.content}
               </Typography>

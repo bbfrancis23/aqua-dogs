@@ -12,7 +12,7 @@ const InfoCardContainer = (props: InfoCardContainerProps) => {
 
   return (
     <Box sx={{display: "flex", justifyContent: "center",
-      pt: theme.pageContentTopPadding, maxHeight: 700, overflow: 'auto'}}>
+      pt: {xs: 0, md: theme.pageContentTopPadding}, }}>
       {props.children}
     </Box>
   )

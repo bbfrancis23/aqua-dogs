@@ -12,6 +12,8 @@ import Tag from '/mongo/schemas/TagSchema';
 
 import { getItem, flattenItem } from '/mongo/controllers/itemControllers';
 
+import { PermissionCodes, permission } from '/ui/permission/Permission';
+
 export const deleteSection = async (req, res) => {
   const { sectionId } = req.query;
 
@@ -21,30 +23,38 @@ export const deleteSection = async (req, res) => {
   let message = '';
   await db.connect();
 
-  try {
-    section = await Section.findById(sectionId).populate({
-      path: 'sectiontype',
-      model: SectionType,
-    });
-  } catch (e) {
-    status = axios.HttpStatusCode.InternalServerError;
-    message = e;
-  }
+  const authSession = await getSession({ req });
 
-  if (section) {
+  if (authSession) {
     try {
-      item = await Item.findById(section.itemid);
+      section = await Section.findById(sectionId).populate({
+        path: 'sectiontype',
+        model: SectionType,
+      });
     } catch (e) {
       status = axios.HttpStatusCode.InternalServerError;
       message = e;
     }
 
-    if (item) {
-      if (item.scope === 'public') {
-        const session = await getSession({ req });
-        const isSiteAdmin = session?.user.roles.includes('SiteAdmin');
+    if (section) {
+      try {
+        item = await Item.findById(section.itemid);
+      } catch (e) {
+        status = axios.HttpStatusCode.InternalServerError;
+        message = e;
+      }
 
-        if (isSiteAdmin) {
+      if (item) {
+        let feItem = await JSON.stringify(item);
+        feItem = await JSON.parse(feItem);
+
+        const hasPermission = permission({
+          code: PermissionCodes.ITEM_OWNER,
+          member: { id: authSession.user.id },
+          item: feItem,
+        });
+
+        if (hasPermission) {
           const dbSession = await mongoose.startSession();
           try {
             dbSession.startTransaction();
@@ -67,16 +77,17 @@ export const deleteSection = async (req, res) => {
             console.log(e);
           }
         } else {
-          status = axios.HttpStatusCode.Forbidden;
+          status = axios.HttpStatusCode.Unauthorized;
+          message = 'You do not have Authorization.';
         }
       } else {
-        // TODO
+        status = axios.HttpStatusCode.NotFound;
       }
-    } else {
-      status = axios.HttpStatusCode.NotFound;
     }
+  } else {
+    status = axios.HttpStatusCode.Unauthorized;
+    message = 'Authentication Required.';
   }
-
   await db.disconnect();
 
   res.status(status).json({
