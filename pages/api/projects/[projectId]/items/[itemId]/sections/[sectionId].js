@@ -1,5 +1,5 @@
-import { patchSection } from 'mongo/controllers/sectionControllers/patchSection';
-import { deleteSection } from 'mongo/controllers/sectionControllers/deleteSection';
+import { patchSection } from 'mongo/controls/member/project/items/sections/patchSection';
+import { deleteSection } from 'mongo/controls/member/project/items/sections/deleteSection';
 
 export default async function handler(req, res) {
   if (req.method === 'PATCH') {

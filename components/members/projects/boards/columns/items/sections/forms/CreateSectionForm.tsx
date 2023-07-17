@@ -119,7 +119,7 @@ const CreateSectionForm = (props: CreateSectionFormProps) => {
       }
       { ! displayForm && (
         <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-          <Box sx={{ width: '100%'}} onClick={() => setDisplayForm(true)} >
+          <Box sx={{ width: '100%', cursor: 'pointer'}} onClick={() => setDisplayForm(true)} >
             <SectionStub />
           </Box>
         </Permission>

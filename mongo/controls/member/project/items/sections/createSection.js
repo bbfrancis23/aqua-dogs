@@ -7,6 +7,8 @@ import mongoose from 'mongoose';
 import Item from 'mongo/schemas/ItemSchema';
 import Section from '/mongo/schemas/SectionSchema';
 
+import { PermissionCodes, permission } from '/ui/permission/Permission';
+
 export const createSection = async (req, res) => {
   const { sectiontype, content } = req.body;
 
@@ -16,53 +18,76 @@ export const createSection = async (req, res) => {
 
   await db.connect();
 
-  try {
-    item = await Item.findById(req.query.itemId);
-  } catch (e) {
-    status = axios.HttpStatusCode.InternalServerError;
-    message = e;
-  }
+  const authSession = await getSession({ req });
 
-  if (item) {
-    const newSection = new Section({
-      sectiontype,
-      content,
-      order: 1,
-      itemid: req.query.itemId,
-    });
-
+  if (authSession) {
     try {
-      const dbSession = await mongoose.startSession();
-      dbSession.startTransaction();
-      await newSection.save({ dbSession });
-      await item.sections.push(newSection);
-      await item.save({ dbSession });
-
-      await dbSession.commitTransaction();
+      item = await Item.findById(req.query.itemId).populate({
+        path: 'sections',
+        model: Section,
+      });
     } catch (e) {
       status = axios.HttpStatusCode.InternalServerError;
       message = e;
-      console.log('error', e);
     }
 
     if (item) {
-      try {
-        item = await Item.findById(req.query.itemId).populate({
-          path: 'sections',
-          model: Section,
+      let feItem = await JSON.stringify(item);
+      feItem = await JSON.parse(feItem);
+
+      const hasPermission = permission({
+        code: PermissionCodes.ITEM_OWNER,
+        member: { id: authSession.user.id },
+        item: feItem,
+      });
+
+      if (hasPermission) {
+        const newSection = new Section({
+          sectiontype,
+          content,
+          order: 1,
+          itemid: req.query.itemId,
         });
-      } catch (e) {
-        status = axios.HttpStatusCode.InternalServerError;
-        message = e;
-        console.log('error 2', e);
+
+        try {
+          const dbSession = await mongoose.startSession();
+          dbSession.startTransaction();
+          await newSection.save({ dbSession });
+          await item.sections.push(newSection);
+          await item.save({ dbSession });
+
+          await dbSession.commitTransaction();
+        } catch (e) {
+          status = axios.HttpStatusCode.InternalServerError;
+          message = e;
+          console.log('error', e);
+        }
+
+        if (item) {
+          try {
+            item = await Item.findById(req.query.itemId).populate({
+              path: 'sections',
+              model: Section,
+            });
+          } catch (e) {
+            status = axios.HttpStatusCode.InternalServerError;
+            message = e;
+            console.log('error 2', e);
+          }
+          item = await item.toObject({ getters: true, flattenMaps: true });
+        }
+      } else {
+        status = axios.HttpStatusCode.Unauthorized;
+        message = 'You do not have Authorization.';
       }
-      item = await item.toObject({ getters: true, flattenMaps: true });
+    } else {
+      status = axios.HttpStatusCode.NotFound;
+      message = 'Item does not exist';
     }
   } else {
-    status = axios.HttpStatusCode.NotFound;
-    message = 'Item does not exist';
+    status = axios.HttpStatusCode.Unauthorized;
+    message = 'Authentication Required.';
   }
-
   await db.disconnect();
 
   res.status(status).json({

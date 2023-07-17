@@ -65,9 +65,7 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
                   }
                   return ( <TextSection project={project} section={s} member={member} key={s.id} />)
                 })}
-                <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-                  <CreateSectionForm member={member} />
-                </Permission>
+                <CreateSectionForm member={member} />
               </Stack>
             </CardContent>
           </InfoCard>

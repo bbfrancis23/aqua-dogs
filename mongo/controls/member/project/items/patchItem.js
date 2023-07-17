@@ -32,10 +32,13 @@ export const patchItem = async (req, res) => {
     }
 
     if (item) {
+      let feItem = await JSON.stringify(item);
+      feItem = await JSON.parse(feItem);
+
       const hasPermission = permission({
         code: PermissionCodes.ITEM_OWNER,
         member: { id: authSession.user.id },
-        item,
+        item: feItem,
       });
 
       if (hasPermission) {
