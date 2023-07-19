@@ -1,7 +1,7 @@
 
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 import { useContext } from "react";
-import { Box, IconButton, TextField } from "@mui/material";
+import { Box, IconButton, TextField, styled } from "@mui/material";
 import { useSnackbar } from "notistack";
 
 import { Form, FormikProvider, useFormik } from "formik";
@@ -19,6 +19,12 @@ export interface EditItemTitleFormProps{
 const editItemSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
 })
+
+const TitleTextField = styled(TextField)(({ theme }) => ({
+  'label': { color: theme.palette.secondary.contrastText, },
+  '& .MuiOutlinedInput-root': { color: theme.palette.secondary.contrastText, },
+  '& .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.secondary.contrastText, }
+}));
 
 const EditTitleItemForm = (props: EditItemTitleFormProps) => {
 
@@ -69,16 +75,17 @@ const EditTitleItemForm = (props: EditItemTitleFormProps) => {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Box sx={{ ml: 1, display: 'flex'}}>
-          <TextField size={'medium'} label="Edit Title" {...getFieldProps('title')}
+          <TitleTextField size={'medium'} label="Edit Title" {...getFieldProps('title')}
             error={Boolean(touched && errors.title)}
             helperText={touched && errors.title}
+
           />
           <Box>
-            <IconButton color="success" type="submit" sx={{ml: 1, }}
+            <IconButton color="success" type="submit" sx={{ml: 1 }}
               disabled={!(isValid && formik.dirty)} >
               <DoneIcon />
             </IconButton>
-            <IconButton onClick={() => handleCloseForm()}>
+            <IconButton onClick={() => handleCloseForm()} sx={{ color: 'secondary.contrastText'}}>
               <CloseIcon />
             </IconButton>
           </Box>

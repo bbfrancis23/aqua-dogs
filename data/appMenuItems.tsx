@@ -11,19 +11,19 @@ export const appMenuItems: AppBarMenuProps[] = [
     title: "WEB FRAMEWORK",
     id: "web-framework",
     items: tags.slice(0, 3),
-    icon: <WebFrameworkIcon />
+    icon: <WebFrameworkIcon sx={{color: "primary.contrastText"}}/>
   },
   {
-    title: "FRONTEND",
+    title: "JAVASCRIPT",
     id: "frontend",
-    items: tags.slice(3, 6),
-    icon: <FrontEndIcon />
+    items: tags.slice(3, 9),
+    icon: <FrontEndIcon sx={{color: "primary.contrastText"}}/>
   },
   {
-    title: "BACKEND",
+    title: "SOFTWARE DEVELOPMENT",
     id: "backend",
-    items: tags.slice(6, 9),
-    icon: <BackEndIcon />
+    items: tags.slice(9, 12),
+    icon: <BackEndIcon sx={{color: "primary.contrastText"}}/>
   }
 
 ]

@@ -28,7 +28,7 @@ export default function AppBarMenu(props: AppBarMenuProps){
   const handleClose = () => setAnchorEl(null)
 
   return (
-    <Box key={id}>
+    <Box key={id} >
       <Button
         aria-controls={open ? `${id}-menu` : undefined}
         aria-haspopup="true"
@@ -44,7 +44,7 @@ export default function AppBarMenu(props: AppBarMenuProps){
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        sx={{display: {xs: "block", sm: "none"}}}
+        sx={{display: {xs: "block", sm: "none", color: "primary.contrastText"}}}
       >
         {icon}
       </IconButton>

@@ -1,42 +1,74 @@
-import {Grid, Card, CardHeader, CardMedia, CardContent} from "@mui/material"
-import {ColorOverlayImg} from "../ui/ColorOverlayImg"
+import {Grid, Card, CardHeader, CardContent, useTheme, Typography, Box} from "@mui/material"
 
 import Link from "next/link"
+import { GetStaticProps } from "next"
+import { findProjectBoards } from "@/mongo/controls/member/project/findProjectBoards"
+import { Board } from "@/interfaces/BoardInterface"
+import { Column } from "@/interfaces/Column"
+import { FxTheme } from "theme/globalTheme"
+import { Item } from "@/interfaces/ItemInterface"
 
-import {tags} from "../data/homePageTags"
-import {Tag} from "../interfaces/TagInterface"
+export interface HomePageProps{
+  boards: Board[]
+}
 
-export default function Home() {
+const HomePage = (props: HomePageProps) => {
+
+  const {boards} = props
+  const theme: FxTheme = useTheme()
+
+  console.log(boards)
 
   return (
-    <Grid container spacing={3} sx={{p: 3, pt: 12}}>
-      { tags.map( (t: Tag) => (
-        <Grid item xs={12} md={6} lg={4} key={t.id}>
-          <Card >
-            <Link
-              href={`/tags/${t.id}`}
-              style={{textDecoration: "none"}}
-            >
-              <CardHeader
-                title={t.title} sx={{bgcolor: "primary.main", color: "primary.contrastText"}} />
-            </Link>
-            <CardMedia>
-              { t.imgTitle && (
-                <ColorOverlayImg
-                  img={`/images/card-dogs/${t.imgTitle.toLowerCase()}.jpg`}
-                  height="300px"
-                  width="100%"
-                />
-              )}
-            </CardMedia>
-            <CardContent style={{height: "175px", overflow: "auto", paddingBottom: "0px"}}>
-              {t.sections && t?.sections.map( (s: string) => (<p key={s}>{s}</p>))}
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+    <Box sx={{ p: 3, pb: 12, height: '100vh', overflow: 'auto'}}>
+      <Grid container spacing={3}>
+        { boards.map( (b: Board) => (
+          <Grid item xs={12} md={6} lg={4} key={b.id}>
+            <Card >
+              <Link
+                href={`/tags/${b.id}`}
+                style={{textDecoration: "none"}}
+              >
+                <CardHeader
+                  title={ <Typography variant={'h6'}
+                  >{b.title}</Typography>}
+                  sx={{bgcolor: "secondary.main", color: "secondary.contrastText"}} />
+              </Link>
+
+              <CardContent style={{height: "175px", overflow: "auto", paddingBottom: "0px"}}>
+                {b?.columns.map( (c: Column) => (
+                  <Box sx={{ pb: 1}} key={c.id}>
+                    <Typography variant={'h6'} sx={{ fontSize: '16px'}} >
+                      {c.title}
+                    </Typography>
+                    {
+                      c.items && c?.items.map( (i: Item) => (
+                        <Typography key={i.id} sx={{pl: 1}}>
+                          {i.title}
+                        </Typography>
+                      ))
+                    }
+                    {
+                      !c.items.length && ( <Typography>Comming soon.</Typography>)
+                    }
+                  </ Box>
+                ))}
+                {
+                  b.columns.length < 1 && ( <Typography>Comming soon.</Typography>)
+                }
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+
   )
 }
 
-// QA done
+export const getStaticProps: GetStaticProps = async () => {
+  let boards: Board[] = await findProjectBoards('64b6bc0a1b836981ba0c4cc5')
+  return {props: { boards}}
+}
+
+export default HomePage

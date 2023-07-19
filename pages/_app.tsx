@@ -75,18 +75,21 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
                     component="div"
                     sx={{color: "primary.contrastText"}}
                   >
-                  AquaDogs
+                  STRATEGY INC.
                   </Typography>
                 </Link>
-                { appMenuItems.map( (i: AppBarMenuProps) => (
-                  <AppBarMenu
-                    key={i.id}
-                    title={i.title}
-                    id={i.id}
-                    items={i.items}
-                    icon={i.icon}
-                  />
-                ))}
+                <Box sx={{pl: 2, display: 'flex', position: 'relative', top: '3px'}}>
+                  { appMenuItems.map( (i: AppBarMenuProps) => (
+                    <AppBarMenu
+                      key={i.id}
+                      title={i.title}
+                      id={i.id}
+                      items={i.items}
+                      icon={i.icon}
+                    />
+                  ))}
+                </ Box>
+
 
                 <Box sx={{flexGrow: 1}} />
                 <AuthNav setAuthDialogIsOpen={setAuthDialogIsOpen} />

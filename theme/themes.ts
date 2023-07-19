@@ -56,8 +56,8 @@ export const palettes = [
   },
   {
     name: 'AquaDogs',
-    primary: { main: teal.A400 },
-    secondary: { main: indigo[900] },
+    primary: { main: indigo[900] },
+    secondary: { main: teal.A400 },
   },
 ];
 

@@ -1,39 +1,39 @@
-import {Tag} from "../interfaces/TagInterface"
+import { Tag } from '../interfaces/TagInterface';
 
 export const tags: Tag[] = [
   {
-    id: "63b1d5db51a00f093850bbeb",
-    title: "JavaScript",
-    imgTitle: "javascript",
+    id: '63b1d5db51a00f093850bbeb',
+    title: 'JavaScript',
+    imgTitle: 'javascript',
     sections: [
-      "JavaScript is the most popular programming language in the world.",
-      "Javascript is the programming language for the Web Framework.",
+      'JavaScript is the most popular programming language in the world.',
+      'Javascript is the programming language for the Web Framework.',
     ],
   },
   {
-    id: "63c9b8e6f01b17156211eb01",
-    title: "HTML",
-    imgTitle: "html",
+    id: '63c9b8e6f01b17156211eb01',
+    title: 'HTML',
+    imgTitle: 'html',
     sections: [
-      "HTML - HyperText Markup Language.",
-      "HTML is the modeling language for the Web Framework.",
+      'HTML - HyperText Markup Language.',
+      'HTML is the modeling language for the Web Framework.',
     ],
   },
   {
-    id: "63c9ba02f01b17156211eb03",
-    title: "CSS",
-    imgTitle: "css",
+    id: '63c9ba02f01b17156211eb03',
+    title: 'CSS',
+    imgTitle: 'css',
     sections: [
-      "CSS - Cascading Style Sheets.",
-      "CSS is the Styling language for the Web Framework.",
+      'CSS - Cascading Style Sheets.',
+      'CSS is the Styling language for the Web Framework.',
     ],
   },
   {
-    id: "63c9baddf01b17156211eb05",
-    title: "React",
-    imgTitle: "react",
+    id: '63c9baddf01b17156211eb05',
+    title: 'React',
+    imgTitle: 'react',
     sections: [
-      "React is a Javascript library for making front-end user interfaces.",
+      'React is a Javascript library for making front-end user interfaces.',
       `
         React is the most popular Javascript library in the world. 
         It is primaryly concerned with state managment.
@@ -41,47 +41,75 @@ export const tags: Tag[] = [
     ],
   },
   {
-    id: "63c9bae9f01b17156211eb06",
-    title: "NextJS",
-    imgTitle: "nextjs",
+    id: '63c9bae9f01b17156211eb06',
+    title: 'NextJS',
+    imgTitle: 'nextjs',
     sections: [
-      "NextJS is a Javascript Framework for making FullStack applications using React.",
-      "NextJS makes it possible to make static websites with React.",
+      'NextJS is a Javascript Framework for making FullStack applications using React.',
+      'NextJS makes it possible to make static websites with React.',
     ],
   },
   {
-    id: "63c9bb1ff01b17156211eb07",
-    title: "Material User Interface",
-    imgTitle: "mui",
+    id: '63c9bb1ff01b17156211eb07',
+    title: 'Material User Interface',
+    imgTitle: 'mui',
     sections: [
-      "MUI - Matrial User Interface. Is a React Framework for building components.",
-      "MUI is based on the Material Specification.",
+      'MUI - Matrial User Interface. Is a React Framework for building components.',
+      'MUI is based on the Material Specification.',
     ],
   },
   {
-    id: "63c9bb52f01b17156211eb08",
-    title: "NodeJS",
-    imgTitle: "nodeJS",
+    id: '63c9bb52f01b17156211eb08',
+    title: 'NodeJS',
+    imgTitle: 'nodeJS',
     sections: [
-      "NodeJS is a JavaScript cross-platform, open-source server environment",
-      "NodeJS allows you to write server code in JavaScript.",
+      'NodeJS is a JavaScript cross-platform, open-source server environment',
+      'NodeJS allows you to write server code in JavaScript.',
     ],
   },
   {
-    id: "63c9bb5ff01b17156211eb09",
-    title: "ExpressJS",
-    imgTitle: "express",
+    id: '63c9bb52f01b17156211eb08',
+    title: 'TypeScript',
+    imgTitle: 'nodeJS',
     sections: [
-      "ExpressJS is a backend NodeJS framework for building RESTful APIs",
+      'NodeJS is a JavaScript cross-platform, open-source server environment',
+      'NodeJS allows you to write server code in JavaScript.',
     ],
   },
   {
-    id: "63c9bb6cf01b17156211eb0a",
-    title: "MognoDB",
-    imgTitle: "mongodb",
+    id: '63c9bb6cf01b17156211eb0a',
+    title: 'MognoDB',
+    imgTitle: 'mongodb',
     sections: [
-      "MongoDB is a NoSQL database program.",
-      "MongoDB uses JSON documents with optional schemas.",
+      'MongoDB is a NoSQL database program.',
+      'MongoDB uses JSON documents with optional schemas.',
     ],
   },
-]
+  {
+    id: '63c9bb6cf01b17156211eb0a',
+    title: 'PROGRAMMING',
+    imgTitle: 'mongodb',
+    sections: [
+      'MongoDB is a NoSQL database program.',
+      'MongoDB uses JSON documents with optional schemas.',
+    ],
+  },
+  {
+    id: '63c9bb6cf01b17156211eb0a',
+    title: 'GITHUB',
+    imgTitle: 'mongodb',
+    sections: [
+      'MongoDB is a NoSQL database program.',
+      'MongoDB uses JSON documents with optional schemas.',
+    ],
+  },
+  {
+    id: '63c9bb6cf01b17156211eb0a',
+    title: 'VS CODE',
+    imgTitle: 'mongodb',
+    sections: [
+      'MongoDB is a NoSQL database program.',
+      'MongoDB uses JSON documents with optional schemas.',
+    ],
+  },
+];
