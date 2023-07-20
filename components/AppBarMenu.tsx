@@ -60,9 +60,9 @@ export default function AppBarMenu(props: AppBarMenuProps){
         TransitionComponent={Fade}
       >
         {
-          items.map( (p: Tag) => (
+          items.map( (p: any) => (
             <Link
-              href={`/tags/${p.id}`}
+              href={`/boards/${p.dirId}`}
               style={{textDecoration: "none", color: theme.palette.text.primary}} key={p.id}
             >
               <MenuItem onClick={handleClose}>{p.title}</MenuItem>
