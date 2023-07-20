@@ -26,12 +26,11 @@ const HomePage = (props: HomePageProps) => {
           <Grid item xs={12} md={6} lg={4} key={b.id}>
             <Card >
               <Link
-                href={`/tags/${b.id}`}
+                href={`/boards/${b.title.toLowerCase().replace(/ /g, '')}`}
                 style={{textDecoration: "none"}}
               >
                 <CardHeader
-                  title={ <Typography variant={'h6'}
-                  >{b.title}</Typography>}
+                  title={ <Typography variant={'h6'} >{b.title}</Typography>}
                   sx={{bgcolor: "secondary.main", color: "secondary.contrastText"}} />
               </Link>
 
