@@ -32,20 +32,20 @@ const ItemDetails = () =>
   )
 
 export default ItemDetails
-export const getStaticPaths = async() => {
+// export const getStaticPaths = async() => {
 
-  let items:any = [{}]
-  //   try { items = await getItems() } catch (e) { console.log(e) }
+let items:any = [{}]
+//   try { items = await getItems() } catch (e) { console.log(e) }
 
-  let paths = [{}]
+let paths = [{}]
 
-  //   if(items){
-  //     paths = items.map((item: any) => ({params: {itemId: item.id}}))
-  //   }
+//   if(items){
+//     paths = items.map((item: any) => ({params: {itemId: item.id}}))
+//   }
 
-  //   return {paths, fallback: false}
+//   return {paths, fallback: false}
 
-}
+//}
 
 // export const getStaticProps = async ({params}:any) => {
 
