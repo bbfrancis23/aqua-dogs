@@ -16,7 +16,7 @@
     // "implicit-arrow-linebreak": ["error"],
     "indent": ["error", 2],
     "jsx-quotes": ["error"],
-    "key-spacing": ["error"],
+    //"key-spacing": ["error"],
     "max-len": ["error", { "code": 100 }],
     "no-multi-spaces": ["error"],
     "no-multiple-empty-lines": ["error"],

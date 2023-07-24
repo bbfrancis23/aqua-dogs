@@ -1,12 +1,15 @@
-import {Box, Button, TextField, Typography} from "@mui/material"
-import axios from "axios"
-import {useSnackbar} from "notistack"
 import {useState} from "react"
 
-import {FormikProvider, useFormik, Form} from "formik"
-
-import * as Yup from "yup"
+import {Box, Button, TextField, Typography} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
+import SaveIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
+
+import {useSnackbar} from "notistack"
+
+import axios from "axios"
+import {FormikProvider, useFormik, Form} from "formik"
+import * as Yup from "yup"
 
 const NameSchema = Yup.object().shape({
   memberName: Yup.string()
@@ -14,7 +17,6 @@ const NameSchema = Yup.object().shape({
 })
 
 export default function NameForm(params: {name: string}){
-
 
   const [name, setName] = useState(params.name)
 
@@ -24,15 +26,10 @@ export default function NameForm(params: {name: string}){
 
 
   const formik = useFormik({
-    initialValues: {
-      memberName: name ? name : ""
-    },
+    initialValues: { memberName: name ? name : "" },
     validationSchema: NameSchema,
     onSubmit: (data) => {
-      axios.patch(
-        "/api/auth/member",
-        {memberName: data.memberName},
-      )
+      axios.patch( "/api/auth/member", {memberName: data.memberName}, )
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === 200 ){
@@ -63,25 +60,12 @@ export default function NameForm(params: {name: string}){
       { displayTextField && (
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-
-            <TextField
-              size="small"
-              autoComplete="name"
-              label={"Member Name"}
-              {...getFieldProps("memberName")}
-              error={Boolean(touched && errors.memberName)}
-              helperText={touched && errors.memberName}
-              sx={{mr: 1}}
-            />
-            <LoadingButton
-              color="success"
-              disabled={!(isValid && formik.dirty)}
-              type="submit"
-              variant="contained"
-              loading={isSubmitting}
-              sx={{mr: 1}}
-            >
-              Save
+            <TextField size="small" autoComplete="name" label={"Member Name"}
+              {...getFieldProps("memberName")} error={Boolean(touched && errors.memberName)}
+              helperText={touched && errors.memberName} sx={{mr: 1}} />
+            <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+              type="submit" loading={isSubmitting} sx={{minWidth: '0'}} >
+              <SaveIcon fontSize={'large'} />
             </LoadingButton>
             {!name && (
               <Button onClick={() => setDisplayTextField(!displayTextField)}>
@@ -90,15 +74,13 @@ export default function NameForm(params: {name: string}){
             )}
 
             {(name && displayTextField) && (
-              <Button onClick={() => setDisplayTextField(!displayTextField)}>
-              Cancel
+              <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}} >
+                <CloseIcon fontSize={'large'} color={'error'}/>
               </Button>
             )}
           </Form>
         </FormikProvider>
       )}
-
-
     </Box>
   )
 }

@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import {createTheme} from '@mui/material'
 import {
   lightBlue,
   red,
@@ -7,82 +7,103 @@ import {
   blueGrey,
   grey,
   green,
+  cyan,
   lightGreen,
   deepPurple,
   indigo,
   yellow,
-} from '@mui/material/colors';
-import { globalTheme } from './globalTheme';
+} from '@mui/material/colors'
+import {globalTheme} from './globalTheme'
 
 export const palettes = [
   {
     name: 'Hawaii',
-    primary: {
-      main: teal[800],
-      light: teal[200],
-      dark: teal[900],
+    primary: {main: cyan[900], light: cyan[500]},
+    secondary: {
+      main: lightBlue[50],
+      darkMode: lightBlue[100],
+      lightMode: lightBlue[50],
     },
-    secondary: { main: lightBlue[400], light: lightBlue[50] },
   },
   {
     name: 'Midnight',
-    primary: { main: deepPurple[800] },
-    secondary: { main: indigo[500], light: indigo[100] },
+    primary: {main: deepPurple[900], light: deepPurple[400]},
+    secondary: {
+      main: indigo[50],
+      darkMode: indigo[100],
+      lightMode: indigo[50],
+    },
   },
   {
     name: 'Arizona',
-    primary: { main: brown[400] },
-    secondary: { main: teal[300] },
+    primary: {main: brown[500]},
+    secondary: {main: teal[50], darkMode: teal[100], lightMode: teal[50]},
   },
   {
     name: 'Pirate',
-    primary: { main: grey[900] },
-    secondary: { main: red[900] },
+    primary: {main: grey[900], light: grey[500]},
+    secondary: {main: grey[50], darkMode: grey[100], lightMode: grey[50]},
   },
   {
     name: 'Lush',
-    primary: { main: green[800] },
-    secondary: { main: lightGreen[300] },
+    primary: {main: green[900], light: green[500]},
+    secondary: {
+      main: lightGreen[50],
+      darkMode: green[100],
+      lightMode: green[50],
+    },
   },
   {
     name: 'Corporate',
-    primary: { main: blueGrey[500] },
-    secondary: { main: grey[400], light: grey[100] },
+    primary: {main: blueGrey[500], light: blueGrey[500]},
+    secondary: {
+      main: grey[100],
+      light: grey[50],
+      darkMode: grey[100],
+      lightMode: grey[50],
+    },
   },
   {
     name: 'CobraKai',
-    primary: { main: red[900] },
-    secondary: { main: yellow.A200 },
+    primary: {main: red[900], light: red[500]},
+    secondary: {
+      main: yellow[50],
+      darkMode: yellow[100],
+      lightMode: yellow[50],
+    },
   },
   {
     name: 'AquaDogs',
-    primary: { main: indigo[900] },
-    secondary: { main: teal.A400 },
+    primary: {main: indigo[900], light: indigo[400]},
+    secondary: {main: teal[50], darkMode: teal[100], lightMode: teal[50]},
   },
-];
+]
+
+const getThemeOptions = (themeOptions: any) => {
+  const palette = palettes.find((p) => p.name === themeOptions.palette.name)
+  if (themeOptions.palette.mode === 'dark') {
+    themeOptions.palette.secondary.main = palette?.secondary.darkMode
+  } else {
+    themeOptions.palette.secondary.main = palette?.secondary.lightMode
+  }
+
+  return themeOptions
+}
 
 export const createFxTheme = (themeOptions: any) => {
-  let theme = createTheme(themeOptions);
+  themeOptions = getThemeOptions(themeOptions)
+  let theme = createTheme(themeOptions)
 
-  theme = createTheme(theme, globalTheme);
-  return theme;
-};
+  theme = createTheme(theme, globalTheme)
+  return theme
+}
 
-export const hawaii = { name: 'Hawaii', palette: palettes[0] };
-export const midnight = { name: 'Midnight', palette: palettes[1] };
-export const arizona = { name: 'Arizona', palette: palettes[2] };
-export const pirate = { name: 'Pirate', palette: palettes[3] };
-export const lush = { name: 'Lush', palette: palettes[4] };
-export const corporate = { name: 'Corporate', palette: palettes[5] };
-export const cobraKai = { name: 'CobraKai', palette: palettes[6] };
-export const aquaDogs = { name: 'AquaDogs', palette: palettes[7] };
-export const appThemes = [
-  corporate,
-  lush,
-  pirate,
-  arizona,
-  midnight,
-  hawaii,
-  cobraKai,
-  aquaDogs,
-];
+export const hawaii = {palette: palettes[0]}
+export const midnight = {palette: palettes[1]}
+export const arizona = {palette: palettes[2]}
+export const pirate = {palette: palettes[3]}
+export const lush = {palette: palettes[4]}
+export const corporate = {palette: palettes[5]}
+export const cobraKai = {palette: palettes[6]}
+export const aquaDogs = {palette: palettes[7]}
+export const appThemes = [corporate, lush, pirate, arizona, midnight, hawaii, cobraKai, aquaDogs]

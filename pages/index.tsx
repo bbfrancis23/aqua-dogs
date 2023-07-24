@@ -17,8 +17,6 @@ const HomePage = (props: HomePageProps) => {
   const {boards} = props
   const theme: FxTheme = useTheme()
 
-  console.log(boards)
-
   return (
     <Box sx={{ p: 3, pb: 12, height: '100vh', overflow: 'auto'}}>
       <Grid container spacing={3}>

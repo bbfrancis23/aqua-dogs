@@ -87,7 +87,8 @@ const CreateProjectForm = (props: CreateProjectFormProps) => {
                 >
                 Save
                 </LoadingButton>
-                <Button onClick={() => closeForm()} >Cancel</Button></Box>
+                <Button onClick={() => closeForm()} sx={{color: 'text.primary'}}>
+                  Cancel</Button></Box>
               </ Box>
             </Form>
           </FormikProvider>

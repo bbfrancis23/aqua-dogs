@@ -7,8 +7,7 @@ export interface InfoCardProps {
 
 const InfoCard = (props: InfoCardProps) => (
   <Card
-    sx={{width: {xs: "100vw", md: "600px"},
-      maxHeight: {xs: '93vh', md: 'calc(100vh - 160px)'}, overflow: 'auto'}}>
+    sx={{width: {xs: "100vw", md: "600px"} }}>
     {props.children}
   </Card>
 )
