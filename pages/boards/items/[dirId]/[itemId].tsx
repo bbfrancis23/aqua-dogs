@@ -77,8 +77,6 @@ export const getStaticPaths = async () => {
       itemId: i._id
     }}))
 
-  // console.log(paths)
-
   return {paths, fallback: false}
 
 }

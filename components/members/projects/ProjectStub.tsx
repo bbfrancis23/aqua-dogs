@@ -20,10 +20,11 @@ const ProjectStub = (props: ProjectStubProps) => {
 
   return (
     <Card sx={{ bgcolor: getBgColor(),
-      color: project ? 'secondary.contrastText' : ''}}>
+      color: project ? 'secondary.contrastText' : ''}} >
       <CardHeader title={ project ?
         <Typography width={100}
-          sx={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'}}>
+          sx={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap',
+            fontSize: '12px'}}>
           {project.title}
         </Typography>
         : <Skeleton width={100} height={25} animation={false}/>}
@@ -37,7 +38,8 @@ const ProjectStub = (props: ProjectStubProps) => {
               bgcolor: project ? 'secondary.contrastText' : '' }} />
         </Box>
       </CardContent>
-    </Card>)
+    </Card>
+  )
 }
 
 export default ProjectStub

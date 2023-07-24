@@ -12,8 +12,6 @@ export const InfoPageLayout = (props: InfoPageLayoutProps) => {
 
   const theme: any = useTheme();
 
-  console.log(theme)
-
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}

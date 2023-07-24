@@ -41,7 +41,7 @@ export default function MemberPage(props: MemberPageProps){
 
   return (
     <InfoPageLayout title="Member Info">
-      <Stack spacing={3} alignItems={'flex-start'}>
+      <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%'}}>
         <NameForm name={member?.name ? member.name : ""} />
         <EmailForm email={member?.email ? member.email : ""} />
         <Button variant="outlined" color="inherit"
@@ -56,8 +56,9 @@ export default function MemberPage(props: MemberPageProps){
           <CreateProjectForm setProjects={(p:any) => setProjects(p)}
             closeForm={() => handleCloseCreateProjectForm()}/>
         ) }
-        <Grid container spacing={1}>
+        <Grid container spacing={1} >
           { projects.map( (p) => (
+
             <Grid item xs={6} sm={3} md={2} key={p.id}>
               <Button
                 onClick={() => router.push(`/member/projects/${p.id}`)} sx={{ m: 0, p: 0}}>
