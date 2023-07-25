@@ -1,5 +1,8 @@
 import {LoadingButton} from "@mui/lab"
 import {Box, Button, TextField, Typography} from "@mui/material"
+
+import SaveIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 import axios from "axios"
 import {Form, FormikProvider, useFormik} from "formik"
 import {useSnackbar} from "notistack"
@@ -67,23 +70,22 @@ export default function EmailForm(params: {email: string}){
               {...getFieldProps("email")}
               error={Boolean(touched && errors.email)}
               helperText={touched && errors.email}
-              sx={{mr: 1}}
+              sx={{minWidth: '0', mr: 1}}
             />
             <LoadingButton
               color="success"
               disabled={!(isValid && formik.dirty)}
               type="submit"
-              variant="contained"
               loading={isSubmitting}
-              sx={{mr: 1}}
+              sx={{minWidth: '0'}}
             >
-              Save
+              <SaveIcon />
             </LoadingButton>
 
 
             {(email && displayTextField) && (
-              <Button onClick={() => setDisplayTextField(!displayTextField)}>
-              Cancel
+              <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}}>
+                <CloseIcon color={'error'}/>
               </Button>
             )}
           </Form>

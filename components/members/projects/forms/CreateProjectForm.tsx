@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 import { FormikProvider, useFormik, Form } from "formik";
 
 
+import SaveIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 import * as Yup from "yup"
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
@@ -12,7 +14,7 @@ import { Project } from "../../../../interfaces/ProjectInterface";
 
 
 export interface CreateProjectFormProps{
-  setProjects: Dispatch<SetStateAction<Project[]>>;
+  setProjects: (p: Project[]) => void;
   closeForm: () => void;
 }
 
@@ -77,18 +79,19 @@ const CreateProjectForm = (props: CreateProjectFormProps) => {
                   error={Boolean(touched && errors.title)}
                   helperText={touched && errors.title}
                 />
-                <Box><LoadingButton
+                <LoadingButton
                   color="success"
                   disabled={!(isValid && formik.dirty)}
                   type="submit"
-                  variant="contained"
                   loading={isSubmitting}
-                  sx={{mr: 1, ml: 1}}
+                  sx={{minWidth: '0', }}
                 >
-                Save
+                  <SaveIcon />
                 </LoadingButton>
-                <Button onClick={() => closeForm()} >Cancel</Button></Box>
-              </ Box>
+                <Button onClick={() => closeForm()} sx={{minWidth: 0}}>
+                  <CloseIcon color={'error'}/>
+                </Button>
+              </Box>
             </Form>
           </FormikProvider>
         </>

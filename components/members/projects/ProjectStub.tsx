@@ -1,5 +1,6 @@
 import { Box, Card, CardContent, CardHeader, Skeleton, Typography, useTheme } from "@mui/material";
 import { Project } from "../../../interfaces/ProjectInterface";
+import { useState } from "react";
 
 export interface ProjectStubProps{
   project ?: Project
@@ -13,38 +14,51 @@ const ProjectStub = (props: ProjectStubProps) => {
 
   const getBgColor = () => {
     if(project){
-      return 'secondary.main'
-    }else if (theme.palette.mode === 'dark'){
-      return 'grey.900'
-    }
-    return''
+      if(theme.palette.mode === 'light'){
 
+        return 'secondary.main'
+      }
+      return ''
+    } else if (theme.palette.mode === 'dark') { return 'grey.900' }
+    return''
   }
 
+  const getTextColor = () => {
+    if(project){
+      if(theme.palette.mode === 'light'){
+
+        return 'secondary.contrastText'
+      }
+      return 'secondary.main'
+    } else if (theme.palette.mode === 'dark') { return 'grey.900' }
+    return''
+  }
+
+  const [animation, setAnimation] = useState<false | 'wave'| 'pulse'>(false)
+
   return (
-    <Card sx={{ bgcolor: getBgColor(),
-      color: project ? 'secondary.contrastText' : ''}}>
-      <CardHeader
-        title={ project ?
-          <Typography width={100} >{project.title}</Typography>
-          : <Skeleton width={100} height={25} animation={false}/>}
-        sx={{ pb: 0.25}}
-      />
+    <Card onMouseEnter={() => setAnimation('pulse')} onMouseLeave={() => setAnimation(false)}
+      sx={{ bgcolor: getBgColor(), width: '100%',
+        color: getTextColor()}} >
+      <CardHeader title={ project ?
+        <Typography width={'70%'}
+          sx={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap',
+            fontSize: '12px', textAlign: 'start'}}>
+          {project.title}
+        </Typography>
+        : <Skeleton height={19} animation={animation} sx={{ fontSize: '12px'}}/>}
+      sx={{ pb: 0.25}} />
       <CardContent sx={{ pt: 0.25 }} style={{paddingBottom: '0'}}>
         <Box sx={{ display: 'flex'}}>
-          <Skeleton
-
-            variant="circular" width={20} height={20} sx={{ml: 1,
-              bgcolor: project ? 'secondary.contrastText' : ''}} animation={false}/>
-          <Skeleton
-            animation={false} width={50}
-            height={50}
+          <Skeleton variant="circular" width={20} height={20}
+            sx={{ml: 1, bgcolor: project ? 'secondary.contrastText' : ''}} animation={animation} />
+          <Skeleton animation={animation} width={'70%'} height={50}
             sx={{ml: 2, position: 'relative', bottom: '10px',
-              bgcolor: project ? 'secondary.contrastText' : ''
-            }} />
+              bgcolor: project ? 'secondary.contrastText' : '' }} />
         </Box>
       </CardContent>
-    </Card>)
+    </Card>
+  )
 }
 
 export default ProjectStub

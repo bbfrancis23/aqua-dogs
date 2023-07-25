@@ -105,11 +105,9 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
   }
 
   const handleCloseDialog = async() => {
-    console.log('close dialog')
 
     closeDialog()
     await setItem(undefined)
-    console.log(item)
   }
 
   return (

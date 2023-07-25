@@ -1,8 +1,8 @@
-import { Theme } from '@mui/material';
+import {Theme} from '@mui/material'
 
 export interface FxTheme extends Theme {
-  passwordMinLength: number;
-  pageContentTopPadding: number;
+  passwordMinLength: number
+  pageContentTopPadding: number
 }
 
 export const globalTheme = {
@@ -10,10 +10,20 @@ export const globalTheme = {
   pageContentTopPadding: 6,
   components: {
     MuiDialog: {
-      styleOverrides: { root: { backgroundColor: 'rgba(0, 0, 0, 0.0)' } },
+      styleOverrides: {root: {backgroundColor: 'rgba(0, 0, 0, 0.0)'}},
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: ({theme}: any) =>
+          theme.unstable_sx({
+            border: '1px solid',
+            borderColor: theme.palette.divider,
+            boxShadow: 0,
+          }),
+      },
     },
     MuiCardHeader: {
-      styleOverrides: { title: { fontSize: '2rem', fontWeight: '800' } },
+      styleOverrides: {title: {fontSize: '2rem', fontWeight: '800'}},
     },
     MuiBackdrop: {
       styleOverrides: {
@@ -24,4 +34,4 @@ export const globalTheme = {
       },
     },
   },
-};
+}

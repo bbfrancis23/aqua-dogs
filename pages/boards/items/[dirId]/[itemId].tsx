@@ -8,7 +8,7 @@ import InfoCard from "@/ui/information-card/InfoCard";
 import { Breadcrumbs, CardContent, CardHeader, Stack, Typography } from "@mui/material";
 import { Section } from "@/interfaces/SectionInterface";
 import dynamic from "next/dynamic";
-import Link from "next/link";
+import Link from "next/link"
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -76,8 +76,6 @@ export const getStaticPaths = async () => {
       dirId: `${i.title.toLocaleLowerCase().trim().replace(/ /g, '-')}`,
       itemId: i._id
     }}))
-
-  // console.log(paths)
 
   return {paths, fallback: false}
 

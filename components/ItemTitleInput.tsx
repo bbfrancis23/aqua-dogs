@@ -23,7 +23,6 @@ export default function ItemTitleInput(props: any){
 
       await axios.patch(`/api/items/${item.id}`, {title: e.target.value})
         .then((res) => {
-          console.log('setting item from api')
           setItem(res.data.item)
           setIsSubmitting(false)
         })
