@@ -17,7 +17,7 @@ import { getMemberProjects } from "../../mongo/controllers/memberControllers"
 import { useRouter } from "next/router"
 import InfoPageLayout from "@/ui/info-page-layout/InfoPageLayout"
 
-type MemberPage = {
+export type MemberPage = {
   member: Member
   projects: Project[]
 }

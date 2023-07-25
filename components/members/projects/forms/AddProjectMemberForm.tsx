@@ -17,7 +17,8 @@ import axios from "axios"
 import {FormikProvider, useFormik, Form} from "formik"
 import * as Yup from "yup"
 import { Member } from "../../../../interfaces/MemberInterface";
-import { ProjectContext } from "pages/member/projects/[projectId]";
+import { ProjectContext } from "@/interfaces/ProjectInterface";
+// import { ProjectContext } from "pages/member/projects/[projectId]";
 
 const AddMemberSchema = Yup.object().shape({ member: Yup.string().required("Member is required")})
 

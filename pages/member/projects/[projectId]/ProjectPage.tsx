@@ -1,13 +1,13 @@
 import { createContext, useState } from "react";
 
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getSession } from "next-auth/react";
 import router from "next/router";
 
 import { Box, Button, CardContent, CardHeader, Divider,
   Grid, List, Stack, Tooltip, Typography } from "@mui/material";
 
-import { Project } from "@/interfaces/ProjectInterface";
+import { Project, ProjectContext } from "@/interfaces/ProjectInterface";
 import { Member, getValidMember } from "@/interfaces/MemberInterface";
 import { Board } from "@/interfaces/BoardInterface";
 
@@ -25,21 +25,54 @@ import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBo
 import BoardStub from "@/components/members/projects/boards/BoardStub";
 import InfoPageLayout from "@/ui/info-page-layout/InfoPageLayout";
 
-export interface MemberProjectPageProps{
+export type ProjectPage = {
   project: Project;
   member: Member;
   boards: Board[];
 }
 
-export const ProjectContext = createContext <any>({ project: undefined, setProject: () => {}})
+export const getServerSideProps: GetServerSideProps<ProjectPage> = async(context) => {
 
-export const MemberProjectPage = (props: MemberProjectPageProps) => {
+  const authSession = await getSession({req: context.req})
 
-  const {member} = props
+  if(!authSession){
+    return {redirect: {destination: "/", permanent: false}}
+  }
 
-  const [boards, setBoards] = useState<Board[] | []>(props.boards)
 
-  const [project, setProject] = useState<Project>(props.project)
+  const member: Member | false = await getValidMember(authSession)
+
+  if(member){
+    const project: any = await findProject(context.query.projectId)
+
+    const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
+
+    if(hasPermission){
+
+      let boards: any = await findProjectBoards(project.id)
+
+      boards = boards.map((b: any) => ({
+        id: b._id,
+        title: b.title,
+        project: b.project
+      })
+      )
+
+
+      return {props: {project, member, boards}}
+    }
+  }
+
+  return {redirect: {destination: "/", permanent: false}}
+}
+
+const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps> ) => {
+
+  const {member} = memberPage
+
+  const [boards, setBoards] = useState<Board[] | []>(memberPage.boards)
+
+  const [project, setProject] = useState<Project>(memberPage.project)
 
   const [showBoardForm, setShowBoardForm] = useState<boolean>(false)
 
@@ -209,40 +242,6 @@ export const MemberProjectPage = (props: MemberProjectPageProps) => {
 
   )
 }
-export default MemberProjectPage
+export default Page
 
-export const getServerSideProps: GetServerSideProps<MemberProjectPageProps> = async(context) => {
-
-  const authSession = await getSession({req: context.req})
-
-  if(!authSession){
-    return {redirect: {destination: "/", permanent: false}}
-  }
-
-
-  const member: Member | false = await getValidMember(authSession)
-
-  if(member){
-    const project: any = await findProject(context.query.projectId)
-
-    const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
-
-    if(hasPermission){
-
-      let boards: any = await findProjectBoards(project.id)
-
-      boards = boards.map((b: any) => ({
-        id: b._id,
-        title: b.title,
-        project: b.project
-      })
-      )
-
-
-      return {props: {project, member, boards}}
-    }
-  }
-
-  return {redirect: {destination: "/", permanent: false}}
-}
 

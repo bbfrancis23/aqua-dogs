@@ -6,8 +6,9 @@ import { useContext } from "react";
 import LeaderBadge from '@mui/icons-material/Star';
 import AdminBadge from '@mui/icons-material/Shield';
 import ProjectMemberActions from "./ProjectMemberActions";
+import { ProjectContext } from "@/interfaces/ProjectInterface";
 
-import { ProjectContext } from "pages/member/projects/[projectId]";
+// import { ProjectContext } from "pages/member/projects/[projectId]";
 
 export interface ProjectMemberProps {
   type: PermissionCodes;
