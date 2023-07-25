@@ -41,8 +41,9 @@ const ProjectStub = (props: ProjectStubProps) => {
       sx={{ bgcolor: getBgColor(), width: '100%',
         color: getTextColor()}} >
       <CardHeader title={ project ?
-        <Typography width={'70%'}
-          sx={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap',
+        <Typography
+          sx={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '70%',
+            maxWidth: '165px',
             fontSize: '12px', textAlign: 'start'}}>
           {project.title}
         </Typography>

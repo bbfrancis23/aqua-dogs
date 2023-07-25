@@ -55,7 +55,7 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 
   return (
     <InfoPageLayout title="Member Info">
-      <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%', overflowX: 'hidden'}}>
+      <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%', }}>
         <NameForm name={member?.name ? member.name : ""} />
         <EmailForm email={member?.email ? member.email : ""} />
         <Button variant="outlined" color="inherit" sx={{ borderColor: 'divider'}}

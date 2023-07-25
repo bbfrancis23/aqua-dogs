@@ -41,9 +41,9 @@ const ProjectMember = ( props: ProjectMemberProps) => {
 
   const getBadge = () => {
     if (type === PermissionCodes.PROJECT_LEADER) {
-      return (<LeaderBadge color="primary" fontSize="small" />)
+      return (<LeaderBadge fontSize="small" />)
     }
-    return (<AdminBadge color="primary" fontSize="small" />)
+    return (<AdminBadge fontSize="small" />)
   }
 
   const getMemberActions = () => {
@@ -67,7 +67,7 @@ const ProjectMember = ( props: ProjectMemberProps) => {
               overlap="circular"
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               badgeContent={getBadge() } >
-              <Avatar sx={{ bgcolor: 'secondary.main', width: 50, height: 50}} >
+              <Avatar sx={{ bgcolor: 'primary.main', width: 50, height: 50}} >
                 {getAvatar()}
               </Avatar>
             </Badge>
@@ -76,7 +76,7 @@ const ProjectMember = ( props: ProjectMemberProps) => {
         {
           (type === PermissionCodes.PROJECT_MEMBER) && (
 
-            <Avatar sx={{ bgcolor: 'secondary.main', width: 50, height: 50}} >
+            <Avatar sx={{ bgcolor: 'primary.main', width: 50, height: 50}} >
               {getAvatar()}
             </Avatar>
           )
