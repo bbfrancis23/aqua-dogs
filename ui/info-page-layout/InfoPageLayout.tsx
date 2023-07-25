@@ -1,8 +1,9 @@
 import { Theme, useTheme } from "@emotion/react";
 import { Box, Grid, Typography } from "@mui/material";
+import { isValidElement } from "react";
 
 export interface InfoPageLayoutProps{
-  title: string;
+  title: string | JSX.Element
 
   children: JSX.Element | JSX.Element [];
 }
@@ -11,6 +12,8 @@ export const InfoPageLayout = (props: InfoPageLayoutProps) => {
   const {title, children} = props
 
   const theme: any = useTheme();
+
+  console.log(isValidElement(title))
 
   return (
     <Grid container spacing={2}>

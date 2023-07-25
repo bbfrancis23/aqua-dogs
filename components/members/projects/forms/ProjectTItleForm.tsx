@@ -4,6 +4,10 @@ import { useSnackbar } from "notistack";
 import { useState } from "react";
 
 
+import SaveIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
+
+
 import * as Yup from "yup"
 import { Form, FormikProvider, useFormik } from "formik";
 import axios from "axios";
@@ -65,9 +69,11 @@ export const ProjectTitleForm = (props: ProjectTitleFormProps) => {
     <Box >
       {(!displayTextField) &&
 
-        <Typography
+        <Typography variant={'h2'}
           onClick={() => showTextField()}
-          sx={{cursor: "pointer", fontSize: '2rem', display: 'contents'}}>
+          sx={{cursor: "pointer", display: 'contents', p: 5,
+            pl: 2,
+            fontSize: {xs: '2rem', sm: '3rem'}}}>
           { title ? title : <Skeleton /> }
         </Typography>
       }
@@ -75,28 +81,25 @@ export const ProjectTitleForm = (props: ProjectTitleFormProps) => {
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <TextField
-              size="small"
+              fullWidth
+              size="medium"
               label={"Title"}
               {...getFieldProps("title")}
               error={Boolean(touched && errors.title)}
               helperText={touched && errors.title}
-              sx={{mr: 1}}
             />
-            <LoadingButton
-              color="success"
-              disabled={!(isValid && formik.dirty)}
-              type="submit"
-              variant="contained"
-              loading={isSubmitting}
-              sx={{mr: 1, mb: 1}}
-            >
-            Save
-            </LoadingButton>
-            {(title && displayTextField) && (
-              <Button onClick={() => setDisplayTextField(false)}>
-            Cancel
-              </Button>
-            )}
+            <Box display={{ display: 'flex', justifyContent: "right" }}>
+
+              <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+                type="submit" loading={isSubmitting} sx={{minWidth: '0'}} >
+                <SaveIcon />
+              </LoadingButton>
+              {(title && displayTextField) && (
+                <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}} >
+                  <CloseIcon color={'error'}/>
+                </Button>
+              )}
+            </Box>
           </Form>
         </FormikProvider>
       )}

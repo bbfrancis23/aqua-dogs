@@ -82,7 +82,7 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 
   return (
     <ProjectContext.Provider value={{project, setProject}}>
-      <InfoPageLayout title={project.title}>
+      <InfoPageLayout title={<ProjectTitleForm project={project}/>}>
         <Stack spacing={3} >
           <Typography variant="h5">Members:</Typography>
           <Box sx={{ display: 'flex'}}>
