@@ -70,7 +70,7 @@ export default function EmailForm(params: {email: string}){
               {...getFieldProps("email")}
               error={Boolean(touched && errors.email)}
               helperText={touched && errors.email}
-              sx={{mr: 1}}
+              sx={{minWidth: '0', mr: 1}}
             />
             <LoadingButton
               color="success"
@@ -79,13 +79,13 @@ export default function EmailForm(params: {email: string}){
               loading={isSubmitting}
               sx={{minWidth: '0'}}
             >
-              <SaveIcon fontSize={'large'} />
+              <SaveIcon />
             </LoadingButton>
 
 
             {(email && displayTextField) && (
               <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}}>
-                <CloseIcon fontSize={'large'} color={'error'}/>
+                <CloseIcon color={'error'}/>
               </Button>
             )}
           </Form>

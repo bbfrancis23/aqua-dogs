@@ -62,7 +62,7 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
         <ConfirmProvider>
           <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: "right", vertical: "bottom"}}
             hideIconVariant={ true } >
-            <AppBar position="static" >
+            <AppBar position="static" sx={{boxShadow: 0}}>
               <Toolbar >
                 <Link href={"/"} style={{textDecoration: "none"}} >
                   <Typography variant="h6" noWrap component="div"

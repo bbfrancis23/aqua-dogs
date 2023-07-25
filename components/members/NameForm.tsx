@@ -49,33 +49,33 @@ export default function NameForm(params: {name: string}){
 
   return (
     <Box >
-      {(name && !displayTextField) &&
+      {(!displayTextField) &&
         <Box onClick={() => setDisplayTextField(!displayTextField)} sx={{cursor: "pointer"}}>
           <Typography sx={{display: "inline", mr: 1, cursor: "pointer", fontWeight: 'bold'}}>
             Member Name:
           </Typography>
-          {name}
+          {name ? name : <Button variant="outlined">Add Member Name</Button>}
         </ Box>
       }
       { displayTextField && (
         <FormikProvider value={formik}>
-          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+          <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ marginTop: '5px'}}>
             <TextField size="small" autoComplete="name" label={"Member Name"}
               {...getFieldProps("memberName")} error={Boolean(touched && errors.memberName)}
               helperText={touched && errors.memberName} sx={{mr: 1}} />
             <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
               type="submit" loading={isSubmitting} sx={{minWidth: '0'}} >
-              <SaveIcon fontSize={'large'} />
+              <SaveIcon />
             </LoadingButton>
             {!name && (
               <Button onClick={() => setDisplayTextField(!displayTextField)}>
-                {displayTextField ? "Cancel" : "Add Member Name"}
+                {displayTextField ? <CloseIcon color={'error'}/> : "Add Member Name"}
               </Button>
             )}
 
             {(name && displayTextField) && (
               <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}} >
-                <CloseIcon fontSize={'large'} color={'error'}/>
+                <CloseIcon color={'error'}/>
               </Button>
             )}
           </Form>
