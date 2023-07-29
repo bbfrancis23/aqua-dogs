@@ -27,11 +27,10 @@ export const getServerSideProps: GetServerSideProps<MemberPage> = async(context)
   const authSession = await getSession({req: context.req})
   const member: Member | false = await getValidMember(authSession)
 
-  if(member){
-    let projects: Project[] = await getMemberProjects(member?.id)
-    return {props: { member, projects}}
-  }
-  return {redirect: {destination: "/", permanent: false}}
+  if(! member) return {redirect: {destination: "/", permanent: false}}
+
+  let projects: Project[] = await getMemberProjects(member?.id)
+  return {props: { member, projects}}
 }
 
 const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps> ) => {
@@ -67,7 +66,7 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
           onClick={handleLogout}>
             LOG OUT
         </Button>
-        <Typography variant={'h5'}>Projects:</Typography>
+        <Typography variant={'h4'}>Projects:</Typography>
         { showProjectForm && (
           <CreateProjectForm setProjects={(p: Project[]) => setProjects(p)}
             closeForm={handleCloseCreateProjectForm}/>

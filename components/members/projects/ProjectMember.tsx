@@ -1,5 +1,6 @@
-import { Avatar, Badge, ListItem, ListItemAvatar, ListItemText } from "@mui/material"
-import { PermissionCodes } from "../../../ui/permission/Permission"
+import { Avatar, Badge, Card, CardHeader,
+  ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material"
+import Permission, { PermissionCodes, NoPermission } from "@/ui/permission/Permission"
 import { Member } from "../../../interfaces/MemberInterface";
 import { useContext } from "react";
 
@@ -7,8 +8,6 @@ import LeaderBadge from '@mui/icons-material/Star';
 import AdminBadge from '@mui/icons-material/Shield';
 import ProjectMemberActions from "./ProjectMemberActions";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-
-// import { ProjectContext } from "pages/member/projects/[projectId]";
 
 export interface ProjectMemberProps {
   type: PermissionCodes;
@@ -59,35 +58,41 @@ const ProjectMember = ( props: ProjectMemberProps) => {
 
   }
 
+
   return (
-    <ListItem alignItems="flex-start" secondaryAction={ getMemberActions() }>
-      <ListItemAvatar>
-        {
-          (type === PermissionCodes.PROJECT_LEADER || type === PermissionCodes.PROJECT_ADMIN) && (
-            <Badge
-              overlap="circular"
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-              badgeContent={getBadge() } >
-              <Avatar sx={{ bgcolor: 'primary.main', width: 50, height: 50}} >
+    <Card>
+      <CardHeader
+        title={
+          <Typography variant={'body1'}>{ getMemberLabel() + member.name }</Typography>
+        }
+        subheader={member.email}
+        action={
+          getMemberActions()
+        }
+        avatar={
+          <>
+            <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
+              <Badge
+                overlap="circular"
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                badgeContent={getBadge() } >
+                <Avatar sx={{ bgcolor: 'primary.light',
+                  color: 'primary.contrastText', width: 50, height: 50}} >
+                  {getAvatar()}
+                </Avatar>
+              </Badge>
+            </Permission>
+            <NoPermission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
+              <Avatar sx={{ bgcolor: 'primary.light',
+                color: 'primary.contrastText', width: 50, height: 50}} >
                 {getAvatar()}
               </Avatar>
-            </Badge>
-          )
+            </NoPermission>
+          </>
         }
-        {
-          (type === PermissionCodes.PROJECT_MEMBER) && (
-
-            <Avatar sx={{ bgcolor: 'primary.main', width: 50, height: 50}} >
-              {getAvatar()}
-            </Avatar>
-          )
-        }
-      </ListItemAvatar>
-      <ListItemText
-        primary={ getMemberLabel() + member.name}
-        secondary={` ${member.email}`}
       />
-    </ListItem>
+
+    </Card>
   )
 
 
