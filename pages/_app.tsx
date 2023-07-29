@@ -69,7 +69,7 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
                     sx={{ color: theme.palette.mode === 'light' ?
                       "primary.contrastText" : "primary.light", fontWeight: '800' }}
                   >
-                  STRATEGY INC.
+                  Your Moms STRATEGY INC.
                   </Typography>
                 </Link>
                 <Box sx={{pl: 2, display: 'flex', position: 'relative', top: '3px'}}>
