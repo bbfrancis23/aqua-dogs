@@ -4,6 +4,8 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useSession } from "next-auth/react";
 import { FormikProvider, useFormik, Form } from "formik";
 
+import SaveIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 
 import * as Yup from "yup"
 import axios from "axios";
@@ -14,7 +16,7 @@ import { Project } from "../../../../../interfaces/ProjectInterface";
 
 export interface CreateBoardFormProps{
   project: Project;
-  setBoards: Dispatch<SetStateAction<Board[]>>;
+  setBoards: (b: Board[]) => void;
   closeForm: () => void;
 }
 
@@ -63,36 +65,32 @@ const CreateBoardForm = (props: CreateBoardFormProps) => {
   const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
 
   return(
-    <Box sx={{m: 3}}>
+    <Box >
       { session && (
-        <>
 
-          <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Box sx={{ ml: 1, display: 'flex'}}>
-                <TextField
+        <FormikProvider value={formik}>
+          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+            <Box sx={{ display: 'flex', mt: 3}}>
+              <TextField
+                fullWidth
+                size={'small'}
+                label="New Board"
+                {...getFieldProps('title')}
+                error={Boolean(touched && errors.title)}
+                helperText={touched && errors.title}
+              />
+            </Box>
+            <Box display={{ display: 'flex', justifyContent: "right" }}>
+              <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+                type="submit" loading={isSubmitting} sx={{minWidth: '0'}} >
+                <SaveIcon />
+              </LoadingButton>
+              <Button onClick={() => closeForm()} sx={{ minWidth: '0'}}>
+                <CloseIcon color={'error'}/></Button>
+            </Box>
 
-                  size={'small'}
-                  label="New Board"
-                  {...getFieldProps('title')}
-                  error={Boolean(touched && errors.title)}
-                  helperText={touched && errors.title}
-                />
-                <Box><LoadingButton
-                  color="success"
-                  disabled={!(isValid && formik.dirty)}
-                  type="submit"
-                  variant="contained"
-                  loading={isSubmitting}
-                  sx={{mr: 1, ml: 1}}
-                >
-                Save
-                </LoadingButton>
-                <Button onClick={() => closeForm()} >Cancel</Button></Box>
-              </ Box>
-            </Form>
-          </FormikProvider>
-        </>
+          </Form>
+        </FormikProvider>
       )}
     </Box>
   )

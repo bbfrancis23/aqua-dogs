@@ -17,7 +17,7 @@ import { getMemberProjects } from "../../mongo/controllers/memberControllers"
 import { useRouter } from "next/router"
 import InfoPageLayout from "@/ui/info-page-layout/InfoPageLayout"
 
-type MemberPage = {
+export type MemberPage = {
   member: Member
   projects: Project[]
 }
@@ -27,11 +27,10 @@ export const getServerSideProps: GetServerSideProps<MemberPage> = async(context)
   const authSession = await getSession({req: context.req})
   const member: Member | false = await getValidMember(authSession)
 
-  if(member){
-    let projects: Project[] = await getMemberProjects(member?.id)
-    return {props: { member, projects}}
-  }
-  return {redirect: {destination: "/", permanent: false}}
+  if(! member) return {redirect: {destination: "/", permanent: false}}
+
+  let projects: Project[] = await getMemberProjects(member?.id)
+  return {props: { member, projects}}
 }
 
 const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps> ) => {
@@ -55,7 +54,7 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 
   return (
     <InfoPageLayout title="Member Info">
-      <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%', overflowX: 'hidden'}}>
+      <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%', }}>
         <NameForm name={member?.name ? member.name : ""} />
         <EmailForm email={member?.email ? member.email : ""} />
         <Button variant="outlined" color="inherit" sx={{ borderColor: 'divider'}}
@@ -67,7 +66,7 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
           onClick={handleLogout}>
             LOG OUT
         </Button>
-        <Typography variant={'h5'}>Projects:</Typography>
+        <Typography variant={'h4'}>Projects:</Typography>
         { showProjectForm && (
           <CreateProjectForm setProjects={(p: Project[]) => setProjects(p)}
             closeForm={handleCloseCreateProjectForm}/>

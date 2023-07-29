@@ -64,7 +64,7 @@ export default function ProjectMemberActions(props: ProjectMemberActionsProps){
         ? PermissionCodes.PROJECT_LEADER : PermissionCodes.PROJECT_ADMIN}
       project={project} member={sessionMember}
     >
-      <Box sx={{ position: 'relative', top: '-20px', right: '-20px'}}>
+      <Box >
         {
           type === PermissionCodes.PROJECT_ADMIN && (
             <>

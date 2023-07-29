@@ -4,10 +4,14 @@ import { useSnackbar } from "notistack";
 import { useState } from "react";
 
 
+import SaveIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
+
+
 import * as Yup from "yup"
 import { Form, FormikProvider, useFormik } from "formik";
 import axios from "axios";
-import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
+import { Box, Button, Skeleton, TextField, Typography, styled } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 export interface ProjectTitleFormProps{
@@ -19,6 +23,10 @@ const TitleSchema = Yup.object().shape({
     .required("Title is required"),
 })
 
+const ProjectTitleTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiOutlinedInput-root': { fontSize: '3rem' },
+
+}));
 
 export const ProjectTitleForm = (props: ProjectTitleFormProps) => {
 
@@ -57,48 +65,52 @@ export const ProjectTitleForm = (props: ProjectTitleFormProps) => {
   const showTextField = () => {
     if(session && session.user){
       const user:any = session.user
-      if(user.id === project.leader?.id) setDisplayTextField(true)
+      if(user.id === project.leader?.id)
+        setDisplayTextField(true)
     }
   }
 
   return (
     <Box >
       {(!displayTextField) &&
-
-        <Typography
-          onClick={() => showTextField()}
-          sx={{cursor: "pointer", fontSize: '2rem', display: 'contents'}}>
-          { title ? title : <Skeleton /> }
-        </Typography>
+      <Typography variant={'h2'} noWrap onClick={() => showTextField()}
+        sx={{p: 5,
+          pl: 2,
+          fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}>
+        { title ? title : <Skeleton /> }
+      </Typography>
       }
       { displayTextField && (
-        <FormikProvider value={formik}>
-          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <TextField
-              size="small"
-              label={"Title"}
-              {...getFieldProps("title")}
-              error={Boolean(touched && errors.title)}
-              helperText={touched && errors.title}
-              sx={{mr: 1}}
-            />
-            <LoadingButton
-              color="success"
-              disabled={!(isValid && formik.dirty)}
-              type="submit"
-              variant="contained"
-              loading={isSubmitting}
-              sx={{mr: 1, mb: 1}}
-            >
-            Save
-            </LoadingButton>
-            {(title && displayTextField) && (
-              <Button onClick={() => setDisplayTextField(false)}>
-            Cancel
-              </Button>
-            )}
-          </Form>
-        </FormikProvider>
+        <Box sx={{ p: 5, pl: 2}}>
+          <FormikProvider value={formik}>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+              <ProjectTitleTextField
+                fullWidth
+                size="medium"
+                label={"Title"}
+                {...getFieldProps("title")}
+                sx={{ fontSize: '3rem'}}
+                error={Boolean(touched && errors.title)}
+                helperText={touched && errors.title}
+                inputProps={{ maxLength: 26 }}
+              />
+              <Box display={{ display: 'flex', justifyContent: "right" }}>
+
+                <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+                  type="submit" loading={isSubmitting} sx={{minWidth: '0'}} >
+                  <SaveIcon />
+                </LoadingButton>
+                {(title && displayTextField) && (
+                  <Button
+                    onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}} >
+                    <CloseIcon color={'error'}/>
+                  </Button>
+                )}
+              </Box>
+            </Form>
+          </FormikProvider>
+        </ Box>
+
       )}
     </Box>
   )

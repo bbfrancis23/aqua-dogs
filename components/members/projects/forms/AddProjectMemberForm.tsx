@@ -4,12 +4,15 @@ import { useEffect, useState, useContext } from "react"
 import { Autocomplete,
   Avatar,
   Box,
-  Button, ListItem,
+  Button, Card, CardHeader, ListItem,
   ListItemAvatar, ListItemButton, ListItemText,
-  Skeleton, TextField, Tooltip, useTheme } from "@mui/material";
+  Skeleton, TextField, Tooltip, Typography, useTheme } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 import AddMemberIcon from '@mui/icons-material/PersonAdd';
+
+import SaveIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { useSnackbar } from "notistack"
 
@@ -17,29 +20,23 @@ import axios from "axios"
 import {FormikProvider, useFormik, Form} from "formik"
 import * as Yup from "yup"
 import { Member } from "../../../../interfaces/MemberInterface";
-import { ProjectContext } from "pages/member/projects/[projectId]";
+import { ProjectContext } from "@/interfaces/ProjectInterface";
 
 const AddMemberSchema = Yup.object().shape({ member: Yup.string().required("Member is required")})
 
 /* eslint-disable */
-
 export interface AddProjectMemberFormProps {
 }
 
 const AddProjectMemberForm = (props: AddProjectMemberFormProps) => {
 
-
   const theme = useTheme()
+  const [animation, setAnimation] = useState<false | 'wave'| 'pulse'>(false)
 
   const getBgColor = () => {
-    if(theme.palette.mode === 'light'){
-      return 'grey.300'
-    }
-      return 'grey.400'
-    
-
+    if(theme.palette.mode === 'light'){ return 'grey.300' }
+    return 'grey.400'
   }
-
 
   const {project, setProject} = useContext(ProjectContext)
   const [showForm, setShowForm] = useState<boolean>(false)
@@ -48,15 +45,12 @@ const AddProjectMemberForm = (props: AddProjectMemberFormProps) => {
   const {enqueueSnackbar} = useSnackbar()
 
   useEffect(() => {
-
     axios.get('/api/members').then( (res:any) => {
       let members = res.data.members.filter( (m:any) => m.id !== project.leader?.id)
-
       const memberIdFilter = project.members?.map( (m:any) => m.id) || []
       const adminIdFilter = project.admins?.map( (m:any) => m.id) || []
       members = members.filter((m:any) => !memberIdFilter.includes(m.id))
       members = members.filter((m:any) => !adminIdFilter.includes(m.id))
-
       setCanidateMembers(members)
     })
   }, [project])
@@ -75,6 +69,7 @@ const AddProjectMemberForm = (props: AddProjectMemberFormProps) => {
           }
         })
         .catch((error) => {
+
           formik.setSubmitting(false)
           enqueueSnackbar(error, {variant: "error"})
         })
@@ -92,38 +87,43 @@ const AddProjectMemberForm = (props: AddProjectMemberFormProps) => {
   return (
     <>
       { showForm === false && (
-       
-       
+        <Card onClick={() => setShowForm(true) }
+          onMouseEnter={() => setAnimation('pulse')} onMouseLeave={() => setAnimation(false)}
 
-        <Tooltip title="Add Member">
-
-        <ListItemButton alignItems="flex-start" onClick={() => setShowForm(true) }> 
-       
-
-          <ListItemAvatar  >   
-           
-             <Avatar sx={{ bgcolor: getBgColor(), width: 50, height: 50}} >
+        >
+          <CardHeader 
+            action={
+              <Skeleton variant="circular" animation={animation}
+                sx={{ height: '25px', width: '25px' }}><AddMemberIcon /></Skeleton>
+            }
+            title={ 
+              <Skeleton animation={animation} >
+                <Typography variant={'body1'}>Project Member Name</Typography>
+              </Skeleton>          }
+            subheader={
+              <Skeleton animation={animation} >
+                <Typography variant={'body1'}>member.email@gmail.com</Typography>
+              </Skeleton>}
+            avatar={
+              <Skeleton variant="circular" animation={animation}
+              >
+                <Avatar sx={{ bgcolor: getBgColor(), width: 50, height: 50}} >
               <AddMemberIcon />
             </Avatar>
-                 
-           
-          </ListItemAvatar>
-          <ListItemText
-            primary={ <Skeleton animation={false} />}
-            secondary={<Skeleton animation={false} />}
-            />
-        
-        </ListItemButton> 
-      </Tooltip>
+            </Skeleton>
+            } />
+         
+        </Card>
       )}
       { showForm === true && (
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <Box sx={{ ml: 1, display: 'flex',  mt: 3}}>
+            <Box sx={{ ml: 1, display: 'flex', mt: 3}}>
               <Autocomplete
                 {...defaultProps}
                 options={canidateMembers}
                 size={'small'}
+                fullWidth
                 sx={{ minWidth: '300px'}}
                 onChange={(e, value) => {
 
@@ -142,18 +142,15 @@ const AddProjectMemberForm = (props: AddProjectMemberFormProps) => {
                     helperText={touched && errors.member}
                   />}
               />
-              <Box><LoadingButton
-                color="success"
-                disabled={!(isValid && formik.dirty)}
-                type="submit"
-                variant="contained"
-                loading={isSubmitting}
-                sx={{mr: 1, ml: 1}}
-              >
-            Save
-              </LoadingButton>
-              <Button onClick={() => setShowForm(false)} >Cancel</Button></Box>
             </ Box>
+            <Box display={{ display: 'flex', justifyContent: "right" }}>
+              <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+                type="submit" loading={isSubmitting} sx={{minWidth: '0'}} >
+                <SaveIcon />
+              </LoadingButton>
+              <Button onClick={() => setShowForm(false)} sx={{ minWidth: '0'}}>
+                <CloseIcon color={'error'}/></Button>
+            </Box>
           </Form>
         </FormikProvider>
       )}
