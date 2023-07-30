@@ -62,14 +62,14 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
         <ConfirmProvider>
           <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: "right", vertical: "bottom"}}
             hideIconVariant={ true } >
-            <AppBar position="static" sx={{boxShadow: 0}}>
+            <AppBar position={'sticky'} sx={{boxShadow: 0}}>
               <Toolbar >
                 <Link href={"/"} style={{textDecoration: "none"}} >
                   <Typography variant="h6" noWrap component="div"
                     sx={{ color: theme.palette.mode === 'light' ?
                       "primary.contrastText" : "primary.light", fontWeight: '800' }}
                   >
-                  Your Moms STRATEGY INC.
+                  STRATEGY INC.
                   </Typography>
                 </Link>
                 <Box sx={{pl: 2, display: 'flex', position: 'relative', top: '3px'}}>
@@ -121,5 +121,3 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
     </SessionProvider>
   )
 }
-
-// QA done

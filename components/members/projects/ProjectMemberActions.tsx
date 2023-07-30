@@ -33,7 +33,8 @@ export default function ProjectMemberActions(props: ProjectMemberActionsProps){
         enqueueSnackbar(`Member ${member.email} removed from Project`, {variant: "success"})
         setProject(res.data.project)
       }).catch((error) => {
-        enqueueSnackbar(`Error removing from Project: ${error}`, {variant: "error"})
+        enqueueSnackbar(`Error removing from Project: ${error.response.data.message}`,
+          {variant: "error"})
       })
   }
 
@@ -43,7 +44,7 @@ export default function ProjectMemberActions(props: ProjectMemberActionsProps){
         enqueueSnackbar(`Member ${member.email} removed project admin`, {variant: "success"})
         setProject(res.data.project)
       }).catch((error) => {
-        enqueueSnackbar(`Error removing admin: ${error}`, {variant: "error"})
+        enqueueSnackbar(`Error removing admin: ${error.response.data.message}`, {variant: "error"})
       })
   }
 
@@ -53,7 +54,9 @@ export default function ProjectMemberActions(props: ProjectMemberActionsProps){
         enqueueSnackbar(`Member ${member.email} made an Project admin`, {variant: "success"})
         setProject(res.data.project)
       }).catch((error) => {
-        enqueueSnackbar(`Error making admin: ${error}`, {variant: "error"})
+
+        console.log(error)
+        enqueueSnackbar(`Error making admin: ${error.response.data.message}`, {variant: "error"})
       })
   }
 

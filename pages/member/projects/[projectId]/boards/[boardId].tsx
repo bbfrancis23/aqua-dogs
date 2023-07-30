@@ -50,13 +50,12 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
         <Box
           sx={{background: `url(/images/themes/${fxPalette.name}/hero.jpg)`,
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundAttachment: 'fixed',
-            backgroundPosition: 'center', width: '100vw', height: '100vh' }} >
+            backgroundPosition: 'center', width: '100vw', }} >
           <BoardToolbar />
           { showColForm && (
             <CreateColForm closeForm={() => handleCloseColForm() } />
           )}
-          <Stack spacing={2} direction={'row'} sx={{ p: 2, overflowX: 'auto',
-            height: 'calc(100vh - 124px)'}} >
+          <Stack spacing={2} direction={'row'} sx={{ p: 2, }} >
             <ProjectBoard member={member}/>
             <Box>
               <Tooltip title="Create Column">

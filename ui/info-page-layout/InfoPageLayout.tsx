@@ -13,7 +13,7 @@ export const InfoPageLayout = (props: InfoPageLayoutProps) => {
 
   const theme: any = useTheme();
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} sx={{pb: 3}}>
       <Grid item xs={12}
         sx={{ display: 'flex', justifyContent: "center", width: '100%',
           borderBottom: '1px solid', borderColor: 'divider'}} >
@@ -33,8 +33,8 @@ export const InfoPageLayout = (props: InfoPageLayoutProps) => {
       </Grid>
       <Grid item xs={12} sx={{ display: 'flex', justifyContent: "center", ml: 3,
 
-        maxHeight: {xs: 'calc(100vh - 180px)', md: 'calc(100vh - 210px)'},
-        overflow: 'auto', overflowX: 'hidden'}}>
+
+      }}>
         <Box sx={{width: '1200px', display: 'flex', justifyContent: 'left' }}>
           {children}
         </Box>

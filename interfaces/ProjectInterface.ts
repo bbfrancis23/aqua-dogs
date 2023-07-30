@@ -9,6 +9,7 @@ export interface Project {
   admins?: Member[]
   members?: Member[]
   boards?: Board[]
+  archived?: boolean
 }
 
 export interface ProjectContextProps {

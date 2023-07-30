@@ -18,7 +18,7 @@ const HomePage = (props: HomePageProps) => {
   const theme: FxTheme = useTheme()
 
   return (
-    <Box sx={{ p: 3, pb: 12, height: '100vh', overflow: 'auto'}}>
+    <Box sx={{ p: 3, pb: 12, }}>
       <Grid container spacing={3}>
         { boards.map( (b: Board) => (
           <Grid item xs={12} md={6} lg={4} key={b.id}>

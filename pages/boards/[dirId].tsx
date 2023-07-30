@@ -14,7 +14,7 @@ export const PublicBoardPage = ( props: any) => {
     <>
       <Typography variant="h5"
         sx={{ pl: 5, position: 'relative', top: '10px'}}>{board.title}</Typography>
-      <Box sx={{ p: 3, pb: 12, height: '100vh', overflow: 'auto'}}>
+      <Box sx={{ p: 3, pb: 12, }}>
 
         <Grid container spacing={3}>
 
@@ -27,7 +27,7 @@ export const PublicBoardPage = ( props: any) => {
                     sx={{bgcolor: "primary.main", color: "primary.contrastText"}}
                   />
                   <CardContent
-                    sx={{height: "calc(100vh - 200px)", overflow: "auto", paddingBottom: "0px"}}>
+                    sx={{ paddingBottom: "0px"}}>
                     {
                       c.items && c?.items.map( (i: Item) => (
 
