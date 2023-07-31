@@ -1,16 +1,16 @@
-import { useContext } from "react";
+import { useContext } from "react"
 
 import { Avatar, Badge, Card, CardHeader, Typography } from "@mui/material"
-import LeaderBadge from '@mui/icons-material/Star';
-import AdminBadge from '@mui/icons-material/Shield';
+import LeaderBadge from '@mui/icons-material/Star'
+import AdminBadge from '@mui/icons-material/Shield'
 
-import { Member } from "@/interfaces/MemberInterface";
+import { Member } from "@/interfaces/MemberInterface"
 
-import Permission, { PermissionCodes, NoPermission } from "@/ui/permission/old-Permission"
+import Permission, { PermissionCodes, NoPermission } from "@/ui/PermissionComponent"
 
-import ProjectMemberActions from "./ProjectMemberActions";
+import ProjectMemberActions from "./ProjectMemberActions"
+import { ProjectContext } from "@/interfaces/ProjectInterface"
 
-import { ProjectContext } from "@/interfaces/ProjectInterface";
 
 export interface ProjectMemberProps {
   type: PermissionCodes;
@@ -54,11 +54,8 @@ const ProjectMember = ( props: ProjectMemberProps) => {
     if(type === PermissionCodes.PROJECT_LEADER){
       return <></>
     }
-    return <ProjectMemberActions
-      sessionMember={sessionMember}
-      project={project} setProject={setProject} member={member} type={type}/>
+    return <ProjectMemberActions sessionMember={sessionMember} member={member} type={type}/>
   }
-
 
   return (
     <Card>
@@ -89,8 +86,7 @@ const ProjectMember = ( props: ProjectMemberProps) => {
       />
     </Card>
   )
-
-
 }
 
 export default ProjectMember
+// QA done

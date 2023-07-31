@@ -1,36 +1,29 @@
 
 import { useEffect, useState, useContext } from "react"
 
-import { Autocomplete,
-  Avatar,
-  Box,
-  Button, Card, CardHeader, ListItem,
-  ListItemAvatar, ListItemButton, ListItemText,
-  Skeleton, TextField, Tooltip, Typography, useTheme } from "@mui/material";
+import { Autocomplete, Avatar, Box, Button, Card, CardHeader, Skeleton, TextField,
+  Typography, useTheme } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-
 import AddMemberIcon from '@mui/icons-material/PersonAdd';
-
-import SaveIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
-
+import SaveIcon from '@mui/icons-material/Done';
 import { useSnackbar } from "notistack"
 
 import axios from "axios"
 import {FormikProvider, useFormik, Form} from "formik"
 import * as Yup from "yup"
-import { Member } from "../../../../interfaces/MemberInterface";
+
 import { ProjectContext } from "@/interfaces/ProjectInterface";
+import { Member } from "@/interfaces/MemberInterface";
 
 const AddMemberSchema = Yup.object().shape({ member: Yup.string().required("Member is required")})
 
-/* eslint-disable */
-export interface AddProjectMemberFormProps {
-}
 
-const AddProjectMemberForm = (props: AddProjectMemberFormProps) => {
+const AddProjectMemberForm = () => {
 
   const theme = useTheme()
+  const {enqueueSnackbar} = useSnackbar()
+
   const [animation, setAnimation] = useState<false | 'wave'| 'pulse'>(false)
 
   const getBgColor = () => {
@@ -42,7 +35,6 @@ const AddProjectMemberForm = (props: AddProjectMemberFormProps) => {
   const [showForm, setShowForm] = useState<boolean>(false)
   const [canidateMembers, setCanidateMembers] = useState<Member[] | []>([])
 
-  const {enqueueSnackbar} = useSnackbar()
 
   useEffect(() => {
     axios.get('/api/members').then( (res:any) => {
@@ -88,60 +80,40 @@ const AddProjectMemberForm = (props: AddProjectMemberFormProps) => {
     <>
       { showForm === false && (
         <Card onClick={() => setShowForm(true) }
-          onMouseEnter={() => setAnimation('pulse')} onMouseLeave={() => setAnimation(false)}
-
-        >
-          <CardHeader 
-            action={
-              <Skeleton variant="circular" animation={animation}
-                sx={{ height: '25px', width: '25px' }}><AddMemberIcon /></Skeleton>
-            }
-            title={ 
-              <Skeleton animation={animation} >
-                <Typography variant={'body1'}>Project Member Name</Typography>
-              </Skeleton>          }
-            subheader={
-              <Skeleton animation={animation} >
-                <Typography variant={'body1'}>member.email@gmail.com</Typography>
-              </Skeleton>}
-            avatar={
-              <Skeleton variant="circular" animation={animation}
-              >
-                <Avatar sx={{ bgcolor: getBgColor(), width: 50, height: 50}} >
+          onMouseEnter={() => setAnimation('pulse')} onMouseLeave={() => setAnimation(false)}>
+          <CardHeader
+            action={ <Skeleton variant="circular" animation={animation}
+              sx={{ height: '25px', width: '25px' }}>
               <AddMemberIcon />
-            </Avatar>
+            </Skeleton> }
+            title={ <Skeleton animation={animation} >
+              <Typography variant={'body1'}>Project Member Name</Typography>
+            </Skeleton> }
+            subheader={ <Skeleton animation={animation} >
+              <Typography variant={'body1'}>member.email@gmail.com</Typography>
+            </Skeleton>}
+            avatar={ <Skeleton variant="circular" animation={animation} >
+              <Avatar sx={{ bgcolor: getBgColor(), width: 50, height: 50}} >
+                <AddMemberIcon />
+              </Avatar>
             </Skeleton>
             } />
-         
         </Card>
       )}
       { showForm === true && (
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <Box sx={{ ml: 1, display: 'flex', mt: 3}}>
-              <Autocomplete
-                {...defaultProps}
-                options={canidateMembers}
-                size={'small'}
-                fullWidth
+              <Autocomplete {...defaultProps} options={canidateMembers} size={'small'} fullWidth
                 sx={{ minWidth: '300px'}}
                 onChange={(e, value) => {
-
                   const v = value !== null ? value.id : initialValues.member
-
-                  setFieldValue(
-                    "member",
-                    value !== null ? value.id : initialValues.member
-                  );
+                  setFieldValue( "member", value !== null ? value.id : initialValues.member );
                 }}
-
-                renderInput={
-                  (params) => <TextField
-                    {...params} label="Add Member" error={Boolean(touched && errors.member)}
-                    {...getFieldProps("member")}
-                    helperText={touched && errors.member}
-                  />}
-              />
+                renderInput={ (params) =>
+                  <TextField {...params} label="Add Member" {...getFieldProps("member")}
+                    error={Boolean(touched && errors.member)}
+                    helperText={touched && errors.member} />} />
             </ Box>
             <Box display={{ display: 'flex', justifyContent: "right" }}>
               <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
@@ -159,3 +131,4 @@ const AddProjectMemberForm = (props: AddProjectMemberFormProps) => {
 }
 
 export default AddProjectMemberForm
+// QA done

@@ -16,12 +16,12 @@ import { findMember } from "@/mongo/controls/member/memberControls";
 
 import Permission, { permission, PermissionCodes } from "@/ui/PermissionComponent";
 import InfoPageLayout from "@/ui/InfoPageLayout";
-
-// QA done
-
 import ProjectMember from "@/components/members/projects/ProjectMember";
 import AddProjectMemberForm from "@/components/members/projects/forms/AddProjectMemberForm";
 import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm";
+
+// QA done
+
 import BoardStub from "@/components/members/projects/boards/BoardStub";
 import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm";
 import ProjectEditTitleForm from "@/components/members/projects/forms/ProjectEditTitleForm";
