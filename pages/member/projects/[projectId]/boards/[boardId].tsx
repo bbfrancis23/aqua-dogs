@@ -11,13 +11,14 @@ import CreateColForm from "@/components/members/projects/boards/columns/forms/Cr
 
 import { Board } from "@/interfaces/BoardInterface";
 import { Project } from "@/interfaces/ProjectInterface";
-import { Member, getValidMember } from "@/interfaces/MemberInterface";
+import { Member } from "@/interfaces/MemberInterface";
 
 import { findProject } from "@/mongo/controls/member/project/findProject";
 import { findProjectBoards } from "@/mongo/controls/member/project/findProjectBoards";
 
 import { PermissionCodes, permission } from "@/ui/permission/Permission";
 import { useSnackbar } from "notistack";
+import { getMember } from "@/mongo/controls/member/memberControls";
 
 export interface MemberProjectBoardPageProps {
   project: Project;
@@ -85,7 +86,7 @@ GetServerSideProps<MemberProjectBoardPageProps> = async(context) => {
   }
 
 
-  const member: Member | false = await getValidMember(authSession)
+  const member: Member | false = await getMember(authSession?.user?.email)
 
   if(member){
     const project: any = await findProject(context.query.projectId)
