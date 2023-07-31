@@ -16,7 +16,7 @@ import { Project } from "../../interfaces/ProjectInterface"
 import { getMemberProjects } from "../../mongo/controllers/memberControllers"
 import { useRouter } from "next/router"
 import InfoPageLayout from "@/ui/InfoPageLayout"
-import { getMember } from "@/mongo/controls/member/memberControls"
+import { findMember } from "@/mongo/controls/member/memberControls"
 
 export type MemberPage = {
   member: Member
@@ -26,7 +26,7 @@ export type MemberPage = {
 export const getServerSideProps: GetServerSideProps<MemberPage> = async(context) => {
 
   const authSession = await getSession({req: context.req})
-  const member: Member | false = await getMember(authSession?.user?.email)
+  const member: Member | false = await findMember(authSession?.user?.email)
 
   if(! member) return {redirect: {destination: "/", permanent: false}}
 
