@@ -8,7 +8,7 @@ import { findProject } from "@/mongo/controls/member/project/findProject";
 import { getItem } from "@/mongo/controllers/itemControllers";
 
 import { Project, ProjectContext } from "@/interfaces/ProjectInterface";
-import { Member, getValidMember } from "@/interfaces/MemberInterface";
+import { Member } from "@/interfaces/MemberInterface";
 import { Item, ItemContext } from "@/interfaces/ItemInterface";
 
 import Permission, { PermissionCodes, permission, NoPermission } from "@/ui/permission/Permission";
@@ -20,6 +20,7 @@ import CreateSectionForm from "@/itemComponents/sections/forms/CreateSectionForm
 import { TextSection } from "@/itemComponents/sections/TextSection";
 import { CodeSection } from "@/itemComponents/sections/CodeSection";
 import { Section } from "@/interfaces/SectionInterface";
+import { getMember } from "@/mongo/controls/member/memberControls";
 
 
 export interface MemberItemPageProps {
@@ -88,7 +89,7 @@ GetServerSideProps<MemberItemPageProps> = async(context) => {
     return {redirect: {destination: "/", permanent: false}}
   }
 
-  const member: Member | false = await getValidMember(authSession)
+  const member: Member | false = await getMember(authSession?.user?.email)
 
   if(member){
     const project: Project = await findProject(context.query.projectId)
