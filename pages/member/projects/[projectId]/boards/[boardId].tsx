@@ -51,7 +51,7 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
         <Box
           sx={{background: `url(/images/themes/${fxPalette.name}/hero.jpg)`,
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundAttachment: 'fixed',
-            backgroundPosition: 'center', width: '100vw', }} >
+            backgroundPosition: 'center', width: '100vw', height: 'calc(100vh - 64px)'}} >
           <BoardToolbar />
           { showColForm && (
             <CreateColForm closeForm={() => handleCloseColForm() } />
