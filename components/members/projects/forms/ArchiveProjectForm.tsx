@@ -1,17 +1,21 @@
 
 import { useContext } from "react";
-import { ProjectContext } from "@/interfaces/ProjectInterface";
-import { Box, Button } from "@mui/material";
-import { useSnackbar } from "notistack";
-import { useConfirm } from "material-ui-confirm";
-import axios from "axios";
-import router from "next/router";
-import Permission, { PermissionCodes } from "@/ui/permission/old-Permission";
-import { Member } from "@/interfaces/MemberInterface";
 
-export type ArchiveProjectFormProps = {
-  member: Member
-}
+import router from "next/router";
+
+import { Box, Button } from "@mui/material";
+import { useConfirm } from "material-ui-confirm";
+import { useSnackbar } from "notistack";
+
+import axios from "axios";
+
+import { ProjectContext } from "@/interfaces/ProjectInterface";
+
+import Permission, { PermissionCodes } from "@/ui/PermissionComponent"
+
+import { Member } from "@/interfaces/MemberInterface"
+
+export type ArchiveProjectFormProps = { member: Member}
 
 const ArchiveProjectForm = (props: ArchiveProjectFormProps) => {
   const {member} = props
@@ -51,5 +55,6 @@ const ArchiveProjectForm = (props: ArchiveProjectFormProps) => {
 
 }
 
-export default ArchiveProjectForm;
+export default ArchiveProjectForm
 
+// QA done

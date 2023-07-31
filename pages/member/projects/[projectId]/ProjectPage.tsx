@@ -19,12 +19,12 @@ import InfoPageLayout from "@/ui/InfoPageLayout";
 import ProjectMember from "@/components/members/projects/ProjectMember";
 import AddProjectMemberForm from "@/components/members/projects/forms/AddProjectMemberForm";
 import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm";
+import BoardStub from "@/components/members/projects/boards/BoardStub";
+import ProjectEditTitleForm from "@/components/members/projects/forms/ProjectEditTitleForm";
 
 // QA done
 
-import BoardStub from "@/components/members/projects/boards/BoardStub";
 import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm";
-import ProjectEditTitleForm from "@/components/members/projects/forms/ProjectEditTitleForm";
 
 
 export type ProjectPage = {
