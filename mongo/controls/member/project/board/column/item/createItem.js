@@ -1,122 +1,122 @@
-import axios from 'axios';
-import db from '/mongo/db';
+import axios from 'axios'
+import db from '/mongo/db'
 
-import Project from '/mongo/schemas/ProjectSchema';
-import Board from '/mongo/schemas/BoardSchema';
-import Column from '/mongo/schemas/ColumnSchema';
-import Item from '/mongo/schemas/ItemSchema';
-import Member from '/mongo/schemas/MemberSchema';
-import { getSession } from 'next-auth/react';
+import Project from '/mongo/schemas/ProjectSchema'
+import Board from '/mongo/schemas/BoardSchema'
+import Column from '/mongo/schemas/ColumnSchema'
+import Item from '/mongo/schemas/ItemSchema'
+import Member from '/mongo/schemas/MemberSchema'
+import {getSession} from 'next-auth/react'
 
-import { PermissionCodes, permission } from '/ui/permission/Permission';
+import {PermissionCodes, permission} from '/ui/PermissionComponent'
 
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 export const createItem = async (req, res) => {
-  let status = axios.HttpStatusCode.Created;
-  let message = '';
-  let item = undefined;
-  let board = undefined;
+  let status = axios.HttpStatusCode.Created
+  let message = ''
+  let item = undefined
+  let board = undefined
 
-  await db.connect();
+  await db.connect()
 
-  const authSession = await getSession({ req });
+  const authSession = await getSession({req})
 
   if (authSession) {
-    const { projectId } = req.query;
+    const {projectId} = req.query
 
-    const project = await Project.findOne({ _id: req.query.projectId })
-      .populate({ path: 'leader', model: Member })
-      .populate({ path: 'admins', model: Member })
-      .populate({ path: 'members', model: Member });
+    const project = await Project.findOne({_id: req.query.projectId})
+      .populate({path: 'leader', model: Member})
+      .populate({path: 'admins', model: Member})
+      .populate({path: 'members', model: Member})
 
     let frontEndProjectFormat = await project.toObject({
       getters: true,
       flattenMaps: true,
-    });
+    })
 
-    frontEndProjectFormat = await JSON.stringify(frontEndProjectFormat);
-    frontEndProjectFormat = await JSON.parse(frontEndProjectFormat);
+    frontEndProjectFormat = await JSON.stringify(frontEndProjectFormat)
+    frontEndProjectFormat = await JSON.parse(frontEndProjectFormat)
 
     const hasPermission = permission({
       code: PermissionCodes.PROJECT_ADMIN,
-      member: { id: authSession.user.id },
+      member: {id: authSession.user.id},
       project: frontEndProjectFormat,
-    });
+    })
 
     if (hasPermission) {
-      board = await Board.findOne({ _id: req.query.boardId }).populate({
+      board = await Board.findOne({_id: req.query.boardId}).populate({
         path: 'columns',
         model: Column,
-      });
+      })
 
       if (board.project.toString() === projectId) {
-        let column = board.columns.find((c) => c.id === req.query.columnId);
+        let column = board.columns.find((c) => c.id === req.query.columnId)
 
         if (column) {
-          const dbSession = await mongoose.startSession();
+          const dbSession = await mongoose.startSession()
 
           try {
-            dbSession.startTransaction();
+            dbSession.startTransaction()
 
             const newItem = new Item({
               title: req.body.title,
               owners: [authSession.user.id],
               scope: 'private',
-            });
+            })
 
-            await newItem.save({ dbSession });
+            await newItem.save({dbSession})
 
-            await column.items.push(newItem);
+            await column.items.push(newItem)
 
-            await column.save({ dbSession });
-            await dbSession.commitTransaction();
+            await column.save({dbSession})
+            await dbSession.commitTransaction()
 
-            column = await column.toObject({ getters: true });
-            status = axios.HttpStatusCode.Created;
+            column = await column.toObject({getters: true})
+            status = axios.HttpStatusCode.Created
 
-            item = newItem.toObject({ getters: true });
+            item = newItem.toObject({getters: true})
 
             board = await Board.findOne({
               _id: req.query.boardId,
               project: req.query.projectId,
             }).populate({
               path: 'columns',
-              populate: { path: 'items', model: Item },
-            });
+              populate: {path: 'items', model: Item},
+            })
 
-            board = board.toObject({ getters: true, flattenMaps: true });
+            board = board.toObject({getters: true, flattenMaps: true})
           } catch (e) {
-            console.log('ERROR ERROR', e);
+            console.log('ERROR ERROR', e)
 
-            await dbSession.abortTransaction();
-            dbSession.endSession();
+            await dbSession.abortTransaction()
+            dbSession.endSession()
 
-            console.log('there was an error', e);
-            status = axios.HttpStatusCode.InternalServerError;
-            message = e;
+            console.log('there was an error', e)
+            status = axios.HttpStatusCode.InternalServerError
+            message = e
           }
         } else {
-          status = axios.HttpStatusCode.Forbidden;
-          message = 'Data is mismatched this is a hacking attempt';
+          status = axios.HttpStatusCode.Forbidden
+          message = 'Data is mismatched this is a hacking attempt'
         }
       } else {
-        status = axios.HttpStatusCode.Forbidden;
-        message = 'Data is mismatched this is a hacking attempt';
+        status = axios.HttpStatusCode.Forbidden
+        message = 'Data is mismatched this is a hacking attempt'
       }
     } else {
-      status = axios.HttpStatusCode.Forbidden;
-      message = 'You must be the Project Leader or Admin to create a Board';
+      status = axios.HttpStatusCode.Forbidden
+      message = 'You must be the Project Leader or Admin to create a Board'
     }
   } else {
-    status = axios.HttpStatusCode.Unauthorized;
-    message = 'Authentication Required.';
+    status = axios.HttpStatusCode.Unauthorized
+    message = 'Authentication Required.'
   }
-  await db.disconnect();
+  await db.disconnect()
   res.status(status).json({
     message,
     board,
-  });
-};
+  })
+}
 
-export default createItem;
+export default createItem

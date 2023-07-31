@@ -1,98 +1,98 @@
-import db from '/mongo/db';
-import { ObjectId } from 'mongodb';
-import { getSession } from 'next-auth/react';
-import axios from 'axios';
-import mongoose from 'mongoose';
+import db from '/mongo/db'
+import {ObjectId} from 'mongodb'
+import {getSession} from 'next-auth/react'
+import axios from 'axios'
+import mongoose from 'mongoose'
 
-import Item from 'mongo/schemas/ItemSchema';
-import Section from '/mongo/schemas/SectionSchema';
+import Item from 'mongo/schemas/ItemSchema'
+import Section from '/mongo/schemas/SectionSchema'
 
-import SectionType from '/mongo/schemas/SectionTypeSchema';
-import Tag from '/mongo/schemas/TagSchema';
+import SectionType from '/mongo/schemas/SectionTypeSchema'
+import Tag from '/mongo/schemas/TagSchema'
 
-import { getItem, flattenItem } from '/mongo/controllers/itemControllers';
+import {getItem, flattenItem} from '/mongo/controllers/itemControllers'
 
-import { PermissionCodes, permission } from '/ui/permission/Permission';
+import {PermissionCodes, permission} from '/ui/PermissionComponent'
 
 export const deleteSection = async (req, res) => {
-  const { sectionId } = req.query;
+  const {sectionId} = req.query
 
-  let section = undefined;
-  let item = undefined;
-  let status = axios.HttpStatusCode.Ok;
-  let message = '';
-  await db.connect();
+  let section = undefined
+  let item = undefined
+  let status = axios.HttpStatusCode.Ok
+  let message = ''
+  await db.connect()
 
-  const authSession = await getSession({ req });
+  const authSession = await getSession({req})
 
   if (authSession) {
     try {
       section = await Section.findById(sectionId).populate({
         path: 'sectiontype',
         model: SectionType,
-      });
+      })
     } catch (e) {
-      status = axios.HttpStatusCode.InternalServerError;
-      message = e;
+      status = axios.HttpStatusCode.InternalServerError
+      message = e
     }
 
     if (section) {
       try {
-        item = await Item.findById(section.itemid);
+        item = await Item.findById(section.itemid)
       } catch (e) {
-        status = axios.HttpStatusCode.InternalServerError;
-        message = e;
+        status = axios.HttpStatusCode.InternalServerError
+        message = e
       }
 
       if (item) {
-        let feItem = await JSON.stringify(item);
-        feItem = await JSON.parse(feItem);
+        let feItem = await JSON.stringify(item)
+        feItem = await JSON.parse(feItem)
 
         const hasPermission = permission({
           code: PermissionCodes.ITEM_OWNER,
-          member: { id: authSession.user.id },
+          member: {id: authSession.user.id},
           item: feItem,
-        });
+        })
 
         if (hasPermission) {
-          const dbSession = await mongoose.startSession();
+          const dbSession = await mongoose.startSession()
           try {
-            dbSession.startTransaction();
+            dbSession.startTransaction()
 
-            await Section.deleteOne({ _id: ObjectId(sectionId) });
+            await Section.deleteOne({_id: ObjectId(sectionId)})
 
-            await item.sections.pull(section);
-            await item.save({ dbSession });
-            await dbSession.commitTransaction();
+            await item.sections.pull(section)
+            await item.save({dbSession})
+            await dbSession.commitTransaction()
 
             item = await Item.findById(section.itemid).populate({
               path: 'sections',
               model: Section,
-            });
+            })
           } catch (e) {
-            await dbSession.abortTransaction();
-            dbSession.endSession();
-            status = axios.HttpStatusCode.InternalServerError;
-            message = e;
-            console.log(e);
+            await dbSession.abortTransaction()
+            dbSession.endSession()
+            status = axios.HttpStatusCode.InternalServerError
+            message = e
+            console.log(e)
           }
         } else {
-          status = axios.HttpStatusCode.Unauthorized;
-          message = 'You do not have Authorization.';
+          status = axios.HttpStatusCode.Unauthorized
+          message = 'You do not have Authorization.'
         }
       } else {
-        status = axios.HttpStatusCode.NotFound;
+        status = axios.HttpStatusCode.NotFound
       }
     }
   } else {
-    status = axios.HttpStatusCode.Unauthorized;
-    message = 'Authentication Required.';
+    status = axios.HttpStatusCode.Unauthorized
+    message = 'Authentication Required.'
   }
-  await db.disconnect();
+  await db.disconnect()
 
   res.status(status).json({
     message,
-    item: item ? item.toObject({ getters: true }) : undefined,
-  });
-  return;
-};
+    item: item ? item.toObject({getters: true}) : undefined,
+  })
+  return
+}
