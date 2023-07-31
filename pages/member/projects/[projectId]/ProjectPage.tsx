@@ -24,7 +24,7 @@ import AddProjectMemberForm from "@/components/members/projects/forms/AddProject
 import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm";
 import BoardStub from "@/components/members/projects/boards/BoardStub";
 import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm";
-import ProjectTitleForm from "@/components/members/projects/forms/ProjectTitleForm";
+import ProjectEditTitleForm from "@/components/members/projects/forms/ProjectEditTitleForm";
 
 
 export type ProjectPage = {
@@ -75,7 +75,7 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 
   return (
     <ProjectContext.Provider value={{project, setProject}}>
-      <InfoPageLayout title={<ProjectTitleForm project={project}/>}>
+      <InfoPageLayout title={<ProjectEditTitleForm project={project}/>}>
         <Stack spacing={3}>
           <Typography variant="h4">Members</Typography>
           <Stack spacing={1} sx={{ pr: 3}}>
