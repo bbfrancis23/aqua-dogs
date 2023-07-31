@@ -15,7 +15,7 @@ import ProjectStub from "../../components/members/projects/ProjectStub"
 import { Project } from "../../interfaces/ProjectInterface"
 import { getMemberProjects } from "../../mongo/controllers/memberControllers"
 import { useRouter } from "next/router"
-import InfoPageLayout from "@/ui/info-page-layout/InfoPageLayout"
+import InfoPageLayout from "@/ui/InfoPageLayout"
 import { getMember } from "@/mongo/controls/member/memberControls"
 
 export type MemberPage = {

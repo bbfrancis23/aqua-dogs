@@ -12,10 +12,10 @@ import { Board } from "@/interfaces/BoardInterface";
 
 import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls";
 
-// QA done
 
 import Permission, { permission, PermissionCodes } from "@/ui/PermissionComponent";
-import InfoPageLayout from "@/ui/info-page-layout/InfoPageLayout";
+import InfoPageLayout from "@/ui/InfoPageLayout";
+// QA done
 
 import ProjectTitleForm from "@/components/members/projects/forms/ProjectTItleForm";
 import ProjectMember from "@/components/members/projects/ProjectMember";
