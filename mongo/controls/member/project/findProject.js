@@ -1,28 +1,30 @@
-import db from '/mongo/db';
+import db from '/mongo/db'
 
-import Member from '/mongo/schemas/MemberSchema';
-import Project from '/mongo/schemas/ProjectSchema';
+import Member from '/mongo/schemas/MemberSchema'
+import Project from '/mongo/schemas/ProjectSchema'
 
-import { basicMemberFields } from '/mongo/controls/member/member.js';
+import {basicMemberFields} from '/mongo/controls/member/member.js'
 
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 export const findProject = async (id) => {
-  let project = null;
+  let project = null
 
-  await db.connect();
+  await db.connect()
 
-  project = await Project.findOne({ _id: id })
+  project = await Project.findOne({_id: id})
     .populate('leader', '-password -authCode')
     .populate('admins', '-password -authCode')
-    .populate('members', '-password -authCode');
+    .populate('members', '-password -authCode')
 
   project = await project.toObject({
     getters: true,
-  });
-  project = await JSON.stringify(project);
-  project = await JSON.parse(project);
-  await db.disconnect();
+  })
+  project = await JSON.stringify(project)
+  project = await JSON.parse(project)
+  await db.disconnect()
 
-  return project;
-};
+  return project
+}
+
+// QA done

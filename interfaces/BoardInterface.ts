@@ -7,3 +7,5 @@ export interface Board {
   scope?: Scope
   columns: Column[]
 }
+
+// QA done

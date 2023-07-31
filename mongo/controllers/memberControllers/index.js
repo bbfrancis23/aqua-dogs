@@ -127,6 +127,7 @@ export const createMemberTag = async (member, title) => {
   return member
 }
 
+// QA this
 export const getMember = async (email) => {
   let status = 200
   let message = 'found member'
@@ -149,7 +150,9 @@ export const getMember = async (email) => {
   if (status === 200) {
     if (member) {
       member = await member.toObject({getters: true, flattenMaps: true})
-      member = await flattenMember(member)
+
+      member = await JSON.stringify(member)
+      member = await JSON.parse(member)
     } else {
       status = 404
       message = `Member: ${email} not found.`

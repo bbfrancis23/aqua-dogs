@@ -7,8 +7,11 @@ import router from "next/router";
 import { Button, Grid, Stack, Typography } from "@mui/material";
 
 import { Project, ProjectContext } from "@/interfaces/ProjectInterface";
-import { Member, getValidMember } from "@/interfaces/MemberInterface";
+
+import { Member } from "@/interfaces/MemberInterface";
 import { Board } from "@/interfaces/BoardInterface";
+
+// QA done
 
 import {findProject} from "@/mongo/controls/member/project/findProject"
 import {findProjectBoards} from "@/mongo/controls/member/project/findProjectBoards"
@@ -23,6 +26,7 @@ import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBo
 import BoardStub from "@/components/members/projects/boards/BoardStub";
 
 import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm";
+import { getMember } from "@/mongo/controls/member/memberControls";
 
 export type ProjectPage = {
   project: Project;
@@ -35,7 +39,10 @@ const unAuthRedirect: Redirect = {destination: "/", permanent: false}
 export const getServerSideProps: GetServerSideProps<ProjectPage> = async(context) => {
 
   const authSession = await getSession({req: context.req})
-  const member: Member | false = await getValidMember(authSession)
+
+  if(! authSession) return {redirect: unAuthRedirect }
+
+  const member: Member | false = await getMember(authSession?.user?.email)
   if(! member) return {redirect: unAuthRedirect }
 
   const project: Project = await findProject(context.query.projectId)
@@ -62,7 +69,6 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
   const [showBoardForm, setShowBoardForm] = useState<boolean>(false)
 
   const handleCloseCreateBoardForm = () => { setShowBoardForm(false) }
-
 
   return (
     <ProjectContext.Provider value={{project, setProject}}>
@@ -135,5 +141,3 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
   )
 }
 export default Page
-
-

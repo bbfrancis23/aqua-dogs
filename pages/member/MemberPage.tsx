@@ -6,7 +6,7 @@ import { signOut, getSession} from "next-auth/react"
 import {Button, Stack, Typography, Grid } from "@mui/material"
 import {useSnackbar} from "notistack"
 
-import {Member, getValidMember} from "../../interfaces/MemberInterface"
+import {Member} from "../../interfaces/MemberInterface"
 import ChangePasswordForm from "../../components/auth/forms/ChangePasswordForm"
 import NameForm from "../../components/members/NameForm"
 import EmailForm from "../../components/members/EmailForm"
@@ -16,6 +16,7 @@ import { Project } from "../../interfaces/ProjectInterface"
 import { getMemberProjects } from "../../mongo/controllers/memberControllers"
 import { useRouter } from "next/router"
 import InfoPageLayout from "@/ui/info-page-layout/InfoPageLayout"
+import { getMember } from "@/mongo/controls/member/memberControls"
 
 export type MemberPage = {
   member: Member
@@ -25,7 +26,7 @@ export type MemberPage = {
 export const getServerSideProps: GetServerSideProps<MemberPage> = async(context) => {
 
   const authSession = await getSession({req: context.req})
-  const member: Member | false = await getValidMember(authSession)
+  const member: Member | false = await getMember(authSession?.user?.email)
 
   if(! member) return {redirect: {destination: "/", permanent: false}}
 
