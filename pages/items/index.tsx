@@ -9,7 +9,7 @@ import axios, {HttpStatusCode} from "axios"
 
 import {Item} from "../../interfaces/ItemInterface"
 import {getItems} from "../../mongo/controllers/itemControllers"
-import Permission from "../../ui/Permission"
+import Permission from "../../ui/old-Permission"
 import PermissionCodes from "../../enums/PermissionCodes"
 
 import Link from "next/link"

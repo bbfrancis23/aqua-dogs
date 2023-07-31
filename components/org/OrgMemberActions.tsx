@@ -8,7 +8,7 @@ import axios from "axios";
 
 import PermissionCodes from "../../enums/PermissionCodes";
 
-import Permission from "../../ui/Permission";
+import Permission from "../../ui/old-Permission";
 
 import { Org } from "../../interfaces/OrgInterface";
 

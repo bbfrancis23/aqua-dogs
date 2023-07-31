@@ -15,7 +15,7 @@ import PermissionCodes from "../../enums/PermissionCodes"
 import ItemFormDialog from "../items/ItemFormDialog"
 import TagBoard from "./TagBoard"
 
-import Permission from "../../ui/Permission"
+import Permission from "../../ui/old-Permission"
 import { Member } from "../../interfaces/MemberInterface"
 
 export interface TagComponentProps {

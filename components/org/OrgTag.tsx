@@ -3,7 +3,7 @@ import { Tag } from "../../interfaces/TagInterface";
 import { Org } from "../../interfaces/OrgInterface";
 import { useSnackbar } from "notistack";
 import { Dispatch, SetStateAction } from "react";
-import Permission, {NoPermission} from "../../ui/Permission";
+import Permission, {NoPermission} from "../../ui/old-Permission";
 import PermissionCodes from "../../enums/PermissionCodes";
 import { Chip } from "@mui/material";
 export interface OrgTagProps{

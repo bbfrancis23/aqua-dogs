@@ -24,7 +24,7 @@ import dynamic from "next/dynamic"
 import "@uiw/react-textarea-code-editor/dist.css"
 import axios from "axios";
 import { Form, FormikProvider, useFormik } from "formik";
-import Permission, { PermissionCodes } from "@/ui/permission/Permission";
+import Permission, { PermissionCodes } from "@/ui/permission/old-Permission";
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
   {ssr: false}

@@ -11,7 +11,7 @@ import { Project, ProjectContext } from "@/interfaces/ProjectInterface";
 import { Member } from "@/interfaces/MemberInterface";
 import { Item, ItemContext } from "@/interfaces/ItemInterface";
 
-import Permission, { PermissionCodes, permission, NoPermission } from "@/ui/permission/Permission";
+import Permission, { PermissionCodes, permission, NoPermission } from "@/ui/permission/old-Permission";
 import InfoCardContainer from "@/ui/information-card/InfoCardContainer";
 import InfoCard from "@/ui/information-card/InfoCard";
 

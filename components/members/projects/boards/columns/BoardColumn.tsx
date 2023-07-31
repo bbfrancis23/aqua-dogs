@@ -7,7 +7,7 @@ import { Draggable } from "react-beautiful-dnd";
 import { Column } from "@/interfaces/Column";
 import { Member } from "@/interfaces/MemberInterface";
 
-import Permission, { PermissionCodes } from "@/ui/permission/Permission";
+import Permission, { PermissionCodes } from "@/ui/permission/old-Permission";
 
 import ColumnList from "./ColumnList";
 import CreateItemForm from "./items/forms/CreateItemForm";

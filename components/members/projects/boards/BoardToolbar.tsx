@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Box, Stack, alpha, useTheme } from "@mui/material";
 import { Member } from "@/interfaces/MemberInterface";
 import { ProjectMemberAvatar } from "../ProjectMemberAvatar";
-import { PermissionCodes } from "@/ui/permission/Permission";
+import { PermissionCodes } from "@/ui/permission/old-Permission";
 import { BoardTitleForm } from "./forms/BoardTitleForm";
 
 import { ProjectContext, BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";

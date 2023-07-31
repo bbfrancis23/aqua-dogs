@@ -1,6 +1,6 @@
 import { Box, Card, CardActions, CardContent, CardHeader, Chip, IconButton, Stack,
   Typography } from "@mui/material"
-import Permission from "../../ui/Permission"
+import Permission from "../../ui/old-Permission"
 
 import AddIcon from "@mui/icons-material/Add"
 import EditIcon from "@mui/icons-material/Edit"

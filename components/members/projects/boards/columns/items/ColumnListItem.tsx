@@ -10,7 +10,7 @@ import { Item } from "@/interfaces/ItemInterface";
 
 import EditItemForm from "./forms/EditItemForm";
 
-import Permission, { PermissionCodes } from "@/ui/permission/Permission";
+import Permission, { PermissionCodes } from "@/ui/permission/old-Permission";
 import { ProjectContext, BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";
 
 export interface ColumnListProps {

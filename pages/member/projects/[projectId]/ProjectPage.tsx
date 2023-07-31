@@ -7,15 +7,14 @@ import router from "next/router";
 import { Button, Grid, Stack, Typography } from "@mui/material";
 
 import { Project, ProjectContext } from "@/interfaces/ProjectInterface";
-
 import { Member } from "@/interfaces/MemberInterface";
 import { Board } from "@/interfaces/BoardInterface";
 
+import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls";
+
 // QA done
 
-import {findProjectBoards} from "@/mongo/controls/member/project/findProjectBoards"
-
-import Permission, { permission, PermissionCodes } from "@/ui/permission/Permission";
+import Permission, { permission, PermissionCodes } from "@/ui/PermissionComponent";
 import InfoPageLayout from "@/ui/info-page-layout/InfoPageLayout";
 
 import ProjectTitleForm from "@/components/members/projects/forms/ProjectTItleForm";
@@ -26,7 +25,6 @@ import BoardStub from "@/components/members/projects/boards/BoardStub";
 
 import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm";
 import { getMember } from "@/mongo/controls/member/memberControls";
-import { findProject } from "@/mongo/controls/member/project/projectControls";
 
 export type ProjectPage = {
   project: Project;
@@ -45,10 +43,11 @@ export const getServerSideProps: GetServerSideProps<ProjectPage> = async(context
   const member: Member | false = await getMember(authSession?.user?.email)
   if(! member) return {redirect: unAuthRedirect }
 
-  if( typeof context.query.project !== "string" ) return {redirect: unAuthRedirect}
+  if( typeof context.query.projectId !== "string" ) return {redirect: unAuthRedirect}
   const projectId: string = context?.query?.projectId as string
 
   const project: Project = await findProject(projectId)
+
   const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
   if(! hasPermission){ return {redirect: unAuthRedirect} }
 

@@ -6,7 +6,7 @@ import { useSnackbar } from "notistack";
 import { useConfirm } from "material-ui-confirm";
 import axios from "axios";
 import router from "next/router";
-import Permission, { PermissionCodes } from "@/ui/permission/Permission";
+import Permission, { PermissionCodes } from "@/ui/permission/old-Permission";
 import { Member } from "@/interfaces/MemberInterface";
 
 export type ArchiveProjectFormProps = {

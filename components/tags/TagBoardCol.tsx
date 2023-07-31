@@ -5,7 +5,7 @@ import AddItemIcon from '@mui/icons-material/PostAdd';
 
 import { Org } from "../../interfaces/OrgInterface";
 import TagBoardColList from "./TagBoardColList";
-import Permission from "../../ui/Permission";
+import Permission from "../../ui/old-Permission";
 import PermissionCodes from "../../enums/PermissionCodes";
 
 export interface BoardColProps{

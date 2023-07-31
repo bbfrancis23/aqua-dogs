@@ -5,7 +5,7 @@ import { Project } from "../../../interfaces/ProjectInterface";
 import LeaderBadge from '@mui/icons-material/Star';
 
 import AdminBadge from '@mui/icons-material/Shield';
-import { PermissionCodes } from "../../../ui/permission/Permission";
+import { PermissionCodes } from "../../../ui/permission/old-Permission";
 
 export interface ProjectMemberAvatarProps {
   type: PermissionCodes;

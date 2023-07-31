@@ -13,7 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 
 import * as Yup from "yup"
-import Permission, { PermissionCodes, NoPermission } from "@/ui/permission/Permission";
+import Permission, { PermissionCodes, NoPermission } from "@/ui/permission/old-Permission";
 
 export interface TextSectionProps {
   member: Member;

@@ -7,7 +7,7 @@ import RemoveAdminIcon from '@mui/icons-material/RemoveModerator';
 import axios from "axios";
 
 
-import Permission, { PermissionCodes } from "../../../ui/permission/Permission"
+import Permission, { PermissionCodes } from "../../../ui/permission/old-Permission"
 
 import { useSnackbar } from "notistack"
 import { Member } from "../../../interfaces/MemberInterface";

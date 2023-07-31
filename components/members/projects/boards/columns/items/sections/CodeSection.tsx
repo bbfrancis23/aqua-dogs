@@ -19,7 +19,7 @@ const CodeEditor = dynamic(
 /*eslint-disable */
 
 import * as Yup from "yup"
-import Permission, { NoPermission, PermissionCodes } from "@/ui/permission/Permission";
+import Permission, { NoPermission, PermissionCodes } from "@/ui/permission/old-Permission";
 
 export interface TextSectionProps {
   member: Member;

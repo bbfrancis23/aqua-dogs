@@ -9,7 +9,7 @@ import {useConfirm} from "material-ui-confirm"
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import { Item } from "../../interfaces/ItemInterface";
-import Permission from "../../ui/Permission";
+import Permission from "../../ui/old-Permission";
 import PermissionCodes from "../../enums/PermissionCodes";
 
 import Link from "next/link"

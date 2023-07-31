@@ -1,6 +1,6 @@
 import { Avatar, Badge, Card, CardHeader,
   ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material"
-import Permission, { PermissionCodes, NoPermission } from "@/ui/permission/Permission"
+import Permission, { PermissionCodes, NoPermission } from "@/ui/permission/old-Permission"
 import { Member } from "../../../interfaces/MemberInterface";
 import { useContext } from "react";
 
