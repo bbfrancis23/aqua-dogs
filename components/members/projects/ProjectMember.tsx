@@ -1,12 +1,15 @@
-import { Avatar, Badge, Card, CardHeader,
-  ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material"
-import Permission, { PermissionCodes, NoPermission } from "@/ui/permission/old-Permission"
-import { Member } from "../../../interfaces/MemberInterface";
 import { useContext } from "react";
 
+import { Avatar, Badge, Card, CardHeader, Typography } from "@mui/material"
 import LeaderBadge from '@mui/icons-material/Star';
 import AdminBadge from '@mui/icons-material/Shield';
+
+import { Member } from "@/interfaces/MemberInterface";
+
+import Permission, { PermissionCodes, NoPermission } from "@/ui/permission/old-Permission"
+
 import ProjectMemberActions from "./ProjectMemberActions";
+
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 
 export interface ProjectMemberProps {
@@ -22,14 +25,15 @@ const ProjectMember = ( props: ProjectMemberProps) => {
 
   const getAvatar = () => {
     let avatar = '';
-    if(member){
-      if(member.name){
-        const names = member.name.split(' ')
-        const firstInitial = names[0].charAt(0);
-        const secondInitial = names[1] ? names[1].charAt(0) : '';
-        avatar = [firstInitial, secondInitial].join('')
-      }else{ avatar = member.email.charAt(0) }
-    }
+    if(! member) return ''
+
+    if(member.name){
+      const names = member.name.split(' ')
+      const firstInitial = names[0].charAt(0);
+      const secondInitial = names[1] ? names[1].charAt(0) : '';
+      avatar = [firstInitial, secondInitial].join('')
+    }else{ avatar = member.email.charAt(0) }
+
     return avatar
   }
 
@@ -47,51 +51,42 @@ const ProjectMember = ( props: ProjectMemberProps) => {
   }
 
   const getMemberActions = () => {
-
     if(type === PermissionCodes.PROJECT_LEADER){
       return <></>
     }
     return <ProjectMemberActions
       sessionMember={sessionMember}
       project={project} setProject={setProject} member={member} type={type}/>
-
-
   }
 
 
   return (
     <Card>
       <CardHeader
-        title={
-          <Typography variant={'body1'}>{ getMemberLabel() + member.name }</Typography>
-        }
+        title={ <Typography variant={'body1'}>{ getMemberLabel() + member.name }</Typography> }
         subheader={member.email}
-        action={
-          getMemberActions()
-        }
+        action={ getMemberActions() }
         avatar={
           <>
             <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
-              <Badge
-                overlap="circular"
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                badgeContent={getBadge() } >
-                <Avatar sx={{ bgcolor: 'primary.light',
-                  color: 'primary.contrastText', width: 50, height: 50}} >
+              <Badge overlap="circular" badgeContent={getBadge() }
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} >
+                <Avatar
+                  sx={{ bgcolor: 'primary.light', color: 'primary.contrastText',
+                    width: 50, height: 50}} >
                   {getAvatar()}
                 </Avatar>
               </Badge>
             </Permission>
             <NoPermission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
-              <Avatar sx={{ bgcolor: 'primary.light',
-                color: 'primary.contrastText', width: 50, height: 50}} >
+              <Avatar sx={{ bgcolor: 'primary.light', color: 'primary.contrastText',
+                width: 50, height: 50}} >
                 {getAvatar()}
               </Avatar>
             </NoPermission>
           </>
         }
       />
-
     </Card>
   )
 

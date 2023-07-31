@@ -11,6 +11,7 @@ import { Member } from "@/interfaces/MemberInterface";
 import { Board } from "@/interfaces/BoardInterface";
 
 import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls";
+import { findMember } from "@/mongo/controls/member/memberControls";
 
 
 import Permission, { permission, PermissionCodes } from "@/ui/PermissionComponent";
@@ -24,9 +25,8 @@ import ProjectMember from "@/components/members/projects/ProjectMember";
 import AddProjectMemberForm from "@/components/members/projects/forms/AddProjectMemberForm";
 import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm";
 import BoardStub from "@/components/members/projects/boards/BoardStub";
-
 import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm";
-import { getMember } from "@/mongo/controls/member/memberControls";
+
 
 export type ProjectPage = {
   project: Project;
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps<ProjectPage> = async(context
 
   if(! authSession) return {redirect: unAuthRedirect }
 
-  const member: Member | false = await getMember(authSession?.user?.email)
+  const member: Member | false = await findMember(authSession?.user?.email)
   if(! member) return {redirect: unAuthRedirect }
 
   if( typeof context.query.projectId !== "string" ) return {redirect: unAuthRedirect}
