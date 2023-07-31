@@ -16,9 +16,10 @@ import { findProject, findProjectBoards } from "@/mongo/controls/member/project/
 import Permission, { permission, PermissionCodes } from "@/ui/PermissionComponent";
 import InfoPageLayout from "@/ui/InfoPageLayout";
 
+import ProjectTitleForm from "@/components/members/projects/forms/ProjectTitleForm";
+
 // QA done
 
-import ProjectTitleForm from "@/components/members/projects/forms/ProjectTItleForm";
 import ProjectMember from "@/components/members/projects/ProjectMember";
 import AddProjectMemberForm from "@/components/members/projects/forms/AddProjectMemberForm";
 import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm";

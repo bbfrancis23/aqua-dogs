@@ -69,7 +69,6 @@ export default PublicItemPage
 export const getStaticPaths = async () => {
   let items: Item[] = await findProjectItems('64b6bc0a1b836981ba0c4cc5')
 
-  console.log('items', items)
 
   const paths = items.map( (i: any) =>
     ({params: {
