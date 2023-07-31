@@ -21,7 +21,7 @@ import CreateSectionForm from "@/itemComponents/sections/forms/CreateSectionForm
 import { TextSection } from "@/itemComponents/sections/TextSection";
 import { CodeSection } from "@/itemComponents/sections/CodeSection";
 import { Section } from "@/interfaces/SectionInterface";
-import { getMember } from "@/mongo/controls/member/memberControls";
+import { findMember } from "@/mongo/controls/member/memberControls";
 
 
 export interface MemberItemPageProps {
@@ -90,7 +90,7 @@ GetServerSideProps<MemberItemPageProps> = async(context) => {
     return {redirect: {destination: "/", permanent: false}}
   }
 
-  const member: Member | false = await getMember(authSession?.user?.email)
+  const member: Member | false = await findMember(authSession?.user?.email)
 
   if(member){
     const project: Project = await findProject(context.query.projectId)

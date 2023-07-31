@@ -17,8 +17,6 @@ import { findMember } from "@/mongo/controls/member/memberControls";
 import Permission, { permission, PermissionCodes } from "@/ui/PermissionComponent";
 import InfoPageLayout from "@/ui/InfoPageLayout";
 
-import ProjectTitleForm from "@/components/members/projects/forms/ProjectTitleForm";
-
 // QA done
 
 import ProjectMember from "@/components/members/projects/ProjectMember";
@@ -26,6 +24,7 @@ import AddProjectMemberForm from "@/components/members/projects/forms/AddProject
 import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm";
 import BoardStub from "@/components/members/projects/boards/BoardStub";
 import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm";
+import ProjectTitleForm from "@/components/members/projects/forms/ProjectTitleForm";
 
 
 export type ProjectPage = {

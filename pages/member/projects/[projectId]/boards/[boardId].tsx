@@ -18,7 +18,7 @@ import { findProjectBoards } from "@/mongo/controls/member/project/findProjectBo
 
 import { PermissionCodes, permission } from "@/ui/permission/old-Permission";
 import { useSnackbar } from "notistack";
-import { getMember } from "@/mongo/controls/member/memberControls";
+import { findMember } from "@/mongo/controls/member/memberControls";
 
 export interface MemberProjectBoardPageProps {
   project: Project;
@@ -86,7 +86,7 @@ GetServerSideProps<MemberProjectBoardPageProps> = async(context) => {
   }
 
 
-  const member: Member | false = await getMember(authSession?.user?.email)
+  const member: Member | false = await findMember(authSession?.user?.email)
 
   if(member){
     const project: any = await findProject(context.query.projectId)
