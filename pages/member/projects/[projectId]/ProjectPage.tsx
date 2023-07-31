@@ -4,7 +4,7 @@ import { GetServerSideProps, InferGetServerSidePropsType, Redirect } from "next"
 import { getSession } from "next-auth/react";
 import router from "next/router";
 
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Button, Grid, Stack, Typography } from "@mui/material";
 
 import { Project, ProjectContext } from "@/interfaces/ProjectInterface";
 import { Member, getValidMember } from "@/interfaces/MemberInterface";
@@ -21,9 +21,8 @@ import ProjectMember from "@/components/members/projects/ProjectMember";
 import AddProjectMemberForm from "@/components/members/projects/forms/AddProjectMemberForm";
 import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm";
 import BoardStub from "@/components/members/projects/boards/BoardStub";
-import { useConfirm } from "material-ui-confirm";
-import axios from "axios";
-import { useSnackbar } from "notistack";
+
+import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm";
 
 export type ProjectPage = {
   project: Project;
@@ -57,27 +56,12 @@ export const getServerSideProps: GetServerSideProps<ProjectPage> = async(context
 const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps> ) => {
 
   const {member} = memberPage
-  const {enqueueSnackbar} = useSnackbar()
-
-  const confirm = useConfirm()
 
   const [boards, setBoards] = useState<Board[]>(memberPage.boards)
   const [project, setProject] = useState<Project>(memberPage.project)
   const [showBoardForm, setShowBoardForm] = useState<boolean>(false)
 
   const handleCloseCreateBoardForm = () => { setShowBoardForm(false) }
-
-  const handleArchive = async () => {
-    try{
-      await confirm({description: `Archive ${project.title}`})
-        .then( () => {
-          //axios.delete(`/api/projects/${project.id}`)
-          enqueueSnackbar(`Archived ${project.title}`, {variant: "success"})
-          router.push("/member")
-        })
-        .catch((e) => enqueueSnackbar('Archiving aborted', {variant: "error"}) )
-    }catch(e){ enqueueSnackbar(`Error2  Archiving ${e}`, {variant: "error"}) }
-  }
 
 
   return (
@@ -143,11 +127,7 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
             </Grid>
           </Grid>
           <Typography variant="h4">Actions</Typography>
-          <Box>
-            <Button variant={'contained'} color="error" onClick={() => handleArchive()}>
-            ARCHIVE PROJECT
-            </Button>
-          </Box>
+          <ArchiveProjectForm member={member}/>
 
         </Stack>
       </InfoPageLayout>

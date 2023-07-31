@@ -33,14 +33,16 @@ export const patchProject = async (
 
   // TODO: Bug authSession.user.id is not typed for user.id???
   const grot: any = authSession
-  const memberId = grot.user._id
+  const memberId = grot.user.id
 
   if (project.leader._id.toString() !== memberId) {
     forbiddenResponse(res, 'You do not have permission to edit this project')
     return
   }
 
-  if (req.body.title) {
+  if (req.method === 'DELETE') {
+    project.archive = true
+  } else if (req.body.title) {
     const {title} = req.body
     project.title = title
   } else if (req.body.addMember) {
@@ -54,6 +56,8 @@ export const patchProject = async (
     project.admins.pull({_id: req.body.removeAdmin})
     project.members.push(req.body.removeAdmin)
   }
+
+  console.log(project)
 
   await project.save()
 

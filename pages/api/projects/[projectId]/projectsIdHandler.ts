@@ -13,6 +13,8 @@ const projectsIdHandler = async (
 ) => {
   if (req.method === 'PATCH') {
     await patchProject(req, res)
+  } else if (req.method === 'DELETE') {
+    await patchProject(req, res)
   }
 }
 
