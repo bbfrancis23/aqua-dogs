@@ -72,16 +72,16 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
           <CreateProjectForm setProjects={(p: Project[]) => setProjects(p)}
             closeForm={handleCloseCreateProjectForm}/>
         ) }
-        <Grid container spacing={1} sx={{pr: 3 }}>
+        <Grid container spacing={0} sx={{pr: 3 }}>
           { projects.map( (p: Project) => (
-            <Grid item xs={6} sm={3} md={2} key={p.id}>
+            <Grid item xs={6} sm={3} md={2} key={p.id} sx={{p: 1}}>
               <Button sx={{ m: 0, p: 0, width: '100%'}}
                 onClick={() => router.push(`/member/projects/${p.id}`)} >
                 <ProjectStub project={p} />
               </Button>
             </Grid>
           )) }
-          <Grid item xs={6} sm={3} md={2} >
+          <Grid item xs={6} sm={3} md={2} sx={{p: 1}}>
             <Button onClick={() => setShowProjectForm(true)} sx={{ m: 0, p: 0, width: '100%'}}>
               <ProjectStub />
             </Button>

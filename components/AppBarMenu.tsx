@@ -34,7 +34,7 @@ export default function AppBarMenu(props: AppBarMenuProps){
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        sx={{px: 3, color: "primary.contrastText", display: {xs: "none", sm: "block"}}}
+        sx={{px: 3, color: "primary.contrastText", display: {xs: "none", md: "block"}}}
       >
         {title}
       </Button>
@@ -44,7 +44,7 @@ export default function AppBarMenu(props: AppBarMenuProps){
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        sx={{display: {xs: "block", sm: "none", color: "primary.contrastText"}}}
+        sx={{display: {xs: "block", md: "none", color: "primary.contrastText"}}}
       >
         {icon}
       </IconButton>

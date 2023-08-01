@@ -1,10 +1,15 @@
-import { Box, Card, CardContent, CardHeader, Skeleton, Typography, useTheme } from "@mui/material";
+import { Box, Card, CardContent, CardHeader, Skeleton, Typography,
+  styled, useTheme } from "@mui/material";
 import { Project } from "../../../interfaces/ProjectInterface";
 import { useState } from "react";
 
 export interface ProjectStubProps{
   project ?: Project
 }
+
+const ProjectStubHeader = styled(CardHeader)(() => ({
+  '& .MuiCardHeader-content': { width: 'inherit', },
+}));
 
 const ProjectStub = (props: ProjectStubProps) => {
 
@@ -39,15 +44,14 @@ const ProjectStub = (props: ProjectStubProps) => {
   return (
     <Card onMouseEnter={() => setAnimation('pulse')} onMouseLeave={() => setAnimation(false)}
       sx={{ bgcolor: getBgColor(), width: '100%', color: getTextColor()}} >
-      <CardHeader title={ project ?
-        <Typography
-          sx={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '90%',
-            maxWidth: '165px',
-            fontSize: '12px', textAlign: 'start'}}>
-          {project.title}
-        </Typography>
-        : <Skeleton height={19} animation={animation} sx={{ fontSize: '12px'}}/>}
-      sx={{ pb: 0.25}} />
+      <ProjectStubHeader
+        title={ project ?
+          <Typography noWrap={true}
+            sx={{ fontSize: '12px', textAlign: 'start', width: 'inherit'}}>
+            {project.title}
+          </Typography>
+          : <Skeleton height={19} animation={animation} sx={{ fontSize: '12px'}}/>}
+        sx={{ pb: 0.25, width: 'inherit' }} />
       <CardContent sx={{ pt: 0.25 }} style={{paddingBottom: '0'}}>
         <Box sx={{ display: 'flex'}}>
           <Skeleton variant="circular" width={20} height={20}
