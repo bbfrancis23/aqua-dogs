@@ -22,8 +22,6 @@ import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBo
 import BoardStub from "@/components/members/projects/boards/BoardStub";
 import ProjectEditTitleForm from "@/components/members/projects/forms/ProjectEditTitleForm";
 
-// QA done
-
 import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm";
 
 
