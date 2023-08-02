@@ -31,7 +31,8 @@ export const permission = ( props: permissionFunction): boolean => {
 
   if (code === PermissionCodes.PROJECT_MEMBER) {
 
-    if (project?.leader.id === member.id) return true
+
+    if ( (project?.leader) && (project?.leader.id === member.id) ) return true
     if(project?.admins?.find( (a) => a.id === member.id)) return true
     if(project?.members?.find( (a) => a.id === member.id)) return true
 
@@ -39,13 +40,13 @@ export const permission = ( props: permissionFunction): boolean => {
 
   if(code === PermissionCodes.PROJECT_ADMIN){
 
-    if(project?.leader.id === member.id) return true
+    if ( (project?.leader) && (project?.leader.id === member.id) ) return true
     if(project?.admins?.find( (a) => a.id === member.id)) return true
   }
 
   if(code === PermissionCodes.PROJECT_LEADER){
 
-    if(project?.leader.id === member.id) return true
+    if ( (project?.leader) && (project?.leader.id === member.id) ) return true
 
   }
 
