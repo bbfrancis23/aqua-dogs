@@ -1,11 +1,10 @@
-import { Box, Card, CardContent, CardHeader, Skeleton, Typography,
-  styled, useTheme } from "@mui/material";
-import { Project } from "../../../interfaces/ProjectInterface";
 import { useState } from "react";
+import { Box, Card, CardContent, CardHeader, Skeleton, Typography, styled,
+  useTheme } from "@mui/material";
 
-export interface ProjectStubProps{
-  project ?: Project
-}
+import { Project } from "@/interfaces/ProjectInterface";
+
+export interface ProjectStubProps{ project ?: Project}
 
 const ProjectStubHeader = styled(CardHeader)(() => ({
   '& .MuiCardHeader-content': { width: 'inherit', },
@@ -66,3 +65,5 @@ const ProjectStub = (props: ProjectStubProps) => {
 }
 
 export default ProjectStub
+
+// QA done

@@ -1,6 +1,5 @@
 import { Box, Button, Stack, TextField} from "@mui/material"
 import { useSnackbar } from "notistack";
-import { Dispatch, SetStateAction, useState } from "react";
 import { useSession } from "next-auth/react";
 import { FormikProvider, useFormik, Form } from "formik";
 
@@ -10,7 +9,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import * as Yup from "yup"
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
-import { Project } from "../../../../interfaces/ProjectInterface";
+
+import { Project } from "@/interfaces/ProjectInterface";
 
 
 export interface CreateProjectFormProps{
@@ -101,3 +101,5 @@ const CreateProjectForm = (props: CreateProjectFormProps) => {
 }
 
 export default CreateProjectForm
+
+// QA done 8-2-23

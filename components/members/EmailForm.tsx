@@ -96,3 +96,5 @@ export default function EmailForm(params: {email: string}){
     </Box>
   )
 }
+
+// QA done 8-2-23
