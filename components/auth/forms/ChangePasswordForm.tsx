@@ -1,7 +1,7 @@
 import {useState} from "react"
 import {useSession} from "next-auth/react"
 
-import {Alert, Box, Stack, Typography} from "@mui/material"
+import {Alert, Box, Stack} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 
 import axios from "axios"
@@ -13,7 +13,6 @@ import {useSnackbar} from "notistack"
 import * as Yup from "yup"
 
 import {passwordSchema} from "../AuthFormSchema"
-
 
 const ChangePasswordFormSchema = Yup.object().shape({
   oldPassword: passwordSchema,
@@ -56,41 +55,26 @@ export default function ChangePasswordForm(){
   return (
     <Box sx={{m: 3}}>
       { session && (
-        <>
-
-          <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Stack spacing={3} sx={{width: "300px"}}>
-                { formError && (<Alert severity="error">{formError}</Alert>) }
-                <PasswordTextField
-                  label="Old Password"
-                  fieldId="oldPassword"
-                  getFieldProps={getFieldProps}
-                  error={errors.oldPassword}
-                  touched={touched.oldPassword}
-                />
-                <PasswordTextField
-                  label="New Password"
-                  fieldId="newPassword"
-                  getFieldProps={getFieldProps}
-                  error={errors.newPassword}
-                  touched={touched.newPassword}
-                />
-                <LoadingButton
-                  color="success"
-                  disabled={!(isValid && formik.dirty)}
-                  type="submit"
-                  variant="contained"
-                  loading={isSubmitting}
-                >
+        <FormikProvider value={formik}>
+          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+            <Stack spacing={3} sx={{width: "300px"}}>
+              { formError && (<Alert severity="error">{formError}</Alert>) }
+              <PasswordTextField label="Old Password" fieldId="oldPassword"
+                getFieldProps={getFieldProps} error={errors.oldPassword}
+                touched={touched.oldPassword} />
+              <PasswordTextField label="New Password" fieldId="newPassword"
+                getFieldProps={getFieldProps} error={errors.newPassword}
+                touched={touched.newPassword} />
+              <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+                type="submit" variant="contained" loading={isSubmitting} >
                   Change Password
-                </LoadingButton>
-              </Stack>
-            </Form>
-          </FormikProvider>
-        </>
+              </LoadingButton>
+            </Stack>
+          </Form>
+        </FormikProvider>
       )}
     </Box>
   )
 }
 
+// QA done 8-2-23

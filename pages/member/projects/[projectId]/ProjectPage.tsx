@@ -22,8 +22,6 @@ import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBo
 import BoardStub from "@/components/members/projects/boards/BoardStub";
 import ProjectEditTitleForm from "@/components/members/projects/forms/ProjectEditTitleForm";
 
-// QA done
-
 import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm";
 
 
@@ -76,9 +74,9 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
   return (
     <ProjectContext.Provider value={{project, setProject}}>
       <InfoPageLayout title={<ProjectEditTitleForm project={project}/>}>
-        <Stack spacing={3}>
+        <Stack spacing={3} sx={{ width: '100%'}}>
           <Typography variant="h4">Members</Typography>
-          <Stack spacing={1} sx={{ pr: 3}}>
+          <Stack spacing={1} sx={{ pr: 3, }}>
             <Grid container spacing={1} sx={{ m: 0}}>
               { project?.leader && (
                 <Grid item xs={12} sm={6} md={4}>

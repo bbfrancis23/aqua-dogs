@@ -12,10 +12,10 @@ export const InfoPageLayout = (props: InfoPageLayoutComponent) => {
 
   const theme: any = useTheme();
   return (
-    <Grid container spacing={2} sx={{pb: 3}}>
+    <Grid container spacing={0} >
       <Grid item xs={12}
         sx={{ display: 'flex', justifyContent: "center", width: '100%',
-          borderBottom: '1px solid', borderColor: 'divider'}} >
+          borderBottom: '1px solid', borderColor: 'divider', }} >
         <Box sx={{width: '1200px', display: 'flex', justifyContent: 'left'}}>
           { typeof title === 'string' ?
             ( <Typography sx={{p: 5, pl: 2, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}
@@ -26,7 +26,7 @@ export const InfoPageLayout = (props: InfoPageLayoutComponent) => {
           }
         </Box>
       </Grid>
-      <Grid item xs={12} sx={{ display: 'flex', justifyContent: "center", ml: 3 }}>
+      <Grid item xs={12} sx={{ display: 'flex', justifyContent: "center", p: 3 }}>
         <Box sx={{width: '1200px', display: 'flex', justifyContent: 'left' }}>
           {children}
         </Box>

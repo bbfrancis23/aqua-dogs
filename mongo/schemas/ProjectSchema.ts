@@ -11,3 +11,5 @@ const projSchema = new mongoose.Schema({
 const Project = mongoose.models.projects || mongoose.model('projects', projSchema)
 
 export default Project
+
+// QA done 8-1-23

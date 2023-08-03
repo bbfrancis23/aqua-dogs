@@ -3,6 +3,8 @@ import Project from '@/mongo/schemas/ProjectSchema'
 import Board from '@/mongo/schemas/BoardSchema'
 import Item from '@/mongo/schemas/ItemSchema'
 
+import Columns from '@/mongo/schemas/ColumnSchema'
+
 export const findProject = async (projectId: string) => {
   await db.connect()
 
@@ -30,6 +32,7 @@ export const findProjectBoards = async (projectId: string) => {
 
   boards = await Board.find({project: projectId}).populate({
     path: 'columns',
+    model: Columns,
     populate: {path: 'items', model: Item},
   })
 
