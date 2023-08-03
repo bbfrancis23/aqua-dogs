@@ -1,4 +1,10 @@
-import {createTheme, Palette} from '@mui/material'
+import {
+  createTheme,
+  ThemeOptions,
+  PaletteOptions,
+  PaletteColorOptions,
+  SimplePaletteColorOptions,
+} from '@mui/material'
 import {
   lightBlue,
   red,
@@ -13,9 +19,24 @@ import {
   indigo,
   yellow,
 } from '@mui/material/colors'
-import {globalTheme} from './globalTheme'
+import {FxTheme, globalTheme} from './globalTheme'
 
-export const palettes = [
+export type FxPaletteColorOptions = PaletteColorOptions & {
+  main: string
+  darkMode?: string
+  lightMode?: string
+}
+
+export interface FxPaletteOptions extends Omit<PaletteOptions, 'secondary'> {
+  name: string
+  secondary: FxPaletteColorOptions
+}
+
+export interface FxThemeOptions extends ThemeOptions {
+  palette: FxPaletteOptions
+}
+
+export const palettes: FxPaletteOptions[] = [
   {
     name: 'Hawaii',
     primary: {main: cyan[900], light: cyan[500]},
@@ -79,18 +100,25 @@ export const palettes = [
   },
 ]
 
-const getThemeOptions = (themeOptions: any) => {
-  const palette = palettes.find((p) => p.name === themeOptions.palette.name)
+const getThemeOptions = (themeOptions: FxThemeOptions) => {
+  if (!themeOptions) return themeOptions
+  if (!themeOptions.palette) return themeOptions
+
+  const palette = palettes.find((p) => p.name === themeOptions!.palette!.name)
+
+  if (!themeOptions.palette.secondary) return themeOptions
   if (themeOptions.palette.mode === 'dark') {
-    themeOptions.palette.secondary.main = palette?.secondary.darkMode
+    if (!palette?.secondary?.darkMode) return themeOptions
+    themeOptions.palette.secondary.main = palette?.secondary?.darkMode
   } else {
-    themeOptions.palette.secondary.main = palette?.secondary.lightMode
+    if (!palette?.secondary?.lightMode) return themeOptions
+    themeOptions.palette.secondary.main = palette?.secondary?.lightMode
   }
 
   return themeOptions
 }
 
-export const createFxTheme = (themeOptions: any) => {
+export const createFxTheme = (themeOptions: FxThemeOptions) => {
   themeOptions = getThemeOptions(themeOptions)
   let theme = createTheme(themeOptions)
 
