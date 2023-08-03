@@ -3,11 +3,13 @@ import {Theme} from '@mui/material'
 export interface FxTheme extends Theme {
   passwordMinLength: number
   pageContentTopPadding: number
+  defaultPadding: number
 }
 
 export const globalTheme = {
   passwordMinLength: 6,
-  pageContentTopPadding: 6,
+  pageContentTopPadding: 3,
+  defaultPadding: 3,
   components: {
     MuiDialog: {
       styleOverrides: {root: {backgroundColor: 'rgba(0, 0, 0, 0.0)'}},
@@ -35,3 +37,5 @@ export const globalTheme = {
     },
   },
 }
+
+// QA: Done 8-3-2023
