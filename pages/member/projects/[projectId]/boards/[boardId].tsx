@@ -14,7 +14,7 @@ import { Project } from "@/interfaces/ProjectInterface";
 import { Member } from "@/interfaces/MemberInterface";
 
 import { findProject } from "@/mongo/controls/member/project/findProject";
-import { findProjectBoards } from "@/mongo/controls/member/project/findProjectBoards";
+import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards";
 
 import { PermissionCodes, permission } from "@/ui/permission/old-Permission";
 import { useSnackbar } from "notistack";
