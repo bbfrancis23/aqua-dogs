@@ -11,13 +11,19 @@ import SettingsIcon from "@mui/icons-material/Settings"
 import {SnackbarProvider} from "notistack"
 
 import {appThemes, palettes, createFxTheme} from "../theme/themes"
+
 import AuthNav from "@/components/auth/AuthNav"
 import AppBarMenu, {AppBarMenuProps} from "@/components/AppBarMenu"
+
+// QA done 2021-09-23
+
 import SettingsDialog from "@/components/settings/SettingsDialog"
 import RegisterDialog from "@/components/auth/dialogs/RegisterDialog"
 import ForgotPasswordDialog from "@/components/auth/dialogs/ForgotPasswordDialog"
 import AuthDialog from "@/components/auth/dialogs/AuthDialog"
+
 import {appMenuItems} from "../data/appMenuItems"
+
 import '../styles/globals.css'
 
 
@@ -74,7 +80,7 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
                 </Link>
                 <Box sx={{pl: 2, display: 'flex', position: 'relative', top: '3px'}}>
                   { appMenuItems.map( (i: AppBarMenuProps) => (
-                    <AppBarMenu key={i.id} title={i.title} id={i.id} items={i.items}
+                    <AppBarMenu key={i.id} title={i.title} id={i.id} boards={i.boards}
                       icon={i.icon} />
                   ))
                   }

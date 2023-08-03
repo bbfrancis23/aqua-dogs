@@ -5,9 +5,14 @@ import StarIcon from "@mui/icons-material/Star"
 import Fab from "@mui/material/Fab"
 import {palettes} from "../../theme/themes"
 
-import {VariantType, useSnackbar} from "notistack"
+import { useSnackbar} from "notistack"
+import exp from "constants"
 
-export default function SettingsPalettes(props: any) {
+type SettingsPalettesProps = {
+  updateTheme: (theme: any) => void
+}
+
+const SettingsPalettes = ( props: SettingsPalettesProps) => {
 
   const theme = useTheme()
   const {palette} = theme
@@ -17,10 +22,8 @@ export default function SettingsPalettes(props: any) {
 
   const {enqueueSnackbar} = useSnackbar()
 
-  function handleUpdateTheme(index: number) {
-
-    const variant: VariantType = "info"
-    enqueueSnackbar(`${palettes[index].name} Theme`, {variant})
+  const handleUpdateTheme = (index: number) => {
+    enqueueSnackbar(`${palettes[index].name} Theme`, {variant: "info"})
     updateTheme({palette: palettes[index]})
   }
 
@@ -67,3 +70,4 @@ export default function SettingsPalettes(props: any) {
 
   )
 }
+export default SettingsPalettes

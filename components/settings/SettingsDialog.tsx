@@ -1,6 +1,5 @@
 import React from "react"
-import {
-  Box, Button, DialogActions, DialogContent, useTheme, Typography,
+import { Box, Button, DialogActions, DialogContent, useTheme, Typography,
   ToggleButtonGroup, ToggleButton, Stack} from "@mui/material"
 
 import DraggableDialog from "../../ui/DraggableDialog"
@@ -43,7 +42,7 @@ export default function SettingsDialog(props: any) {
               </ToggleButton>
             </ToggleButtonGroup>
           </Box>
-          <SettingsPalettes updateTheme={updateFx} width="400px" />
+          <SettingsPalettes updateTheme={updateFx} />
         </Stack>
       </DialogContent>
       <DialogActions disableSpacing={false}>

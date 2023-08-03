@@ -9,6 +9,7 @@ export interface Item {
   rating?: number
   id: string
   owners: string[]
+  directioryId?: string
 }
 
 export interface ItemContextProps {
@@ -21,4 +22,4 @@ export const ItemContext = createContext<ItemContextProps>({
   setItem: () => {},
 })
 
-// QA done
+// QA done 8-3-23

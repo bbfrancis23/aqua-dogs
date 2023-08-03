@@ -1,9 +1,13 @@
-import {Theme} from '@mui/material'
+import {Theme, Palette} from '@mui/material'
 
 export interface FxTheme extends Theme {
   passwordMinLength: number
   pageContentTopPadding: number
   defaultPadding: number
+}
+
+export interface FxPalette extends Palette {
+  name: string
 }
 
 export const globalTheme = {

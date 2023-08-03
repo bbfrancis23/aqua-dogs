@@ -1,4 +1,4 @@
-import {createTheme} from '@mui/material'
+import {createTheme, Palette} from '@mui/material'
 import {
   lightBlue,
   red,
@@ -107,3 +107,5 @@ export const corporate = {palette: palettes[5]}
 export const cobraKai = {palette: palettes[6]}
 export const aquaDogs = {palette: palettes[7]}
 export const appThemes = [corporate, lush, pirate, arizona, midnight, hawaii, cobraKai, aquaDogs]
+
+// QA: Done 8-3-2023

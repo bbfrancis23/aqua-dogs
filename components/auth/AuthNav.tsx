@@ -10,7 +10,7 @@ interface AuthNavProps{
   setAuthDialogIsOpen: (authDialogIsOpen:boolean) => void
 }
 
-export default function AuthNav(params: AuthNavProps){
+export const AuthNav = (params: AuthNavProps) => {
   const {setAuthDialogIsOpen} = params
   const {data: session, status} = useSession()
   const loading = status === "loading"
@@ -19,25 +19,21 @@ export default function AuthNav(params: AuthNavProps){
     <>
       { session && (
         <Link href={"/member"} >
-          <IconButton
-            color="secondary"
-            sx={{color: "primary.contrastText"}}
-            disabled={loading}
-          >
+          <IconButton color="secondary" sx={{color: "primary.contrastText"}}
+            disabled={loading} >
             <AccountIcon />
           </IconButton>
         </Link>
       )}
       { !session && (
-        <IconButton
-          color="secondary"
-          onClick={() => setAuthDialogIsOpen(true)}
-          disabled={loading}
-          sx={{color: "primary.contrastText"}}
-        >
+        <IconButton color="secondary" onClick={() => setAuthDialogIsOpen(true)}
+          disabled={loading} sx={{color: "primary.contrastText"}} >
           <LoginIcon />
         </IconButton>
       )}
     </>
   )
 }
+
+export default AuthNav
+// QA done 8-3-2023

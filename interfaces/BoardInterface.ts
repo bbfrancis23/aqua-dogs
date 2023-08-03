@@ -6,6 +6,7 @@ export interface Board {
   title: string
   scope?: Scope
   columns: Column[]
+  directoryId?: string
 }
 
 // QA done
