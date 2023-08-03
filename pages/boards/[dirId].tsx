@@ -1,5 +1,5 @@
 import { Board } from "@/interfaces/BoardInterface"
-import { findProjectBoards } from "@/mongo/controls/member/project/findProjectBoards"
+import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards"
 import {findPublicBoard} from "@/mongo/controls/member/project/board/findPublicBoard"
 import { Box, Card, CardContent, CardHeader, Grid, Typography } from "@mui/material"
 // import {publicBoards} from "../../../../publicBoards"
