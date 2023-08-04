@@ -27,7 +27,7 @@ export const AuthNav = (params: AuthNavProps) => {
       )}
       { !session && (
         <IconButton color="secondary" onClick={() => setAuthDialogIsOpen(true)}
-          disabled={loading} sx={{color: "primary.contrastText"}} >
+          disabled={loading} >
           <LoginIcon />
         </IconButton>
       )}

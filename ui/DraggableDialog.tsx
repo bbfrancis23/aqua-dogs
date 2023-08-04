@@ -1,7 +1,5 @@
 import React from "react"
-import {
-  Box, Dialog, DialogTitle
-} from "@mui/material"
+import { Box, Dialog, DialogTitle} from "@mui/material"
 import DraggablePaper from "./DraggablePaper"
 
 export interface DraggableDialogProps {
@@ -13,23 +11,17 @@ export interface DraggableDialogProps {
 }
 
 export default function DraggableDialog(props: DraggableDialogProps) {
-  const {
-    dialogIsOpen, ariaLabel, title, children, fullWidth
-  } = props
+  const { dialogIsOpen, ariaLabel, title, children, fullWidth } = props
 
   return (
-    <Dialog
-      open={dialogIsOpen}
-      PaperComponent={DraggablePaper}
-      aria-labelledby={ariaLabel}
-      fullWidth={fullWidth}
-    >
+    <Dialog open={dialogIsOpen} PaperComponent={DraggablePaper} aria-labelledby={ariaLabel}
+      fullWidth={fullWidth} >
       <DialogTitle style={{cursor: "move"}} id={ariaLabel}>
-        <Box>
-          <div>{title}</div>
-        </Box>
+        <Box><div>{title}</div></Box>
       </DialogTitle>
       {children}
     </Dialog>
   )
 }
+
+// QA done 8-3-23

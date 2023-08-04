@@ -1,14 +1,20 @@
 import React from "react"
 import { Box, Button, DialogActions, DialogContent, useTheme, Typography,
   ToggleButtonGroup, ToggleButton, Stack} from "@mui/material"
-
-import DraggableDialog from "../../ui/DraggableDialog"
-import SettingsPalettes from "./SettingsPalettes"
-
 import {VariantType, useSnackbar} from "notistack"
 import DarkModeIcon from "@mui/icons-material/DarkMode"
 import LightModeIcon from "@mui/icons-material/LightMode"
 
+import SettingsPalettes from "./SettingsPalettes"
+import { UpdateThemeOptionsProps } from "pages/_app"
+import DraggableDialog from "@/ui/DraggableDialog"
+
+
+export interface SettingsDialogProps {
+  dialogIsOpen: boolean
+  updateFx: (theme: UpdateThemeOptionsProps) => void
+  closeDialog: () => void
+}
 
 export default function SettingsDialog(props: any) {
   const {dialogIsOpen, updateFx, closeDialog} = props
@@ -24,11 +30,7 @@ export default function SettingsDialog(props: any) {
   }
 
   return (
-    <DraggableDialog
-      dialogIsOpen={dialogIsOpen}
-      ariaLabel="app-settings"
-      title="SETTINGS"
-    >
+    <DraggableDialog dialogIsOpen={dialogIsOpen} ariaLabel="app-settings" title="SETTINGS" >
       <DialogContent sx={{width: "100%"}}>
         <Stack direction={"column"} spacing={3}>
           <Box>
@@ -42,7 +44,7 @@ export default function SettingsDialog(props: any) {
               </ToggleButton>
             </ToggleButtonGroup>
           </Box>
-          <SettingsPalettes updateTheme={updateFx} />
+          <SettingsPalettes updateFx={updateFx} />
         </Stack>
       </DialogContent>
       <DialogActions disableSpacing={false}>
@@ -51,3 +53,5 @@ export default function SettingsDialog(props: any) {
     </DraggableDialog>
   )
 }
+
+// QA done 8-3-23

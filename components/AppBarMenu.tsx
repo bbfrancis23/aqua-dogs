@@ -34,14 +34,15 @@ export default function AppBarMenu(props: AppBarMenuProps){
       <Button aria-controls={open ? `${id}-menu` : undefined}
         aria-haspopup="true" aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        sx={{px: 3, color: "primary.contrastText", display: {xs: "none", md: "block"}}} >
+        color="inherit"
+        sx={{px: 3, display: {xs: "none", md: "block"}}} >
         {title}
       </Button>
       <IconButton
         id={`${id}-button`} aria-controls={open ? `${id}-menu` : undefined}
         aria-haspopup="true" aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        sx={{display: {xs: "block", md: "none", color: "primary.contrastText"}}} >
+        sx={{display: {xs: "block", md: "none", }}} >
         {icon}
       </IconButton>
 

@@ -10,14 +10,14 @@ import {ConfirmProvider} from "material-ui-confirm"
 import SettingsIcon from "@mui/icons-material/Settings"
 import {SnackbarProvider} from "notistack"
 
-import {appThemes, palettes, createFxTheme} from "../theme/themes"
+import {appThemes, palettes, createFxTheme, FxThemeOptions, FxPaletteOptions} from "../theme/themes"
 
 import AuthNav from "@/components/auth/AuthNav"
 import AppBarMenu, {AppBarMenuProps} from "@/components/AppBarMenu"
+import SettingsDialog from "@/components/settings/SettingsDialog"
 
 // QA done 2021-09-23
 
-import SettingsDialog from "@/components/settings/SettingsDialog"
 import RegisterDialog from "@/components/auth/dialogs/RegisterDialog"
 import ForgotPasswordDialog from "@/components/auth/dialogs/ForgotPasswordDialog"
 import AuthDialog from "@/components/auth/dialogs/AuthDialog"
@@ -26,6 +26,11 @@ import {appMenuItems} from "../data/appMenuItems"
 
 import '../styles/globals.css'
 
+export interface UpdateThemeOptionsProps {
+  palette: FxPaletteOptions
+  name?: string
+  mode?: string
+}
 
 export default function App({Component, pageProps: {session, ...pageProps},}: AppProps) {
 
@@ -36,20 +41,21 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
 
   const [theme, setTheme] = useState(createFxTheme( appThemes[0]))
 
-  const handleUpdateTheme = (options: any) => {
-    let fxOptions:any = {}
+  const handleUpdateTheme = (options: UpdateThemeOptionsProps) => {
+    let fxOptions: any = { }
 
     if (options) {
-      fxOptions = localStorage.getItem("themeOptions")
+      let fxOptionsJSON = localStorage.getItem("themeOptions")
 
-      fxOptions = fxOptions ? (JSON.parse(fxOptions)) : {
+      fxOptions = fxOptionsJSON ? (JSON.parse(fxOptionsJSON)) : {
         palette: palettes[0],
       }
 
-      if (options.name) fxOptions.name = options.name
+      if (options.name) fxOptions!.name = options.name
       if (options.palette) fxOptions.palette = options.palette
-      if (options.mode) fxOptions.palette.mode = options.mode
-      else fxOptions.palette.mode = theme.palette.mode
+      // else fxOptions.palette = palettes[0]
+      if (options.mode && fxOptions.palette) fxOptions.palette.mode = options.mode
+      else fxOptions!.palette!.mode = theme.palette.mode
     }
 
     setTheme(createFxTheme(fxOptions))
@@ -73,7 +79,7 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
                 <Link href={"/"} style={{textDecoration: "none"}} >
                   <Typography variant="h6" noWrap component="div"
                     sx={{ color: theme.palette.mode === 'light' ?
-                      "primary.contrastText" : "primary.light", fontWeight: '800' }}
+                      "primary.contrastText" : "primary.main", fontWeight: '800' }}
                   >
                   STRATEGY
                   </Typography>

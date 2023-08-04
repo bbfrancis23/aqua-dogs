@@ -15,3 +15,5 @@ const memberSchema = new mongoose.Schema({
 const Member = mongoose.models.members || mongoose.model('members', memberSchema)
 
 export default Member
+
+// QA: done 8-4-23
