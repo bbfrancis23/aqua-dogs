@@ -55,17 +55,12 @@ const handler = async (req, res) => {
 
         console.log('try to send code\n')
         try {
-          const result = await transporter.sendMail(mailOptions, (error, info) => {
-            console.log('send mail called\n')
-
-            console.log('info\n', info)
-            console.log('error\n', error)
-
+          /* eslint-disable */
+          const result = await transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-              console.log('there was an error sending code', error)
-            } else {
-              console.log('Email sent: ' + info.response)
+              return console.log('Error in sending mail')
             }
+            console.log('Success')
           })
 
           console.log('result\n', result)
