@@ -36,6 +36,19 @@ const handler = async (req, res) => {
           },
         })
 
+        await new Promise((resolve, reject) => {
+          // verify connection configuration
+          transporter.verify((error, success) => {
+            if (error) {
+              console.log(error)
+              reject(error)
+            } else {
+              console.log('Server is ready to take our messages')
+              resolve(success)
+            }
+          })
+        })
+
         console.log('found user')
         const code = Math.floor(100000 + Math.random() * 900000)
         const authTime = new Date()
@@ -54,19 +67,32 @@ const handler = async (req, res) => {
         }
 
         console.log('try to send code\n')
-        try {
-          /* eslint-disable */
-          const result = await transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-              return console.log('Error in sending mail')
-            }
-            console.log('Success')
-          })
 
-          console.log('result\n', result)
-        } catch (e) {
-          console.log('error\n', e)
-        }
+        await new Promise((resolve, reject) => {
+          // send mail
+          transporter.sendMail(mailData, (err, info) => {
+            if (err) {
+              console.error(err)
+              reject(err)
+            } else {
+              console.log(info)
+              resolve(info)
+            }
+          })
+        })
+
+        // try {
+        //   const result = await transporter.sendMail(mailOptions, (error, info) => {
+        //     if (error) {
+        //       return console.log('Error in sending mail')
+        //     }
+        //     console.log('Success')
+        //   })
+
+        //   console.log('result\n', result)
+        // } catch (e) {
+        //   console.log('error\n', e)
+        // }
 
         console.log('transporter sent\n')
 
