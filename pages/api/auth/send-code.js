@@ -53,7 +53,7 @@ const handler = async (req, res) => {
           text: `Use this code to reset your password: ${code}`,
         }
 
-        console.log('try to send code')
+        console.log('try to send code\n')
         transporter.sendMail(mailOptions, (error, info) => {
           console.log('send mail called\n')
 
@@ -66,6 +66,8 @@ const handler = async (req, res) => {
             console.log('Email sent: ' + info.response)
           }
         })
+
+        console.log('transporter sent\n')
 
         await db.disconnect()
         res.status(200).json({
