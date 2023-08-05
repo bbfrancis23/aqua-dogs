@@ -72,9 +72,11 @@ const handler = async (req, res) => {
           // send mail
           transporter.sendMail(mailOptions, (err, info) => {
             if (err) {
+              console.log('there was an error')
               console.error(err)
               reject(err)
             } else {
+              console.log('success email sent')
               console.log(info)
               resolve(info)
             }
