@@ -1,5 +1,5 @@
 import {publicBoards} from "./publicBoards"
-import AppBarMenu, {AppBarMenuProps} from "../components/AppBarMenu"
+import {AppBarMenuProps} from "../components/AppBarMenu"
 
 
 import WebFrameworkIcon from "@mui/icons-material/Language"

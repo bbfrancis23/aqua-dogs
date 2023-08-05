@@ -15,12 +15,12 @@ import {appThemes, palettes, createFxTheme, FxThemeOptions, FxPaletteOptions} fr
 import AuthNav from "@/components/auth/AuthNav"
 import AppBarMenu, {AppBarMenuProps} from "@/components/AppBarMenu"
 import SettingsDialog from "@/components/settings/SettingsDialog"
+import RegisterDialog from "@/components/auth/dialogs/RegisterDialog"
 
+import AuthDialog from "@/components/auth/dialogs/AuthDialog"
 // QA done 2021-09-23
 
-import RegisterDialog from "@/components/auth/dialogs/RegisterDialog"
 import ForgotPasswordDialog from "@/components/auth/dialogs/ForgotPasswordDialog"
-import AuthDialog from "@/components/auth/dialogs/AuthDialog"
 
 import {appMenuItems} from "../data/appMenuItems"
 

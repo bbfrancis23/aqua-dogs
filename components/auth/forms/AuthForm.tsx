@@ -4,13 +4,14 @@ import {signIn} from "next-auth/react"
 
 import {Alert, Button, DialogActions, DialogContent, Stack} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
+import {useSnackbar} from "notistack"
 
 import {Form, FormikProvider, useFormik} from "formik"
-import {useSnackbar} from "notistack"
+import axios from "axios"
 
 import AuthSchema from "../AuthFormSchema"
 import {EmailTextField, PasswordTextField} from "../AuthTextFields"
-import axios from "axios"
+
 
 interface AuthFormProps{
   closeDialog: () => void;
@@ -20,16 +21,13 @@ interface AuthFormProps{
 
 export default function AuthForm(props: AuthFormProps) {
 
-  const [loginError, setLoginError] = useState<string>("")
+  const [loginError, setLoginError] = useState<string>('')
   const {enqueueSnackbar} = useSnackbar()
 
   const {closeDialog, openRegisterDialog, openForgotDialog} = props
 
   const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
+    initialValues: { email: "", password: "", },
     validationSchema: AuthSchema,
     onSubmit: async (data) => {
 
@@ -40,11 +38,10 @@ export default function AuthForm(props: AuthFormProps) {
       })
 
       if( result?.status &&
-          result.status === axios.HttpStatusCode.Ok &&
-          result.ok === true && result.error === null ){
+        result.status === axios.HttpStatusCode.Ok &&
+        result.ok === true && result.error === null ){
         closeDialog()
         enqueueSnackbar("You are now Logged In", {variant: "success"})
-
       }else{
         if(result?.status === axios.HttpStatusCode.Unauthorized){
           if(result.error){
@@ -71,33 +68,27 @@ export default function AuthForm(props: AuthFormProps) {
         <DialogContent>
           <Stack spacing={3} sx={{width: "100%"}}>
             { loginError && (<Alert severity="error">{loginError}</Alert>) }
-            <EmailTextField
-              getFieldProps={getFieldProps}
-              error={errors.email}
-              touched={touched.email}
-            />
-            <PasswordTextField
-              getFieldProps={getFieldProps}
-              error={errors.password}
-              touched={touched.password}
-            />
-            <Button onClick={() => startRegistration()}>Register New Member</Button>
-            <Button onClick={() => forgotPassword()}>Forgot Password</Button>
+            <EmailTextField getFieldProps={getFieldProps} error={errors.email}
+              touched={touched.email} />
+            <PasswordTextField getFieldProps={getFieldProps} error={errors.password}
+              touched={touched.password} />
           </Stack>
         </DialogContent>
         <DialogActions disableSpacing={false}>
-          <Button onClick={closeForm}> CANCEL </Button>
-          <LoadingButton
-            color="success"
-            disabled={!(isValid && formik.dirty)}
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-          >
+          <Button onClick={closeForm} color="inherit"> CANCEL </Button>
+          <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+            type="submit" variant="contained" loading={isSubmitting} >
             Login
           </LoadingButton>
         </DialogActions>
+        <DialogContent>
+          <Stack sx={{width: "100%"}}>
+            <Button onClick={() => startRegistration()}>Register New Member</Button>
+            <Button onClick={() => forgotPassword()} color="inherit">Forgot Password</Button>
+          </Stack>
+        </DialogContent>
       </Form>
     </FormikProvider>
   )
 }
+// QA: Brian Francis 08-04-23
