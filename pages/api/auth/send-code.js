@@ -55,7 +55,7 @@ const handler = async (req, res) => {
 
         console.log('try to send code\n')
         try {
-          await transporter.sendMail(mailOptions, (error, info) => {
+          const result = await transporter.sendMail(mailOptions, (error, info) => {
             console.log('send mail called\n')
 
             console.log('info\n', info)
@@ -67,6 +67,8 @@ const handler = async (req, res) => {
               console.log('Email sent: ' + info.response)
             }
           })
+
+          console.log('result\n', result)
         } catch (e) {
           console.log('error\n', e)
         }
