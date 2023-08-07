@@ -1,19 +1,21 @@
-import {LoadingButton} from "@mui/lab"
+import {useState} from "react"
+
 import {Alert, Box, Stack, TextField} from "@mui/material"
+import {LoadingButton} from "@mui/lab"
+import {useSnackbar} from "notistack"
+
 import axios from "axios"
 import {Form, FormikProvider, useFormik} from "formik"
+import * as Yup from "yup"
+
 import {passwordSchema} from "../AuthFormSchema"
+import {PasswordTextField} from "../AuthTextFields"
 
 interface VerifyCodeFormProps{
   email?: string,
   closeDialog: () => void;
 }
 
-
-import * as Yup from "yup"
-import {PasswordTextField} from "../AuthTextFields"
-import {useState} from "react"
-import {useSnackbar} from "notistack"
 
 const CodeSchema = Yup.object().shape({
   code: Yup.string().required("Code is required"),
@@ -33,7 +35,7 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
       newPassword: ""
     },
     validationSchema: CodeSchema,
-    onSubmit: async(data) => {
+    onSubmit: (data) => {
 
       formik.setSubmitting(false)
 
@@ -55,6 +57,15 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
         .catch((error) => {
           formik.setSubmitting(false)
           setServerError(error.response.data.message)
+
+
+          if(error.response.status === axios.HttpStatusCode.Locked){
+            closeDialog()
+            formik.resetForm()
+            enqueueSnackbar(error.response.data.message, {variant: "error"})
+          }
+
+
         })
     }
   })

@@ -9,6 +9,8 @@ const memberSchema = new mongoose.Schema({
   phoneAuth: {type: Boolean, required: false},
   authCode: {type: String, required: false},
   authTime: {type: Date, required: false},
+  invalidCount: {type: Number, required: false},
+  locked: {type: Boolean, required: false},
   favoriteItems: [{type: String, required: false}],
 })
 

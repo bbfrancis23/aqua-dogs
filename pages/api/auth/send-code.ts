@@ -28,6 +28,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(axios.HttpStatusCode.NotFound).json({message: 'User not found'})
   }
 
+  console.log(existingUser)
+  if (existingUser.locked) {
+    await db.disconnect()
+    res
+      .status(axios.HttpStatusCode.Locked)
+      .json({message: 'Member account is locked. Please contact support'})
+  }
+
   const transporter = nodemailer.createTransport({
     host: 'smtp.zoho.com',
     secure: true,
@@ -92,3 +100,5 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 export default handler
+
+// QA: Brian Francis 8-6-2023

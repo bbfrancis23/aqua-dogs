@@ -1,15 +1,23 @@
+import React, {useState} from "react"
+
+import {Alert, Button, DialogActions, DialogContent, Stack} from "@mui/material"
+import {LoadingButton} from "@mui/lab"
+import { useSnackbar } from "notistack"
 
 import {FormikProvider, useFormik, Form} from "formik"
-import React, {useState} from "react"
-import DraggableDialog from "../../../ui/DraggableDialog"
-
-import * as Yup from "yup"
-import {Alert, Button, DialogActions, DialogContent, Stack} from "@mui/material"
-import {EmailTextField} from "../AuthTextFields"
-import {LoadingButton} from "@mui/lab"
 import axios from "axios"
 
+import DraggableDialog from "@/ui/DraggableDialog"
+
+
+import * as Yup from "yup"
+
+import {EmailTextField} from "../AuthTextFields"
+
+// QA: Brian Francis 08-06-23
+
 import VerifyCodeForm from "../forms/VerifyCodeForm"
+
 
 interface ForgotPasswordDialogProps {
   dialogIsOpen: boolean;
@@ -23,6 +31,8 @@ const ForgetPasswordSchema = Yup.object().shape({
 export default function AuthDialog(props: ForgotPasswordDialogProps) {
   const {dialogIsOpen, closeDialog} = props
 
+  const {enqueueSnackbar} = useSnackbar()
+
   const [serverError, setServerError] = useState<string>("")
 
   const [displayVeificationCodeField, setShowVerificationCodeField] = useState<boolean>(false)
@@ -30,31 +40,41 @@ export default function AuthDialog(props: ForgotPasswordDialogProps) {
 
 
   const formik = useFormik({
-    initialValues: {
-      email: "",
-    },
+    initialValues: { email: "" },
     validationSchema: ForgetPasswordSchema,
     onSubmit: (data) => {
-
       axios.post(
         "/api/auth/send-code/",
         {email: data.email},
       )
         .then((res) => {
-
           formik.setSubmitting(false)
           setServerError("")
           if(res.status === axios.HttpStatusCode.Ok){
             setEmail(data.email)
             setShowVerificationCodeField(true)
+            enqueueSnackbar("Verification Code Sent", {variant: "success"})
           }
         })
         .catch((error) => {
           formik.setSubmitting(false)
           setServerError(error.response.data.message)
+
+          if(error.response.status === axios.HttpStatusCode.Locked){
+            closeDialog()
+            formik.resetForm()
+            enqueueSnackbar(error.response.data.message, {variant: "error"})
+          }
         })
     },
   })
+
+  const handleCloseDialog = () => {
+    formik.resetForm()
+    closeDialog()
+    setServerError("")
+    setShowVerificationCodeField(false)
+  }
 
   const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
 
@@ -63,7 +83,7 @@ export default function AuthDialog(props: ForgotPasswordDialogProps) {
     <DraggableDialog
       dialogIsOpen={dialogIsOpen}
       ariaLabel="forgot-dialog"
-      title="FORGOT PASSWORD DIALOG"
+      title="FORGOT PASSWORD"
     >
       <DialogContent>
         <FormikProvider value={formik}>
@@ -98,7 +118,7 @@ export default function AuthDialog(props: ForgotPasswordDialogProps) {
 
       </DialogContent>
       <DialogActions disableSpacing={false}>
-        <Button onClick={closeDialog}> CANCEL </Button>
+        <Button onClick={handleCloseDialog}> CANCEL </Button>
 
       </DialogActions>
     </DraggableDialog>

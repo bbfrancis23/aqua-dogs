@@ -24,4 +24,4 @@ export default function DraggableDialog(props: DraggableDialogProps) {
   )
 }
 
-// QA done 8-3-23
+// QA: Brian Francis 08-06-23

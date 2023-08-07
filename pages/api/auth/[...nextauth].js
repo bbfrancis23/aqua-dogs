@@ -6,9 +6,11 @@ import db from '../../../mongo/db'
 
 import bcryptjs from 'bcryptjs'
 
+import axios from 'axios'
+
 export default NextAuth({
   session: {
-    strategy: 'jwt', // comment
+    strategy: 'jwt',
   },
   callbacks: {
     jwt({token, member}) {
@@ -40,23 +42,49 @@ export default NextAuth({
           email: credentials.email,
         })
 
-        await db.disconnect()
-
         if (member) {
-          const result = bcryptjs.compareSync(credentials.password, member.password)
+          if (member.locked) {
+            await db.disconnect()
 
-          if (result) {
-            return {
-              _id: member._id,
-              id: member._id,
-              name: member.name ? member.name : undefined,
-              email: member.email,
-              image: 'f',
+            throw new Error(
+              JSON.stringify({
+                errors: 'Account is Locked. Please Contact Support',
+                status: axios.HttpStatusCode.Locked,
+              })
+            )
+          } else {
+            const result = bcryptjs.compareSync(credentials.password, member.password)
+
+            if (result) {
+              await Member.updateOne({email: credentials.email}, {$set: {invalidCount: 0}})
+              await db.disconnect()
+
+              return {
+                _id: member._id,
+                id: member._id,
+                name: member.name ? member.name : undefined,
+                email: member.email,
+                image: 'f',
+              }
             }
           }
         }
 
-        throw new Error('Invalid Credentials')
+        let invalidCount = member.invalidCount || 0
+        invalidCount++
+        await Member.updateOne({email: credentials.email}, {$set: {invalidCount}})
+
+        if (invalidCount >= 5) {
+          await Member.updateOne({email: credentials.email}, {$set: {locked: true}})
+          await db.disconnect()
+        }
+
+        throw new Error(
+          JSON.stringify({
+            errors: 'Ivalid Credentials',
+            status: axios.HttpStatusCode.Unauthorized,
+          })
+        )
       },
     }),
   ],

@@ -43,12 +43,20 @@ export default function AuthForm(props: AuthFormProps) {
         closeDialog()
         enqueueSnackbar("You are now Logged In", {variant: "success"})
       }else{
-        if(result?.status === axios.HttpStatusCode.Unauthorized){
-          if(result.error){
-            setLoginError(result?.error)
-          }else{
-            setLoginError("Unknown Error")
-          }
+
+        console.log('result', result)
+
+        const parsedResult = JSON.parse(result?.error ? result.error : '')
+
+        console.log('result after parse', result)
+        console.log('parsedResult', parsedResult)
+
+        if(parsedResult.status === axios.HttpStatusCode.Locked){
+          closeDialog();
+          enqueueSnackbar("Your account is locked. Please contact support", {variant: "error"})
+        }
+        if(parsedResult?.status === axios.HttpStatusCode.Unauthorized){
+          setLoginError("Invalid Credentials")
         }else{
           setLoginError("Unknown Error")
         }
