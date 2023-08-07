@@ -34,6 +34,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res
       .status(axios.HttpStatusCode.Locked)
       .json({message: 'Member account is locked. Please contact support'})
+    return
   }
 
   const transporter = nodemailer.createTransport({

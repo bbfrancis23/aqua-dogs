@@ -30,42 +30,28 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
   const {enqueueSnackbar} = useSnackbar()
 
   const formik = useFormik({
-    initialValues: {
-      code: "",
-      newPassword: ""
-    },
+    initialValues: { code: "", newPassword: "" },
     validationSchema: CodeSchema,
     onSubmit: (data) => {
-
       formik.setSubmitting(false)
-
-      axios.post(
-        "/api/auth/check-code",
-        {email, code: data.code, newPassword: data.newPassword}
-      )
+      axios.post( "/api/auth/check-code", {email, code: data.code, newPassword: data.newPassword} )
         .then((res) => {
-
           formik.setSubmitting(false)
           formik.resetForm()
           if (res.status === axios.HttpStatusCode.Ok){
             setServerError("")
             closeDialog()
-
             enqueueSnackbar("Password Changed", {variant: "success"})
           }
         })
         .catch((error) => {
           formik.setSubmitting(false)
           setServerError(error.response.data.message)
-
-
           if(error.response.status === axios.HttpStatusCode.Locked){
             closeDialog()
             formik.resetForm()
             enqueueSnackbar(error.response.data.message, {variant: "error"})
           }
-
-
         })
     }
   })
@@ -80,29 +66,14 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
           <Stack spacing={3} sx={{width: "100%"}}>
             { serverError && (<Alert severity="error">{serverError}</Alert>) }
-            <TextField
-              fullWidth
-              size="small"
-              type="text"
-              label="Verification Code"
-              {...getFieldProps("code")}
-              error={Boolean(touched && errors.code)}
-              helperText={touched && errors.code}
-            />
-            <PasswordTextField
-              label="New Password"
-              fieldId="newPassword"
-              getFieldProps={getFieldProps}
-              error={errors.newPassword}
-              touched={touched.newPassword}
-            />
-            <LoadingButton
-              color="success"
-              disabled={!(isValid && formik.dirty)}
-              type="submit"
-              variant="contained"
-              loading={isSubmitting}
-            >
+            <TextField fullWidth size="small" type="text" label="Verification Code"
+              {...getFieldProps("code")} error={Boolean(touched && errors.code)}
+              helperText={touched && errors.code} />
+            <PasswordTextField label="New Password" fieldId="newPassword"
+              getFieldProps={getFieldProps} error={errors.newPassword}
+              touched={touched.newPassword} />
+            <LoadingButton color="success" disabled={!(isValid && formik.dirty)} type="submit"
+              variant="contained" loading={isSubmitting} >
               Change Password
             </LoadingButton>
           </ Stack>
@@ -110,5 +81,6 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
       </ FormikProvider>
     </ Box>
   )
-
 }
+
+// QA: Brian Francis 08-07-23

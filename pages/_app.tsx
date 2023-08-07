@@ -18,9 +18,8 @@ import SettingsDialog from "@/components/settings/SettingsDialog"
 import RegisterDialog from "@/components/auth/dialogs/RegisterDialog"
 
 import AuthDialog from "@/components/auth/dialogs/AuthDialog"
-// QA done 2021-09-23
-
 import ForgotPasswordDialog from "@/components/auth/dialogs/ForgotPasswordDialog"
+
 
 import {appMenuItems} from "../data/appMenuItems"
 
@@ -53,7 +52,6 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
 
       if (options.name) fxOptions!.name = options.name
       if (options.palette) fxOptions.palette = options.palette
-      // else fxOptions.palette = palettes[0]
       if (options.mode && fxOptions.palette) fxOptions.palette.mode = options.mode
       else fxOptions!.palette!.mode = theme.palette.mode
     }
@@ -133,3 +131,4 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
     </SessionProvider>
   )
 }
+// QA: Brian Francis 08-07-23
