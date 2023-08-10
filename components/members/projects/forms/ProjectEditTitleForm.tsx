@@ -38,7 +38,7 @@ export const ProjectTitleForm = (props: ProjectTitleFormComponent) => {
     initialValues: { title },
     validationSchema: TitleSchema,
     onSubmit: (data) => {
-      axios.patch(`/api/projects/${project.id}`, {title: data.title})
+      axios.patch(`/api/members/projects/${project.id}`, {title: data.title})
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
@@ -100,4 +100,4 @@ export const ProjectTitleForm = (props: ProjectTitleFormComponent) => {
 }
 export default ProjectTitleForm
 
-// QA done
+// QA: Brian Francis 9-10-23

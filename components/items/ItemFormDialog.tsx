@@ -57,7 +57,8 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
       if(dialogIsOpen && session && mode === "ADD"){
         try {
-          axios.post(`/api/projects/${project.id}/boards/${board.id}/columns/${column.id}/items`,
+          axios.post(
+            `/api/members/projects/${project.id}/boards/${board.id}/columns/${column.id}/items`,
             {scope: 'privare'})
             .then((res) => {
 

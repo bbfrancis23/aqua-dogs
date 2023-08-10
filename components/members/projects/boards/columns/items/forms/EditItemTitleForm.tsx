@@ -42,7 +42,7 @@ const EditTitleItemForm = (props: EditItemTitleFormProps) => {
     onSubmit: (data) => {
 
       axios.patch(
-        `/api/projects/${project?.id}/items/${item?.id}`,
+        `/api/members/projects/${project?.id}/items/${item?.id}`,
         {title: data.title},
       )
         .then((res) => {

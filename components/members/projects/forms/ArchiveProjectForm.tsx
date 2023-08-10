@@ -1,4 +1,3 @@
-
 import { useContext } from "react";
 
 import router from "next/router";
@@ -10,10 +9,10 @@ import { useSnackbar } from "notistack";
 import axios from "axios";
 
 import { ProjectContext } from "@/interfaces/ProjectInterface";
+import { Member } from "@/interfaces/MemberInterface"
 
 import Permission, { PermissionCodes } from "@/ui/PermissionComponent"
 
-import { Member } from "@/interfaces/MemberInterface"
 
 export type ArchiveProjectFormProps = { member: Member}
 
@@ -30,7 +29,7 @@ const ArchiveProjectForm = (props: ArchiveProjectFormProps) => {
     try{
       await confirm({description: `Archive ${project.title}`})
         .then( () => {
-          axios.delete(`/api/projects/${project.id}`).then((res) => {
+          axios.delete(`/api/members/projects/${project.id}`).then((res) => {
             enqueueSnackbar(`Archived ${project.title}`, {variant: "success"})
             router.push("/member")
           }).catch((error) => {
@@ -41,7 +40,6 @@ const ArchiveProjectForm = (props: ArchiveProjectFormProps) => {
         .catch((e) => enqueueSnackbar('Archiving aborted', {variant: "error"}) )
     }catch(e){ enqueueSnackbar(`Error2  Archiving ${e}`, {variant: "error"}) }
   }
-
 
   return (
     <Permission code={PermissionCodes.PROJECT_LEADER} project={project} member={member} >
@@ -57,4 +55,4 @@ const ArchiveProjectForm = (props: ArchiveProjectFormProps) => {
 
 export default ArchiveProjectForm
 
-// QA done
+// QA: Brian Francis 8-10-23

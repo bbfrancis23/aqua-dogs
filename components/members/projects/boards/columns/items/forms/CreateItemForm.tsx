@@ -43,7 +43,7 @@ const CreateItemForm = (props: CreateItemFormProps) => {
     onSubmit: (data) => {
 
       axios.post(
-        `/api/projects/${project.id}/boards/${board.id}/columns/${column.id}/items`,
+        `/api/members/projects/${project.id}/boards/${board.id}/columns/${column.id}/items`,
         {title: data.title},
       )
         .then((res) => {

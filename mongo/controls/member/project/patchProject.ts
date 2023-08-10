@@ -1,13 +1,12 @@
 import db from '@/mongo/db'
 import {getSession} from 'next-auth/react'
-import mongoose from 'mongoose'
 
 import Project from '@/mongo/schemas/ProjectSchema'
 
 import axios from 'axios'
 import {forbiddenResponse, notFoundResponse, unauthorizedResponse} from '../../responses'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {PatchProjectResponse} from 'pages/api/projects/projectsIdHandler'
+import {PatchProjectResponse} from 'pages/api/members/projects/projectsIdHandler'
 
 export const patchProject = async (
   req: NextApiRequest,
@@ -31,9 +30,8 @@ export const patchProject = async (
     return
   }
 
-  // TODO: Bug authSession.user.id is not typed for user.id???
-  const grot: any = authSession
-  const memberId = grot.user.id
+  const castSession: any = authSession
+  const memberId = castSession.user.id
 
   if (project.leader._id.toString() !== memberId) {
     forbiddenResponse(res, 'You do not have permission to edit this project')
@@ -75,3 +73,5 @@ export const patchProject = async (
     project,
   })
 }
+
+// QA: Brian Francis 8-9-23

@@ -12,6 +12,8 @@ const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   let message = ''
   let projects = {}
 
+  console.log('projectsHandler')
+
   await db.connect()
 
   if (req.method === 'POST') {
@@ -32,6 +34,8 @@ const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         } catch (e: any) {
           status = axios.HttpStatusCode.InternalServerError
           message = e
+
+          console.log(e)
         }
       } else {
         status = axios.HttpStatusCode.NoContent

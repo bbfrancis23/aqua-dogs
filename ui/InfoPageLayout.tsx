@@ -36,4 +36,4 @@ export const InfoPageLayout = (props: InfoPageLayoutComponent) => {
 }
 
 export default InfoPageLayout
-// QA done
+// QA: Brian Francis 8-10-23

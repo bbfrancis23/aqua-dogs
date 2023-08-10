@@ -40,7 +40,7 @@ const CreateBoardForm = (props: CreateBoardFormProps) => {
     validationSchema: createBoardSchema,
     onSubmit: (data) => {
       axios.post(
-        `/api/projects/${project.id}/boards`,
+        `/api/members/projects/${project.id}/boards`,
         {title: data.title},
       )
         .then((res) => {

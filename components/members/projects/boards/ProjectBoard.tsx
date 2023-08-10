@@ -75,7 +75,7 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
   const updateBoardCols = (boardCols: string[]) => {
     setOrderedColKeys(boardCols)
 
-    axios.patch(`/api/projects/${project.id}/boards/${board.id}`, {columns: boardCols})
+    axios.patch(`/api/members/projects/${project.id}/boards/${board.id}`, {columns: boardCols})
       .then((res) => {
         enqueueSnackbar(`Columns Reordered `, {variant: "success"})
       })
@@ -112,7 +112,7 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
     const boardCols:any = await reorderBoard({boardCols: colKeys, source, destination})
 
 
-    axios.patch(`/api/projects/${project.id}/boards/${board.id}`, {boardCols} )
+    axios.patch(`/api/members/projects/${project.id}/boards/${board.id}`, {boardCols} )
       .catch((e:string) => {
         console.log(`Error: ${e}`)
       })

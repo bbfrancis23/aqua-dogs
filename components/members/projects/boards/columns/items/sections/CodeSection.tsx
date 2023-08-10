@@ -43,7 +43,7 @@ export const CodeSection = (props: TextSectionProps) => {
 
   const handleDeleteSection = () => {
 
-    axios.delete(`/api/projects/${project?.id}/items/${item?.id}/sections/${section.id}`)
+    axios.delete(`/api/members/projects/${project?.id}/items/${item?.id}/sections/${section.id}`)
       .then((res) => {
         setItem(res.data.item)
         enqueueSnackbar("Item Section Deleted", {variant: "success"})
@@ -59,7 +59,7 @@ export const CodeSection = (props: TextSectionProps) => {
     initialValues: { section: section.content },
     validationSchema: editSectionSchema,
     onSubmit: (data) => {
-      axios.patch(`/api/projects/${project?.id}/items/${item?.id}/sections/${section.id}`,
+      axios.patch(`/api/members/projects/${project?.id}/items/${item?.id}/sections/${section.id}`,
         {content: data.section, sectiontype: "63b88d18379a4f30bab59bad"})
         .then((res) => {
           formik.setSubmitting(false)

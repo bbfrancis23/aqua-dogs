@@ -46,7 +46,7 @@ const CreateSectionForm = (props: CreateSectionFormProps) => {
     initialValues: { section: '' },
     validationSchema: createSectionSchema,
     onSubmit: (data) => {
-      axios.post(`/api/projects/${project?.id}/items/${item?.id}/sections`,
+      axios.post(`/api/pmembers/rojects/${project?.id}/items/${item?.id}/sections`,
         {content: data.section, sectiontype: sectionType === "text" ?
           "63b2503c49220f42d9fc17d9" : "63b88d18379a4f30bab59bad",})
         .then((res) => {

@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { Box, IconButton, Tooltip } from "@mui/material"
+import { Box, IconButton } from "@mui/material"
 
 import MakeAdminIcon from '@mui/icons-material/AddModerator'
 import RemoveMemberIcon from '@mui/icons-material/PersonOff'
@@ -27,7 +27,7 @@ const ProjectMemberActions = (props: ProjectMemberActionsProps) => {
   const {enqueueSnackbar} = useSnackbar()
 
   const handleRemoveFromProject = () => {
-    axios.patch(`/api/projects/${project.id}`, {removeMember: member.id})
+    axios.patch(`/api/members/projects/${project.id}`, {removeMember: member.id})
       .then((res) => {
         enqueueSnackbar(`Member ${member.email} removed from Project`, {variant: "success"})
         setProject(res.data.project)
@@ -38,7 +38,7 @@ const ProjectMemberActions = (props: ProjectMemberActionsProps) => {
   }
 
   const handleRemoveProjectAdmin = () => {
-    axios.patch(`/api/projects/${project.id}`, {removeAdmin: member.id})
+    axios.patch(`/api/members/projects/${project.id}`, {removeAdmin: member.id})
       .then((res) => {
         enqueueSnackbar(`Member ${member.email} removed project admin`, {variant: "success"})
         setProject(res.data.project)
@@ -48,7 +48,7 @@ const ProjectMemberActions = (props: ProjectMemberActionsProps) => {
   }
 
   const handleMakeProjectAdmin = () => {
-    axios.patch(`/api/projects/${project.id}`, {makeAdmin: member.id})
+    axios.patch(`/api/members/projects/${project.id}`, {makeAdmin: member.id})
       .then((res) => {
         enqueueSnackbar(`Member ${member.email} made an Project admin`, {variant: "success"})
         setProject(res.data.project)
@@ -86,4 +86,4 @@ const ProjectMemberActions = (props: ProjectMemberActionsProps) => {
 
 export default ProjectMemberActions
 
-// QA done
+// QA: Brian Francis 8-10-23

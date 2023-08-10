@@ -29,6 +29,8 @@ const editItemSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
 })
 
+const projectsPath = "/api/members/projects"
+
 const EditItemForm = (props: EditItemFormProps) => {
 
   const { column, item, closeForm} = props;
@@ -45,7 +47,7 @@ const EditItemForm = (props: EditItemFormProps) => {
     onSubmit: (data) => {
 
       axios.patch(
-        `/api/projects/${project.id}/boards/${board.id}/columns/${column.id}/items/${item.id}`,
+        `${projectsPath}/${project.id}/boards/${board.id}/columns/${column.id}/items/${item.id}`,
         {title: data.title},
       )
         .then((res) => {

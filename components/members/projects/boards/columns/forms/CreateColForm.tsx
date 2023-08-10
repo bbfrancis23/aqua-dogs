@@ -36,7 +36,7 @@ export const CreateColForm = (props: CreateColFormProps) => {
     validationSchema: createColSchema,
     onSubmit: (data) => {
       axios.post(
-        `/api/projects/${project.id}/boards/${board.id}/columns`,
+        `/api/members/projects/${project.id}/boards/${board.id}/columns`,
         {title: data.title},
       )
         .then((res) => {

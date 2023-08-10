@@ -107,4 +107,4 @@ export const updateMember = async (req: NextApiRequest, res: NextApiResponse) =>
   })
 }
 
-// QA done 8-9-23
+// QA: Brian Francis 8-10-23

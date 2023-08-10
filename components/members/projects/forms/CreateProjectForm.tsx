@@ -37,7 +37,7 @@ const CreateProjectForm = (props: CreateProjectFormProps) => {
     validationSchema: createProjectSchema,
     onSubmit: (data) => {
       axios.post(
-        "/api/projects",
+        "/api/members/projects",
         {title: data.title},
       )
         .then((res) => {

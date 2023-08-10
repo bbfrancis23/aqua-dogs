@@ -1,29 +1,34 @@
-import { useState } from "react";
+import { useState } from "react"
 
-import { GetServerSideProps, InferGetServerSidePropsType, Redirect } from "next";
-import { getSession } from "next-auth/react";
-import router from "next/router";
+import { GetServerSideProps, InferGetServerSidePropsType, Redirect } from "next"
+import { getSession } from "next-auth/react"
+import router from "next/router"
 
-import { Button, Grid, Stack, Typography } from "@mui/material";
+import { Button, Grid, Stack, Typography } from "@mui/material"
 
-import { Project, ProjectContext } from "@/interfaces/ProjectInterface";
-import { Member } from "@/interfaces/MemberInterface";
-import { Board } from "@/interfaces/BoardInterface";
-
-import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls";
-import { findMember } from "@/mongo/controls/member/memberControls";
+import { Project, ProjectContext } from "@/interfaces/ProjectInterface"
 
 
-import Permission, { permission, PermissionCodes } from "@/ui/PermissionComponent";
-import InfoPageLayout from "@/ui/InfoPageLayout";
-import ProjectMember from "@/components/members/projects/ProjectMember";
-import AddProjectMemberForm from "@/components/members/projects/forms/AddProjectMemberForm";
-import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm";
-import BoardStub from "@/components/members/projects/boards/BoardStub";
-import ProjectEditTitleForm from "@/components/members/projects/forms/ProjectEditTitleForm";
+import { Member } from "@/interfaces/MemberInterface"
+import { Board } from "@/interfaces/BoardInterface"
 
-import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm";
+import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls"
+import { findMember } from "@/mongo/controls/member/memberControls"
 
+
+import Permission, { permission, PermissionCodes } from "@/ui/PermissionComponent"
+import InfoPageLayout from "@/ui/InfoPageLayout"
+
+import AddProjectMemberForm from "@/components/members/projects/forms/AddProjectMemberForm"
+import ProjectMember from "@/components/members/projects/ProjectMember"
+import ProjectEditTitleForm from "@/components/members/projects/forms/ProjectEditTitleForm"
+import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm"
+
+// QA: Brian Francis 8-10-23
+
+
+import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm"
+import BoardStub from "@/components/members/projects/boards/BoardStub"
 
 export type ProjectPage = {
   project: Project;
@@ -115,7 +120,7 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
                   closeForm={() => handleCloseCreateBoardForm()}/>
               </Grid>
             </Grid>
-          ) }
+          )}
           <Grid container spacing={1} sx={{pr: 3 }}>
             { boards.map( (b) => (
               <Grid item xs={6} sm={3} md={2} key={b.id}>
