@@ -56,14 +56,13 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
           { showColForm && (
             <CreateColForm closeForm={() => handleCloseColForm() } />
           )}
-          <Stack spacing={2} direction={'row'} sx={{ p: 2, }} >
+          <Stack spacing={2} direction={'row'}
+            sx={{ p: 2, width: '100%', overflow: 'auto', height: 'calc(100vh - 124px)' }} >
             <ProjectBoard member={member}/>
             <Box>
-              <Tooltip title="Create Column">
-                <Button onClick={() => setShowColForm(true)} sx={{ m: 0, p: 0}}>
-                  <ColumnStub />
-                </Button>
-              </Tooltip>
+              <Button onClick={() => setShowColForm(true)} sx={{ m: 0, p: 0}}>
+                <ColumnStub />
+              </Button>
             </Box>
           </Stack>
 
