@@ -12,12 +12,13 @@ import {Member} from "@/interfaces/MemberInterface"
 
 import { findMember, findMemberProjects } from "@/mongo/controls/member/memberControls"
 
+
 import ChangePasswordForm from "@/components/auth/forms/ChangePasswordForm"
 import NameForm from "@/components/members/NameForm"
 import EmailForm from "@/components/members/EmailForm"
-import CreateProjectForm from "@/components/members/projects/forms/CreateProjectForm"
 import ProjectStub from "@/components/members/projects/ProjectStub"
 import InfoPageLayout from "@/ui/InfoPageLayout"
+import CreateProjectForm from "@/components/members/projects/forms/CreateProjectForm"
 
 
 export type MemberPage = {
@@ -47,7 +48,6 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
   const [showProjectForm, setShowProjectForm] = useState<boolean>(false)
   const {enqueueSnackbar} = useSnackbar()
 
-  // TODO: add loading logout
   const handleLogout = async() => {
     await signOut()
     window.location.href = "/"
@@ -56,16 +56,26 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 
   const handleCloseCreateProjectForm = () => { setShowProjectForm(false) }
 
+  const handleOnUpdateMember = () => {
+    handleLogout()
+  }
+
+  const handleCloseChangePasswordForm = () => { setShowChangePasswordForm(false) }
+
   return (
     <InfoPageLayout title="Member Info">
       <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%', }}>
-        <NameForm name={member?.name ? member.name : ""} />
-        <EmailForm email={member?.email ? member.email : ""} />
+        <NameForm name={member?.name ? member.name : ""}
+          onUpdateMember={() => handleOnUpdateMember()}/>
+        <EmailForm email={member?.email ? member.email : ""}
+          onUpdateMember={() => handleOnUpdateMember()}/>
         <Button variant="outlined" color="inherit" sx={{ borderColor: 'divider'}}
           onClick={() => setShowChangePasswordForm(!showChangePasswordForm)} >
           CHANGE PASSWORD
         </Button>
-        { showChangePasswordForm && <ChangePasswordForm />}
+        { showChangePasswordForm &&
+          <ChangePasswordForm closePasswordForm={() => handleCloseChangePasswordForm()}/>
+        }
         <Button sx={{ borderColor: 'divider'}} variant="outlined" color="inherit"
           onClick={handleLogout}>
             LOG OUT
@@ -98,4 +108,4 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 
 export default Page
 
-// QA done 8-2-23
+// QA done 8-8-23

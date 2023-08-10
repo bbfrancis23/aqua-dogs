@@ -66,35 +66,37 @@ const CreateProjectForm = (props: CreateProjectFormProps) => {
   return(
     <Box sx={{m: 3}}>
       { session && (
-        <>
 
-          <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Box sx={{ ml: 1, display: 'flex'}}>
-                <TextField
+        <FormikProvider value={formik}>
+          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+            <Box sx={{ display: 'flex', mt: 3}}>
 
-                  size={'small'}
-                  label="New Project"
-                  {...getFieldProps('title')}
-                  error={Boolean(touched && errors.title)}
-                  helperText={touched && errors.title}
-                />
-                <LoadingButton
-                  color="success"
-                  disabled={!(isValid && formik.dirty)}
-                  type="submit"
-                  loading={isSubmitting}
-                  sx={{minWidth: '0', }}
-                >
-                  <SaveIcon />
-                </LoadingButton>
-                <Button onClick={() => closeForm()} sx={{minWidth: 0}}>
-                  <CloseIcon color={'error'}/>
-                </Button>
-              </Box>
-            </Form>
-          </FormikProvider>
-        </>
+              <TextField
+
+                size={'small'}
+                label="New Project"
+                {...getFieldProps('title')}
+                error={Boolean(touched && errors.title)}
+                helperText={touched && errors.title}
+              />
+            </Box>
+            <Box display={{ display: 'flex', justifyContent: "right" }}>
+              <LoadingButton
+                color="success"
+                disabled={!(isValid && formik.dirty)}
+                type="submit"
+                loading={isSubmitting}
+                sx={{minWidth: '0', }}
+              >
+                <SaveIcon />
+              </LoadingButton>
+              <Button onClick={() => closeForm()} sx={{minWidth: 0}}>
+                <CloseIcon color={'error'}/>
+              </Button>
+            </Box>
+          </Form>
+        </FormikProvider>
+
       )}
     </Box>
   )

@@ -19,7 +19,13 @@ const ChangePasswordFormSchema = Yup.object().shape({
   newPassword: passwordSchema
 })
 
-export default function ChangePasswordForm(){
+export interface ChangePasswordFormProps {
+  closePasswordForm: () => void
+}
+
+export default function ChangePasswordForm(params: ChangePasswordFormProps){
+
+  const {closePasswordForm} = params
   const {enqueueSnackbar} = useSnackbar()
 
   const [formError, setFormError] = useState<string>("")
@@ -41,6 +47,8 @@ export default function ChangePasswordForm(){
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
             enqueueSnackbar("Password changed", {variant: "success"})
+            formik.resetForm()
+            closePasswordForm()
           }
         })
         .catch((error) => {
@@ -77,4 +85,4 @@ export default function ChangePasswordForm(){
   )
 }
 
-// QA done 8-2-23
+// QA done 8-9-23

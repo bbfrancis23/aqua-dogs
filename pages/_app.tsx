@@ -14,6 +14,9 @@ import {appThemes, palettes, createFxTheme, FxThemeOptions, FxPaletteOptions} fr
 
 import AuthNav from "@/components/auth/AuthNav"
 import AppBarMenu, {AppBarMenuProps} from "@/components/AppBarMenu"
+
+// QA: Brian Francis 08-07-23
+
 import SettingsDialog from "@/components/settings/SettingsDialog"
 import RegisterDialog from "@/components/auth/dialogs/RegisterDialog"
 
@@ -131,4 +134,3 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
     </SessionProvider>
   )
 }
-// QA: Brian Francis 08-07-23

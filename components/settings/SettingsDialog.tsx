@@ -48,7 +48,7 @@ export default function SettingsDialog(props: any) {
         </Stack>
       </DialogContent>
       <DialogActions disableSpacing={false}>
-        <Button onClick={closeDialog} color={"info"} variant="outlined"> Done </Button>
+        <Button onClick={closeDialog} color="inherit" variant="outlined"> Done </Button>
       </DialogActions>
     </DraggableDialog>
   )

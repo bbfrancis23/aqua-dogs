@@ -7,7 +7,7 @@ import Project from '@/mongo/schemas/ProjectSchema'
 import axios from 'axios'
 import {forbiddenResponse, notFoundResponse, unauthorizedResponse} from '../../responses'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {PatchProjectResponse} from 'pages/api/projects/[projectId]/projectsIdHandler'
+import {PatchProjectResponse} from 'pages/api/projects/projectsIdHandler'
 
 export const patchProject = async (
   req: NextApiRequest,

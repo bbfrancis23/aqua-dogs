@@ -13,7 +13,12 @@ const EmailSchema = Yup.object().shape({
   email: Yup.string().email("Email must be a valid email address").required("Email is required"),
 })
 
-export default function EmailForm(params: {email: string}){
+export type EmailFormProps = {
+  email: string,
+  onUpdateMember: () => void
+}
+
+export default function EmailForm(params: EmailFormProps){
   const [email, setEmail] = useState(params.email)
 
   const {enqueueSnackbar} = useSnackbar()
@@ -33,7 +38,8 @@ export default function EmailForm(params: {email: string}){
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === 200 ){
-            enqueueSnackbar("Email Updated", {variant: "success"})
+            params.onUpdateMember()
+            enqueueSnackbar("Email Updated. You must revalidate credentials", {variant: "success"})
             setEmail(data.email)
             setDisplayTextField(false)
           }
@@ -62,32 +68,36 @@ export default function EmailForm(params: {email: string}){
       { displayTextField && (
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+            <Box sx={{ display: 'flex', mt: 3}}>
+              <TextField
+                size="small"
+                autoComplete="email"
+                label={"Email"}
+                {...getFieldProps("email")}
+                error={Boolean(touched && errors.email)}
+                helperText={touched && errors.email}
+                sx={{minWidth: '0', mr: 1}}
+              />
+            </Box>
+            <Box display={{ display: 'flex', justifyContent: "right" }}>
 
-            <TextField
-              size="small"
-              autoComplete="email"
-              label={"Email"}
-              {...getFieldProps("email")}
-              error={Boolean(touched && errors.email)}
-              helperText={touched && errors.email}
-              sx={{minWidth: '0', mr: 1}}
-            />
-            <LoadingButton
-              color="success"
-              disabled={!(isValid && formik.dirty)}
-              type="submit"
-              loading={isSubmitting}
-              sx={{minWidth: '0'}}
-            >
-              <SaveIcon />
-            </LoadingButton>
+              <LoadingButton
+                color="success"
+                disabled={!(isValid && formik.dirty)}
+                type="submit"
+                loading={isSubmitting}
+                sx={{minWidth: '0'}}
+              >
+                <SaveIcon />
+              </LoadingButton>
 
 
-            {(email && displayTextField) && (
-              <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}}>
-                <CloseIcon color={'error'}/>
-              </Button>
-            )}
+              {(email && displayTextField) && (
+                <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}}>
+                  <CloseIcon color={'error'}/>
+                </Button>
+              )}
+            </Box>
           </Form>
         </FormikProvider>
       )}

@@ -16,7 +16,12 @@ const NameSchema = Yup.object().shape({
     .required("Member Name is required"),
 })
 
-export default function NameForm(params: {name: string}){
+export type NameFormProps = {
+  name: string,
+  onUpdateMember: () => void
+}
+
+export default function NameForm(params: NameFormProps){
 
   const [name, setName] = useState(params.name)
 
@@ -33,7 +38,9 @@ export default function NameForm(params: {name: string}){
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === 200 ){
-            enqueueSnackbar("Member Name Updated", {variant: "success"})
+            params.onUpdateMember()
+            enqueueSnackbar("Member Name Updated. You must revalidate credentials",
+              {variant: "success"})
             setName(data.memberName)
             setDisplayTextField(false)
           }
@@ -60,24 +67,30 @@ export default function NameForm(params: {name: string}){
       { displayTextField && (
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ marginTop: '5px'}}>
-            <TextField size="small" autoComplete="name" label={"Member Name"}
-              {...getFieldProps("memberName")} error={Boolean(touched && errors.memberName)}
-              helperText={touched && errors.memberName} sx={{mr: 1}} />
-            <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
-              type="submit" loading={isSubmitting} sx={{minWidth: '0'}} >
-              <SaveIcon />
-            </LoadingButton>
-            {!name && (
-              <Button onClick={() => setDisplayTextField(!displayTextField)}>
-                {displayTextField ? <CloseIcon color={'error'}/> : "Add Member Name"}
-              </Button>
-            )}
+            <Box sx={{ display: 'flex', mt: 3}}>
 
-            {(name && displayTextField) && (
-              <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}} >
-                <CloseIcon color={'error'}/>
-              </Button>
-            )}
+              <TextField size="small" autoComplete="name" label={"Member Name"}
+                {...getFieldProps("memberName")} error={Boolean(touched && errors.memberName)}
+                helperText={touched && errors.memberName} sx={{mr: 1}} />
+            </Box>
+            <Box display={{ display: 'flex', justifyContent: "right" }}>
+
+              <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+                type="submit" loading={isSubmitting} sx={{minWidth: '0'}} >
+                <SaveIcon />
+              </LoadingButton>
+              {!name && (
+                <Button onClick={() => setDisplayTextField(!displayTextField)}>
+                  {displayTextField ? <CloseIcon color={'error'}/> : "Add Member Name"}
+                </Button>
+              )}
+
+              {(name && displayTextField) && (
+                <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}} >
+                  <CloseIcon color={'error'}/>
+                </Button>
+              )}
+            </Box>
           </Form>
         </FormikProvider>
       )}
@@ -85,4 +98,4 @@ export default function NameForm(params: {name: string}){
   )
 }
 
-// QA done 8-2-23
+// QA done 8-9-23
