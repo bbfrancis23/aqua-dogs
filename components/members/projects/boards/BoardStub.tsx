@@ -46,7 +46,7 @@ const BoardStub = (props: BoardStubProps) => {
               maxWidth: '165px', color: 'secondary.contrastText',
               fontSize: '12px', textAlign: 'start'}}>
             {board.title}</Typography>
-          : <Skeleton width={100} height={25} animation={animation}/>}
+          : <Skeleton width={100} height={18} animation={animation}/>}
         sx={{ pb: 0}}
       />
       <CardContent sx={{ pt: 0.25 }} style={{paddingBottom: '0'}}>

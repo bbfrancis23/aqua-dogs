@@ -57,7 +57,6 @@ const CreateBoardForm = (props: CreateBoardFormProps) => {
         .catch((error) => {
 
           formik.setSubmitting(false)
-          console.log(error)
           enqueueSnackbar(error.message, {variant: "error"})
         })
     }
@@ -90,4 +89,4 @@ const CreateBoardForm = (props: CreateBoardFormProps) => {
 }
 
 export default CreateBoardForm
-// QA done
+// QA: Brian Francis 8-10-23
