@@ -48,8 +48,8 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
   return (
     <ProjectContext.Provider value={{project, setProject}}>
       <BoardContext.Provider value={{board, setBoard}}>
-        <Box
-          sx={{background: `url(/images/themes/${fxPalette.name}/hero.jpg)`,
+        <Box style={{overflow: 'hidden'}}
+          sx={{background: `url(/images/themes/${fxPalette.name}/hero.jpg)`, overflow: 'hidden',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundAttachment: 'fixed',
             backgroundPosition: 'center', width: '100vw', height: 'calc(100vh - 64px)'}} >
           <BoardToolbar />
@@ -112,3 +112,4 @@ GetServerSideProps<MemberProjectBoardPageProps> = async(context) => {
   }
   return {redirect: {destination: "/", permanent: false}}
 }
+
