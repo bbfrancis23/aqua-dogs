@@ -9,12 +9,8 @@ import { useSnackbar } from "notistack";
 import { Form, FormikProvider, useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup"
-import { BoardContext }
-  from "pages/member/projects/[projectId]/boards/[boardId]/BoardPage";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-
-//
-//import { ProjectContext, BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";
+import { BoardContext } from "@/interfaces/BoardInterface";
 
 const TitleSchema = Yup.object().shape({
   title: Yup.string()

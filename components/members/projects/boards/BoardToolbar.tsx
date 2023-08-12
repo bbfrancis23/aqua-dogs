@@ -5,9 +5,6 @@ import { ProjectMemberAvatar } from "../ProjectMemberAvatar";
 import { PermissionCodes } from "@/ui/permission/old-Permission";
 import { BoardTitleForm } from "./forms/BoardTitleForm";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-// import { ProjectContext } from "pages/member/projects/[projectId]/boards/[boardId]/BoardPage";
-
-//import { ProjectContext, BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";
 
 export const BoardToolbar = () => {
 

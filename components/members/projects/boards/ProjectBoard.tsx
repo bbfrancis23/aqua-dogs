@@ -7,11 +7,8 @@ import { Column } from "@/interfaces/Column";
 import BoardColumn from "./columns/BoardColumn";
 import axios from "axios";
 import { useSnackbar } from "notistack";
-import { BoardContext }
-  from "pages/member/projects/[projectId]/boards/[boardId]/BoardPage";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-// import { ProjectContext, BoardContext }
-// from "pages/member/projects/[projectId]/boards/[boardId]";
+import { BoardContext } from "@/interfaces/BoardInterface";
 
 export interface ProjectBoardProps {
   member: Member;

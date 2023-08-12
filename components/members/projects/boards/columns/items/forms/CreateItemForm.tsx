@@ -14,11 +14,8 @@ import { Column } from "@/interfaces/Column";
 import { Member } from "@/interfaces/MemberInterface";
 
 import ItemStub from "../ItemStub";
-import { BoardContext }
-  from "pages/member/projects/[projectId]/boards/[boardId]/BoardPage";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-// import { ProjectContext, BoardContext }
-// from "pages/member/projects/[projectId]/boards/[boardId]";
+import { BoardContext } from "@/interfaces/BoardInterface";
 
 export interface CreateItemFormProps{
   column: Column;

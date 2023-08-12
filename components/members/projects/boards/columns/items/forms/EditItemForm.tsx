@@ -15,10 +15,8 @@ import axios from "axios";
 import { Item } from "@/interfaces/ItemInterface";
 import { Column } from "@/interfaces/Column";
 import { Member } from "@/interfaces/MemberInterface";
-
-// import { BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-import { BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]/BoardPage";
+import { BoardContext } from "@/interfaces/BoardInterface";
 
 export interface EditItemFormProps{
   column: Column;

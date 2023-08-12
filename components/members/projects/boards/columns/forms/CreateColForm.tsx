@@ -8,12 +8,8 @@ import { useSnackbar } from "notistack";
 import * as Yup from "yup"
 import axios from "axios";
 import { Form, FormikProvider, useFormik } from "formik";
-import { BoardContext }
-  from "pages/member/projects/[projectId]/boards/[boardId]/BoardPage";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-
-// import { ProjectContext, BoardContext }
-// from "pages/member/projects/[projectId]/boards/[boardId]";
+import { BoardContext } from "@/interfaces/BoardInterface";
 
 export interface CreateColFormProps{
   closeForm: () => void;

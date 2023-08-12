@@ -9,7 +9,7 @@ import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
 import ColumnStub from "@/components/members/projects/boards/columns/ColStub";
 import CreateColForm from "@/components/members/projects/boards/columns/forms/CreateColForm";
 
-import { Board } from "@/interfaces/BoardInterface";
+import { Board, BoardContext } from "@/interfaces/BoardInterface";
 import { Project, ProjectContext} from "@/interfaces/ProjectInterface"
 import { Member } from "@/interfaces/MemberInterface";
 
@@ -25,10 +25,6 @@ export interface MemberProjectBoardPageProps {
   board: Board;
   member: Member;
 }
-
-// export const ProjectContext = createContext <any>({ project: undefined, setProject: () => {}})
-export const BoardContext = createContext <any>({ board: undefined, setBoard: () => {}})
-//export const BoardContext = createContext<any>({} as ProjectContextProps)
 
 export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
 
