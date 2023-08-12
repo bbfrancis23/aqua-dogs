@@ -16,7 +16,9 @@ import { Item } from "@/interfaces/ItemInterface";
 import { Column } from "@/interfaces/Column";
 import { Member } from "@/interfaces/MemberInterface";
 
-import { ProjectContext, BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";
+// import { BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";
+import { ProjectContext } from "@/interfaces/ProjectInterface";
+import { BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]/BoardPage";
 
 export interface EditItemFormProps{
   column: Column;
