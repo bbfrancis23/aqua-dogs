@@ -5,9 +5,10 @@ import { Box, Button, Paper, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useSnackbar } from "notistack";
 
+import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup"
 import axios from "axios";
-import { Form, FormikProvider, useFormik } from "formik";
+
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 import { BoardContext } from "@/interfaces/BoardInterface";
 
@@ -87,3 +88,5 @@ export const CreateColForm = (props: CreateColFormProps) => {
 }
 
 export default CreateColForm
+
+// QA: Brian Francisc 8-12-23

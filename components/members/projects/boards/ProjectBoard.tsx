@@ -1,14 +1,19 @@
+import { useMemo, useState, useContext } from "react";
 import { Member } from "@/interfaces/MemberInterface";
 
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Stack } from "@mui/material";
-import { useMemo, useState, useContext } from "react";
-import { Column } from "@/interfaces/Column";
-import BoardColumn from "./columns/BoardColumn";
-import axios from "axios";
 import { useSnackbar } from "notistack";
+
+import axios from "axios";
+
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 import { BoardContext } from "@/interfaces/BoardInterface";
+
+import { Column } from "@/interfaces/Column";
+
+import BoardColumn from "./columns/BoardColumn";
 
 export interface ProjectBoardProps {
   member: Member;
@@ -157,3 +162,5 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
 }
 
 export default ProjectBoard
+
+// QA: Brian Francisc 8-12-23

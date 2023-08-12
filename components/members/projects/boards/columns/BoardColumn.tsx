@@ -6,19 +6,16 @@ import { Draggable } from "react-beautiful-dnd";
 
 import { Column } from "@/interfaces/Column";
 import { Member } from "@/interfaces/MemberInterface";
+import { ProjectContext } from "@/interfaces/ProjectInterface";
 
-import Permission, { PermissionCodes } from "@/ui/permission/old-Permission";
+import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
+
 
 import ColumnList from "./ColumnList";
 import CreateItemForm from "./items/forms/CreateItemForm";
-import { ProjectContext } from "@/interfaces/ProjectInterface";
-// import { ProjectContext } from "pages/member/projects/[projectId]/boards/[boardId]/BoardPage";
-
-// import { ProjectContext } from "pages/member/projects/[projectId]/boards/[boardId]";
 
 export interface BoardColumnProps {
   index: number;
-
   column: Column;
   member: Member;
 }
@@ -55,3 +52,5 @@ export const BoardColumn = (props: BoardColumnProps) => {
 }
 
 export default BoardColumn
+
+// QA: Brian Francisc 8-12-23

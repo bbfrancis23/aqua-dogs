@@ -9,6 +9,7 @@ import { useSnackbar } from "notistack";
 import { Form, FormikProvider, useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup"
+
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 import { BoardContext } from "@/interfaces/BoardInterface";
 
@@ -99,3 +100,5 @@ export const BoardTitleForm = () => {
     </Box>
   )
 }
+
+// QA: Brian Francisc 8-12-23

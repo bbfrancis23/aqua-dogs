@@ -19,3 +19,5 @@ export const ColumnStub = () => {
 }
 
 export default ColumnStub
+
+// QA: Brian Francisc 8-12-23

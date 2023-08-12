@@ -1,30 +1,35 @@
-import { createContext, useState } from "react";
-import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
-import { Box, Button, Stack, Tooltip, useTheme } from "@mui/material";
-import { resetServerContext } from "react-beautiful-dnd";
+import { useState } from "react";
 
-import { BoardToolbar } from "@/components/members/projects/boards/BoardToolbar";
-import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
-import ColumnStub from "@/components/members/projects/boards/columns/ColStub";
-import CreateColForm from "@/components/members/projects/boards/columns/forms/CreateColForm";
+import { GetServerSideProps, Redirect } from "next";
+import { getSession } from "next-auth/react";
+
+import { Box, Button, Stack, useTheme } from "@mui/material";
+import { useSnackbar } from "notistack";
+
+import { resetServerContext } from "react-beautiful-dnd";
 
 import { Board, BoardContext } from "@/interfaces/BoardInterface";
 import { Project, ProjectContext} from "@/interfaces/ProjectInterface"
 import { Member } from "@/interfaces/MemberInterface";
 
-import { findProject } from "@/mongo/controls/member/project/findProject";
-import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards";
-
-import { PermissionCodes, permission } from "@/ui/permission/old-Permission";
-import { useSnackbar } from "notistack";
 import { findMember } from "@/mongo/controls/member/memberControls";
+import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls";
+import { PermissionCodes, permission } from "@/ui/PermissionComponent";
+
+import { BoardToolbar } from "@/components/members/projects/boards/BoardToolbar";
+import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
+import ColumnStub from "@/components/members/projects/boards/columns/ColStub";
+
+
+import CreateColForm from "@/components/members/projects/boards/columns/forms/CreateColForm";
 
 export interface MemberProjectBoardPageProps {
   project: Project;
   board: Board;
   member: Member;
 }
+
+const unAuthRedirect: Redirect = {destination: "/", permanent: false}
 
 export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
 
@@ -62,7 +67,6 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
               </Button>
             </Box>
           </Stack>
-
         </Box>
       </BoardContext.Provider>
     </ProjectContext.Provider>
@@ -71,41 +75,40 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
 
 export default MemberProjectBoardPage
 
-
 export const getServerSideProps:
 GetServerSideProps<MemberProjectBoardPageProps> = async(context) => {
 
   const authSession = await getSession({req: context.req})
 
-  if(!authSession){
-    return {redirect: {destination: "/", permanent: false}}
-  }
+  if(!authSession) return {redirect: unAuthRedirect}
 
 
   const member: Member | false = await findMember(authSession?.user?.email)
 
-  if(member){
-    const project: any = await findProject(context.query.projectId)
+  if(!member) return {redirect: unAuthRedirect}
 
-    const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
+  if(!context.query.projectId) return {redirect: unAuthRedirect}
 
-    if(hasPermission){
+  if( typeof context.query.projectId !== "string" ) return {redirect: unAuthRedirect}
 
-      let boards: any = await findProjectBoards(project.id)
+  const project: any = await findProject(context.query.projectId)
 
+  const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
 
-      boards = boards.map((b: any) => ({
-        id: b._id,
-        title: b.title,
-        project: b.project,
-        columns: b.columns
-      })
-      )
+  if(!hasPermission) return {redirect: unAuthRedirect}
 
-      const board = boards.find( (b: any) => b.id === context.query.boardId)
-      resetServerContext()
-      return {props: {project, member, board}}
-    }
-  }
-  return {redirect: {destination: "/", permanent: false}}
+  let boards: any = await findProjectBoards(project.id)
+
+  boards = boards.map((b: any) => ({
+    id: b._id,
+    title: b.title,
+    project: b.project,
+    columns: b.columns
+  }) )
+
+  const board = boards.find( (b: any) => b.id === context.query.boardId)
+  resetServerContext()
+  return {props: {project, member, board}}
+
 }
+// QA: Brian Francisc 8-12-23

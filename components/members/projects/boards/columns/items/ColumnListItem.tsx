@@ -7,11 +7,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Column } from "@/interfaces/Column";
 import { Member } from "@/interfaces/MemberInterface";
 import { Item } from "@/interfaces/ItemInterface";
+import { ProjectContext } from "@/interfaces/ProjectInterface";
+
+import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
 
 import EditItemForm from "./forms/EditItemForm";
 
-import Permission, { PermissionCodes } from "@/ui/permission/old-Permission";
-import { ProjectContext } from "@/interfaces/ProjectInterface";
+
 export interface ColumnListProps {
   column: Column;
   member: Member;
@@ -58,3 +60,5 @@ const ColumnListItem = (props: ColumnListProps) => {
 }
 
 export default ColumnListItem
+
+// QA: Brian Francisc 8-12-23

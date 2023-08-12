@@ -12,10 +12,10 @@ import axios from "axios";
 
 import { Column } from "@/interfaces/Column";
 import { Member } from "@/interfaces/MemberInterface";
+import { BoardContext } from "@/interfaces/BoardInterface";
+import { ProjectContext } from "@/interfaces/ProjectInterface";
 
 import ItemStub from "../ItemStub";
-import { ProjectContext } from "@/interfaces/ProjectInterface";
-import { BoardContext } from "@/interfaces/BoardInterface";
 
 export interface CreateItemFormProps{
   column: Column;
@@ -108,3 +108,5 @@ const CreateItemForm = (props: CreateItemFormProps) => {
 }
 
 export default CreateItemForm
+
+// QA: Brian Francisc 8-12-23

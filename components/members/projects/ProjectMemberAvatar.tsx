@@ -1,11 +1,9 @@
 import { Avatar, Badge } from "@mui/material";
-import { Member } from "../../../interfaces/MemberInterface";
-import { Project } from "../../../interfaces/ProjectInterface";
-
 import LeaderBadge from '@mui/icons-material/Star';
-
 import AdminBadge from '@mui/icons-material/Shield';
-import { PermissionCodes } from "../../../ui/permission/old-Permission";
+
+import { Member } from "@/interfaces/MemberInterface";
+import { PermissionCodes } from "@/ui/PermissionComponent";
 
 export interface ProjectMemberAvatarProps {
   type: PermissionCodes;
@@ -75,3 +73,5 @@ export const ProjectMemberAvatar = ( props: ProjectMemberAvatarProps) => {
   )
 
 }
+
+// QA Brian Francisc 8-12-21
