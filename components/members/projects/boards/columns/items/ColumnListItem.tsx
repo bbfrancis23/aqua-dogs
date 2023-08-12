@@ -11,7 +11,10 @@ import { Item } from "@/interfaces/ItemInterface";
 import EditItemForm from "./forms/EditItemForm";
 
 import Permission, { PermissionCodes } from "@/ui/permission/old-Permission";
-import { ProjectContext, BoardContext } from "pages/member/projects/[projectId]/boards/[boardId]";
+import { ProjectContext } from "@/interfaces/ProjectInterface";
+// import { ProjectContext, BoardContext }
+// from "pages/member/projects/[projectId]/boards/[boardId]";
+// import { ProjectContext } from "pages/member/projects/[projectId]/boards/[boardId]/BoardPage";
 
 export interface ColumnListProps {
   column: Column;

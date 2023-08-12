@@ -11,8 +11,10 @@ import Permission, { PermissionCodes } from "@/ui/permission/old-Permission";
 
 import ColumnList from "./ColumnList";
 import CreateItemForm from "./items/forms/CreateItemForm";
+import { ProjectContext } from "@/interfaces/ProjectInterface";
+// import { ProjectContext } from "pages/member/projects/[projectId]/boards/[boardId]/BoardPage";
 
-import { ProjectContext } from "pages/member/projects/[projectId]/boards/[boardId]";
+// import { ProjectContext } from "pages/member/projects/[projectId]/boards/[boardId]";
 
 export interface BoardColumnProps {
   index: number;

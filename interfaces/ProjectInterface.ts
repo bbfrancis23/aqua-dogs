@@ -6,7 +6,7 @@ import {Member} from './MemberInterface'
 export interface Project {
   id: string
   title: string
-  leader?: Member
+  leader: Member
   admins?: Member[]
   members?: Member[]
   boards?: Board[]

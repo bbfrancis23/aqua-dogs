@@ -24,8 +24,6 @@ import ProjectMember from "@/components/members/projects/ProjectMember"
 import ProjectEditTitleForm from "@/components/members/projects/forms/ProjectEditTitleForm"
 import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm"
 
-// QA: Brian Francis 8-10-23
-
 
 import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm"
 import BoardStub from "@/components/members/projects/boards/BoardStub"
@@ -147,3 +145,5 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
   )
 }
 export default Page
+
+// QA: Brian Francis 8-10-23
