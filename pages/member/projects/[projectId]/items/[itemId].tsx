@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, Redirect } from "next";
 import { getSession } from "next-auth/react";
 import { CardContent, CardHeader, Stack, Typography } from "@mui/material";
 
-import { findProject } from "@/mongo/controls/member/project/findProject";
+//import { findProject } from "@/mongo/controls/member/project/findProject";
 import { getItem } from "@/mongo/controllers/itemControllers";
 
 import { Project, ProjectContext } from "@/interfaces/ProjectInterface";
@@ -22,6 +22,7 @@ import { TextSection } from "@/itemComponents/sections/TextSection";
 import { CodeSection } from "@/itemComponents/sections/CodeSection";
 import { Section } from "@/interfaces/SectionInterface";
 import { findMember } from "@/mongo/controls/member/memberControls";
+import { findProject } from "@/mongo/controls/member/project/projectControls";
 
 
 export interface MemberItemPageProps {
@@ -81,6 +82,7 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
 export default MemberItemPage
 
 
+const unAuthRedirect: Redirect = {destination: "/", permanent: false}
 export const getServerSideProps:
 GetServerSideProps<MemberItemPageProps> = async(context) => {
 
@@ -93,6 +95,9 @@ GetServerSideProps<MemberItemPageProps> = async(context) => {
   const member: Member | false = await findMember(authSession?.user?.email)
 
   if(member){
+
+    if( typeof context.query.projectId !== "string" ) return {redirect: unAuthRedirect}
+
     const project: Project = await findProject(context.query.projectId)
     const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
 
