@@ -21,6 +21,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PatchBoardRespo
   } else if (req.method === 'GET') {
     await findBoard(req, res)
     return
+  } else if (req.method === 'DELETE') {
+    await patchBoard(req, res)
+    return
   }
   return
 }

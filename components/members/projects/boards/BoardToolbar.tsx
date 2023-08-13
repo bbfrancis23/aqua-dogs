@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, } from "react";
 
 import { Box, Stack, alpha, useTheme } from "@mui/material";
 
@@ -9,11 +9,13 @@ import { PermissionCodes } from "@/ui/PermissionComponent";
 
 import { BoardTitleForm } from "./forms/BoardTitleForm";
 import { ProjectMemberAvatar } from "../ProjectMemberAvatar";
+import ArchiveBoardForm from "./forms/ArchiveBoardForm";
 
 
 export const BoardToolbar = () => {
 
   const {project} = useContext(ProjectContext)
+
 
   const getAvatar = (member: Member) => {
     let avatar = '';
@@ -42,8 +44,9 @@ export const BoardToolbar = () => {
         { project?.members?.map( (a: Member) => (
           <ProjectMemberAvatar type={PermissionCodes.PROJECT_MEMBER} member={a} key={a.id}/>
         ))}
+        <ArchiveBoardForm />
       </Stack>
     </Box>
   )
 }
-// QA: Brian Francisc 8-12-23
+// QA: Brian Francisc 8-13-23

@@ -22,10 +22,9 @@ export default function AppBarMenu(props: AppBarMenuProps){
   const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorElement)
 
-
   const handleClick = (event: MouseEvent<HTMLButtonElement>):void => {
-    setAnchorElement(event.currentTarget);
-  };
+    setAnchorElement(event.currentTarget)
+  }
 
   const handleClose = ():void => setAnchorElement(null)
 
@@ -58,3 +57,5 @@ export default function AppBarMenu(props: AppBarMenuProps){
     </ Box>
   )
 }
+
+// QA: Brian Francisc 8-12-23
