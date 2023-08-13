@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 const columnSchema = new mongoose.Schema({
-  title: { type: String, required: true },
+  title: {type: String, required: true},
   items: [
     {
       type: mongoose.Types.ObjectId,
@@ -10,9 +10,10 @@ const columnSchema = new mongoose.Schema({
       ref: 'items',
     },
   ],
-});
 
-const Column =
-  mongoose.models.columns || mongoose.model('columns', columnSchema);
+  archive: {type: Boolean, required: true, default: false},
+})
 
-export default Column;
+const Column = mongoose.models.columns || mongoose.model('columns', columnSchema)
+
+export default Column

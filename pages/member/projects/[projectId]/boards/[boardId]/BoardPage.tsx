@@ -21,6 +21,7 @@ import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
 import ColumnStub from "@/components/members/projects/boards/columns/ColStub";
 import CreateColForm from "@/components/members/projects/boards/columns/forms/CreateColForm";
 import { FxTheme } from "theme/globalTheme";
+import findPublicBoard from "@/mongo/controls/member/project/board/findPublicBoard";
 
 export interface BoardPage {
   project: Project;
@@ -51,16 +52,7 @@ GetServerSideProps<BoardPage> = async(context) => {
 
   if(!hasPermission) return {redirect: unAuthRedirect}
 
-  let boards: any = await findProjectBoards(project.id)
-
-  boards = boards.map((b: any) => ({
-    id: b._id,
-    title: b.title,
-    project: b.project,
-    columns: b.columns
-  }) )
-
-  const board = boards.find( (b: any) => b.id === context.query.boardId)
+  let board: any = await findPublicBoard(context.query.boardId)
   resetServerContext()
   return {props: {project, member, board}}
 

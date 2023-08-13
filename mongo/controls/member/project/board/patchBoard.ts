@@ -18,8 +18,6 @@ import {
 export const patchBoard = async (req: NextApiRequest, res: NextApiResponse<PatchBoardResponse>) => {
   const {projectId, boardId} = req.query
 
-  console.log('patching board')
-
   const authSession = await getSession({req})
 
   await db.connect()
@@ -59,8 +57,6 @@ export const patchBoard = async (req: NextApiRequest, res: NextApiResponse<Patch
   }
 
   if (req.method === 'DELETE') {
-    console.log('deleting board')
-    console.log('board: ', board)
     board.archive = true
   } else if (req.body.title) {
     const {title} = req.body

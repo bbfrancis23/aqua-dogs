@@ -1,38 +1,36 @@
-import db from '/mongo/db';
+import db from '/mongo/db'
 
-import Board from '/mongo/schemas/BoardSchema';
-// import Project from '/mongo/schemas/ProjectSchema';
+import Board from '/mongo/schemas/BoardSchema'
 
-import Column from '/mongo/schemas/ColumnSchema';
-import Item from '/mongo/schemas/ItemSchema';
+import Column from '/mongo/schemas/ColumnSchema'
+import Item from '/mongo/schemas/ItemSchema'
 
-import Section from '/mongo/schemas/SectionSchema';
-
-// import mongoose from 'mongoose';
-
-// import { ObjectId } from 'mongodb';
+import Section from '/mongo/schemas/SectionSchema'
 
 export const findPublicBoard = async (id) => {
-  let board = undefined;
+  let board = undefined
 
-  await db.connect();
+  await db.connect()
 
   board = await Board.findOne({
     _id: id,
   }).populate({
     path: 'columns',
+    match: {archive: {$ne: true}},
     populate: {
       path: 'items',
       model: Item,
-      populate: { path: 'sections', model: Section },
+      populate: {path: 'sections', model: Section},
     },
-  });
+  })
 
-  board = await JSON.stringify(board);
-  board = await JSON.parse(board);
-  await db.disconnect();
+  board = board.toObject({getters: true, flattenMaps: true})
 
-  return board;
-};
+  board = await JSON.stringify(board)
+  board = await JSON.parse(board)
+  await db.disconnect()
 
-export default findPublicBoard;
+  return board
+}
+
+export default findPublicBoard

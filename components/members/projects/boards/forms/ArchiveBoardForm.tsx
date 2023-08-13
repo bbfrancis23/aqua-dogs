@@ -34,7 +34,7 @@ const ArchiveBoardForm = () => {
         .then( () => {
           axios.delete(`/api/members/projects/${project.id}/boards/${board.id}`).then((res) => {
             enqueueSnackbar(`Archived ${board.title}`, {variant: "success"})
-            router.push("/member")
+            router.push(`/member/projects/${project.id}`)
           }).catch((error) => {
             enqueueSnackbar(`Error Archiving Board: ${error.response.data.message}`,
               {variant: "error"})

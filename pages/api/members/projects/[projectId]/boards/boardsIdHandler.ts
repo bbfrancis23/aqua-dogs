@@ -1,6 +1,6 @@
 import {patchBoard} from '@/mongo/controls/member/project/board/patchBoard'
 import {patchBoardCols} from '@/mongo/controls/member/project/board/patchBoardCols'
-import {findBoard} from '@/mongo/controls/member/project/board/findBoard'
+import {getBoard} from '@/mongo/controls/member/project/board/findBoard'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {Board} from '@/interfaces/BoardInterface'
 
@@ -19,7 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PatchBoardRespo
       return
     }
   } else if (req.method === 'GET') {
-    await findBoard(req, res)
+    await getBoard(req, res)
     return
   } else if (req.method === 'DELETE') {
     await patchBoard(req, res)
