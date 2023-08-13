@@ -36,28 +36,19 @@ const CreateProjectForm = (props: CreateProjectFormProps) => {
     initialValues: { title: '' },
     validationSchema: createProjectSchema,
     onSubmit: (data) => {
-      axios.post(
-        "/api/members/projects",
-        {title: data.title},
-      )
-        .then((res) => {
-          formik.setSubmitting(false)
-          if (res.status === axios.HttpStatusCode.Created ){
-
-
-            setProjects(res.data.projects)
-
-            enqueueSnackbar("Project created", {variant: "success"})
-            closeForm()
-            formik.resetForm()
-          }
-        })
-        .catch((error) => {
-
-          formik.setSubmitting(false)
-          console.log(error)
-          enqueueSnackbar(error.message, {variant: "error"})
-        })
+      axios.post( "/api/members/projects", {title: data.title} ) .then((res) => {
+        formik.setSubmitting(false)
+        if (res.status === axios.HttpStatusCode.Created ){
+          setProjects(res.data.projects)
+          enqueueSnackbar("Project created", {variant: "success"})
+          closeForm()
+          formik.resetForm()
+        }
+      }) .catch((error) => {
+        formik.setSubmitting(false)
+        console.log(error)
+        enqueueSnackbar(error.message, {variant: "error"})
+      })
     }
   })
 
@@ -70,24 +61,12 @@ const CreateProjectForm = (props: CreateProjectFormProps) => {
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <Box sx={{ display: 'flex', mt: 3}}>
-
-              <TextField
-
-                size={'small'}
-                label="New Project"
-                {...getFieldProps('title')}
-                error={Boolean(touched && errors.title)}
-                helperText={touched && errors.title}
-              />
+              <TextField size={'small'} label="New Project" {...getFieldProps('title')}
+                error={Boolean(touched && errors.title)} helperText={touched && errors.title} />
             </Box>
             <Box display={{ display: 'flex', justifyContent: "right" }}>
-              <LoadingButton
-                color="success"
-                disabled={!(isValid && formik.dirty)}
-                type="submit"
-                loading={isSubmitting}
-                sx={{minWidth: '0', }}
-              >
+              <LoadingButton color="success" disabled={!(isValid && formik.dirty)} type="submit"
+                loading={isSubmitting} sx={{minWidth: '0' }} >
                 <SaveIcon />
               </LoadingButton>
               <Button onClick={() => closeForm()} sx={{minWidth: 0}}>

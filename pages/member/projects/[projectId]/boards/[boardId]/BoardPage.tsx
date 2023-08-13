@@ -23,7 +23,7 @@ import ColumnStub from "@/components/members/projects/boards/columns/ColStub";
 
 import CreateColForm from "@/components/members/projects/boards/columns/forms/CreateColForm";
 
-export interface MemberProjectBoardPageProps {
+export interface BoardPage {
   project: Project;
   board: Board;
   member: Member;
@@ -31,7 +31,44 @@ export interface MemberProjectBoardPageProps {
 
 const unAuthRedirect: Redirect = {destination: "/", permanent: false}
 
-export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
+export const getServerSideProps:
+GetServerSideProps<BoardPage> = async(context) => {
+
+  const authSession = await getSession({req: context.req})
+
+  if(!authSession) return {redirect: unAuthRedirect}
+
+
+  const member: Member | false = await findMember(authSession?.user?.email)
+
+  if(!member) return {redirect: unAuthRedirect}
+
+  if(!context.query.projectId) return {redirect: unAuthRedirect}
+
+  if( typeof context.query.projectId !== "string" ) return {redirect: unAuthRedirect}
+
+  const project: any = await findProject(context.query.projectId)
+
+  const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
+
+  if(!hasPermission) return {redirect: unAuthRedirect}
+
+  let boards: any = await findProjectBoards(project.id)
+
+  boards = boards.map((b: any) => ({
+    id: b._id,
+    title: b.title,
+    project: b.project,
+    columns: b.columns
+  }) )
+
+  const board = boards.find( (b: any) => b.id === context.query.boardId)
+  resetServerContext()
+  return {props: {project, member, board}}
+
+}
+
+export const Page = (props: BoardPage) => {
 
   const {member} = props
 
@@ -73,42 +110,7 @@ export const MemberProjectBoardPage = (props: MemberProjectBoardPageProps) => {
   )
 }
 
-export default MemberProjectBoardPage
-
-export const getServerSideProps:
-GetServerSideProps<MemberProjectBoardPageProps> = async(context) => {
-
-  const authSession = await getSession({req: context.req})
-
-  if(!authSession) return {redirect: unAuthRedirect}
+export default Page
 
 
-  const member: Member | false = await findMember(authSession?.user?.email)
-
-  if(!member) return {redirect: unAuthRedirect}
-
-  if(!context.query.projectId) return {redirect: unAuthRedirect}
-
-  if( typeof context.query.projectId !== "string" ) return {redirect: unAuthRedirect}
-
-  const project: any = await findProject(context.query.projectId)
-
-  const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
-
-  if(!hasPermission) return {redirect: unAuthRedirect}
-
-  let boards: any = await findProjectBoards(project.id)
-
-  boards = boards.map((b: any) => ({
-    id: b._id,
-    title: b.title,
-    project: b.project,
-    columns: b.columns
-  }) )
-
-  const board = boards.find( (b: any) => b.id === context.query.boardId)
-  resetServerContext()
-  return {props: {project, member, board}}
-
-}
 // QA: Brian Francisc 8-12-23

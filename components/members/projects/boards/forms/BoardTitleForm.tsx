@@ -2,7 +2,11 @@ import { useState, useContext } from "react";
 
 import { useSession } from "next-auth/react";
 
-import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
+import { Box, IconButton, Skeleton, TextField, Typography, styled } from "@mui/material";
+
+
+import SaveIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from "@mui/lab";
 import { useSnackbar } from "notistack";
 
@@ -18,6 +22,10 @@ const TitleSchema = Yup.object().shape({
     .required("Title is required"),
 })
 
+const BoardTitleTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiOutlinedInput-root': { fontSize: '1.19rem' },
+}));
+
 export const BoardTitleForm = () => {
   const {board} = useContext(BoardContext)
 
@@ -28,6 +36,7 @@ export const BoardTitleForm = () => {
 
   const [title, setTitle] = useState<string>(board.title)
   const [displayTextField, setDisplayTextField] = useState<boolean>(false)
+
 
   const formik = useFormik({
     initialValues: { title },
@@ -40,6 +49,7 @@ export const BoardTitleForm = () => {
             enqueueSnackbar("Board Title Updated", {variant: "success"})
             setTitle(data.title)
             setDisplayTextField(false)
+            formik.resetForm({values: {title: data.title}})
           }else{ enqueueSnackbar(res.data.message, {variant: "error"}) }
         }).catch((error) => {
 
@@ -61,9 +71,7 @@ export const BoardTitleForm = () => {
   return (
     <Box >
       {(!displayTextField) &&
-
-        <Typography
-          onClick={() => showTextField()}
+        <Typography onClick={() => showTextField()}
           sx={{cursor: "pointer", display: 'contents', fontSize: '1.85rem'}}>
           { title ? title : <Skeleton /> }
         </Typography>
@@ -71,28 +79,16 @@ export const BoardTitleForm = () => {
       { displayTextField && (
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <TextField
-              size="small"
-              label={"Title"}
-              {...getFieldProps("title")}
-              error={Boolean(touched && errors.title)}
-              helperText={touched && errors.title}
-              sx={{mr: 1}}
-            />
-            <LoadingButton
-              color="success"
-              disabled={!(isValid && formik.dirty)}
-              type="submit"
-              variant="contained"
-              loading={isSubmitting}
-              sx={{mr: 1, mb: 1}}
-            >
-            Save
+            <BoardTitleTextField size="small" label={"Title"} {...getFieldProps("title")}
+              error={Boolean(touched && errors.title)} helperText={touched && errors.title} />
+            <LoadingButton color="success" disabled={!(isValid && formik.dirty)} type="submit"
+              loading={isSubmitting} sx={{minWidth: '0' }}>
+              <SaveIcon />
             </LoadingButton>
             {(title && displayTextField) && (
-              <Button onClick={() => setDisplayTextField(false)}>
-            Cancel
-              </Button>
+              <IconButton onClick={() => setDisplayTextField(false)}>
+                <CloseIcon color={'error'}/>
+              </IconButton>
             )}
           </Form>
         </FormikProvider>

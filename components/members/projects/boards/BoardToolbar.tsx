@@ -8,7 +8,6 @@ import { ProjectContext } from "@/interfaces/ProjectInterface";
 import { PermissionCodes } from "@/ui/PermissionComponent";
 
 import { BoardTitleForm } from "./forms/BoardTitleForm";
-
 import { ProjectMemberAvatar } from "../ProjectMemberAvatar";
 
 

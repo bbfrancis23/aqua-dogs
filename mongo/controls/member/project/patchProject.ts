@@ -4,7 +4,8 @@ import {getSession} from 'next-auth/react'
 import Project from '@/mongo/schemas/ProjectSchema'
 
 import axios from 'axios'
-import {forbiddenResponse, notFoundResponse, unauthorizedResponse} from '../../responses'
+
+import {forbiddenResponse, notFoundResponse, unauthorizedResponse} from '@/mongo/controls/responses'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {PatchProjectResponse} from 'pages/api/members/projects/projectsIdHandler'
 
@@ -55,8 +56,6 @@ export const patchProject = async (
     project.members.push(req.body.removeAdmin)
   }
 
-  console.log(project)
-
   await project.save()
 
   project = await Project.findOne({_id: projectId})
@@ -68,8 +67,9 @@ export const patchProject = async (
     getters: true,
   })
 
+  await db.disconnect()
   return res.status(axios.HttpStatusCode.Ok).json({
-    message: 'Data was found',
+    message: 'Project was updated',
     project,
   })
 }
