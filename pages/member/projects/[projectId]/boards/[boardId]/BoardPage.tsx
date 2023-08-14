@@ -3,7 +3,7 @@ import { useState } from "react";
 import { GetServerSideProps, Redirect } from "next";
 import { getSession } from "next-auth/react";
 
-import { Box, Button, Palette, Stack, useTheme } from "@mui/material";
+import { Box, Button, Stack, useTheme } from "@mui/material";
 import { useSnackbar } from "notistack";
 
 import { resetServerContext } from "react-beautiful-dnd";
@@ -13,15 +13,16 @@ import { Project, ProjectContext} from "@/interfaces/ProjectInterface"
 import { Member, MemberContext } from "@/interfaces/MemberInterface";
 
 import { findMember } from "@/mongo/controls/member/memberControls";
-import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls";
-import { PermissionCodes, permission } from "@/ui/PermissionComponent";
+import { findProject } from "@/mongo/controls/member/project/projectControls";
+import findPublicBoard from "@/mongo/controls/member/project/board/findPublicBoard";
 
 import { BoardToolbar } from "@/components/members/projects/boards/BoardToolbar";
 import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
 import ColumnStub from "@/components/members/projects/boards/columns/ColStub";
 import CreateColForm from "@/components/members/projects/boards/columns/forms/CreateColForm";
+
+import { PermissionCodes, permission } from "@/ui/PermissionComponent";
 import { FxTheme } from "theme/globalTheme";
-import findPublicBoard from "@/mongo/controls/member/project/board/findPublicBoard";
 
 export interface BoardPage {
   project: Project;
