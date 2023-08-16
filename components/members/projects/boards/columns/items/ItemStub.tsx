@@ -1,33 +1,23 @@
-import { alpha, Skeleton, Typography, useTheme, Card, CardHeader } from "@mui/material"
 import { useState } from "react"
+import { alpha, Skeleton, useTheme, Card, CardHeader } from "@mui/material"
 
 
 const ItemStub = () => {
 
   const theme = useTheme()
 
-  const [isHover, setIsHover] = useState<boolean>(false)
-
-  const getBgColor = () => {
-    if(isHover){
-      return theme.palette.action.hover
-    }
-    return theme.palette.background.default
-  }
+  const [animation, setAnimation] = useState<false | 'wave'| 'pulse'>(false)
 
   return (
-    <Card onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}
-      sx={{bgcolor: alpha(getBgColor(), 0.4),}}>
+    <Card onMouseEnter={() => setAnimation('pulse')} onMouseLeave={() => setAnimation(false)}
+      sx={{bgcolor: alpha(theme.palette.background.default, 0.4),}}>
       <CardHeader
-        title={
-          isHover ? (<Typography
-            sx={{ display: 'flex', alignContent: 'flex-start' }}>Create Item</Typography>)
-            : ( <Skeleton animation={false}><Typography>Create Item</Typography></Skeleton>)
-        } />
+        title={ <Skeleton animation={animation} variant="text"
+          sx={{fontSize: '1rem'}}></Skeleton>} />
     </Card>
   )
 }
 
 export default ItemStub
 
-// QA: Brian Francisc 8-12-23
+// QA: Brian Francisc 8-16-23
