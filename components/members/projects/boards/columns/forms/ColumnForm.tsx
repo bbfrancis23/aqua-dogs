@@ -1,53 +1,58 @@
-import { useContext, useState } from "react"
+import {Column} from '@/interfaces/Column'
+import { Box, IconButton, TextField, Typography, alpha, useTheme } from "@mui/material"
 
-import { alpha, Box, Button, IconButton, TextField, useTheme } from "@mui/material"
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
-import { useSnackbar } from "notistack"
 
 import { Form, FormikProvider, useFormik } from "formik"
 import * as Yup from "yup"
 import axios from "axios"
+import { useContext, useState } from 'react'
+import { ProjectContext } from '@/interfaces/ProjectInterface'
+import { BoardContext } from '@/interfaces/BoardInterface'
+import { useSnackbar } from 'notistack'
+import { FxTheme } from 'theme/globalTheme'
+import Permission, { PermissionCodes, NoPermission } from '@/ui/PermissionComponent';
+import { MemberContext } from '@/interfaces/MemberInterface';
 
-import { ProjectContext } from "@/interfaces/ProjectInterface"
-import { BoardContext } from "@/interfaces/BoardInterface"
+interface ColumnFormProps {
+  column: Column
+}
 
-import ColumnStub from "../ColStub";
-
-import { FxTheme } from "theme/globalTheme";
-
-const createColSchema = Yup.object().shape({
+const colTitleSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
 })
 
-export const CreateColumnForm = () => {
+export const ColumnForm = (props: ColumnFormProps) => {
 
-  const {project} = useContext(ProjectContext)
+  const {column} = props
+
+  const [showForm, setShowForm] = useState<boolean>(false)
+  const {member} = useContext(MemberContext)
+
 
   const theme: FxTheme = useTheme()
+  const {project} = useContext(ProjectContext)
+  const {enqueueSnackbar} = useSnackbar()
 
   const {board, setBoard} = useContext(BoardContext)
 
-  const {enqueueSnackbar} = useSnackbar()
-
-
-  const [showForm, setShowForm] = useState<boolean>(false)
 
   const formik = useFormik({
-    initialValues: { title: '' },
-    validationSchema: createColSchema,
+    initialValues: { title: column.title },
+    validationSchema: colTitleSchema,
     onSubmit: (data) => {
-      axios.post(
-        `/api/members/projects/${project.id}/boards/${board.id}/columns`,
+      axios.patch(
+        `/api/members/projects/${project.id}/boards/${board.id}/columns/${column.id}`,
         {title: data.title},
       )
         .then((res) => {
           formik.setSubmitting(false)
-          if (res.status === axios.HttpStatusCode.Created ){
+          if (res.status === axios.HttpStatusCode.Ok ){
 
             setBoard(res.data.board)
 
-            enqueueSnackbar("Column created", {variant: "success"})
+            enqueueSnackbar("Column updated", {variant: "success"})
             formik.resetForm()
             setShowForm(false);
           }
@@ -95,18 +100,24 @@ export const CreateColumnForm = () => {
     </Box>
   )
 
-  return(
+
+  return (
+
     showForm ? ColumnForm
       :
-      <Box>
-        <Button onClick={() => setShowForm(true)} sx={{ m: 0, p: 0}}>
-          <ColumnStub />
-        </Button>
-      </Box>
+      <>
+        <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
+          <Typography sx={{p: 2}} onClick={() => setShowForm(true)} >
+            {column.title}
+          </Typography>
+        </Permission>
+        <NoPermission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
+          <Typography sx={{p: 2}} >
+            {column.title}
+          </Typography>
+        </NoPermission>
+      </>
   )
-
 }
-export default CreateColumnForm
 
-// QA: Brian Francisc 8-17-23
-// ENHANCEMENTS: Replace numbers with theme vars
+export default ColumnForm

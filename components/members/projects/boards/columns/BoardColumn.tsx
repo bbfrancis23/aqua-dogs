@@ -1,7 +1,6 @@
 import { useContext } from "react";
 
 import { Box, Typography} from "@mui/material";
-import DragHandleIcon from '@mui/icons-material/DragHandle';
 
 import { Draggable } from "react-beautiful-dnd";
 import { Column } from "@/interfaces/Column";
@@ -14,6 +13,7 @@ import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
 import ColumnList from "./ColumnList";
 import CreateItemForm from "./items/forms/CreateItemForm";
 import ArchiveColumnForm from "./forms/ArchiveColForm";
+import ColumnForm from "./forms/ColumnForm";
 
 export interface BoardColumnProps {
   index: number;
@@ -38,10 +38,10 @@ export const BoardColumn = (props: BoardColumnProps) => {
             }} >
 
             <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Typography sx={{p: 2}} {...provided.dragHandleProps}>
+              <Box {...provided.dragHandleProps}>
+                <ColumnForm column={column} />
+              </Box>
 
-                {column.title}
-              </Typography>
               <ArchiveColumnForm column={column}/>
             </Box>
             <ColumnList column={column} member={member} />

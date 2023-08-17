@@ -48,6 +48,8 @@ export const patchColumn = async (req: NextApiRequest, res: NextApiResponse<Colu
 
   if (req.method === 'DELETE') {
     column.archive = true
+  } else {
+    column.title = req.body.title
   }
 
   try {
