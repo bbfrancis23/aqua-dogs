@@ -9,6 +9,8 @@ import {getSession} from 'next-auth/react'
 
 import mongoose from 'mongoose'
 
+import findPublicBoard from '../findPublicBoard'
+
 export const createColumn = async (req, res) => {
   let status = axios.HttpStatusCode.Ok
   let message = ''
@@ -59,7 +61,8 @@ export const createColumn = async (req, res) => {
               model: Column,
             })
 
-            board = await board.toObject({getters: true})
+            // board = await board.toObject({getters: true})
+            board = await findPublicBoard(req.query.boardId)
           }
         } else {
           status = axios.HttpStatusCode.NotFound
@@ -85,3 +88,5 @@ export const createColumn = async (req, res) => {
   })
   return
 }
+
+// ENHANCEMENTS: Change to typeScript, Remove nesting, use Responses

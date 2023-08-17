@@ -9,7 +9,7 @@ export const ColumnStub = () => {
 
   return (
     <Box onMouseEnter={() => setAnimation('pulse')} onMouseLeave={() => setAnimation(false)}
-      sx={{ width: '272px', borderRadius: 2, display: 'inline-block' }} >
+      sx={{ width: '272px', display: 'inline-block' }} >
       <Box sx={{ display: 'flex', flexDirection: 'column', borderRadius: 3, width: 272,
         bgcolor: alpha(theme.palette.background.default, 0.4) }}>
         <Typography sx={{p: 2}} >
@@ -22,4 +22,5 @@ export const ColumnStub = () => {
 
 export default ColumnStub
 
-// QA: Brian Francisc 8-16-23
+// QA: Brian Francisc 8-17-23
+// ENHANCEMENTS: Replace numbers with theme vars

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { GetServerSideProps, Redirect } from "next";
 import { getSession } from "next-auth/react";
 
-import { Box, Button, Stack, useTheme } from "@mui/material";
+import { Box, Stack, useTheme } from "@mui/material";
 import { useSnackbar } from "notistack";
 
 import { resetServerContext } from "react-beautiful-dnd";
@@ -18,11 +18,11 @@ import findPublicBoard from "@/mongo/controls/member/project/board/findPublicBoa
 
 import { BoardToolbar } from "@/components/members/projects/boards/BoardToolbar";
 import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
-import ColumnStub from "@/components/members/projects/boards/columns/ColStub";
 import CreateColForm from "@/components/members/projects/boards/columns/forms/CreateColForm";
 
-import { PermissionCodes, permission } from "@/ui/PermissionComponent";
+import Permission, { PermissionCodes, permission } from "@/ui/PermissionComponent";
 import { FxTheme } from "theme/globalTheme";
+import CreateColumnForm from "@/components/members/projects/boards/columns/forms/CreateColumnForm";
 
 export interface BoardPage {
   project: Project;
@@ -88,11 +88,9 @@ export const Page = (props: BoardPage) => {
             <Stack spacing={2} direction={'row'}
               sx={{ p: 2, width: '100%', overflow: 'auto', height: 'calc(100vh - 124px)' }} >
               <ProjectBoard member={member}/>
-              <Box>
-                <Button onClick={() => setShowColForm(true)} sx={{ m: 0, p: 0}}>
-                  <ColumnStub />
-                </Button>
-              </Box>
+              <Permission code={PermissionCodes.PROJECT_LEADER} member={member} project={project}>
+                <CreateColumnForm />
+              </Permission>
             </Stack>
           </Box>
         </MemberContext.Provider>
@@ -104,4 +102,5 @@ export const Page = (props: BoardPage) => {
 export default Page
 
 
-// QA: Brian Francisc 8-13-23
+// QA: Brian Francisc 8-17-23
+// ENHANCEMENTS: Replace numbers with theme vars
