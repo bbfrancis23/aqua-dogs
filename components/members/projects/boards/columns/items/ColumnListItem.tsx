@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import Link from "next/link"
 
-import { Card, CardHeader, IconButton, Typography } from "@mui/material";
+import { Card, CardHeader, IconButton, Typography, useTheme } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 
 import { Column } from "@/interfaces/Column";
@@ -12,6 +12,7 @@ import { ProjectContext } from "@/interfaces/ProjectInterface";
 import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
 
 import EditItemForm from "./forms/EditItemForm";
+import { FxTheme } from "theme/globalTheme";
 
 
 export interface ColumnListProps {
@@ -24,6 +25,8 @@ const ColumnListItem = (props: ColumnListProps) => {
   const {column, member, item} = props
 
   const {project} = useContext(ProjectContext)
+
+  const fxTheme: FxTheme = useTheme()
 
   const [showForm, setShowForm] = useState<boolean>(false)
   const [showEdit, setShowEdit] = useState<boolean>(false)
@@ -41,7 +44,8 @@ const ColumnListItem = (props: ColumnListProps) => {
             <EditItemForm column={column} member={member} item={item}
               closeForm={() => handleCloseForm()}/>
             : <Link href={`/member/projects/${project.id}/items/${item.id}`}
-              style={{textDecoration: "none"}}><Typography>{item.title}</Typography></Link>
+              style={{textDecoration: "none", color: fxTheme.palette.text.primary}}>
+              <Typography>{item.title}</Typography></Link>
         }
 
         action={
