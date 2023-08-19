@@ -42,7 +42,12 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
                     <Typography variant={'h6'} sx={{ fontSize: '16px'}} >{c.title}</Typography>
                     { c.items && c?.items.map( (i: Item) => (
                       <Typography key={i.id} sx={{pl: 1}}>
-                        {i.title}
+                        <Link
+                          // eslint-disable-next-line max-len
+                          href={`/boards/items/${i.title.toLocaleLowerCase().trim().replace(/ /g, '-')}/${i.id}`}
+                          style={{textDecoration: "none"}} >
+                          {i.title}
+                        </Link>
                       </Typography>
                     )) }
                     { !c.items.length && ( <Typography>Comming soon.</Typography>) }
