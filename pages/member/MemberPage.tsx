@@ -56,7 +56,12 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
   const handleCloseCreateProjectForm = () => { setShowProjectForm(false) }
 
   const handleOnUpdateMember = () => {
-    handleLogout()
+    setTimeout(() => {
+      enqueueSnackbar("Member Info Updated. Must validate credentials again",
+        {variant: "success"})
+      handleLogout()
+    }, 10000)
+
   }
 
   const handleCloseChangePasswordForm = () => { setShowChangePasswordForm(false) }
