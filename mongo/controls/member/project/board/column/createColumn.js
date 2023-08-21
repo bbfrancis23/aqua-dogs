@@ -62,6 +62,7 @@ export const createColumn = async (req, res) => {
             })
 
             // board = await board.toObject({getters: true})
+            console.log('getting public board')
             board = await findPublicBoard(req.query.boardId)
           }
         } else {

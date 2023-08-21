@@ -1,7 +1,7 @@
 
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 import { useContext } from "react";
-import { Box, IconButton, TextField, styled } from "@mui/material";
+import { Box, Button, IconButton, TextField, styled } from "@mui/material";
 import { useSnackbar } from "notistack";
 
 import { Form, FormikProvider, useFormik } from "formik";
@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import * as Yup from "yup"
 import axios from "axios";
 import { ItemContext } from "@/interfaces/ItemInterface";
+import { LoadingButton } from "@mui/lab";
 
 export interface EditItemTitleFormProps{
   closeForm: () => void;
@@ -20,10 +21,14 @@ const editItemSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
 })
 
+// const TitleTextField = styled(TextField)(({ theme }) => ({
+//   'label': { color: theme.palette.secondary.contrastText, },
+//   '& .MuiOutlinedInput-root': { color: theme.palette.secondary.contrastText, },
+//   '& .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.secondary.contrastText, }
+// }));
+
 const TitleTextField = styled(TextField)(({ theme }) => ({
-  'label': { color: theme.palette.secondary.contrastText, },
-  '& .MuiOutlinedInput-root': { color: theme.palette.secondary.contrastText, },
-  '& .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.secondary.contrastText, }
+  '& .MuiOutlinedInput-root': { fontSize: '3rem' },
 }));
 
 const EditTitleItemForm = (props: EditItemTitleFormProps) => {
@@ -72,26 +77,30 @@ const EditTitleItemForm = (props: EditItemTitleFormProps) => {
 
 
   return (
-    <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Box sx={{ ml: 1, display: 'flex'}}>
-          <TitleTextField size={'medium'} label="Edit Title" {...getFieldProps('title')}
-            error={Boolean(touched && errors.title)}
-            helperText={touched && errors.title}
+    <Box>
+      <Box sx={{ p: 5, pl: 2}}>
+        <FormikProvider value={formik}>
+          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
 
-          />
-          <Box>
-            <IconButton color="success" type="submit" sx={{ml: 1 }}
-              disabled={!(isValid && formik.dirty)} >
-              <DoneIcon />
-            </IconButton>
-            <IconButton onClick={() => handleCloseForm()} sx={{ color: 'secondary.contrastText'}}>
-              <CloseIcon />
-            </IconButton>
-          </Box>
-        </ Box>
-      </Form>
-    </FormikProvider>
+            <TitleTextField size={'medium'} label="Edit Title" {...getFieldProps('title')}
+              error={Boolean(touched && errors.title)}
+              helperText={touched && errors.title}
+
+            />
+            <Box display={{ display: 'flex', justifyContent: "right" }}>
+              <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+                type="submit" loading={isSubmitting} sx={{minWidth: '0'}} >
+                <DoneIcon />
+              </LoadingButton>
+              <Button
+                onClick={() => handleCloseForm()} >
+                <CloseIcon color={'error'}/>
+              </Button>
+            </Box>
+          </Form>
+        </FormikProvider>
+      </Box>
+    </Box>
   )
 }
 

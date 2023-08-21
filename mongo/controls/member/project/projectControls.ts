@@ -32,6 +32,7 @@ export const findProjectBoards = async (projectId: string) => {
 
   boards = await Board.find({project: projectId, $and: [{archive: {$ne: true}}]}).populate({
     path: 'columns',
+    match: {archive: {$ne: true}},
     model: Columns,
     populate: {path: 'items', model: Item},
   })

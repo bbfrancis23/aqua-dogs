@@ -10,6 +10,8 @@ import {getSession} from 'next-auth/react'
 
 import {PermissionCodes, permission} from '/ui/PermissionComponent'
 
+import findPublicBoard from '../../findPublicBoard'
+
 import mongoose from 'mongoose'
 
 export const createItem = async (req, res) => {
@@ -77,15 +79,17 @@ export const createItem = async (req, res) => {
 
             item = newItem.toObject({getters: true})
 
-            board = await Board.findOne({
-              _id: req.query.boardId,
-              project: req.query.projectId,
-            }).populate({
-              path: 'columns',
-              populate: {path: 'items', model: Item},
-            })
+            // board = await Board.findOne({
+            //   _id: req.query.boardId,
+            //   project: req.query.projectId,
+            // }).populate({
+            //   path: 'columns',
+            //   populate: {path: 'items', model: Item},
+            // })
 
-            board = board.toObject({getters: true, flattenMaps: true})
+            // board = board.toObject({getters: true, flattenMaps: true})
+
+            board = await findPublicBoard(req.query.boardId)
           } catch (e) {
             console.log('ERROR ERROR', e)
 

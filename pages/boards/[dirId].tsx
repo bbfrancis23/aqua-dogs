@@ -1,18 +1,21 @@
 import { Board } from "@/interfaces/BoardInterface"
 import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards"
 import {findPublicBoard} from "@/mongo/controls/member/project/board/findPublicBoard"
-import { Box, Card, CardContent, CardHeader, Grid, Typography } from "@mui/material"
-// import {publicBoards} from "../../../../publicBoards"
+import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from "@mui/material"
 import { publicBoards } from "data/publicBoards";
 import { Column } from "@/interfaces/Column";
 import { Item } from "@/interfaces/ItemInterface";
+import Link from "next/link";
+import { FxTheme } from "theme/globalTheme";
 
 export const PublicBoardPage = ( props: any) => {
+
+  const theme: FxTheme = useTheme()
 
   const {board} = props
   return (
     <>
-      <Typography variant="h5"
+      <Typography variant="h4"
         sx={{ pl: 5, position: 'relative', top: '10px'}}>{board.title}</Typography>
       <Box sx={{ p: 3, pb: 12, }}>
 
@@ -33,13 +36,20 @@ export const PublicBoardPage = ( props: any) => {
 
                         <Card key={i.id} sx={{ mb: 3}}>
                           <CardHeader
-                            title={<Typography variant={'h6'} >{i.title}</Typography>}
+                            title={<Typography variant={'h6'} >
+                              <Link
+                                // eslint-disable-next-line max-len
+                                href={`/boards/items/${i.title.toLocaleLowerCase().trim().replace(/ /g, '-')}/${i.id}`}
+                                style={{textDecoration: "none", color: theme.palette.text.primary}}
+                              >
+                                {i.title}
+                              </Link>
+                            </Typography>}
                             sx={{bgcolor: "secondary.main", color: "secondary.contrastText"}}
                           />
                           <CardContent
-
-                            style={{textOverflow: 'ellipsis',
-                              overflow: 'hidden', whiteSpace: 'nowrap'}}>
+                            style={{textOverflow: 'ellipsis', overflow: 'hidden',
+                              whiteSpace: 'nowrap'}}>
                             {
                               (i.sections && i.sections.length > 0) &&
                               i.sections[0].content

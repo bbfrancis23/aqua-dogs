@@ -23,6 +23,7 @@ import { CodeSection } from "@/itemComponents/sections/CodeSection";
 import { Section } from "@/interfaces/SectionInterface";
 import { findMember } from "@/mongo/controls/member/memberControls";
 import { findProject } from "@/mongo/controls/member/project/projectControls";
+import InfoPageLayout from "@/ui/InfoPageLayout";
 
 
 export interface MemberItemPageProps {
@@ -40,12 +41,17 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
   const ItemTitle = (
     <>
       <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-        <Typography variant={'h6'} onClick={() => setShowForm(true)} >
+        <Typography variant={'h1'}
+          sx={{p: 5, pl: 2, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}
+          onClick={() => setShowForm(true)} noWrap>
           {item.title}
         </Typography>
       </ Permission>
       <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-        <Typography variant={'h6'} > {item.title} </Typography>
+        <Typography variant={'h1'}
+          sx={{p: 5, pl: 2, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}>
+          {item.title}
+        </Typography>
       </NoPermission>
     </>
   )
@@ -55,25 +61,20 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
   return (
     <ProjectContext.Provider value={{project, setProject: () => {}}}>
       <ItemContext.Provider value={{item, setItem}}>
-        <InfoCardContainer >
-          <InfoCard>
-            <CardHeader title={ showForm ? EditItemTitle : ItemTitle }
-              sx={{backgroundColor: 'secondary.main', color: 'secondary.contrastText'}} />
-            <CardContent sx={{pl: 3}}>
-              <Stack spacing={3} alignItems={'flex-start'}>
-                { item.sections?.map( ( s: Section) => {
-                  if(s.sectiontype === "63b88d18379a4f30bab59bad"){
-                    return (
-                      <CodeSection project={project} section={s} member={member} key={s.id}/>
-                    )
-                  }
-                  return ( <TextSection project={project} section={s} member={member} key={s.id} />)
-                })}
-                <CreateSectionForm member={member} />
-              </Stack>
-            </CardContent>
-          </InfoCard>
-        </InfoCardContainer>
+        <InfoPageLayout title={ showForm ? EditItemTitle : ItemTitle }>
+          <Stack spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
+            { item.sections?.map( ( s: Section) => {
+              if(s.sectiontype === "63b88d18379a4f30bab59bad"){
+                return (
+                  <CodeSection project={project} section={s} member={member} key={s.id}/>
+                )
+              }
+              return ( <TextSection project={project} section={s} member={member} key={s.id} />)
+            })}
+            <CreateSectionForm member={member} />
+          </Stack>
+        </InfoPageLayout>
+
       </ItemContext.Provider>
     </ProjectContext.Provider>
   )

@@ -14,7 +14,7 @@ import axios from 'axios'
 import findPublicBoard from '../findPublicBoard'
 
 export const patchColumn = async (req: NextApiRequest, res: NextApiResponse<ColumnResponse>) => {
-  const {projectId, boardId, colId} = req.query
+  const {projectId, boardId, columnId} = req.query
 
   const authSession = await getSession({req})
 
@@ -39,7 +39,7 @@ export const patchColumn = async (req: NextApiRequest, res: NextApiResponse<Colu
     return
   }
 
-  let column = await Column.findById(colId)
+  let column = await Column.findById(columnId)
 
   if (!column) {
     notFoundResponse(res, 'Column not found')
@@ -54,7 +54,7 @@ export const patchColumn = async (req: NextApiRequest, res: NextApiResponse<Colu
 
   try {
     await column.save()
-    column = await Column.findById(colId)
+    column = await Column.findById(columnId)
     column = await column.toObject({getters: true})
   } catch (e) {
     console.error(e)

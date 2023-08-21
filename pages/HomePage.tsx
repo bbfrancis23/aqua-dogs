@@ -41,11 +41,12 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
                   <Box sx={{ pb: 1}} key={c.id}>
                     <Typography variant={'h6'} sx={{ fontSize: '16px'}} >{c.title}</Typography>
                     { c.items && c?.items.map( (i: Item) => (
-                      <Typography key={i.id} sx={{pl: 1}}>
+                      <Typography key={i.id}
+                        sx={{pl: 1, '&:hover': {backgroundColor: 'action.hover'}}}>
                         <Link
                           // eslint-disable-next-line max-len
                           href={`/boards/items/${i.title.toLocaleLowerCase().trim().replace(/ /g, '-')}/${i.id}`}
-                          style={{textDecoration: "none"}} >
+                          style={{textDecoration: "none", color: theme.palette.text.primary}} >
                           {i.title}
                         </Link>
                       </Typography>
