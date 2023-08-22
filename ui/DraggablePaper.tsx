@@ -19,3 +19,5 @@ export default function DraggablePaper(props: any) {
     </Draggable>
   )
 }
+
+// QA: Brian Francis 08/22/23

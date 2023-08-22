@@ -1,11 +1,18 @@
 import { useTheme } from "@emotion/react"
-import { Box, Grid, Typography } from "@mui/material"
-
+import { Box, Grid, Typography, styled } from "@mui/material"
 
 export interface InfoPageLayoutComponent{
   title: string | JSX.Element
   children: JSX.Element | JSX.Element [];
 }
+
+const GridHeader = styled(Grid)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  width: '100%',
+  borderBottom: '1px solid',
+  borderColor: theme.palette.divider,
+}))
 
 export const InfoPageLayout = (props: InfoPageLayoutComponent) => {
   const {title, children} = props
@@ -13,9 +20,7 @@ export const InfoPageLayout = (props: InfoPageLayoutComponent) => {
   const theme: any = useTheme();
   return (
     <Grid container spacing={0} >
-      <Grid item xs={12}
-        sx={{ display: 'flex', justifyContent: "center", width: '100%',
-          borderBottom: '1px solid', borderColor: 'divider', }} >
+      <GridHeader item xs={12} >
         <Box sx={{width: '1200px', display: 'flex', justifyContent: 'left'}}>
           { typeof title === 'string' ?
             ( <Typography sx={{p: 5, pl: 2, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}
@@ -25,7 +30,7 @@ export const InfoPageLayout = (props: InfoPageLayoutComponent) => {
             : title
           }
         </Box>
-      </Grid>
+      </GridHeader>
       <Grid item xs={12} sx={{ display: 'flex', justifyContent: "center", p: 3 }}>
         <Box sx={{width: '1200px', display: 'flex', justifyContent: 'left' }}>
           {children}
@@ -36,4 +41,4 @@ export const InfoPageLayout = (props: InfoPageLayoutComponent) => {
 }
 
 export default InfoPageLayout
-// QA: Brian Francis 8-10-23
+// QA: Brian Francis 8-22-23

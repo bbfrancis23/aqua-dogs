@@ -18,3 +18,4 @@ const InfoCardContainer = (props: InfoCardContainerProps) => {
   )
 }
 export default InfoCardContainer
+// TODO: Delete this after update public item page

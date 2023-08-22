@@ -12,3 +12,5 @@ const InfoCard = (props: InfoCardProps) => (
   </Card>
 )
 export default InfoCard
+
+// TODO: Delete this after update public item page
