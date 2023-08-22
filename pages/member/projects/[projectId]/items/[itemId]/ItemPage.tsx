@@ -1,37 +1,35 @@
-import { useState } from "react";
+import { useState } from "react"
 
-import { GetServerSideProps, Redirect } from "next";
-import { getSession } from "next-auth/react";
-import { CardContent, CardHeader, Stack, Typography } from "@mui/material";
+import { GetServerSideProps, Redirect } from "next"
+import { getSession } from "next-auth/react"
+import { CardContent, CardHeader, Stack, Typography } from "@mui/material"
 
 //import { findProject } from "@/mongo/controls/member/project/findProject";
-import { getItem } from "@/mongo/controllers/itemControllers";
+import { getItem } from "@/mongo/controllers/itemControllers"
 
-import { Project, ProjectContext } from "@/interfaces/ProjectInterface";
-import { Member } from "@/interfaces/MemberInterface";
-import { Item, ItemContext } from "@/interfaces/ItemInterface";
+import { Project, ProjectContext } from "@/interfaces/ProjectInterface"
+import { Member } from "@/interfaces/MemberInterface"
+import { Item, ItemContext } from "@/interfaces/ItemInterface"
 
 import Permission,
-{ PermissionCodes, permission, NoPermission } from "@/ui/permission/old-Permission";
-import InfoCardContainer from "@/ui/information-card/InfoCardContainer";
-import InfoCard from "@/ui/information-card/InfoCard";
+{ PermissionCodes, permission, NoPermission } from "@/ui/permission/old-Permission"
 
-import EditItemTitleForm from "@/itemComponents/forms/EditItemTitleForm";
-import CreateSectionForm from "@/itemComponents/sections/forms/CreateSectionForm";
-import { TextSection } from "@/itemComponents/sections/TextSection";
-import { CodeSection } from "@/itemComponents/sections/CodeSection";
-import { Section } from "@/interfaces/SectionInterface";
-import { findMember } from "@/mongo/controls/member/memberControls";
-import { findProject } from "@/mongo/controls/member/project/projectControls";
-import InfoPageLayout from "@/ui/InfoPageLayout";
+import EditItemTitleForm from "@/itemComponents/forms/EditItemTitleForm"
+import CreateSectionForm from "@/itemComponents/sections/forms/CreateSectionForm"
+import { TextSection } from "@/itemComponents/sections/TextSection"
+import { CodeSection } from "@/itemComponents/sections/CodeSection"
+import { Section } from "@/interfaces/SectionInterface"
+import { findMember } from "@/mongo/controls/member/memberControls"
+import { findProject } from "@/mongo/controls/member/project/projectControls"
+import InfoPageLayout from "@/ui/InfoPageLayout"
 
 
 export interface MemberItemPageProps {
-  project: Project;
-  member: Member;
-  item: any;
+  project: Project
+  member: Member
+  item: any
 }
-export const MemberItemPage = (props: MemberItemPageProps) => {
+export const ItemPage = (props: MemberItemPageProps) => {
 
   const {member, project} = props
 
@@ -80,7 +78,7 @@ export const MemberItemPage = (props: MemberItemPageProps) => {
   )
 }
 
-export default MemberItemPage
+export default ItemPage
 
 
 const unAuthRedirect: Redirect = {destination: "/", permanent: false}

@@ -1,4 +1,5 @@
-import { alpha, Card, CardHeader, Skeleton, Typography, useTheme } from "@mui/material"
+import { alpha, Card, CardHeader,
+  Skeleton, Typography, useTheme } from "@mui/material"
 import { useState } from "react"
 
 const SectionStub = () => {
@@ -9,7 +10,8 @@ const SectionStub = () => {
 
 
   return (
-    <Card onMouseEnter={() => setAnimation('pulse')} onMouseLeave={() => setAnimation(animation)}
+    <Card onMouseEnter={() => setAnimation('pulse')}
+      onMouseLeave={() => setAnimation(false)}
       sx={{bgcolor: alpha(theme.palette.background.default, 0.4)}}>
       <CardHeader
         title={

@@ -59,9 +59,9 @@ export const TextSection = (props: TextSectionProps) => {
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
+            formik.resetForm({values: {section: data.section}})
             setItem(res.data.item)
             enqueueSnackbar("Item Section Updated", {variant: "success"})
-            formik.resetForm()
             setDisplayEditTextSectionForm(false);
           }
         })
