@@ -9,8 +9,6 @@ import { Project, ProjectContext } from "@/interfaces/ProjectInterface"
 import { Member, MemberContext } from "@/interfaces/MemberInterface"
 import { Item, ItemContext } from "@/interfaces/ItemInterface"
 
-import Permission,
-{ PermissionCodes, permission, NoPermission } from "@/ui/permission/old-Permission"
 
 import EditItemTitleForm from "@/itemComponents/forms/EditItemTitleForm"
 import CreateSectionForm from "@/itemComponents/sections/forms/CreateSectionForm"
@@ -21,6 +19,7 @@ import { findMember } from "@/mongo/controls/member/memberControls"
 import { findProject } from "@/mongo/controls/member/project/projectControls"
 import InfoPageLayout from "@/ui/InfoPageLayout"
 import ArchiveItemForm from "@/components/items/ArchiveItemForm"
+import Permission, { NoPermission, PermissionCodes, permission } from "@/ui/PermissionComponent"
 
 
 export interface MemberItemPageProps {
