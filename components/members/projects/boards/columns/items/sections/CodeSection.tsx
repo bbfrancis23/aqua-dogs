@@ -2,7 +2,7 @@ import { ItemContext } from "@/interfaces/ItemInterface";
 import { Member } from "@/interfaces/MemberInterface";
 import { Project } from "@/interfaces/ProjectInterface";
 import { Section } from "@/interfaces/SectionInterface";
-import { Box, IconButton, TextField, Typography } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import axios from "axios";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useSnackbar } from "notistack";
@@ -19,7 +19,7 @@ const CodeEditor = dynamic(
 /*eslint-disable */
 
 import * as Yup from "yup"
-import Permission, { NoPermission, PermissionCodes } from "@/ui/permission/old-Permission";
+import Permission, { NoPermission, PermissionCodes } from "@/ui/PermissionComponent";
 
 export interface TextSectionProps {
   member: Member;
