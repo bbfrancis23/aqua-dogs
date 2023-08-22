@@ -34,7 +34,7 @@ export const findProjectBoards = async (projectId: string) => {
     path: 'columns',
     match: {archive: {$ne: true}},
     model: Columns,
-    populate: {path: 'items', model: Item},
+    populate: {path: 'items', match: {archive: {$ne: true}}, model: Item},
   })
 
   await db.disconnect()

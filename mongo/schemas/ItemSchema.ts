@@ -7,6 +7,7 @@ const itemSchema = new mongoose.Schema({
   downvotes: [{type: String, required: false}],
   owners: [{type: mongoose.Types.ObjectId, required: false, ref: 'members'}],
   scope: {type: String},
+  archive: {type: Boolean, required: true, default: false},
 })
 
 const Item = mongoose.models.items || mongoose.model('items', itemSchema)

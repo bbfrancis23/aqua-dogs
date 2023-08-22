@@ -2,13 +2,11 @@ import { useState } from "react"
 
 import { GetServerSideProps, Redirect } from "next"
 import { getSession } from "next-auth/react"
-import { CardContent, CardHeader, Stack, Typography } from "@mui/material"
-
-//import { findProject } from "@/mongo/controls/member/project/findProject";
+import { Stack, Typography } from "@mui/material"
 import { getItem } from "@/mongo/controllers/itemControllers"
 
 import { Project, ProjectContext } from "@/interfaces/ProjectInterface"
-import { Member } from "@/interfaces/MemberInterface"
+import { Member, MemberContext } from "@/interfaces/MemberInterface"
 import { Item, ItemContext } from "@/interfaces/ItemInterface"
 
 import Permission,
@@ -22,6 +20,7 @@ import { Section } from "@/interfaces/SectionInterface"
 import { findMember } from "@/mongo/controls/member/memberControls"
 import { findProject } from "@/mongo/controls/member/project/projectControls"
 import InfoPageLayout from "@/ui/InfoPageLayout"
+import ArchiveItemForm from "@/components/items/ArchiveItemForm"
 
 
 export interface MemberItemPageProps {
@@ -59,20 +58,22 @@ export const ItemPage = (props: MemberItemPageProps) => {
   return (
     <ProjectContext.Provider value={{project, setProject: () => {}}}>
       <ItemContext.Provider value={{item, setItem}}>
-        <InfoPageLayout title={ showForm ? EditItemTitle : ItemTitle }>
-          <Stack spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
-            { item.sections?.map( ( s: Section) => {
-              if(s.sectiontype === "63b88d18379a4f30bab59bad"){
-                return (
-                  <CodeSection project={project} section={s} member={member} key={s.id}/>
-                )
-              }
-              return ( <TextSection project={project} section={s} member={member} key={s.id} />)
-            })}
-            <CreateSectionForm member={member} />
-          </Stack>
-        </InfoPageLayout>
-
+        <MemberContext.Provider value={{member, setMember: () => {}}}>
+          <InfoPageLayout title={ showForm ? EditItemTitle : ItemTitle }>
+            <Stack spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
+              { item.sections?.map( ( s: Section) => {
+                if(s.sectiontype === "63b88d18379a4f30bab59bad"){
+                  return (
+                    <CodeSection project={project} section={s} member={member} key={s.id}/>
+                  )
+                }
+                return ( <TextSection project={project} section={s} member={member} key={s.id} />)
+              })}
+              <CreateSectionForm member={member} />
+              <ArchiveItemForm />
+            </Stack>
+          </InfoPageLayout>
+        </MemberContext.Provider>
       </ItemContext.Provider>
     </ProjectContext.Provider>
   )

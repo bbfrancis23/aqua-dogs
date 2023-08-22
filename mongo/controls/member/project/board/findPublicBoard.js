@@ -20,6 +20,7 @@ export const findPublicBoard = async (id) => {
     populate: {
       path: 'items',
       model: Item,
+      match: {archive: {$ne: true}},
       populate: {path: 'sections', model: Section},
     },
   })

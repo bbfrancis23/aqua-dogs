@@ -44,7 +44,9 @@ export const patchItem = async (req, res) => {
       if (hasPermission) {
         const {title} = req.body
 
-        if (title) {
+        if (req.method === 'DELETE') {
+          item.archive = true
+        } else if (title) {
           item.title = title
         }
 
