@@ -3,7 +3,7 @@ import Member from '/mongo/schemas/MemberSchema'
 
 import Role from '/mongo/schemas/RoleSchema'
 
-import {getMember, flattenMember} from '/mongo/controllers/memberControllers'
+import {getMember} from '/mongo/controllers/memberControllers'
 
 import {getSession} from 'next-auth/react'
 
@@ -49,8 +49,6 @@ export const handler = async (req, res) => {
         await member.save()
 
         member = await member.toObject({getters: true, flattenMaps: true})
-
-        member = await flattenMember(member)
 
         status = 200
         message = 'favorite action'
