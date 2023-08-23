@@ -10,7 +10,6 @@ import ItemTitleInput from "../ItemTitleInput"
 import DraggableDialog from "../../ui/DraggableDialog"
 import { Item } from "../../interfaces/ItemInterface"
 import FormModes from "../../enums/FormModes"
-import { Org } from "../../interfaces/OrgInterface"
 import { Member } from "../../interfaces/MemberInterface"
 import { Project } from "@/interfaces/ProjectInterface"
 import { Board } from "@/interfaces/BoardInterface"
@@ -23,7 +22,6 @@ export interface ItemFormDialogProps{
   editItem ?: Item;
   updateEditedItem? : (i: Item) => void;
   tagIds ?: string[];
-  org ?: Org;
   member ?: Member;
   project: Project;
   board: Board;
@@ -39,7 +37,7 @@ export default function ItemFormDialog(props: ItemFormDialogProps){
 
 
   const {dialogIsOpen, closeDialog, mode, editItem, updateEditedItem, tagIds,
-    org, member, project, board, column} = props
+    member, project, board, column} = props
   const [item, setItem] = useState<any>()
 
 

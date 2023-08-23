@@ -10,19 +10,15 @@ import axios from "axios";
 import * as Yup from "yup"
 import { useSnackbar } from "notistack";
 
-import { Org } from "../../../interfaces/OrgInterface";
-
 
 const AddTagSchema = Yup.object().shape({ tag: Yup.string().required("Tag is required")})
 
 export interface AddOrgTagFormProps{
-  org: Org;
-  setOrg: (org:Org) => void
+
 }
 
 export default function AddOrgTagForm(props: AddOrgTagFormProps) {
 
-  const {org, setOrg} = props
   const [displayForm, setDisplayForm] = useState<boolean>(false);
 
   const {enqueueSnackbar} = useSnackbar()
@@ -31,13 +27,13 @@ export default function AddOrgTagForm(props: AddOrgTagFormProps) {
     initialValues: { tag: '' },
     validationSchema: AddTagSchema,
     onSubmit: (data) => {
-      axios.patch( `/api/org/${org.id}`, {addTag: data.tag}, )
+      axios.patch( `/api/org/-1`, {addTag: data.tag}, )
         .then((res) => {
           formik.setSubmitting(false)
           formik.resetForm()
           if (res.status === axios.HttpStatusCode.Ok ){
             enqueueSnackbar("Org Tag Added", {variant: "success"})
-            setOrg(res.data.org);
+
             setDisplayForm(false)
           }else{
             enqueueSnackbar(res.data.message, {variant: "error"})

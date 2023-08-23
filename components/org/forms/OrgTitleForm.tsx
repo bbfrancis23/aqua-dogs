@@ -8,31 +8,29 @@ import { useSnackbar } from "notistack"
 import axios from "axios"
 import {FormikProvider, useFormik, Form} from "formik"
 import * as Yup from "yup"
-import { Org } from "../../../interfaces/OrgInterface";
-
 const TitleSchema = Yup.object().shape({
   orgTitle: Yup.string()
     .required("Title is required"),
 })
 
 export interface OrgTitleProps {
-  org: Org;
+
 }
 
 export default function OrgTitleForm(props: OrgTitleProps){
 
-  const {org} = props
+
   const {data: session} = useSession()
   const {enqueueSnackbar} = useSnackbar()
 
-  const [title, setTitle] = useState<string>(org.title)
+  const [title, setTitle] = useState<string>('grot')
   const [displayTextField, setDisplayTextField] = useState<boolean>(false)
 
   const formik = useFormik({
     initialValues: { orgTitle: title },
     validationSchema: TitleSchema,
     onSubmit: (data) => {
-      axios.patch(`/api/org/${org.id}`, {title: data.orgTitle})
+      axios.patch(`/api/org/-1`, {title: data.orgTitle})
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
@@ -52,7 +50,7 @@ export default function OrgTitleForm(props: OrgTitleProps){
   const showTextField = () => {
     if(session && session.user){
       const user:any = session.user
-      if(user.id === org?.leader?.id) setDisplayTextField(true)
+
     }
   }
 

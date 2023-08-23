@@ -11,48 +11,33 @@ import { useSnackbar } from "notistack"
 import axios from "axios"
 import {FormikProvider, useFormik, Form} from "formik"
 import * as Yup from "yup"
-import { Org } from "../../../interfaces/OrgInterface";
 import { Member } from "../../../interfaces/MemberInterface";
 
 const AddMemberSchema = Yup.object().shape({ member: Yup.string().required("Member is required")})
 
 export interface AddOrgMemberFormProps {
-  org: Org;
-  setOrg: (org:Org) => void
+
 }
 
 export default function AddOrgMemberForm(props: AddOrgMemberFormProps){
 
-  const {org, setOrg} = props
 
   const [displayAddOrgMemberForm, setDisplayAddOrgMemberForm] = useState<boolean>(false);
   const [canidateMembers, setCanidateMembers] = useState<Member[] | []>([])
 
   const {enqueueSnackbar} = useSnackbar()
 
-  useEffect(() => {
-
-    axios.get('/api/members').then( (res:any) => {
-      let members = res.data.members.filter( (m:any) => m.id !== org.leader?.id)
-      const memberIdFilter = org.members?.map( (m:any) => m.id) || []
-      const adminIdFilter = org.admins?.map( (m:any) => m.id) || []
-      members = members.filter((m:any) => !memberIdFilter.includes(m.id))
-      members = members.filter((m:any) => !adminIdFilter.includes(m.id))
-
-      setCanidateMembers(members)
-    })
-  }, [org])
 
   const formik = useFormik({
     initialValues: { member: '' },
     validationSchema: AddMemberSchema,
     onSubmit: (data) => {
-      axios.patch( `/api/org/${org.id}`, {addMember: data.member}, )
+      axios.patch( `/api/org/-1`, {addMember: data.member}, )
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
             enqueueSnackbar("Org Member Added Updated", {variant: "success"})
-            setOrg(res.data.org);
+
             setDisplayAddOrgMemberForm(false)
           }
         })
