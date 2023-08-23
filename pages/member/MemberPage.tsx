@@ -19,11 +19,7 @@ import ProjectStub from "@/components/members/projects/ProjectStub"
 import InfoPageLayout from "@/ui/InfoPageLayout"
 import CreateProjectForm from "@/components/members/projects/forms/CreateProjectForm"
 
-
-export type MemberPage = {
-  member: Member
-  projects: Project[]
-}
+export type MemberPage = { member: Member, projects: Project[]}
 
 export const getServerSideProps: GetServerSideProps<MemberPage> = async(context) => {
 
@@ -112,4 +108,4 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 
 export default Page
 
-// QA done 8-8-23
+// QA done 8-23-23

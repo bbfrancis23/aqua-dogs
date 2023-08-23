@@ -105,7 +105,7 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
               </Grid>
               <Permission code={PermissionCodes.PROJECT_LEADER} project={project} member={member}>
                 <Grid container spacing={1} sx={{ m: 0}}>
-                  <Grid item xs={12} sm={6} md={4} > <AddProjectMemberForm />    </Grid>
+                  <Grid item xs={12} sm={6} md={4} ><AddProjectMemberForm /></Grid>
                 </Grid>
               </Permission>
             </Grid>
@@ -138,7 +138,6 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
           </Grid>
           <Typography variant="h4">Actions</Typography>
           <ArchiveProjectForm member={member}/>
-
         </Stack>
       </InfoPageLayout>
     </ProjectContext.Provider>
@@ -146,4 +145,4 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 }
 export default Page
 
-// QA: Brian Francis 8-10-23
+// QA: Brian Francis 8-23-23
