@@ -1,6 +1,6 @@
 import {Dispatch, SetStateAction, createContext} from 'react'
 import {Column} from './ColumnInterface'
-import {Scope} from './Scope'
+import {Scope} from './ScopeInterface'
 
 export interface Board {
   id: string
