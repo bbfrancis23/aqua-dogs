@@ -1,11 +1,9 @@
-import { Member } from './MemberInterface';
-import { Tag } from './TagInterface';
+import {Member} from './MemberInterface'
 
 export interface Org {
-  id: string;
-  title: string;
-  leader: Member;
-  admins: Member[];
-  members: Member[];
-  tags: Tag[];
+  id: string
+  title: string
+  leader: Member
+  admins: Member[]
+  members: Member[]
 }

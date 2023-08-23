@@ -1,5 +1,3 @@
-import { Tag } from '../interfaces/TagInterface';
-
 export const publicBoards: any[] = [
   {
     id: '64b6bc191b836981ba0c4cd5',
@@ -61,4 +59,4 @@ export const publicBoards: any[] = [
     title: 'VS CODE',
     dirId: 'vscode',
   },
-];
+]
