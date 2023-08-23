@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Card, CardHeader, IconButton, Typography, useTheme } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 
-import { Column } from "@/interfaces/Column";
+import { Column } from "@/interfaces/ColumnInterface";
 import { Member } from "@/interfaces/MemberInterface";
 import { Item } from "@/interfaces/ItemInterface";
 import { ProjectContext } from "@/interfaces/ProjectInterface";

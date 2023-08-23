@@ -10,7 +10,7 @@ import axios from "axios";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 import { BoardContext } from "@/interfaces/BoardInterface";
 import { Member } from "@/interfaces/MemberInterface";
-import { Column } from "@/interfaces/Column";
+import { Column } from "@/interfaces/ColumnInterface";
 
 import BoardColumn from "./columns/BoardColumn";
 

@@ -1,5 +1,5 @@
 import db from '@/mongo/db'
-import {ColumnResponse} from '@/interfaces/Column'
+import {ColumnResponse} from '@/interfaces/ColumnInterface'
 import {
   forbiddenResponse,
   internalServerErrorResponse,

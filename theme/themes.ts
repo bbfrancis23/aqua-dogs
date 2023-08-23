@@ -19,7 +19,6 @@ import {
   indigo,
   yellow,
 } from '@mui/material/colors'
-// import {globalTheme} from './globalTheme'
 
 declare module '@mui/material/Button' {
   interface ButtonPropsVariantOverrides {
@@ -122,7 +121,6 @@ const getThemeOptions = (themeOptions: FxThemeOptions) => {
 
   const palette = palettes.find((p) => p.name === themeOptions!.palette!.name)
 
-  // if (!themeOptions.palette.secondary) return themeOptions
   if (themeOptions.palette.mode === 'dark') {
     if (palette?.secondary?.darkMode)
       themeOptions.palette.secondary.main = palette?.secondary?.darkMode

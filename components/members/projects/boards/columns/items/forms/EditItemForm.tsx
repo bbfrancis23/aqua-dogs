@@ -12,7 +12,7 @@ import * as Yup from "yup"
 import axios from "axios";
 
 import { Item } from "@/interfaces/ItemInterface";
-import { Column } from "@/interfaces/Column";
+import { Column } from "@/interfaces/ColumnInterface";
 import { Member } from "@/interfaces/MemberInterface";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 import { BoardContext } from "@/interfaces/BoardInterface";

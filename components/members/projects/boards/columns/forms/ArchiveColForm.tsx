@@ -3,7 +3,7 @@ import MenuIcon from '@mui/icons-material/MoreVert';
 import { useSnackbar } from "notistack";
 import { useConfirm } from "material-ui-confirm";
 import { useState, MouseEvent, useContext } from "react";
-import { Column } from "@/interfaces/Column";
+import { Column } from "@/interfaces/ColumnInterface";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 import { MemberContext } from "@/interfaces/MemberInterface";
 import { BoardContext } from "@/interfaces/BoardInterface";

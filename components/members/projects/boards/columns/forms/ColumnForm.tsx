@@ -1,4 +1,4 @@
-import {Column} from '@/interfaces/Column'
+import {Column} from '@/interfaces/ColumnInterface'
 import { Box, IconButton, TextField, Typography, alpha, useTheme } from "@mui/material"
 
 import DoneIcon from '@mui/icons-material/Done';

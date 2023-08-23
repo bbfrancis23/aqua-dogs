@@ -14,7 +14,7 @@ import { Org } from "../../interfaces/OrgInterface"
 import { Member } from "../../interfaces/MemberInterface"
 import { Project } from "@/interfaces/ProjectInterface"
 import { Board } from "@/interfaces/BoardInterface"
-import { Column } from "@/interfaces/Column"
+import { Column } from "@/interfaces/ColumnInterface"
 
 export interface ItemFormDialogProps{
   dialogIsOpen: boolean;

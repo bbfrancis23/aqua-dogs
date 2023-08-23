@@ -5,7 +5,7 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import { Item } from "@/interfaces/ItemInterface";
 
 
-import { Column } from "@/interfaces/Column";
+import { Column } from "@/interfaces/ColumnInterface";
 import { Member } from "@/interfaces/MemberInterface";
 
 import ColumnListItem from "./items/ColumnListItem";

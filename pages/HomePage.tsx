@@ -4,7 +4,7 @@ import Link from "next/link"
 import { GetStaticProps, InferGetServerSidePropsType } from "next"
 
 import { Item } from "@/interfaces/ItemInterface"
-import { Column } from "@/interfaces/Column"
+import { Column } from "@/interfaces/ColumnInterface"
 import { Board } from "@/interfaces/BoardInterface"
 
 import { FxTheme } from "theme/globalTheme"

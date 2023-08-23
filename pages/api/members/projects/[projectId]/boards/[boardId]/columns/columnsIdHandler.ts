@@ -1,4 +1,4 @@
-import {Column, ColumnResponse} from '@/interfaces/Column'
+import {Column, ColumnResponse} from '@/interfaces/ColumnInterface'
 import {patchColumn} from '@/mongo/controls/member/project/board/column/patchColumn'
 import {NextApiRequest, NextApiResponse} from 'next'
 

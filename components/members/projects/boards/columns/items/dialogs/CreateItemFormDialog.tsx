@@ -1,7 +1,7 @@
 import ItemTitleInput from "@/components/ItemTitleInput";
 import SectionsInupt from "@/components/SectionsInput";
 import { Board } from "@/interfaces/BoardInterface";
-import { Column } from "@/interfaces/Column";
+import { Column } from "@/interfaces/ColumnInterface";
 import { Item } from "@/interfaces/ItemInterface";
 import { Member } from "@/interfaces/MemberInterface";
 import { Project } from "@/interfaces/ProjectInterface";
