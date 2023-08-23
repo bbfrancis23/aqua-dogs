@@ -9,6 +9,7 @@ import { Breadcrumbs, CardContent, CardHeader, Stack, Typography } from "@mui/ma
 import { Section } from "@/interfaces/SectionInterface";
 import dynamic from "next/dynamic";
 import Link from "next/link"
+import InfoPageLayout from "@/ui/InfoPageLayout";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -23,44 +24,37 @@ export const PublicItemPage = ( props: any) => {
   return (
 
 
-    <InfoCardContainer >
-      <InfoCard>
-        <CardHeader title={
-          <Typography variant={'h6'} >
-            {item.title}
-          </Typography>
-        }
-        sx={{backgroundColor: 'secondary.main', color: 'secondary.contrastText'}} />
-        <CardContent sx={{pl: 3}}>
-          <Stack spacing={3} alignItems={'flex-start'}>
-            { item.sections?.map( ( s: Section) => {
-              if(s.sectiontype === "63b88d18379a4f30bab59bad"){
-                return (
-                  <CodeEditor
-                    key={s.id}
-                    value={s.content}
-                    language="jsx"
-                    readOnly
-                    padding={15}
-                    style={{
-                      width: '100%',
-                      fontSize: 12,
-                      backgroundColor: "#f5f5f5",
-                      fontFamily:
+    <InfoPageLayout title={ <Typography variant={'h1'}
+      sx={{p: 5, pl: 2, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}>
+      {item.title}
+    </Typography> }>
+      <Stack spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
+        { item.sections?.map( ( s: Section) => {
+          if(s.sectiontype === "63b88d18379a4f30bab59bad"){
+            return (
+              <CodeEditor
+                key={s.id}
+                value={s.content}
+                language="jsx"
+                readOnly
+                padding={15}
+                style={{
+                  width: '100%',
+                  fontSize: 12,
+                  backgroundColor: "#f5f5f5",
+                  fontFamily:
                             "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
-                    }}
-                  />
-                )
-              }
-              return ( <Typography key={s.id}>
-                {s.content}
-              </Typography>)
-            })}
+                }}
+              />
+            )
+          }
+          return ( <Typography key={s.id}>
+            {s.content}
+          </Typography>)
+        })}
 
-          </Stack>
-        </CardContent>
-      </InfoCard>
-    </InfoCardContainer>
+      </Stack>
+    </InfoPageLayout>
   )
 }
 

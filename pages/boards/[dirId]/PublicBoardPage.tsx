@@ -8,7 +8,7 @@ import { Item } from "@/interfaces/ItemInterface";
 import Link from "next/link";
 import { FxTheme } from "theme/globalTheme";
 
-export const PublicBoardPage = ( props: any) => {
+export const PublicBoardPage = ( props: {board: Board}) => {
 
   const theme: FxTheme = useTheme()
 
