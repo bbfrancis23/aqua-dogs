@@ -12,8 +12,6 @@ import DraggableDialog from "@/ui/DraggableDialog"
 import {EmailTextField} from "../AuthTextFields"
 import VerifyCodeForm from "../forms/VerifyCodeForm"
 
-// QA: Brian Francis 08-06-23
-
 interface ForgotPasswordDialogProps {
   dialogIsOpen: boolean;
   closeDialog: () => void;

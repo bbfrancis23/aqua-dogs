@@ -18,3 +18,5 @@ export default function RegisterDialog(props: RegDialogProps) {
     </DraggableDialog>
   )
 }
+
+// QA: Brian Francis 08-23-23

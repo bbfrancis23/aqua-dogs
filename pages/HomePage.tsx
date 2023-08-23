@@ -10,7 +10,6 @@ import { Board } from "@/interfaces/BoardInterface"
 import { FxTheme } from "theme/globalTheme"
 import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 
-
 const websiteProjectId: string = '64b6bc0a1b836981ba0c4cc5'
 
 export interface HomePage{ boards: Board[]}
@@ -19,6 +18,12 @@ export const getStaticProps: GetStaticProps<HomePage> = async () => {
   let boards: Board[] = await findProjectBoards(websiteProjectId)
   return {props: { boards}}
 }
+
+const CategoryHeader = (props: {title: string}) => (
+  <Typography variant={'h2'} sx={{fontSize: '1.25rem', fontWeight: '500'}}>
+    {props.title}
+  </Typography>
+)
 
 const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
 
@@ -33,13 +38,15 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
             <Card >
               <Link href={`/boards/${b.title.toLowerCase().replace(/ /g, '')}`}
                 style={{textDecoration: "none"}} >
-                <CardHeader title={ <Typography variant={'h6'} >{b.title}</Typography>}
+                <CardHeader title={ <CategoryHeader title={b.title} />}
                   sx={{bgcolor: "secondary.main", color: "secondary.contrastText"}} />
               </Link>
               <CardContent style={{height: "175px", overflow: "auto", paddingBottom: "0px"}}>
                 {b?.columns.map( (c: Column) => (
                   <Box sx={{ pb: 1}} key={c.id}>
-                    <Typography variant={'h6'} sx={{ fontSize: '16px'}} >{c.title}</Typography>
+                    <Typography variant={'h3'} sx={{ fontSize: '16px', fontWeight: '500'}} >
+                      {c.title}
+                    </Typography>
                     { c.items && c?.items.map( (i: Item) => (
                       <Typography key={i.id}
                         sx={{pl: 1, '&:hover': {backgroundColor: 'action.hover'}}}>
@@ -66,4 +73,4 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
 
 export default Page
 
-// QA: done 8-3-23
+// QA: done 8-23-23

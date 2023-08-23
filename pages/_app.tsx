@@ -4,8 +4,8 @@ import type {AppProps} from "next/app"
 import Link from "next/link"
 import {SessionProvider} from "next-auth/react"
 
-import { CssBaseline, ThemeProvider, AppBar, Toolbar, Typography, Box, IconButton}
-  from "@mui/material"
+import { CssBaseline, ThemeProvider, AppBar, Toolbar, Typography, Box,
+  IconButton} from "@mui/material"
 import {ConfirmProvider} from "material-ui-confirm"
 import SettingsIcon from "@mui/icons-material/Settings"
 import {SnackbarProvider} from "notistack"
@@ -15,10 +15,10 @@ import {appThemes, palettes, createFxTheme, FxThemeOptions, FxPaletteOptions} fr
 import AuthNav from "@/components/auth/AuthNav"
 import AppBarMenu, {AppBarMenuProps} from "@/components/AppBarMenu"
 
-// QA: Brian Francis 08-07-23
 
 import SettingsDialog from "@/components/settings/SettingsDialog"
 import RegisterDialog from "@/components/auth/dialogs/RegisterDialog"
+
 
 import AuthDialog from "@/components/auth/dialogs/AuthDialog"
 import ForgotPasswordDialog from "@/components/auth/dialogs/ForgotPasswordDialog"
@@ -89,48 +89,32 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
                   { appMenuItems.map( (i: AppBarMenuProps) => (
                     <AppBarMenu key={i.id} title={i.title} id={i.id} boards={i.boards}
                       icon={i.icon} />
-                  ))
-                  }
+                  )) }
                 </ Box>
-
                 <Box sx={{flexGrow: 1}} />
                 <AuthNav setAuthDialogIsOpen={setAuthDialogIsOpen} />
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="app settings"
-                  aria-haspopup="true"
-                  color="inherit"
-                  onClick={ () => setSettingsDialogIsOpen(true)}
-                >
+                <IconButton size="large" edge="end" aria-label="app settings" aria-haspopup="true"
+                  color="inherit" onClick={ () => setSettingsDialogIsOpen(true)} >
                   <SettingsIcon />
                 </IconButton>
               </Toolbar>
             </AppBar>
             <Component {...pageProps} openAuthDialog={ () => setAuthDialogIsOpen(true)} />
-            <SettingsDialog
-              updateFx={handleUpdateTheme}
-              dialogIsOpen={settingsDialogIsOpen}
-              closeDialog={ () => setSettingsDialogIsOpen(false)}
-            />
-            <AuthDialog
-              dialogIsOpen={authDialogIsOpen}
+            <SettingsDialog updateFx={handleUpdateTheme} dialogIsOpen={settingsDialogIsOpen}
+              closeDialog={ () => setSettingsDialogIsOpen(false)} />
+            <AuthDialog dialogIsOpen={authDialogIsOpen}
               closeDialog={ () => setAuthDialogIsOpen(false)}
               openRegDialog={ () => setRegDialogIsOpen(true)}
-              openForgotDialog={ () => setForgotDialogIsOpen(true)}
-            />
-            <RegisterDialog
-              dialogIsOpen={regDialogIsOpen}
+              openForgotDialog={ () => setForgotDialogIsOpen(true)} />
+            <RegisterDialog dialogIsOpen={regDialogIsOpen}
               closeDialog={ () => setRegDialogIsOpen(false)}
-              openAuthDialog={ () => setAuthDialogIsOpen(true)}
-            />
-            <ForgotPasswordDialog
-              dialogIsOpen={forgotDialogIsOpen}
-              closeDialog={ () => setForgotDialogIsOpen(false)}
-            />
+              openAuthDialog={ () => setAuthDialogIsOpen(true)} />
+            <ForgotPasswordDialog dialogIsOpen={forgotDialogIsOpen}
+              closeDialog={ () => setForgotDialogIsOpen(false)} />
           </SnackbarProvider>
         </ConfirmProvider>
       </ ThemeProvider>
     </SessionProvider>
   )
 }
+// QA: Brian Francis 08-23-23
