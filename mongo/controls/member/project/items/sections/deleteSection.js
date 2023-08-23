@@ -8,7 +8,6 @@ import Item from 'mongo/schemas/ItemSchema'
 import Section from '/mongo/schemas/SectionSchema'
 
 import SectionType from '/mongo/schemas/SectionTypeSchema'
-import Tag from '/mongo/schemas/TagSchema'
 
 import {getItem, flattenItem} from '/mongo/controllers/itemControllers'
 

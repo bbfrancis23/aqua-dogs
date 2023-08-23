@@ -1,45 +1,43 @@
-import db from '/mongo/db';
-import { getSession } from 'next-auth/react';
-import Member from '../../schemas/MemberSchema';
+import db from '/mongo/db'
+import {getSession} from 'next-auth/react'
+import Member from '../../schemas/MemberSchema'
 
-import Tag from '/mongo/schemas/TagSchema';
+import mongoose from 'mongoose'
 
-import mongoose from 'mongoose';
+import {getMember} from '/mongo/controllers/memberControllers'
 
-import { getMember } from '/mongo/controllers/memberControllers';
-
-import axios from 'axios';
+import axios from 'axios'
 
 export const createMemberTag = async (req, res) => {
-  const session = await getSession({ req });
+  const session = await getSession({req})
 
-  let status = axios.HttpStatusCode.Ok;
-  let message = '';
-  let member = undefined;
+  let status = axios.HttpStatusCode.Ok
+  let message = ''
+  let member = undefined
 
-  await db.connect();
+  await db.connect()
 
   if (session) {
     if (req.body.addTag) {
-      member = await Member.findOne({ email: session?.user?.email });
+      member = await Member.findOne({email: session?.user?.email})
       if (member) {
-        const dbSession = await mongoose.startSession();
+        const dbSession = await mongoose.startSession()
         try {
-          dbSession.startTransaction();
-          const newTag = new Tag({ title: req.body.addTag });
-          await newTag.save({ dbSession });
-          await member.tags.push(newTag);
-          await member.save({ dbSession });
-          await dbSession.commitTransaction();
-        } catch (e) {
-          await dbSession.abortTransaction();
-          dbSession.endSession();
-          status = axios.HttpStatusCode.InternalServerError;
-          message = e;
+          dbSession.startTransaction()
 
-          console.log('error', e);
+          await newTag.save({dbSession})
+          await member.tags.push(newTag)
+          await member.save({dbSession})
+          await dbSession.commitTransaction()
+        } catch (e) {
+          await dbSession.abortTransaction()
+          dbSession.endSession()
+          status = axios.HttpStatusCode.InternalServerError
+          message = e
+
+          console.log('error', e)
         }
-        const result = await getMember(session.user.email);
+        const result = await getMember(session.user.email)
         if (result.member) {
           member = {
             email: result.member.email,
@@ -47,20 +45,20 @@ export const createMemberTag = async (req, res) => {
             roles: result.member.roles,
             tags: result.member.tags,
             id: result.member.id,
-          };
+          }
         }
       } else {
-        status = axios.HttpStatusCode.NotFound;
+        status = axios.HttpStatusCode.NotFound
       }
     } else {
-      status = axios.HttpStatusCode.Unauthorized;
+      status = axios.HttpStatusCode.Unauthorized
     }
   }
 
-  await db.disconnect();
+  await db.disconnect()
   res.status(status).json({
     message,
     member,
-  });
-  return;
-};
+  })
+  return
+}

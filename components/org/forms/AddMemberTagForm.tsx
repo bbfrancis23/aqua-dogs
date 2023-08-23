@@ -11,8 +11,6 @@ import * as Yup from "yup"
 import { useSnackbar } from "notistack";
 import { Member } from "../../../interfaces/MemberInterface";
 
-const AddTagSchema = Yup.object().shape({ tag: Yup.string().required("Tag is required")})
-
 export interface AddMemberTagFormProps{
   setMember: Dispatch<SetStateAction<Member>>;
 }
@@ -27,7 +25,7 @@ export default function AddMemberTagForm(props: AddMemberTagFormProps) {
 
   const formik = useFormik({
     initialValues: { tag: '' },
-    validationSchema: AddTagSchema,
+    validationSchema: {},
     onSubmit: (data) => {
       axios.patch( '/api/auth/member', {addTag: data.tag}, )
         .then((res) => {

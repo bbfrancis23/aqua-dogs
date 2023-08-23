@@ -4,7 +4,6 @@ import {getSession} from 'next-auth/react'
 import axios from 'axios'
 
 import Item from '/mongo/schemas/ItemSchema'
-import Tag from '/mongo/schemas/TagSchema'
 import Section from '/mongo/schemas/SectionSchema'
 import Project from '/mongo/schemas/ProjectSchema'
 
