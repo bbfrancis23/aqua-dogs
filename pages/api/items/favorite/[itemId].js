@@ -7,7 +7,7 @@ import {getMember} from '/mongo/controllers/memberControllers'
 
 import {getSession} from 'next-auth/react'
 
-export const handler = async (req, res) => {
+export const handler = (req, res) => {
   // const {itemId} = req.query
 
   // let status = 405
