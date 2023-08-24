@@ -3,6 +3,8 @@ import {patchBoardCols} from '@/mongo/controls/member/project/board/patchBoardCo
 import {getBoard} from '@/mongo/controls/member/project/board/findBoard'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {Board} from '@/interfaces/BoardInterface'
+import {getSession} from 'next-auth/react'
+import axios from 'axios'
 
 export type PatchBoardResponse = {
   message: string
@@ -10,6 +12,14 @@ export type PatchBoardResponse = {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<PatchBoardResponse>) => {
+  const session = await getSession({req})
+  if (!session) {
+    res.status(axios.HttpStatusCode.Unauthorized).json({
+      message: 'Invalid Session',
+    })
+    return
+  }
+
   if (req.method === 'PATCH') {
     if (req.body.boardCols) {
       await patchBoardCols(req, res)

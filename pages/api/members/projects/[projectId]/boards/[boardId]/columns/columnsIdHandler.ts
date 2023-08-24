@@ -1,8 +1,18 @@
 import {Column, ColumnResponse} from '@/interfaces/ColumnInterface'
 import {patchColumn} from '@/mongo/controls/member/project/board/column/patchColumn'
+import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
+import {getSession} from 'next-auth/react'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<ColumnResponse>) => {
+  const session = await getSession({req})
+  if (!session) {
+    res.status(axios.HttpStatusCode.Unauthorized).json({
+      message: 'Invalid Session',
+    })
+    return
+  }
+
   if (req.method === 'PATCH') {
     await patchColumn(req, res)
     return
