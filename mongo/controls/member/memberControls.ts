@@ -107,4 +107,23 @@ export const updateMember = async (req: NextApiRequest, res: NextApiResponse) =>
   })
 }
 
+export const findMembers = async () => {
+  await db.connect()
+
+  let members = null
+
+  members = await Member.find().select('_id email name')
+
+  if (members) {
+    members = await members.map((m) => {
+      m = m.toObject({getters: true})
+      return m
+    })
+  }
+
+  await db.disconnect()
+
+  return members
+}
+
 // QA: Brian Francis 8-10-23

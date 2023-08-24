@@ -1,10 +1,11 @@
 import Member from '@/mongo/schemas/MemberSchema'
 
 import {getSession} from 'next-auth/react'
-import {getMembers} from '@/mongo/controllers/memberControllers'
+// import {getMembers} from '@/mongo/controllers/memberControllers'
 
 import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
+import {findMembers} from '@/mongo/controls/member/memberControls'
 const membersHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   let status = axios.HttpStatusCode.BadRequest
   let message = 'Invalid Method'
@@ -15,7 +16,7 @@ const membersHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (session) {
       try {
-        members = await getMembers()
+        members = await findMembers()
       } catch (e) {
         status = axios.HttpStatusCode.InternalServerError
         message = `Error: ${e}`

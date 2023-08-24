@@ -1,8 +1,6 @@
 import db from '/mongo/db'
 import Member from '/mongo/schemas/MemberSchema'
 
-import {getMember} from '/mongo/controllers/memberControllers'
-
 import {getSession} from 'next-auth/react'
 
 export const handler = (req, res) => {

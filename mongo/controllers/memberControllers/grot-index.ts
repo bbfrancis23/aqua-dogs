@@ -1,12 +1,12 @@
-import db from '/mongo/db'
-import Member from '/mongo/schemas/MemberSchema'
-import Project from '/mongo/schemas/ProjectSchema'
+import db from '@/mongo/db'
+import Member from '@/mongo/schemas/MemberSchema'
+import Project from '@/mongo/schemas/ProjectSchema'
 
 import axios from 'axios'
 import mongoose from 'mongoose'
 import {ObjectId} from 'mongodb'
 
-export const getMemberProjects = async (memberId) => {
+export const getMemberProjects = async (memberId: string) => {
   await db.connect()
 
   let projects = []
@@ -43,7 +43,7 @@ export const getMembers = async () => {
 }
 
 // QA this
-export const getMember = async (email) => {
+export const getMember = async (email: string) => {
   let status = 200
   let message = 'found member'
   let member = null

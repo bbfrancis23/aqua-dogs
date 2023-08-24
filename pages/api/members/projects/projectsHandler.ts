@@ -4,8 +4,9 @@ import db from '@/mongo/db'
 import Project from '@/mongo/schemas/ProjectSchema'
 
 import {getSession} from 'next-auth/react'
-import {getMemberProjects} from '@/mongo/controllers/memberControllers'
+//import {findMemberProjects} from '@/mongo/controllers/memberControllers'
 import {NextApiRequest, NextApiResponse} from 'next'
+import {findMemberProjects} from '@/mongo/controls/member/memberControls'
 
 const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   let status = axios.HttpStatusCode.BadRequest
@@ -28,7 +29,7 @@ const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         try {
           await newProj.save()
           status = axios.HttpStatusCode.Created
-          projects = await getMemberProjects(session.user.id)
+          projects = await findMemberProjects(session.user.id)
 
           console.log(session.user)
         } catch (e: any) {
