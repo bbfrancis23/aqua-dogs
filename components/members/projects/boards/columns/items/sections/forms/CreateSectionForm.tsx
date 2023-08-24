@@ -1,20 +1,22 @@
 
-import { ItemContext } from "@/interfaces/ItemInterface";
-import { Member } from "@/interfaces/MemberInterface";
-import { ProjectContext } from "@/interfaces/ProjectInterface";
+import { useContext, useState } from "react";
+
 import { Box, Button, ButtonGroup, IconButton, Stack, TextField } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useContext, useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 import * as Yup from "yup"
+
+import { ItemContext } from "@/interfaces/ItemInterface";
+import { Member } from "@/interfaces/MemberInterface";
+import { ProjectContext } from "@/interfaces/ProjectInterface";
+
 import SectionStub from "../SectionStub";
 
 export interface CreateSectionFormProps {
   member: Member;
 }
-
 
 const createSectionSchema = Yup.object().shape({
   section: Yup.string().required('Section Content is required'),
@@ -30,11 +32,9 @@ const CodeEditor = dynamic(
   {ssr: false}
 )
 
-
 const CreateSectionForm = (props: CreateSectionFormProps) => {
 
   const { member} = props;
-
   const {enqueueSnackbar} = useSnackbar()
   const {item, setItem} = useContext(ItemContext)
   const {project} = useContext(ProjectContext)
@@ -129,3 +129,5 @@ const CreateSectionForm = (props: CreateSectionFormProps) => {
 }
 
 export default CreateSectionForm
+
+// QA Brian Francis 8-23-23

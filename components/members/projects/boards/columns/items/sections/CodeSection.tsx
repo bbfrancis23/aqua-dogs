@@ -1,22 +1,25 @@
+import { useContext, useState } from "react";
+
+import { Box, IconButton } from "@mui/material";
+
+import dynamic from "next/dynamic"
+
+import axios from "axios";
+import { Form, FormikProvider, useFormik } from "formik";
+import { useSnackbar } from "notistack";
+import CheckIcon from '@mui/icons-material/Check';
+import CancelIcon from '@mui/icons-material/Cancel';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import { ItemContext } from "@/interfaces/ItemInterface";
 import { Member } from "@/interfaces/MemberInterface";
 import { Project } from "@/interfaces/ProjectInterface";
 import { Section } from "@/interfaces/SectionInterface";
-import { Box, IconButton } from "@mui/material";
-import axios from "axios";
-import { Form, FormikProvider, useFormik } from "formik";
-import { useSnackbar } from "notistack";
-import { useContext, useState } from "react";
-import CheckIcon from '@mui/icons-material/Check';
-import CancelIcon from '@mui/icons-material/Cancel';
-import DeleteIcon from '@mui/icons-material/Delete';
-import dynamic from "next/dynamic"
+
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
   {ssr: false}
 )
-
-/*eslint-disable */
 
 import * as Yup from "yup"
 import Permission, { NoPermission, PermissionCodes } from "@/ui/PermissionComponent";
@@ -32,14 +35,13 @@ const editSectionSchema = Yup.object().shape({
 })
 
 export const CodeSection = (props: TextSectionProps) => {
+
   const { member, project, section} = props
 
   const {item, setItem} = useContext(ItemContext)
-
+  const [displayEditTextSectionForm, setDisplayEditTextSectionForm] = useState<boolean>(false)
 
   const {enqueueSnackbar} = useSnackbar()
-
-  const [displayEditTextSectionForm, setDisplayEditTextSectionForm] = useState<boolean>(false)
 
   const handleDeleteSection = () => {
 
@@ -49,8 +51,6 @@ export const CodeSection = (props: TextSectionProps) => {
         enqueueSnackbar("Item Section Deleted", {variant: "success"})
       })
       .catch((e) => {
-
-
         enqueueSnackbar(e.response.data.message, {variant: "error"})
       })
   }
@@ -81,78 +81,49 @@ export const CodeSection = (props: TextSectionProps) => {
 
   return (
     <>
-      {
-        displayEditTextSectionForm && (
-          <Box sx={{ width: '100%'}}>
-            <FormikProvider value={formik}>
-              <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <CodeEditor
-                  language="jsx"
-                  placeholder="Create Code Section"
-                  {...getFieldProps('section')}
-                  padding={15}
-                  style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5",
-                    fontFamily:
-                      "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
-                  }}
-                />
-                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                  <IconButton color="success" type="submit" disabled={!(isValid && formik.dirty)}>
-                    <CheckIcon />
-                  </IconButton>
-                  <IconButton onClick={() => setDisplayEditTextSectionForm(false)}>
-                    <CancelIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleDeleteSection()}>
-                    <DeleteIcon color={'error'}/>
-                  </IconButton>
-                </Box>
-              </Form>
-            </FormikProvider>
-          </ Box>
-        )
-      }
-      {
-        !displayEditTextSectionForm && (
-          <>
-            <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-              <CodeEditor
-              onClick={() => setDisplayEditTextSectionForm(true)}
-                key={section.id}
-                value={section.content}
-                language="jsx"
-                readOnly
-                padding={15}
-                style={{
-                  width: '100%',
-                  fontSize: 12,
-                  backgroundColor: "#f5f5f5",
+      { displayEditTextSectionForm && (
+        <Box sx={{ width: '100%'}}>
+          <FormikProvider value={formik}>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+              <CodeEditor language="jsx" placeholder="Create Code Section"
+                {...getFieldProps('section')} padding={15}
+                style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5",
                   fontFamily:
-                            "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
-                }}
+                  "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace" }}
               />
-            </Permission>
-            <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-              <CodeEditor
-                onClick={() => setDisplayEditTextSectionForm(true)}
-                key={section.id}
-                value={section.content}
-                language="jsx"
-                readOnly
-                padding={15}
-                style={{
-                  width: '100%',
-                  fontSize: 12,
-                  backgroundColor: "#f5f5f5",
-                  fontFamily:
-                            "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
-                }}
-              />
-            </NoPermission>
-
-          </>
-        )
-      }
+              <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                <IconButton color="success" type="submit" disabled={!(isValid && formik.dirty)}>
+                  <CheckIcon />
+                </IconButton>
+                <IconButton onClick={() => setDisplayEditTextSectionForm(false)}>
+                  <CancelIcon />
+                </IconButton>
+                <IconButton onClick={() => handleDeleteSection()}>
+                  <DeleteIcon color={'error'}/>
+                </IconButton>
+              </Box>
+            </Form>
+          </FormikProvider>
+        </ Box>
+      ) }
+      { !displayEditTextSectionForm && (
+        <>
+          <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
+            <CodeEditor onClick={() => setDisplayEditTextSectionForm(true)}
+              key={section.id} value={section.content} language="jsx" readOnly padding={15}
+              style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5",
+                fontFamily: "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace" }} />
+          </Permission>
+          <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
+            <CodeEditor onClick={() => setDisplayEditTextSectionForm(true)} key={section.id}
+              value={section.content} language="jsx" readOnly padding={15}
+              style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5",
+                fontFamily:"ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace" }} />
+          </NoPermission>
+        </>
+      ) }
     </>
   )
 }
+
+// QA Brian Francis 8-23-23
