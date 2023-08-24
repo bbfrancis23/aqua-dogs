@@ -1,31 +1,10 @@
 import db from '/mongo/db'
 import Member from '/mongo/schemas/MemberSchema'
-import Role from '/mongo/schemas/RoleSchema'
-
-import Organization from '/mongo/schemas/OrganizationSchema'
-
 import Project from '/mongo/schemas/ProjectSchema'
 
 import axios from 'axios'
 import mongoose from 'mongoose'
 import {ObjectId} from 'mongodb'
-import {flattenOrg} from '../orgControllers'
-
-export const getMemberOrgs = async (memberId) => {
-  await db.connect()
-
-  let orgs = []
-
-  orgs = await Organization.find({
-    $or: [{leader: memberId}, {members: memberId}],
-  })
-
-  await db.disconnect()
-
-  orgs = orgs.map((o) => ({id: o._id.toString(), title: o.title}))
-
-  return orgs
-}
 
 export const getMemberProjects = async (memberId) => {
   await db.connect()
@@ -72,10 +51,7 @@ export const getMember = async (email) => {
   await db.connect()
 
   try {
-    member = await Member.findOne({email}).populate({
-      path: 'roles',
-      model: Role,
-    })
+    member = await Member.findOne({email})
   } catch (e) {
     message = `Error finding Member: ${e}`
     status = 500
