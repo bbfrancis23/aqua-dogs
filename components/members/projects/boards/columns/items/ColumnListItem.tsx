@@ -2,14 +2,11 @@ import { useState, useContext } from "react";
 import Link from "next/link"
 
 import { Card, CardHeader, IconButton, Typography, useTheme } from "@mui/material";
-import EditIcon from '@mui/icons-material/Edit';
 
 import { Column } from "@/interfaces/ColumnInterface";
 import { Member } from "@/interfaces/MemberInterface";
 import { Item } from "@/interfaces/ItemInterface";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-
-import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
 
 import EditItemForm from "./forms/EditItemForm";
 import { FxTheme } from "theme/globalTheme";
@@ -29,7 +26,7 @@ const ColumnListItem = (props: ColumnListProps) => {
   const fxTheme: FxTheme = useTheme()
 
   const [showForm, setShowForm] = useState<boolean>(false)
-  const [showEdit, setShowEdit] = useState<boolean>(false)
+  // const [showEdit, setShowEdit] = useState<boolean>(false)
 
   const handleCloseForm = () => {
     setShowForm(false);
@@ -37,7 +34,7 @@ const ColumnListItem = (props: ColumnListProps) => {
 
   return (
 
-    <Card onMouseEnter={() => setShowEdit(true)} onMouseLeave={() => setShowEdit(false)}>
+    <Card >
       <CardHeader
         title={
           showForm ?
@@ -48,14 +45,14 @@ const ColumnListItem = (props: ColumnListProps) => {
               <Typography>{item.title}</Typography></Link>
         }
 
-        action={
-          (showEdit && !showForm) && (
-            <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-              <IconButton size={'small'} onClick={() => setShowForm(true) }>
-                <EditIcon sx={{ fontSize: '1em'}}/>
-              </IconButton>
-            </Permission>)
-        }
+        // action={
+        //   (showEdit && !showForm) && (
+        //     <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
+        //       <IconButton size={'small'} onClick={() => setShowForm(true) }>
+        //         <EditIcon sx={{ fontSize: '1em'}}/>
+        //       </IconButton>
+        //     </Permission>)
+        // }
         sx={{p: showForm ? 1 : 2}}
       />
     </Card>
