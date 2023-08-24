@@ -3,7 +3,6 @@ import { useState } from "react"
 import { GetServerSideProps, Redirect } from "next"
 import { getSession } from "next-auth/react"
 import { Stack, Typography } from "@mui/material"
-import { getItem } from "@/mongo/controllers/itemControllers"
 
 import { Project, ProjectContext } from "@/interfaces/ProjectInterface"
 import { Member, MemberContext } from "@/interfaces/MemberInterface"
@@ -20,6 +19,7 @@ import { findProject } from "@/mongo/controls/member/project/projectControls"
 import InfoPageLayout from "@/ui/InfoPageLayout"
 import ArchiveItemForm from "@/components/items/ArchiveItemForm"
 import Permission, { NoPermission, PermissionCodes, permission } from "@/ui/PermissionComponent"
+import { findItem } from "@/mongo/controls/member/project/items/findItem"
 
 
 export interface MemberItemPageProps {
@@ -101,9 +101,15 @@ GetServerSideProps<MemberItemPageProps> = async(context) => {
     const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
 
     if(hasPermission){
-      const item = await getItem(context.query.itemId)
+      //const item = await getItem(context.query.itemId)
+
+      if( typeof context.query.itemId !== "string" ) return {redirect: unAuthRedirect}
+
+      const item = await findItem(context?.query?.itemId)
       return {props: {project, member, item}}
     }
   }
   return {redirect: {destination: "/", permanent: false}}
 }
+
+// TODO: replace getItem with findItem

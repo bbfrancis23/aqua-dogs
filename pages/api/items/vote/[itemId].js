@@ -2,8 +2,6 @@ import db from '/mongo/db'
 import Item from '/mongo/schemas/ItemSchema'
 import Section from '/mongo/schemas/SectionSchema'
 
-import {getItem, flattenItem} from '/mongo/controllers/itemControllers'
-
 import {getSession} from 'next-auth/react'
 
 const processVote = async (item, vote, userId) => {

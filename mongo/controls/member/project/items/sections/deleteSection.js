@@ -9,8 +9,6 @@ import Section from '/mongo/schemas/SectionSchema'
 
 import SectionType from '/mongo/schemas/SectionTypeSchema'
 
-import {getItem, flattenItem} from '/mongo/controllers/itemControllers'
-
 import {PermissionCodes, permission} from '/ui/PermissionComponent'
 
 export const deleteSection = async (req, res) => {

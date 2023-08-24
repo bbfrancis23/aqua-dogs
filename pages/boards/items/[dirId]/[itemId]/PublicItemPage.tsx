@@ -2,14 +2,11 @@ import { Item } from "@/interfaces/ItemInterface"
 
 import {findProjectItems} from "@/mongo/controls/member/project/items/findProjectItems"
 
-import { getItem } from "@/mongo/controllers/itemControllers";
-import InfoCardContainer from "@/ui/information-card/InfoCardContainer";
-import InfoCard from "@/ui/information-card/InfoCard";
-import { Breadcrumbs, CardContent, CardHeader, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { Section } from "@/interfaces/SectionInterface";
 import dynamic from "next/dynamic";
-import Link from "next/link"
 import InfoPageLayout from "@/ui/InfoPageLayout";
+import { findItem } from "@/mongo/controls/member/project/items/findItem";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -78,8 +75,11 @@ export const getStaticProps = async ({params}: any) => {
 
   // let item = {}
   const {dirId, itemId} = params
-  const item = await getItem(itemId)
+  // const item = await getItem(itemId)
+  const item = await findItem(itemId)
 
   return {props: {item}}
 
 }
+
+// TODO: replace getItem with findItem

@@ -16,6 +16,7 @@ export interface HomePage{ boards: Board[]}
 
 export const getStaticProps: GetStaticProps<HomePage> = async () => {
   let boards: Board[] = await findProjectBoards(websiteProjectId)
+
   return {props: { boards}}
 }
 
