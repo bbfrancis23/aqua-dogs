@@ -19,7 +19,7 @@ const processVote = async (item, vote, userId) => {
   return item
 }
 
-export default async function handler(req, res) {
+export default function handler(req, res) {
   // const {itemId} = req.query
   // let status = 405
   // let message = 'Invalid Method'

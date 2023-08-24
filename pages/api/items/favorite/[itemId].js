@@ -1,8 +1,6 @@
 import db from '/mongo/db'
 import Member from '/mongo/schemas/MemberSchema'
 
-import Role from '/mongo/schemas/RoleSchema'
-
 import {getMember} from '/mongo/controllers/memberControllers'
 
 import {getSession} from 'next-auth/react'
