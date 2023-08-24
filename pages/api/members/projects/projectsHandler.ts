@@ -9,48 +9,49 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {findMemberProjects} from '@/mongo/controls/member/memberControls'
 
 const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  let status = axios.HttpStatusCode.BadRequest
-  let message = ''
-  let projects = {}
-
-  console.log('projectsHandler')
-
-  await db.connect()
-
-  if (req.method === 'POST') {
-    const session: any = await getSession({req})
-
-    if (session) {
-      const {title} = req.body
-
-      if (title) {
-        const newProj = new Project({title, leader: session.user.id})
-
-        try {
-          await newProj.save()
-          status = axios.HttpStatusCode.Created
-          projects = await findMemberProjects(session.user.id)
-
-          console.log(session.user)
-        } catch (e: any) {
-          status = axios.HttpStatusCode.InternalServerError
-          message = e
-
-          console.log(e)
-        }
-      } else {
-        status = axios.HttpStatusCode.NoContent
-      }
-    } else {
-      status = axios.HttpStatusCode.Unauthorized
-    }
+  if (req.method !== 'POST') {
+    res.status(axios.HttpStatusCode.MethodNotAllowed).json({
+      message: 'Invalid Method',
+    })
+    return
   }
 
-  await db.disconnect()
-  res.status(status).json({
-    message,
-    projects,
-  })
+  const session = await getSession({req})
+  if (!session) {
+    res.status(axios.HttpStatusCode.Unauthorized).json({
+      message: 'Invalid Session',
+    })
+    return
+  }
+
+  const {title} = req.body
+
+  if (title) {
+    if (!session.user) {
+      res.status(axios.HttpStatusCode.Unauthorized).json({
+        message: 'Invalid Session',
+      })
+      return
+    }
+
+    const user: any = session.user
+
+    const newProj = new Project({title, leader: user.id})
+    try {
+      await newProj.save()
+      const projects = await findMemberProjects(user.id)
+      res.status(axios.HttpStatusCode.Created).json({
+        message: 'Success',
+        projects,
+      })
+      return
+    } catch (e: any) {
+      res.status(axios.HttpStatusCode.InternalServerError).json({
+        message: `Error finding Member:  e`,
+      })
+      return
+    }
+  }
 }
 export default projectsHandler
 

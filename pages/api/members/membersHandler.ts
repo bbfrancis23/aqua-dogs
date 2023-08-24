@@ -1,41 +1,46 @@
-import Member from '@/mongo/schemas/MemberSchema'
-
+import {NextApiRequest, NextApiResponse} from 'next'
 import {getSession} from 'next-auth/react'
-// import {getMembers} from '@/mongo/controllers/memberControllers'
 
 import axios from 'axios'
-import {NextApiRequest, NextApiResponse} from 'next'
+
 import {findMembers} from '@/mongo/controls/member/memberControls'
+import {Member} from '@/interfaces/MemberInterface'
+
 const membersHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  let status = axios.HttpStatusCode.BadRequest
-  let message = 'Invalid Method'
-  let members = null
-
-  if (req.method === 'GET') {
-    const session = await getSession({req})
-
-    if (session) {
-      try {
-        members = await findMembers()
-      } catch (e) {
-        status = axios.HttpStatusCode.InternalServerError
-        message = `Error: ${e}`
-      }
-
-      status = axios.HttpStatusCode.Ok
-      message = 'Success'
-    } else {
-      status = axios.HttpStatusCode.Unauthorized
-      message = 'Not Authenticated'
-    }
+  if (req.method !== 'GET') {
+    res.status(axios.HttpStatusCode.MethodNotAllowed).json({
+      message: 'Invalid Method',
+    })
+    return
   }
 
-  res.status(status).json({
-    message,
+  const session = await getSession({req})
+  if (!session) {
+    res.status(axios.HttpStatusCode.Unauthorized).json({
+      message: 'Invalid Session',
+    })
+    return
+  }
+
+  let members: Member[] = []
+
+  try {
+    members = await findMembers()
+  } catch (e) {
+    res.status(axios.HttpStatusCode.InternalServerError).json({
+      message: `Error finding Member:  e`,
+    })
+    return
+  }
+
+  res.status(axios.HttpStatusCode.Ok).json({
+    message: 'Success',
     members,
   })
+  return
 }
 
 export default membersHandler
 
-// QA: Brian Francis 8-10-23
+// QA: Brian Francis 8-24-23
+// Security: Brian Francis 8-24-23 - Only allow GET requests from authenticated users - Tested
