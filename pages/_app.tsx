@@ -2,6 +2,7 @@ import {useState, useEffect} from "react"
 
 import type {AppProps} from "next/app"
 import Link from "next/link"
+import Image from "next/image"
 import {SessionProvider} from "next-auth/react"
 
 import { CssBaseline, ThemeProvider, AppBar, Toolbar, Typography, Box,
@@ -78,12 +79,9 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
             <AppBar position={'sticky'} sx={{boxShadow: 0}}>
               <Toolbar >
                 <Link href={"/"} style={{textDecoration: "none"}} >
-                  <Typography variant="h6" noWrap component="div"
-                    sx={{ color: theme.palette.mode === 'light' ?
-                      "primary.contrastText" : "primary.main", fontWeight: '800' }}
-                  >
-                  STRATEGY
-                  </Typography>
+                  <Image src="/images/strategy-fx-logo.png" alt="logo" width="125" height="25"
+                    style={{position: 'relative', top: '5px'}}/>
+
                 </Link>
                 <Box sx={{pl: 2, display: 'flex', position: 'relative', top: '3px'}}>
                   { appMenuItems.map( (i: AppBarMenuProps) => (
