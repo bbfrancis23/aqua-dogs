@@ -1,14 +1,32 @@
-import { Board } from "@/interfaces/BoardInterface"
-import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards"
-import {findPublicBoard} from "@/mongo/controls/member/project/board/findPublicBoard"
-import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from "@mui/material"
-import { publicBoards } from "data/publicBoards";
+import { Board } from "@/interfaces/BoardInterface";
 import { Column } from "@/interfaces/ColumnInterface";
 import { Item } from "@/interfaces/ItemInterface";
+import findMemberPublicBoard from "@/mongo/controls/member/project/board/findMemberPublicBoard";
+import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from "@mui/material";
+import { GetServerSideProps, Redirect } from "next";
 import Link from "next/link";
 import { FxTheme } from "theme/globalTheme";
 
-export const PublicBoardPage = ( props: {board: Board}) => {
+
+export interface PublicMemberBoardPage {
+  board: Board
+}
+
+const unAuthRedirect: Redirect = {destination: "/", permanent: false}
+
+export const getServerSideProps: GetServerSideProps<PublicMemberBoardPage> = async(context) => {
+
+  if(!context.query.boardId) return {redirect: unAuthRedirect}
+  if( typeof context.query.boardId !== "string" ) return {redirect: unAuthRedirect}
+
+
+  const board: Board = await findMemberPublicBoard(context.query.boardId)
+
+  return {props: {board}}
+
+}
+
+export const Page = ( props: {board: Board}) => {
 
   const theme: FxTheme = useTheme()
 
@@ -57,25 +75,4 @@ export const PublicBoardPage = ( props: {board: Board}) => {
   )
 }
 
-export default PublicBoardPage
-
-export const getStaticPaths = async () => {
-  let boards: Board[] = await findProjectBoards('64b6bc0a1b836981ba0c4cc5')
-
-  const paths = boards.map((b: Board) =>
-    ({ params: {dirId: b.title.toLowerCase().replace(/ /g, '')}}))
-
-
-  return {paths, fallback: false}
-}
-
-export const getStaticProps = async ({params}: any) => {
-
-  const {dirId} = params
-  const pb = await publicBoards.find( (pb) => pb.dirId === dirId)
-
-  const board = await findPublicBoard(pb.id)
-
-  return {props: {board}}
-
-}
+export default Page

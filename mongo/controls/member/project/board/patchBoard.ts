@@ -63,7 +63,14 @@ export const patchBoard = async (req: NextApiRequest, res: NextApiResponse<Patch
     board.title = title
   } else if (req.body.columns) {
     board.columns = req.body.columns
+  } else if (req.body.scope) {
+    console.log('changing scope')
+    board.scope = req.body.scope
   }
+
+  console.log('board: ', board)
+
+  console.log('req.body: ', req.body)
 
   try {
     await board.save()

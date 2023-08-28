@@ -5,6 +5,7 @@ const boardSchema = new mongoose.Schema({
   project: {type: mongoose.Types.ObjectId, required: false, ref: 'projects'},
   columns: [{type: mongoose.Types.ObjectId, required: false, ref: 'columns'}],
   archive: {type: Boolean, required: true, default: false},
+  scope: {type: String, required: true, default: 'PRIVATE'},
 })
 
 const Board = mongoose.models.boards || mongoose.model('boards', boardSchema)

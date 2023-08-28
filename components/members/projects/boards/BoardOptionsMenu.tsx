@@ -13,7 +13,7 @@ import router from "next/router";
 import { BoardContext } from "@/interfaces/BoardInterface";
 
 
-const ArchiveBoardForm = () => {
+const BoardOptionsMenu = () => {
 
   const {project} = useContext(ProjectContext)
   const {member} = useContext(MemberContext)
@@ -46,6 +46,7 @@ const ArchiveBoardForm = () => {
     }
   }
 
+
   const handleClose = () => setAnchorElement(null)
   return (
     <Permission code={PermissionCodes.PROJECT_LEADER} project={project} member={member} >
@@ -55,7 +56,8 @@ const ArchiveBoardForm = () => {
       <Menu id="board-menu" anchorEl={anchorElement}
         open={open} onClose={handleClose} TransitionComponent={Fade} >
         <MenuItem>
-          <Button variant={'contained'} color="error" onClick={() => handleArchive()}>
+          <Button variant={'contained'} color="error" onClick={() => handleArchive()}
+            sx={{width: '100%'}}>
               ARCHIVE BOARD
           </Button>
         </MenuItem>
@@ -69,6 +71,6 @@ const ArchiveBoardForm = () => {
   )
 }
 
-export default ArchiveBoardForm
+export default BoardOptionsMenu
 
 // QA: Brian Francisc 8-13-23

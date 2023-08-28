@@ -1,11 +1,11 @@
 import {Dispatch, SetStateAction, createContext} from 'react'
 import {Column} from './ColumnInterface'
-import {Scope} from './ScopeInterface'
+import Scope from './ScopeInterface'
 
 export interface Board {
   id: string
   title: string
-  scope?: Scope
+  scope: Scope
   columns: Column[]
   directoryId?: string
 }
