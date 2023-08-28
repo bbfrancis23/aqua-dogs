@@ -5,7 +5,7 @@ import Scope from './ScopeInterface'
 export interface Board {
   id: string
   title: string
-  scope: Scope
+  scope?: Scope
   columns: Column[]
   directoryId?: string
 }
