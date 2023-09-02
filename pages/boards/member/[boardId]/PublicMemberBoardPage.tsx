@@ -52,8 +52,7 @@ export const Page = ( props: {board: Board}) => {
                       <Typography key={i.id}
                         sx={{pl: 1, '&:hover': {backgroundColor: 'action.hover'}}}>
                         <Link
-                          // eslint-disable-next-line max-len
-                          href={`/boards/items/${i.title.toLocaleLowerCase().trim().replace(/ /g, '-')}/${i.id}`}
+                          href={`/boards/member/${board.id}/items/${i.id}`}
                           style={{textDecoration: "none", color: theme.palette.text.primary}} >
                           {i.title}
                         </Link>
