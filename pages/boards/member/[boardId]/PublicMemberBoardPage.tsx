@@ -11,7 +11,7 @@ import { FxTheme } from "theme/globalTheme";
 export interface PublicMemberBoardPage {
   board: Board
 }
-
+// redeploy
 const unAuthRedirect: Redirect = {destination: "/", permanent: false}
 
 export const getServerSideProps: GetServerSideProps<PublicMemberBoardPage> = async(context) => {
