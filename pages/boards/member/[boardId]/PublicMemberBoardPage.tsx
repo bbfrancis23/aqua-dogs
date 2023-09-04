@@ -19,6 +19,7 @@ export const getServerSideProps: GetServerSideProps<PublicMemberBoardPage> = asy
   if(!context.query.boardId) return {redirect: unAuthRedirect}
   if( typeof context.query.boardId !== "string" ) return {redirect: unAuthRedirect}
 
+  console.log('boardId: ', context.query.boardId)
 
   const board: Board = await findMemberPublicBoard(context.query.boardId)
 

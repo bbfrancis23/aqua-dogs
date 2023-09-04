@@ -2,6 +2,7 @@ import db from '@/mongo/db'
 
 import Board from '@/mongo/schemas/BoardSchema'
 import Item from '@/mongo/schemas/ItemSchema'
+import Column from '@/mongo/schemas/ColumnSchema'
 
 import Section from '@/mongo/schemas/SectionSchema'
 
@@ -16,6 +17,7 @@ export const findPublicBoard = async (id: string) => {
     archive: {$ne: true},
   }).populate({
     path: 'columns',
+    model: Column,
     match: {archive: {$ne: true}},
     populate: {
       path: 'items',
