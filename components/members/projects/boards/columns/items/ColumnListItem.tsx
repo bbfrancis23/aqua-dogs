@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import Link from "next/link"
 
-import { Card, CardHeader, IconButton, Typography, useTheme } from "@mui/material";
+import { Button, Card, CardHeader, IconButton, Typography, useTheme } from "@mui/material";
 
 import { Column } from "@/interfaces/ColumnInterface";
 import { Member } from "@/interfaces/MemberInterface";
@@ -21,39 +21,54 @@ export interface ColumnListProps {
 const ColumnListItem = (props: ColumnListProps) => {
   const {column, member, item} = props
 
-  const {project} = useContext(ProjectContext)
+  const {project, setItemDialogIsOpen, setSelectedItem} = useContext(ProjectContext)
 
-  const fxTheme: FxTheme = useTheme()
+  const theme: FxTheme = useTheme()
 
-  const [showForm, setShowForm] = useState<boolean>(false)
-  // const [showEdit, setShowEdit] = useState<boolean>(false)
+  const handleOptenItemDialog = () => {
+    if(!setItemDialogIsOpen) return
+    if(!setSelectedItem) return
+    setSelectedItem(item.id)
 
-  const handleCloseForm = () => {
-    setShowForm(false);
+    setItemDialogIsOpen(true)
+
+  }
+
+  const getBgColor = () => {
+
+    if(theme.palette.mode === 'light'){
+
+      return 'secondary.main'
+    }
+    return ''
+
+  }
+
+  const getTextColor = () => {
+
+    if(theme.palette.mode === 'light'){
+
+      return 'secondary.contrastText'
+    }
+    return 'secondary.main'
   }
 
   return (
 
-    <Card >
+    <Card sx={{bgcolor: getBgColor}}>
       <CardHeader
         title={
-          showForm ?
-            <EditItemForm column={column} member={member} item={item}
-              closeForm={() => handleCloseForm()}/>
-            : <Link href={`/member/projects/${project.id}/items/${item.id}`}
-              style={{textDecoration: "none", color: fxTheme.palette.text.primary}}>
-              <Typography>{item.title}</Typography></Link>
+          setItemDialogIsOpen ?
+            <Button onClick={() => handleOptenItemDialog()}
+              sx={{color: getTextColor(), width: "100%"}}>
+              {item.title}
+            </Button>
+            :
+            <Link href={`/member/projects/${project.id}/items/${item.id}`}
+              style={{textDecoration: "none", color: theme.palette.text.primary}}>
+              <Typography>{item.title}</Typography>
+            </Link>
         }
-
-        // action={
-        //   (showEdit && !showForm) && (
-        //     <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-        //       <IconButton size={'small'} onClick={() => setShowForm(true) }>
-        //         <EditIcon sx={{ fontSize: '1em'}}/>
-        //       </IconButton>
-        //     </Permission>)
-        // }
-        sx={{p: showForm ? 1 : 2}}
       />
     </Card>
   )

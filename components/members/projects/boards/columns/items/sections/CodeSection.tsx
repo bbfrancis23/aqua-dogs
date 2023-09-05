@@ -109,13 +109,14 @@ export const CodeSection = (props: TextSectionProps) => {
       { !displayEditTextSectionForm && (
         <>
           <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
+
             <CodeEditor onClick={() => setDisplayEditTextSectionForm(true)}
               key={section.id} value={section.content} language="jsx" readOnly padding={15}
               style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5",
                 fontFamily: "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace" }} />
           </Permission>
           <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-            <CodeEditor onClick={() => setDisplayEditTextSectionForm(true)} key={section.id}
+            <CodeEditor key={section.id}
               value={section.content} language="jsx" readOnly padding={15}
               style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5",
                 fontFamily:"ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace" }} />

@@ -22,6 +22,7 @@ import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
 import Permission, { PermissionCodes, permission } from "@/ui/PermissionComponent";
 import { FxTheme } from "theme/globalTheme";
 import CreateColumnForm from "@/components/members/projects/boards/columns/forms/CreateColumnForm";
+import MemberItemDialog from "@/components/items/dialogs/MemberItemDialog";
 
 export interface BoardPage {
   project: Project;
@@ -71,8 +72,11 @@ export const Page = (props: BoardPage) => {
 
   const handleCloseColForm = () => setShowColForm(false)
 
+  const [itemDialogIsOpen, setItemDialogIsOpen] = useState(false)
+  const [selectedItem, setSelectedItem] = useState<null | string>('')
+
   return (
-    <ProjectContext.Provider value={{project, setProject}}>
+    <ProjectContext.Provider value={{project, setProject, setItemDialogIsOpen, setSelectedItem}}>
       <BoardContext.Provider value={{board, setBoard}}>
         <MemberContext.Provider value={{member, setMember}}>
           <Box style={{overflow: 'hidden'}}
@@ -89,6 +93,9 @@ export const Page = (props: BoardPage) => {
               </Permission>
             </Stack>
           </Box>
+          <MemberItemDialog dialogIsOpen={itemDialogIsOpen}
+            closeDialog={() => setItemDialogIsOpen(false)}
+            itemId={selectedItem}/>
         </MemberContext.Provider>
       </BoardContext.Provider>
     </ProjectContext.Provider>

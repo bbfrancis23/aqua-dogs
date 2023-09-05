@@ -73,13 +73,18 @@ export const TextSection = (props: TextSectionProps) => {
 
   const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
 
+  console.log('item', item )
+  console.log('member', member )
+
+
   return (
     <>
       {displayEditTextSectionForm && (
-        <Box sx={{ width: '100%'}}>
+        <Box sx={{ width: '100%', pt: 1, }}>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <TextField multiline rows={4} sx={{ width: '100%'}} label="Update Section"
+              <TextField multiline rows={10}
+                sx={{ width: '100%'}} label="Update Section"
                 {...getFieldProps('section')} error={Boolean(touched && errors.section)}
                 helperText={touched && errors.section} />
               <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
