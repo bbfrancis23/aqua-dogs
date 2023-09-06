@@ -122,4 +122,5 @@ export const TextSection = (props: TextSectionProps) => {
   )
 }
 
+export default TextSection
 // QA: Brian Francis 8-23-23

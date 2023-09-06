@@ -12,7 +12,7 @@ import { ItemContext } from "@/interfaces/ItemInterface";
 import { Member } from "@/interfaces/MemberInterface";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 
-import SectionStub from "../SectionStub";
+import SectionStub from "../sections/SectionStub";
 
 export interface CreateSectionFormProps {
   member: Member;

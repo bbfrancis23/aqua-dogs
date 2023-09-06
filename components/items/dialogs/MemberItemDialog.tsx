@@ -1,24 +1,23 @@
-import { CodeSection }
-  from "@/components/members/projects/boards/columns/items/sections/CodeSection"
-import CreateSectionForm
-  from "@/components/members/projects/boards/columns/items/sections/forms/CreateSectionForm"
-import { Item, ItemContext } from "@/interfaces/ItemInterface"
-import { ProjectContext } from "@/interfaces/ProjectInterface"
-import { Section } from "@/interfaces/SectionInterface"
-import DraggableDialog from "@/ui/DraggableDialog"
-import { Button, DialogActions, DialogContent, Skeleton, Stack, Typography } from "@mui/material"
-import axios from "axios"
 import { useContext, useEffect, useState } from "react"
-import ArchiveItemForm from "../ArchiveItemForm"
-import { MemberContext } from "@/interfaces/MemberInterface"
-import { TextSection }
-  from "@/components/members/projects/boards/columns/items/sections/TextSection"
+
+import { Button, DialogActions, DialogContent, Skeleton, Stack, Typography } from "@mui/material"
+
+import axios from "axios"
+
+import DraggableDialog from "@/ui/DraggableDialog"
 import Permission, { NoPermission, PermissionCodes } from "@/ui/PermissionComponent"
-import EditItemTitleForm
-  from "@/components/members/projects/boards/columns/items/forms/EditItemTitleForm"
-import { it } from "node:test"
-import { set } from "mongoose"
-import SectionStub from "@/components/members/projects/boards/columns/items/sections/SectionStub"
+
+import { Item, ItemContext } from "@/interfaces/ItemInterface"
+import { Section } from "@/interfaces/SectionInterface"
+import { ProjectContext } from "@/interfaces/ProjectInterface"
+import { MemberContext } from "@/interfaces/MemberInterface"
+
+import CodeSection from "@/components/items/sections/CodeSection"
+import CreateSectionForm from "@/components/items/forms/CreateSectionForm"
+import { TextSection } from "@/components/items/sections/TextSection"
+import EditItemTitleForm from "@/components/items/forms/EditItemTitleForm"
+import SectionStub from "@/components/items/sections/SectionStub"
+import ArchiveItemForm from "@/components/items/forms/ArchiveItemForm"
 
 
 export interface MemberItemDialogProps {
