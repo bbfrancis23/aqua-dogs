@@ -68,10 +68,6 @@ export const patchBoard = async (req: NextApiRequest, res: NextApiResponse<Patch
     board.scope = req.body.scope
   }
 
-  console.log('board: ', board)
-
-  console.log('req.body: ', req.body)
-
   try {
     await board.save()
     board = await Board.findById(boardId)

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 
-import { Button, DialogActions, DialogContent, Skeleton, Stack, Typography } from "@mui/material"
+import { Box, Button, DialogActions, DialogContent, Divider, Skeleton, Stack,
+  Typography } from "@mui/material"
 import { useSnackbar } from "notistack"
 
 import axios from "axios"
@@ -19,6 +20,8 @@ import { TextSection } from "@/components/items/sections/TextSection"
 import EditItemTitleForm from "@/components/items/forms/EditItemTitleForm"
 import ArchiveItemForm from "@/components/items/forms/ArchiveItemForm"
 import styled from "@emotion/styled"
+import { ProjectMemberAvatar } from "@/components/members/projects/ProjectMemberAvatar"
+import CreateCommentForm from "../forms/CreateCommentForm"
 
 export interface MemberItemDialogProps {
   dialogIsOpen: boolean
@@ -101,6 +104,15 @@ const MemberItemDialog = (props: MemberItemDialogProps) => {
                   return ( <TextSection project={project} section={s} member={member} key={s.id} />)
                 })}
                 <CreateSectionForm member={member} />
+                <Box sx={{width: '100%'}}>
+                  <Divider sx={{pb: 3}}>Comments</Divider>
+                  <Stack spacing={3} direction={'row'} sx={{ width: '100%'}}>
+                    <Box>
+                      <ProjectMemberAvatar type={PermissionCodes.PROJECT_MEMBER} member={member} />
+                    </Box>
+                    <CreateCommentForm member={member} />
+                  </Stack>
+                </Box>
                 <ArchiveItemForm />
               </Stack>
             </DialogContent>

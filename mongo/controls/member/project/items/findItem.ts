@@ -8,14 +8,11 @@ export const findItem = async (itemId: string) => {
   let item: any = undefined
 
   try {
-    console.log('itemId', itemId)
     item = await Item.findById(itemId).populate({
       path: 'sections',
       model: Section,
     })
     await db.disconnect()
-
-    console.log('item', item)
   } catch (e) {
     return undefined
   }
