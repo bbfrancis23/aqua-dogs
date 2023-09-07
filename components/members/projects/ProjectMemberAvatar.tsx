@@ -46,7 +46,7 @@ export const ProjectMemberAvatar = ( props: ProjectMemberAvatarProps) => {
           <Badge
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            badgeContent={<LeaderBadge sx={{ color: 'primary.dark', width: '30', height: 30}}/>} >
+            badgeContent={<LeaderBadge sx={{ color: 'primary.light', width: '30', height: 30}}/>} >
             <Avatar sx={{ fontSize: '1.25rem',
               color: 'secondary.contrastText', bgcolor: 'secondary.main', width: 40, height: 40}} >
               {getAvatar()}
@@ -60,7 +60,7 @@ export const ProjectMemberAvatar = ( props: ProjectMemberAvatarProps) => {
           <Badge
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            badgeContent={<AdminBadge sx={{ color: 'primary.dark', width: '15', height: 15}}/>} >
+            badgeContent={<AdminBadge sx={{ color: 'primary.light', width: '15', height: 15}}/>} >
             <Avatar sx={{ fontSize: '1.25rem',
               color: 'secondary.contrastText', bgcolor: 'secondary.main', width: 40, height: 40}} >
               {getAvatar()}

@@ -14,7 +14,14 @@ export const getItem = async (req: NextApiRequest, res: NextApiResponse) => {
       .json({message: 'You must be an authenticated member to access this endpoint.', item: null})
   }
 
+  console.log('getting item')
+
   const item: Item = await findItem(req.query.itemId as string)
+
+  if (!item) {
+    return res.status(axios.HttpStatusCode.NotFound).json({message: 'Item not found.', item: null})
+  }
+
   return res.status(axios.HttpStatusCode.Ok).json({message: 'success', item})
 }
 

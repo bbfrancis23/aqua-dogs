@@ -8,8 +8,6 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const {itemId} = req.query
   if (req.method === 'GET') {
     await getItem(req, res)
-    //const item: Item = await getItem(req, res)
-    //res.status(200).json({message: 'success', item})
     return
   } else if (req.method === 'PATCH') {
     await patchItem(req, res)

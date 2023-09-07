@@ -73,9 +73,6 @@ export const TextSection = (props: TextSectionProps) => {
 
   const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
 
-  console.log('item', item )
-  console.log('member', member )
-
 
   return (
     <>
