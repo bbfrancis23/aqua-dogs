@@ -8,6 +8,7 @@ import Section from '/mongo/schemas/SectionSchema'
 import Project from '/mongo/schemas/ProjectSchema'
 
 import {PermissionCodes, permission} from '/ui/PermissionComponent'
+import {findItem} from './findItem'
 
 export const patchItem = async (req, res) => {
   const {itemId} = req.query
@@ -51,12 +52,13 @@ export const patchItem = async (req, res) => {
 
         try {
           await item.save()
-          item = await Item.findById(itemId).populate({
-            path: 'sections',
-            model: Section,
-          })
+          item = await findItem(itemId)
+          // item = await Item.findById(itemId).populate({
+          //   path: 'sections',
+          //   model: Section,
+          // })
 
-          item = item.toObject({getters: true, flattenMaps: true})
+          // item = item.toObject({getters: true, flattenMaps: true})
         } catch (e) {
           console.log(e)
           status = axios.HttpStatusCode.InternalServerError

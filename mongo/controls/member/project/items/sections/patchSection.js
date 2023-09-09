@@ -11,6 +11,8 @@ import SectionType from '/mongo/schemas/SectionTypeSchema'
 
 import {PermissionCodes, permission} from '/ui/PermissionComponent'
 
+import {findItem} from '/mongo/controls/member/project/items/findItem'
+
 export const patchSection = async (req, res) => {
   const {sectionId} = req.query
   let status = axios.HttpStatusCode.Ok
@@ -62,10 +64,7 @@ export const patchSection = async (req, res) => {
 
           try {
             await section.save()
-            item = await Item.findById(section.itemid).populate({
-              path: 'sections',
-              model: Section,
-            })
+            item = await findItem(section.itemid)
           } catch (e) {
             status = axios.HttpStatusCode.InternalServerError
             message = e
@@ -87,6 +86,6 @@ export const patchSection = async (req, res) => {
   await db.disconnect()
   res.status(status).json({
     message,
-    item: item ? item.toObject({getters: true}) : undefined,
+    item,
   })
 }

@@ -15,6 +15,7 @@ import Member from '@/mongo/schemas/MemberSchema'
 import Comment from '@/mongo/schemas/CommentSchema'
 import mongoose from 'mongoose'
 import axios from 'axios'
+import {findItem} from '../findItem'
 
 export const createComment = async (req: NextApiRequest, res: NextApiResponse) => {
   const {commenttype, content} = req.body
@@ -35,7 +36,7 @@ export const createComment = async (req: NextApiRequest, res: NextApiResponse) =
     return
   }
 
-  const item = await Item.findById(itemId).populate([
+  let item = await Item.findById(itemId).populate([
     {path: 'sections', model: Section},
     {path: 'comments', model: Comment, populate: {path: 'owner', model: Member}},
   ])
@@ -67,7 +68,9 @@ export const createComment = async (req: NextApiRequest, res: NextApiResponse) =
     internalServerErrorResponse(res, 'Error creating comment')
     return
   }
+  item = await findItem(item._id)
 
+  console.log(item)
   await db.disconnect()
 
   return res.status(axios.HttpStatusCode.Ok).json({

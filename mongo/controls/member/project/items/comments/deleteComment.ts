@@ -1,14 +1,16 @@
-import {NextApiRequest, NextApiResponse} from 'next/types'
-import {getSession} from 'next-auth/react'
-
-import db from '@/mongo/db'
-import axios from 'axios'
-
 import {
   internalServerErrorResponse,
   notFoundResponse,
   unauthorizedResponse,
 } from '@/mongo/controls/responses'
+import {getSession} from 'next-auth/react'
+import {NextApiRequest, NextApiResponse} from 'next/types'
+
+import db from '@/mongo/db'
+import {ObjectId} from 'mongodb'
+import axios from 'axios'
+
+import mongoose from 'mongoose'
 
 import Project from '@/mongo/schemas/ProjectSchema'
 import Item from '@/mongo/schemas/ItemSchema'
@@ -19,11 +21,8 @@ import Member from '@/mongo/schemas/MemberSchema'
 
 import {PermissionCodes, permission} from '@/ui/PermissionComponent'
 
-/*eslint-disable */
-
-export const patchComment = async (req: NextApiRequest, res: NextApiResponse) => {
+export const deleteComment = async (req: NextApiRequest, res: NextApiResponse) => {
   const {projectId, itemId, commentId} = req.query
-  const {content, sectiontype} = req.body
 
   const authSession = await getSession({req})
   await db.connect()
@@ -88,46 +87,39 @@ export const patchComment = async (req: NextApiRequest, res: NextApiResponse) =>
     return
   }
 
+  ///////////////////////
+
+  const dbSession = await mongoose.startSession()
   try {
-    comment = await Comment.findById(commentId).populate([
-      {path: 'sectiontype', model: SectionType},
-      {path: 'owner', model: Member},
-    ])
+    dbSession.startTransaction()
+
+    await Comment.deleteOne({_id: commentId})
+
+    await item.comments.pull(comment)
+    await item.save({dbSession})
+    await dbSession.commitTransaction()
+
+    dbSession.endSession()
   } catch (e) {
+    await dbSession.abortTransaction()
+    dbSession.endSession()
     console.log(e)
-    internalServerErrorResponse(res, 'Error finding comment')
-    return
+    internalServerErrorResponse(res, 'Error deleting section')
   }
 
-  if (sectiontype) {
-    comment.sectiontype = sectiontype
-  }
-  if (content) {
-    comment.content = content
-  }
-
-  try {
-    await comment.save()
-
-    item = await Item.findById(comment.itemid).populate([
-      {
-        path: 'sections',
-        model: Section,
-      },
-      {path: 'comments', model: Comment, populate: {path: 'owner', model: Member}},
-    ])
-
-    item = await item.toObject({getters: true, flattenMaps: true})
-
-    item = JSON.stringify(item)
-    item = await JSON.parse(item)
-  } catch (e) {
-    console.log(e)
-    internalServerErrorResponse(res, 'Error creating comment')
-    return
-  }
+  ////////////////////
 
   await db.disconnect()
+
+  item = await Item.findById(itemId).populate([
+    {path: 'sections', model: Section},
+    {path: 'comments', model: Comment, populate: {path: 'owner', model: Member}},
+  ])
+
+  item = await item.toObject({getters: true, flattenMaps: true})
+
+  item = JSON.stringify(item)
+  item = await JSON.parse(item)
 
   return res.status(axios.HttpStatusCode.Ok).json({
     message: 'Comment was saved',
