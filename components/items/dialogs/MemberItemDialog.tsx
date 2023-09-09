@@ -23,6 +23,9 @@ import styled from "@emotion/styled"
 import { ProjectMemberAvatar } from "@/components/members/projects/ProjectMemberAvatar"
 import CreateCommentForm from "../forms/CreateCommentForm"
 
+import { Comment } from "@/interfaces/CommentInterface"
+import { TextComment } from "../comments/TextComment"
+
 export interface MemberItemDialogProps {
   dialogIsOpen: boolean
   closeDialog: () => void
@@ -61,6 +64,8 @@ const MemberItemDialog = (props: MemberItemDialogProps) => {
 
 
   const [showForm, setShowForm] = useState<boolean>(false)
+
+  console.log('item', item)
 
   const ItemTitle = (
     <>
@@ -106,11 +111,20 @@ const MemberItemDialog = (props: MemberItemDialogProps) => {
                 <CreateSectionForm member={member} />
                 <Box sx={{width: '100%'}}>
                   <Divider sx={{pb: 3}}>Comments</Divider>
-                  <Stack spacing={3} direction={'row'} sx={{ width: '100%'}}>
-                    <Box>
-                      <ProjectMemberAvatar type={PermissionCodes.PROJECT_MEMBER} member={member} />
-                    </Box>
-                    <CreateCommentForm member={member} />
+                  <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%'}}>
+                    { item?.comments?.map( ( c: Comment) => {
+                      console.log('grot')
+                      return (
+                        <TextComment comment={c} key={c.id} />
+                      )
+                    })}
+                    <Stack spacing={3} direction={'row'} sx={{ width: '100%'}}>
+                      <Box>
+                        <ProjectMemberAvatar
+                          type={PermissionCodes.PROJECT_MEMBER} member={member} />
+                      </Box>
+                      <CreateCommentForm member={member} />
+                    </Stack>
                   </Stack>
                 </Box>
                 <ArchiveItemForm />

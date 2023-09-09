@@ -24,7 +24,7 @@ export interface TextSectionProps {
 }
 
 const editSectionSchema = Yup.object().shape({
-  section: Yup.string().required('Section Content is required for your mom'),
+  section: Yup.string().required('Section Content is required.'),
 })
 
 export const TextSection = (props: TextSectionProps) => {

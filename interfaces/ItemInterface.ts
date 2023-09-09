@@ -1,5 +1,6 @@
 import {Dispatch, SetStateAction, createContext} from 'react'
 import {Section} from './SectionInterface'
+import {Comment} from './CommentInterface'
 
 export interface Item {
   title: string
@@ -10,6 +11,7 @@ export interface Item {
   id: string
   owners: string[]
   directioryId?: string
+  comments?: Comment[]
 }
 
 export interface ItemContextProps {
