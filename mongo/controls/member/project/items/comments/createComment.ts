@@ -42,7 +42,6 @@ export const createComment = async (req: NextApiRequest, res: NextApiResponse) =
   ])
 
   if (!item) {
-    console.log('item not found')
     notFoundResponse(res, 'Item not found')
     return
   }
@@ -69,8 +68,6 @@ export const createComment = async (req: NextApiRequest, res: NextApiResponse) =
     return
   }
   item = await findItem(item._id)
-
-  console.log(item)
   await db.disconnect()
 
   return res.status(axios.HttpStatusCode.Ok).json({

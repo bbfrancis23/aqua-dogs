@@ -64,7 +64,6 @@ export const patchBoard = async (req: NextApiRequest, res: NextApiResponse<Patch
   } else if (req.body.columns) {
     board.columns = req.body.columns
   } else if (req.body.scope) {
-    console.log('changing scope')
     board.scope = req.body.scope
   }
 

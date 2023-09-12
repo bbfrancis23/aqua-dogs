@@ -83,8 +83,6 @@ const Permission = (props: PermissionComponent) => {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
 
-  console.log('permission member', member)
-
   const [hasPermission, setHasPermission] = useState<boolean>(false);
 
   useEffect(() => {

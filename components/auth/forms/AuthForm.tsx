@@ -44,12 +44,7 @@ export default function AuthForm(props: AuthFormProps) {
         enqueueSnackbar("You are now Logged In", {variant: "success"})
       }else{
 
-        console.log('result', result)
-
         const parsedResult = JSON.parse(result?.error ? result.error : '')
-
-        console.log('result after parse', result)
-        console.log('parsedResult', parsedResult)
 
         if(parsedResult.status === axios.HttpStatusCode.Locked){
           closeDialog();

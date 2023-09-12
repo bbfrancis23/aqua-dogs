@@ -2,8 +2,6 @@ import {createComment} from 'mongo/controls/member/project/items/comments/create
 import {NextApiRequest, NextApiResponse} from 'next'
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log('comments handler')
-
   if (req.method === 'POST') {
     await createComment(req, res)
     return

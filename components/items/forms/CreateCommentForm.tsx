@@ -36,9 +36,6 @@ const CreateCommentForm = (props: CreateCommentFormProps) => {
 
   const { member} = props;
 
-
-  console.log(member)
-
   const {enqueueSnackbar} = useSnackbar()
   const {item, setItem} = useContext(ItemContext)
   const {project} = useContext(ProjectContext)
@@ -56,7 +53,6 @@ const CreateCommentForm = (props: CreateCommentFormProps) => {
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
-            // console.log(r)
             setItem(res.data.item)
             enqueueSnackbar("Item Comment Created", {variant: "success"})
             formik.resetForm()

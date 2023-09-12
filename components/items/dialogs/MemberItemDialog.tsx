@@ -66,8 +66,6 @@ const MemberItemDialog = (props: MemberItemDialogProps) => {
 
   const [showForm, setShowForm] = useState<boolean>(false)
 
-  console.log('item', item)
-
   const ItemTitle = (
     <>
       <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
