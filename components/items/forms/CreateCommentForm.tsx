@@ -35,6 +35,10 @@ const CodeEditor = dynamic(
 const CreateCommentForm = (props: CreateCommentFormProps) => {
 
   const { member} = props;
+
+
+  console.log(member)
+
   const {enqueueSnackbar} = useSnackbar()
   const {item, setItem} = useContext(ItemContext)
   const {project} = useContext(ProjectContext)
@@ -119,11 +123,14 @@ const CreateCommentForm = (props: CreateCommentFormProps) => {
       )
       }
       { ! displayForm && (
-        <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-          <Box sx={{ width: '100%', cursor: 'pointer'}} onClick={() => setDisplayForm(true)} >
-            <SectionStub />
-          </Box>
-        </Permission>
+        <>
+
+          <Permission code={PermissionCodes.MEMBER} member={member}>
+            <Box sx={{ width: '100%', cursor: 'pointer'}} onClick={() => setDisplayForm(true)} >
+              <SectionStub />
+            </Box>
+          </Permission>
+        </>
       )}
     </>
   )

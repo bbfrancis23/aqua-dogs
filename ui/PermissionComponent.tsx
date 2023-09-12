@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { ReactNode, useEffect, useState } from 'react';
 
 import { useSession } from 'next-auth/react';
@@ -25,13 +26,14 @@ export interface permissionFunction {
   comment?: Comment;
 }
 
+
 export const permission = ( props: permissionFunction): boolean => {
 
   const {code, project, member, item, comment} = props;
 
-
   if(! member) return false
 
+  if( code === PermissionCodes.MEMBER ) return true
 
   if (code === PermissionCodes.PROJECT_MEMBER) {
 
@@ -81,6 +83,7 @@ const Permission = (props: PermissionComponent) => {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
 
+  console.log('permission member', member)
 
   const [hasPermission, setHasPermission] = useState<boolean>(false);
 

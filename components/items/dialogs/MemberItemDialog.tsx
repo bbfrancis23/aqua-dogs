@@ -25,6 +25,7 @@ import CreateCommentForm from "../forms/CreateCommentForm"
 
 import { Comment } from "@/interfaces/CommentInterface"
 import { TextComment } from "../comments/TextComment"
+import { CodeComment } from "../comments/CodeComment"
 
 export interface MemberItemDialogProps {
   dialogIsOpen: boolean
@@ -113,7 +114,12 @@ const MemberItemDialog = (props: MemberItemDialogProps) => {
                   <Divider sx={{pb: 3}}>Comments</Divider>
                   <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%'}}>
                     { item?.comments?.map( ( c: Comment) => {
-                      console.log('grot')
+
+                      if(c.sectiontype === "63b88d18379a4f30bab59bad"){
+                        return (
+                          <CodeComment comment={c} key={c.id}/>
+                        )
+                      }
                       return (
                         <TextComment comment={c} key={c.id} />
                       )

@@ -4,7 +4,7 @@ import { GetServerSideProps, Redirect } from "next"
 
 import dynamic from "next/dynamic";
 
-import { getSession } from "next-auth/react"
+import { getSession, useSession } from "next-auth/react"
 
 import { findMember } from "@/mongo/controls/member/memberControls"
 
@@ -15,8 +15,12 @@ import { findItem } from "@/mongo/controls/member/project/items/findItem"
 import findMemberPublicBoard from "@/mongo/controls/member/project/board/findMemberPublicBoard"
 import { Board } from "@/interfaces/BoardInterface"
 import InfoPageLayout from "@/ui/InfoPageLayout"
-import { Stack, Typography } from "@mui/material"
+import { Box, Button, Divider, Stack, Typography } from "@mui/material"
 import { Section } from "@/interfaces/SectionInterface"
+import { Item } from "@/interfaces/ItemInterface";
+import { useEffect, useState } from "react";
+import { ProjectMemberAvatar } from "@/components/members/projects/ProjectMemberAvatar";
+import CreateCommentForm from "@/components/items/forms/CreateCommentForm";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -24,7 +28,8 @@ const CodeEditor = dynamic(
 )
 
 export interface PublicMemberItemPageProps {
-  item: any
+  item: Item
+  openAuthDialog?: () => void
 }
 const unAuthRedirect: Redirect = {destination: "/", permanent: false}
 
@@ -42,6 +47,7 @@ GetServerSideProps<PublicMemberItemPageProps> = async(context) => {
   if( typeof context.query.itemId !== "string" ) return {redirect: unAuthRedirect}
 
   const item = await findItem(context?.query?.itemId)
+
   return {props: { item}}
 
 
@@ -50,7 +56,23 @@ GetServerSideProps<PublicMemberItemPageProps> = async(context) => {
 export const PublicMemberItemPage = ( props: any) => {
 
 
-  const {item} = props
+  const {item, openAuthDialog} = props
+
+  const {data: session} = useSession()
+
+  const [member, setMember] = useState<Member | undefined>(undefined)
+
+  useEffect(() => {
+
+    if(session && session.user){
+
+      const castSession = session.user as any
+
+      setMember({id: castSession.id, name: castSession.name, email: castSession.email})
+
+    }
+
+  }, [session])
 
   return (
 
@@ -83,7 +105,31 @@ export const PublicMemberItemPage = ( props: any) => {
             {s.content}
           </Typography>)
         })}
+        <Box sx={{width: '100%'}}>
+          <Divider sx={{pb: 3}}>Comments</Divider>
 
+          {
+            member && (
+              <Stack spacing={3} direction={'row'} sx={{ width: '100%'}}>
+                <Box>
+                  <ProjectMemberAvatar
+                    type={PermissionCodes.PROJECT_MEMBER} member={member} />
+                </Box>
+                <CreateCommentForm member={member} />
+              </Stack>
+            )
+          }
+          {
+            ! member && (
+              <>
+                <Typography variant={'body1'} >Please Login or Register to comment</Typography>
+                <Button variant={'contained'}
+                  onClick={() => openAuthDialog()} >Authenticate</Button>
+              </>
+            )
+          }
+
+        </Box>
       </Stack>
     </InfoPageLayout>
   )

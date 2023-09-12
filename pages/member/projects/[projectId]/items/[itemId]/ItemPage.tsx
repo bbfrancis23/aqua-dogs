@@ -104,7 +104,6 @@ GetServerSideProps<MemberItemPageProps> = async(context) => {
     const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
 
     if(hasPermission){
-      //const item = await getItem(context.query.itemId)
 
       if( typeof context.query.itemId !== "string" ) return {redirect: unAuthRedirect}
 
