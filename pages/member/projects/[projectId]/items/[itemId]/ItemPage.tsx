@@ -2,24 +2,27 @@ import { useState } from "react"
 
 import { GetServerSideProps, Redirect } from "next"
 import { getSession } from "next-auth/react"
+
 import { Stack, Typography } from "@mui/material"
+
+import { findMember } from "@/mongo/controls/member/memberControls"
+import { findProject } from "@/mongo/controls/member/project/projectControls"
+import { findItem } from "@/mongo/controls/member/project/items/findItem"
+
+import InfoPageLayout from "@/ui/InfoPageLayout"
+import Permission, { NoPermission, PermissionCodes, permission } from "@/ui/PermissionComponent"
 
 import { Project, ProjectContext } from "@/interfaces/ProjectInterface"
 import { Member, MemberContext } from "@/interfaces/MemberInterface"
 import { Item, ItemContext } from "@/interfaces/ItemInterface"
 
-
-import EditItemTitleForm from "@/itemComponents/forms/EditItemTitleForm"
-import CreateSectionForm from "@/itemComponents/sections/forms/CreateSectionForm"
-import { TextSection } from "@/itemComponents/sections/TextSection"
-import { CodeSection } from "@/itemComponents/sections/CodeSection"
 import { Section } from "@/interfaces/SectionInterface"
-import { findMember } from "@/mongo/controls/member/memberControls"
-import { findProject } from "@/mongo/controls/member/project/projectControls"
-import InfoPageLayout from "@/ui/InfoPageLayout"
-import ArchiveItemForm from "@/components/items/ArchiveItemForm"
-import Permission, { NoPermission, PermissionCodes, permission } from "@/ui/PermissionComponent"
-import { findItem } from "@/mongo/controls/member/project/items/findItem"
+
+import EditItemTitleForm from "@/components/items/forms/EditItemTitleForm"
+import CreateSectionForm from "@/components/items/forms/CreateSectionForm"
+import TextSection from "@/components/items/sections/TextSection"
+import CodeSection from "@/components/items/sections/CodeSection"
+import ArchiveItemForm from "@/components/items/forms/ArchiveItemForm"
 
 
 export interface MemberItemPageProps {
@@ -101,7 +104,6 @@ GetServerSideProps<MemberItemPageProps> = async(context) => {
     const hasPermission = permission({code: PermissionCodes.PROJECT_MEMBER, member, project})
 
     if(hasPermission){
-      //const item = await getItem(context.query.itemId)
 
       if( typeof context.query.itemId !== "string" ) return {redirect: unAuthRedirect}
 

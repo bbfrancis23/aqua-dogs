@@ -1,28 +1,27 @@
-import { useContext, useState } from "react";
-
-import { Box, IconButton } from "@mui/material";
-
+import { useContext, useState } from "react"
 import dynamic from "next/dynamic"
 
-import axios from "axios";
-import { Form, FormikProvider, useFormik } from "formik";
-import { useSnackbar } from "notistack";
-import CheckIcon from '@mui/icons-material/Check';
-import CancelIcon from '@mui/icons-material/Cancel';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, IconButton } from "@mui/material"
+import { useSnackbar } from "notistack"
+import CheckIcon from '@mui/icons-material/Check'
+import CancelIcon from '@mui/icons-material/Cancel'
+import DeleteIcon from '@mui/icons-material/Delete'
 
-import { ItemContext } from "@/interfaces/ItemInterface";
-import { Member } from "@/interfaces/MemberInterface";
-import { Project } from "@/interfaces/ProjectInterface";
-import { Section } from "@/interfaces/SectionInterface";
+import axios from "axios"
+import { Form, FormikProvider, useFormik } from "formik"
+import * as Yup from "yup"
+
+import Permission, { NoPermission, PermissionCodes } from "@/ui/PermissionComponent"
+
+import { ItemContext } from "@/interfaces/ItemInterface"
+import { Member } from "@/interfaces/MemberInterface"
+import { Project } from "@/interfaces/ProjectInterface"
+import { Section } from "@/interfaces/SectionInterface"
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
   {ssr: false}
 )
-
-import * as Yup from "yup"
-import Permission, { NoPermission, PermissionCodes } from "@/ui/PermissionComponent";
 
 export interface TextSectionProps {
   member: Member;
@@ -127,4 +126,5 @@ export const CodeSection = (props: TextSectionProps) => {
   )
 }
 
+export default CodeSection
 // QA Brian Francis 8-23-23

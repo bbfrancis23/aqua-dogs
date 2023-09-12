@@ -8,6 +8,7 @@ const itemSchema = new mongoose.Schema({
   owners: [{type: mongoose.Types.ObjectId, required: false, ref: 'members'}],
   scope: {type: String},
   archive: {type: Boolean, required: true, default: false},
+  comments: [{type: mongoose.Types.ObjectId, required: false, ref: 'comments'}],
 })
 
 const Item = mongoose.models.items || mongoose.model('items', itemSchema)

@@ -43,8 +43,6 @@ const ArchiveColumnForm = (props: ArchiveColumnProps) => {
             .then((res) => {
               enqueueSnackbar(`Archived ${column.title}`, {variant: "success"})
 
-              console.log(res.data.board)
-
               setBoard(res.data.board)
 
             //router.push(`/member/projects/${project.id}`)

@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { ReactNode, useEffect, useState } from 'react';
 
 import { useSession } from 'next-auth/react';
@@ -6,11 +7,14 @@ import { Member } from '@/interfaces/MemberInterface';
 import { Project } from '@/interfaces/ProjectInterface';
 import { Item } from '@/interfaces/ItemInterface';
 
+import { Comment } from '@/interfaces/CommentInterface';
+
 export enum PermissionCodes {
   PROJECT_LEADER = 'ProjectLeader',
   PROJECT_ADMIN = 'ProjectAdmin',
   PROJECT_MEMBER = 'ProjectMember',
   ITEM_OWNER = 'ItemOwner',
+  COMMENT_OWNER = 'CommentOwner',
   MEMBER = 'Member',
 }
 
@@ -19,15 +23,17 @@ export interface permissionFunction {
   project?: Project;
   member?: Member;
   item?: Item;
+  comment?: Comment;
 }
+
 
 export const permission = ( props: permissionFunction): boolean => {
 
-  const {code, project, member, item} = props;
-
+  const {code, project, member, item, comment} = props;
 
   if(! member) return false
 
+  if( code === PermissionCodes.MEMBER ) return true
 
   if (code === PermissionCodes.PROJECT_MEMBER) {
 
@@ -55,6 +61,11 @@ export const permission = ( props: permissionFunction): boolean => {
     if(item.owners?.find( (o) => o === member.id)) return true
   }
 
+  if(code === PermissionCodes.COMMENT_OWNER){
+    if(!comment) return false
+    if(comment.owner.id === member.id) return true
+  }
+
   return false;
 };
 
@@ -64,10 +75,11 @@ export interface PermissionComponent {
   project?: Project;
   member?: Member;
   item?: Item;
+  comment?: Comment;
 }
 
 const Permission = (props: PermissionComponent) => {
-  const { code, project, member, children, item } = props;
+  const { code, project, member, children, item, comment } = props;
   const { data: session, status } = useSession();
   const loading = status === 'loading';
 
@@ -76,15 +88,15 @@ const Permission = (props: PermissionComponent) => {
   useEffect(() => {
     setHasPermission(false);
 
-    setHasPermission(permission({code, member, project, item}));
-  }, [session, code, project, member, item]);
+    setHasPermission(permission({code, member, project, item, comment}));
+  }, [session, code, project, member, item, comment]);
 
   return <>{hasPermission && !loading && children}</>;
 };
 
 export const NoPermission = (props: PermissionComponent) => {
 
-  const { code, project, member, children, item } = props;
+  const { code, project, member, children, item, comment } = props;
   const { data: session, status } = useSession();
   const loading = status === 'loading';
 
@@ -93,8 +105,8 @@ export const NoPermission = (props: PermissionComponent) => {
   useEffect(() => {
     setHasPermission(false);
 
-    setHasPermission(permission({code, member, project, item}));
-  }, [session, code, project, member, item]);
+    setHasPermission(permission({code, member, project, item, comment}));
+  }, [session, code, project, member, item, comment]);
 
   return ( <>{ (!hasPermission && !loading ) && children}</> )
 }

@@ -24,7 +24,7 @@ export interface TextSectionProps {
 }
 
 const editSectionSchema = Yup.object().shape({
-  section: Yup.string().required('Section Content is required for your mom'),
+  section: Yup.string().required('Section Content is required.'),
 })
 
 export const TextSection = (props: TextSectionProps) => {
@@ -73,9 +73,6 @@ export const TextSection = (props: TextSectionProps) => {
 
   const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
 
-  console.log('item', item )
-  console.log('member', member )
-
 
   return (
     <>
@@ -122,4 +119,5 @@ export const TextSection = (props: TextSectionProps) => {
   )
 }
 
+export default TextSection
 // QA: Brian Francis 8-23-23

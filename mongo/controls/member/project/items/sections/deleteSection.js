@@ -66,6 +66,7 @@ export const deleteSection = async (req, res) => {
               path: 'sections',
               model: Section,
             })
+            dbSession.endSession()
           } catch (e) {
             await dbSession.abortTransaction()
             dbSession.endSession()

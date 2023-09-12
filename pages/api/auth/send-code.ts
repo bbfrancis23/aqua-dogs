@@ -85,8 +85,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         console.error('error sendMail', err)
         reject(err)
       } else {
-        console.log('success email sent')
-        console.log(info)
         resolve(info)
       }
     })
