@@ -16,6 +16,7 @@ import { BoardContext } from "@/interfaces/BoardInterface";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 
 import ItemStub from "../ItemStub";
+import { LoadingButton } from "@mui/lab";
 
 export interface CreateItemFormProps{
   column: Column;
@@ -82,11 +83,11 @@ const CreateItemForm = (props: CreateItemFormProps) => {
               sx={{width: 140}}
             />
             <Box>
-              <IconButton color="success" disabled={!(isValid && formik.dirty)}
-                type="submit"
-                sx={{ml: 1, }} >
+              <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+                type="submit" loading={isSubmitting} sx={{minWidth: '0', pl: 2}} >
                 <DoneIcon />
-              </IconButton>
+              </LoadingButton>
+
               <IconButton onClick={() => handleCloseForm()}>
                 <CloseIcon />
               </IconButton>

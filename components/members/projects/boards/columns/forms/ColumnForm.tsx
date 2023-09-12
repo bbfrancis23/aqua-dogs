@@ -14,6 +14,7 @@ import { useSnackbar } from 'notistack'
 import { FxTheme } from 'theme/globalTheme'
 import Permission, { PermissionCodes, NoPermission } from '@/ui/PermissionComponent';
 import { MemberContext } from '@/interfaces/MemberInterface';
+import { LoadingButton } from '@mui/lab';
 
 interface ColumnFormProps {
   column: Column
@@ -79,16 +80,16 @@ export const ColumnForm = (props: ColumnFormProps) => {
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <Box sx={{ ml: 1, display: 'flex'}}>
-              <TextField size={'small'} label="New Item" {...getFieldProps('title')}
+              <TextField size={'small'} label="New Column" {...getFieldProps('title')}
                 error={Boolean(touched && errors.title)} helperText={touched && errors.title}
                 sx={{width: 140}}
               />
               <Box>
-                <IconButton color="success" disabled={!(isValid && formik.dirty)}
-                  type="submit"
-                  sx={{ml: 1, }} >
+
+                <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+                  type="submit" loading={isSubmitting} sx={{minWidth: '0', pl: 2}} >
                   <DoneIcon />
-                </IconButton>
+                </LoadingButton>
                 <IconButton onClick={() => handleCloseForm()}>
                   <CloseIcon />
                 </IconButton>

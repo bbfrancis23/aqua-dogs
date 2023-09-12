@@ -27,6 +27,7 @@ import "@uiw/react-textarea-code-editor/dist.css"
 import axios from "axios";
 import { Form, FormikProvider, useFormik } from "formik";
 import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
+import { LoadingButton } from "@mui/lab";
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
   {ssr: false}
@@ -105,9 +106,10 @@ const CreateSectionForm = (props: CreateSectionFormProps) => {
                 />
               ) }
               <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                <IconButton color="success" type="submit" disabled={!(isValid && formik.dirty)}>
+                <LoadingButton color="success" disabled={!(isValid && formik.dirty)} type="submit"
+                  loading={isSubmitting} sx={{minWidth: '0', pl: 1}} >
                   <CheckIcon />
-                </IconButton>
+                </LoadingButton>
                 <IconButton onClick={() => setDisplayForm(false)}>
                   <CancelIcon />
                 </IconButton>

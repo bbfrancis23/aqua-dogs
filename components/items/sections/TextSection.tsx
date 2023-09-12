@@ -16,6 +16,7 @@ import { Section } from "@/interfaces/SectionInterface";
 
 import * as Yup from "yup"
 import Permission, { NoPermission, PermissionCodes } from "@/ui/PermissionComponent";
+import { LoadingButton } from "@mui/lab";
 
 export interface TextSectionProps {
   member: Member;
@@ -35,18 +36,6 @@ export const TextSection = (props: TextSectionProps) => {
   const {enqueueSnackbar} = useSnackbar()
 
   const [displayEditTextSectionForm, setDisplayEditTextSectionForm] = useState<boolean>(false)
-
-  const handleDeleteSection = () => {
-
-    axios.delete(`/api/members/projects/${project?.id}/items/${item?.id}/sections/${section.id}`)
-      .then((res) => {
-        setItem(res.data.item)
-        enqueueSnackbar("Item Section Deleted", {variant: "success"})
-      })
-      .catch((e) => {
-        enqueueSnackbar(e.response.data.message, {variant: "error"})
-      })
-  }
 
 
   const formik = useFormik({
@@ -71,6 +60,20 @@ export const TextSection = (props: TextSectionProps) => {
     }
   })
 
+  const handleDeleteSection = () => {
+    formik.setSubmitting(true)
+    axios.delete(`/api/members/projects/${project?.id}/items/${item?.id}/sections/${section.id}`)
+      .then((res) => {
+        setItem(res.data.item)
+        enqueueSnackbar("Item Section Deleted", {variant: "success"})
+        formik.setSubmitting(false)
+      })
+      .catch((e) => {
+        enqueueSnackbar(e.response.data.message, {variant: "error"})
+        formik.setSubmitting(false)
+      })
+  }
+
   const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
 
 
@@ -85,15 +88,18 @@ export const TextSection = (props: TextSectionProps) => {
                 {...getFieldProps('section')} error={Boolean(touched && errors.section)}
                 helperText={touched && errors.section} />
               <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                <IconButton color="success" type="submit" disabled={!(isValid && formik.dirty)}>
+                <LoadingButton color="success" disabled={!(isValid && formik.dirty)} type="submit"
+                  loading={isSubmitting} sx={{minWidth: '0', pl: 1}} >
                   <CheckIcon />
-                </IconButton>
-                <IconButton onClick={() => setDisplayEditTextSectionForm(false)}>
+                </LoadingButton>
+                <IconButton onClick={() => setDisplayEditTextSectionForm(false)}
+                  sx={{minWidth: '0', pl: 1}}>
                   <CancelIcon />
                 </IconButton>
-                <IconButton onClick={() => handleDeleteSection()}>
-                  <DeleteIcon color={'error'}/>
-                </IconButton>
+                <LoadingButton sx={{minWidth: '0', pl: 1}} loading={isSubmitting}
+                  onClick={() => handleDeleteSection()}>
+                  { isSubmitting ? '' : <DeleteIcon color={'error'}/>}
+                </LoadingButton>
               </Box>
             </Form>
           </FormikProvider>

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { useContext, useState } from "react";
 import { Box, IconButton, Stack, TextField, Typography } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
@@ -15,6 +16,7 @@ import axios from "axios";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 import { ItemContext } from "@/interfaces/ItemInterface";
 import { useSnackbar } from "notistack";
+import { LoadingButton } from "@mui/lab";
 
 export interface TextCommentProps {
   comment: Comment;
@@ -34,17 +36,6 @@ export const TextComment = (props: TextCommentProps) => {
 
   const [displayEditTextCommentForm, setDisplayEditTextCommentForm] = useState<boolean>(false)
 
-  const handleDeleteComment = () => {
-
-    axios.delete(`/api/members/projects/${project?.id}/items/${item?.id}/comments/${comment.id}`)
-      .then((res) => {
-        setItem(res.data.item)
-        enqueueSnackbar("Comment Deleted", {variant: "success"})
-      })
-      .catch((e) => {
-        enqueueSnackbar(e.response.data.message, {variant: "error"})
-      })
-  }
 
   const formik = useFormik({
     initialValues: { comment: comment.content },
@@ -68,6 +59,21 @@ export const TextComment = (props: TextCommentProps) => {
     }
   })
 
+  const handleDeleteComment = () => {
+    formik.setSubmitting(true)
+
+    axios.delete(`/api/members/projects/${project?.id}/items/${item?.id}/comments/${comment.id}`)
+      .then((res) => {
+        setItem(res.data.item)
+        enqueueSnackbar("Comment Deleted", {variant: "success"})
+        formik.setSubmitting(false)
+      })
+      .catch((e) => {
+        enqueueSnackbar(e.response.data.message, {variant: "error"})
+        formik.setSubmitting(false)
+      })
+  }
+
   const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
 
   return (
@@ -86,15 +92,18 @@ export const TextComment = (props: TextCommentProps) => {
                     {...getFieldProps('comment')} error={Boolean(touched && errors.comment)}
                     helperText={touched && errors.comment} />
                   <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <IconButton color="success" type="submit" disabled={!(isValid && formik.dirty)}>
+                    <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+                      type="submit" loading={isSubmitting} sx={{minWidth: '0', pl: 1}} >
                       <CheckIcon />
-                    </IconButton>
-                    <IconButton onClick={() => setDisplayEditTextCommentForm(false)}>
+                    </LoadingButton>
+                    <IconButton onClick={() => setDisplayEditTextCommentForm(false)}
+                      sx={{minWidth: '0', pl: 1}}>
                       <CancelIcon />
                     </IconButton>
-                    <IconButton onClick={() => handleDeleteComment()}>
-                      <DeleteIcon color={'error'}/>
-                    </IconButton>
+                    <LoadingButton sx={{minWidth: '0', pl: 1}} loading={isSubmitting}
+                      onClick={() => handleDeleteComment()}>
+                      { isSubmitting ? '' : <DeleteIcon color={'error'}/>}
+                    </LoadingButton>
                   </Box>
                 </Form>
               </FormikProvider>
