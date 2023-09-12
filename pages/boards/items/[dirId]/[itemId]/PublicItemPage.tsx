@@ -32,8 +32,6 @@ export const PublicItemPage = ( props: PublicItemPageProps) => {
 
   const {item, openAuthDialog} = props
 
-  console.log(props)
-
 
   const {data: session} = useSession()
 
