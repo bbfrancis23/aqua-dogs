@@ -2,9 +2,7 @@ import { Item } from "@/interfaces/ItemInterface"
 
 import {findProjectItems} from "@/mongo/controls/member/project/items/findProjectItems"
 
-import { getSession, useSession } from "next-auth/react"
-
-import { findMember } from "@/mongo/controls/member/memberControls"
+import { useSession } from "next-auth/react"
 
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { Section } from "@/interfaces/SectionInterface";
@@ -12,11 +10,10 @@ import dynamic from "next/dynamic";
 import InfoPageLayout from "@/ui/InfoPageLayout";
 import { findItem } from "@/mongo/controls/member/project/items/findItem";
 import { ProjectMemberAvatar } from "@/components/members/projects/ProjectMemberAvatar";
-import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
+import { PermissionCodes } from "@/ui/PermissionComponent";
 import { Member } from "@/interfaces/MemberInterface";
 import CreateCommentForm from "@/components/items/forms/CreateCommentForm";
 import { useEffect, useState } from "react";
-import { set } from "mongoose";
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
   {ssr: false}
