@@ -15,6 +15,7 @@ import { BoardContext } from "@/interfaces/BoardInterface"
 import ColumnStub from "../ColStub";
 
 import { FxTheme } from "theme/globalTheme";
+import { LoadingButton } from "@mui/lab";
 
 const createColSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
@@ -79,11 +80,15 @@ export const CreateColumnForm = () => {
                 sx={{width: 140}}
               />
               <Box>
-                <IconButton color="success" disabled={!(isValid && formik.dirty)}
+                {/* <IconButton color="success" disabled={!(isValid && formik.dirty)}
                   type="submit"
                   sx={{ml: 1, }} >
                   <DoneIcon />
-                </IconButton>
+                </IconButton> */}
+                <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+                  type="submit" loading={isSubmitting} sx={{minWidth: '0', pl: 2}} >
+                  <DoneIcon />
+                </LoadingButton>
                 <IconButton onClick={() => handleCloseForm()}>
                   <CloseIcon />
                 </IconButton>

@@ -1,34 +1,36 @@
-import db from '/mongo/db';
+import db from '/mongo/db'
 
-import Board from '/mongo/schemas/BoardSchema';
+import Board from '/mongo/schemas/BoardSchema'
 // import Project from '/mongo/schemas/ProjectSchema';
 
-import Column from '/mongo/schemas/ColumnSchema';
-import Item from '/mongo/schemas/ItemSchema';
+import Column from '/mongo/schemas/ColumnSchema'
+import Item from '/mongo/schemas/ItemSchema'
 
-import Section from '/mongo/schemas/SectionSchema';
+import Section from '/mongo/schemas/SectionSchema'
 
 export const findProjectItems = async (projectId) => {
-  let items = [];
+  let items = []
 
-  await db.connect();
+  await db.connect()
 
-  const boards = await Board.find({ project: projectId }).populate({
+  const boards = await Board.find({project: projectId}).populate({
     path: 'columns',
-    populate: { path: 'items', model: Item },
-  });
+    match: {archive: {$ne: true}},
+    model: Column,
+    populate: {path: 'items', match: {archive: {$ne: true}}, model: Item},
+  })
 
   boards.forEach((b) => {
     b.columns.forEach((c) => {
-      items = items.concat(c.items);
-    });
-  });
+      items = items.concat(c.items)
+    })
+  })
 
-  items = await JSON.stringify(items);
-  items = await JSON.parse(items);
-  await db.disconnect();
+  items = await JSON.stringify(items)
+  items = await JSON.parse(items)
+  await db.disconnect()
 
-  return items;
-};
+  return items
+}
 
-export default findProjectItems;
+export default findProjectItems
