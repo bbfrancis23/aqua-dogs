@@ -76,19 +76,19 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-      const handleStart = (url: any) => (url !== router.asPath) && setLoading(true);
-      const handleComplete = (url: any) => (url === router.asPath) && setLoading(false);
+      //const handleStart = (url: any) => setLoading(true);
+      //const handleComplete = (url: any) => setLoading(false);
 
       
-      router.events.on('routeChangeStart', handleStart)
-      router.events.on('routeChangeComplete', handleComplete)
-      router.events.on('routeChangeError', handleComplete)
+      router.events.on('routeChangeStart', () => setLoading(true))
+      router.events.on('routeChangeComplete', () => setLoading(false))
+      router.events.on('routeChangeError', () => setLoading(false))
 
-      return () => {
-        router.events.off('routeChangeStart', handleStart)
-        router.events.off('routeChangeComplete', handleComplete)
-        router.events.off('routeChangeError', handleComplete)
-      }
+      // return () => {
+      //   router.events.off('routeChangeStart', handleStart)
+      //   router.events.off('routeChangeComplete', handleComplete)
+      //   router.events.off('routeChangeError', handleComplete)
+      // }
     },[router])
   
     // console.log('loading', loading)
