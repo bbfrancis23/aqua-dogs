@@ -28,13 +28,15 @@ import ForgotPasswordDialog from "@/components/auth/dialogs/ForgotPasswordDialog
 import {appMenuItems} from "../data/appMenuItems"
 
 import '../styles/globals.css'
+import { useRouter } from "next/router"
+import Loading from "./Loading"
 
 export interface UpdateThemeOptionsProps {
   palette: FxPaletteOptions
   name?: string
   mode?: string
 }
-
+/* eslint-disable */
 export default function App({Component, pageProps: {session, ...pageProps},}: AppProps) {
 
   const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)
@@ -69,6 +71,28 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
     setTheme(createFxTheme(themeOptions ? (JSON.parse(themeOptions)) : appThemes[0]))
   }, [])
 
+    const router = useRouter();
+
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+      const handleStart = (url: any) => (url !== router.asPath) && setLoading(true);
+      const handleComplete = (url: any) => (url === router.asPath) && setLoading(false);
+
+      router.events.on('routeChangeStart', handleStart)
+      router.events.on('routeChangeComplete', handleComplete)
+      router.events.on('routeChangeError', handleComplete)
+
+      return () => {
+        router.events.off('routeChangeStart', handleStart)
+        router.events.off('routeChangeComplete', handleComplete)
+        router.events.off('routeChangeError', handleComplete)
+      }
+    })
+  
+
+
+
   return(
     <SessionProvider session={session} refetchInterval={5 * 60}>
       <ThemeProvider theme={theme}>
@@ -97,7 +121,11 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
                 </IconButton>
               </Toolbar>
             </AppBar>
-            <Component {...pageProps} openAuthDialog={ () => setAuthDialogIsOpen(true)} />
+           {
+            loading ? <Loading /> :  <Component {...pageProps} openAuthDialog={ () => setAuthDialogIsOpen(true)} />
+           }
+           
+           
             <SettingsDialog updateFx={handleUpdateTheme} dialogIsOpen={settingsDialogIsOpen}
               closeDialog={ () => setSettingsDialogIsOpen(false)} />
             <AuthDialog dialogIsOpen={authDialogIsOpen}

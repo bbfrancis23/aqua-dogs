@@ -12,7 +12,9 @@ export const PublicBoardPage = ( props: {board: Board}) => {
 
   const theme: FxTheme = useTheme()
 
+
   const {board} = props
+  console.log(board)
   return (
     <>
       <Typography variant="h4"
@@ -29,7 +31,7 @@ export const PublicBoardPage = ( props: {board: Board}) => {
                 />
                 <CardContent sx={{ paddingBottom: "0px"}}>
                   { c.items && c?.items.map( (i: Item) => (
-                    <Box sx={{ pb: 1}} key={c.id}>
+                    <Box sx={{ pb: 1}} key={i.id}>
                       <Typography key={i.id}
                         sx={{pl: 1, '&:hover': {backgroundColor: 'action.hover'}}}>
                         <Link
