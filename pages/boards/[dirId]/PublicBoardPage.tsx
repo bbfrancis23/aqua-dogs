@@ -14,7 +14,6 @@ export const PublicBoardPage = ( props: {board: Board}) => {
 
 
   const {board} = props
-  console.log(board)
   return (
     <>
       <Typography variant="h4"
