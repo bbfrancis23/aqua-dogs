@@ -79,6 +79,7 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
       const handleStart = (url: any) => (url !== router.asPath) && setLoading(true);
       const handleComplete = (url: any) => (url === router.asPath) && setLoading(false);
 
+      
       router.events.on('routeChangeStart', handleStart)
       router.events.on('routeChangeComplete', handleComplete)
       router.events.on('routeChangeError', handleComplete)
@@ -123,9 +124,9 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
               </Toolbar>
             </AppBar>
            {
-            loading ? <Loading /> :  <Component {...pageProps} openAuthDialog={ () => setAuthDialogIsOpen(true)} />
+            loading ? <Loading /> :  <></>
            }
-           
+           <Component {...pageProps} openAuthDialog={ () => setAuthDialogIsOpen(true)} />
            
             <SettingsDialog updateFx={handleUpdateTheme} dialogIsOpen={settingsDialogIsOpen}
               closeDialog={ () => setSettingsDialogIsOpen(false)} />

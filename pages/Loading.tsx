@@ -16,7 +16,7 @@ export default function Loading() {
   //   </InfoPageLayout>
   // )
 
-  const [progress, setProgress] = useState(0);
+  // const [progress, setProgress] = useState(0);
 
 
   return (
