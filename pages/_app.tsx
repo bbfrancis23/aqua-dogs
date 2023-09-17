@@ -89,7 +89,7 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
         router.events.off('routeChangeComplete', handleComplete)
         router.events.off('routeChangeError', handleComplete)
       }
-    })
+    },[router])
   
     // console.log('loading', loading)
 
