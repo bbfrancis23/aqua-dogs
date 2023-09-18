@@ -4,7 +4,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import { signOut, getSession} from "next-auth/react"
 import { useRouter } from "next/router"
 
-import {Button, Stack, Typography, Grid } from "@mui/material"
+import {Button, Stack, Typography, Grid, useTheme } from "@mui/material"
 import {useSnackbar} from "notistack"
 
 import { Project } from "@/interfaces/ProjectInterface"
@@ -18,6 +18,8 @@ import EmailForm from "@/components/members/EmailForm"
 import ProjectStub from "@/components/members/projects/ProjectStub"
 import InfoPageLayout from "@/ui/InfoPageLayout"
 import CreateProjectForm from "@/components/members/projects/forms/CreateProjectForm"
+import Link from "next/link"
+import { FxTheme } from "theme/globalTheme"
 
 export type MemberPage = { member: Member, projects: Project[]}
 
@@ -60,6 +62,7 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 
   }
 
+  const theme: FxTheme = useTheme()
   const handleCloseChangePasswordForm = () => { setShowChangePasswordForm(false) }
 
   return (
@@ -101,6 +104,8 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
             </Button>
           </Grid>
         </Grid>
+        <Link href={'/privacy-policy'}
+          style={{textDecoration: "none", color: theme.palette.text.primary}} >Privacy Policy</Link>
       </Stack>
     </InfoPageLayout>
   )

@@ -32,43 +32,55 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
   const theme: FxTheme = useTheme()
 
   return (
-    <Box sx={{ p: theme.defaultPadding}}>
-      <Grid container spacing={theme.defaultPadding}>
-        { boards.map( (b: Board) => (
-          <Grid item xs={12} md={6} lg={4} key={b.id}>
-            <Card >
-              <Link href={`/boards/${b.title.toLowerCase().replace(/ /g, '')}`}
-                style={{textDecoration: "none"}} >
-                <CardHeader title={ <CategoryHeader title={b.title} />}
-                  sx={{bgcolor: "secondary.main", color: "secondary.contrastText"}} />
-              </Link>
-              <CardContent style={{height: "175px", overflow: "auto", paddingBottom: "0px"}}>
-                {b?.columns.map( (c: Column) => (
-                  <Box sx={{ pb: 1}} key={c.id}>
-                    <Typography variant={'h3'} sx={{ fontSize: '16px', fontWeight: '500'}} >
-                      {c.title}
-                    </Typography>
-                    { c.items && c?.items.map( (i: Item) => (
-                      <Typography key={i.id}
-                        sx={{pl: 1, '&:hover': {backgroundColor: 'action.hover'}}}>
-                        <Link
-                          // eslint-disable-next-line max-len
-                          href={`/boards/items/${i.title.toLocaleLowerCase().trim().replace(/ /g, '-')}/${i.id}`}
-                          style={{textDecoration: "none", color: theme.palette.text.primary}} >
-                          {i.title}
-                        </Link>
+    <>
+      <Box sx={{ p: theme.defaultPadding}}>
+        <Grid container spacing={theme.defaultPadding}>
+          { boards.map( (b: Board) => (
+            <Grid item xs={12} md={6} lg={4} key={b.id}>
+              <Card >
+                <Link href={`/boards/${b.title.toLowerCase().replace(/ /g, '')}`}
+                  style={{textDecoration: "none"}} >
+                  <CardHeader title={ <CategoryHeader title={b.title} />}
+                    sx={{bgcolor: "secondary.main", color: "secondary.contrastText"}} />
+                </Link>
+                <CardContent style={{height: "175px", overflow: "auto", paddingBottom: "0px"}}>
+                  {b?.columns.map( (c: Column) => (
+                    <Box sx={{ pb: 1}} key={c.id}>
+                      <Typography variant={'h3'} sx={{ fontSize: '16px', fontWeight: '500'}} >
+                        {c.title}
                       </Typography>
-                    )) }
-                    { !c.items.length && ( <Typography>Comming soon.</Typography>) }
-                  </ Box>
-                ))}
-                { b.columns.length < 1 && ( <Typography>Comming soon.</Typography>) }
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+                      { c.items && c?.items.map( (i: Item) => (
+                        <Typography key={i.id}
+                          sx={{pl: 1, '&:hover': {backgroundColor: 'action.hover'}}}>
+                          <Link
+                          // eslint-disable-next-line max-len
+                            href={`/boards/items/${i.title.toLocaleLowerCase().trim().replace(/ /g, '-')}/${i.id}`}
+                            style={{textDecoration: "none", color: theme.palette.text.primary}} >
+                            {i.title}
+                          </Link>
+                        </Typography>
+                      )) }
+                      { !c.items.length && ( <Typography>Comming soon.</Typography>) }
+                    </ Box>
+                  ))}
+                  { b.columns.length < 1 && ( <Typography>Comming soon.</Typography>) }
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+      <Box sx={{ display: 'flex', height: '25px',
+        color: 'secondary.constrastText',
+        justifyContent: 'center',
+        width: '100%',
+        borderTop: '1px solid',
+        borderColor: theme.palette.divider}} >
+        <Link href={'/privacy-policy'}
+          style={{textDecoration: "none", color: theme.palette.text.primary}} >Privacy Policy</Link>
+      </Box>
+    </>
+
   )
 }
 
