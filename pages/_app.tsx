@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import {SessionProvider} from "next-auth/react"
 
-import { CssBaseline, ThemeProvider, AppBar, Toolbar, Typography, Box,
+import { CssBaseline, ThemeProvider, AppBar, Toolbar, Box, alpha,
   IconButton} from "@mui/material"
 import {ConfirmProvider} from "material-ui-confirm"
 import SettingsIcon from "@mui/icons-material/Settings"
@@ -75,20 +75,10 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
 
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-      //const handleStart = (url: any) => setLoading(true);
-      //const handleComplete = (url: any) => setLoading(false);
-
-      
+    useEffect(() => {      
       router.events.on('routeChangeStart', () => setLoading(true))
       router.events.on('routeChangeComplete', () => setLoading(false))
       router.events.on('routeChangeError', () => setLoading(false))
-
-      // return () => {
-      //   router.events.off('routeChangeStart', handleStart)
-      //   router.events.off('routeChangeComplete', handleComplete)
-      //   router.events.off('routeChangeError', handleComplete)
-      // }
     },[router])
   
     // console.log('loading', loading)
@@ -121,12 +111,21 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
                   color="inherit" onClick={ () => setSettingsDialogIsOpen(true)} >
                   <SettingsIcon />
                 </IconButton>
-              </Toolbar>
+              </Toolbar> {
+              loading ? <Loading /> :  <></>
+            }
             </AppBar>
-           {
-            loading ? <Loading /> :  <></>
-           }
-           <Component {...pageProps} openAuthDialog={ () => setAuthDialogIsOpen(true)} />
+           
+           
+            <Box>
+              
+
+
+              <Component {...pageProps} openAuthDialog={ () => setAuthDialogIsOpen(true)} />
+
+             
+              
+            </Box>
            
             <SettingsDialog updateFx={handleUpdateTheme} dialogIsOpen={settingsDialogIsOpen}
               closeDialog={ () => setSettingsDialogIsOpen(false)} />
