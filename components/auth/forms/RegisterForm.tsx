@@ -12,6 +12,7 @@ import { FxTheme } from "theme/globalTheme"
 import AuthSchema from "../AuthFormSchema"
 
 import {EmailTextField, PasswordTextField} from "../AuthTextFields"
+import Link from "next/link"
 
 interface RegisterFormProps{
   closeDialog: () => void;
@@ -51,7 +52,7 @@ export default function RegisterForm(props: RegisterFormProps) {
 
   const closeForm = () => { formik.resetForm(); closeDialog(); setFormError("") }
 
-
+  const theme: FxTheme = useTheme()
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -75,6 +76,19 @@ export default function RegisterForm(props: RegisterFormProps) {
           <Button onClick={() => startAuth()} color={'inherit'} sx={{ width: '100%'}}>
               Login Existing Member
           </Button>
+          <Stack direction={'row'} spacing={1} sx={{p: 1, justifyContent: 'center', width: '100%'}}>
+
+            <Link href={'/privacy-policy'}
+              style={{textDecoration: "none", color: theme.palette.text.primary,
+                fontSize: '12px'}} >
+              Privacy Policy
+            </Link>
+            <Link href={'/terms-of-use'}
+              style={{textDecoration: "none", color: theme.palette.text.primary,
+                fontSize: '12px'}} >
+              Terms of Use
+            </Link>
+          </Stack>
         </DialogContent>
       </Form>
     </FormikProvider>

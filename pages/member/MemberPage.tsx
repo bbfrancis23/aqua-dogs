@@ -106,6 +106,8 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
         </Grid>
         <Link href={'/privacy-policy'}
           style={{textDecoration: "none", color: theme.palette.text.primary}} >Privacy Policy</Link>
+        <Link href={'/terms-of-use'}
+          style={{textDecoration: "none", color: theme.palette.text.primary}} >Terms of Use</Link>
       </Stack>
     </InfoPageLayout>
   )
