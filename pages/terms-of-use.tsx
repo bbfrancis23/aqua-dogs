@@ -4,7 +4,7 @@ import { Stack } from "@mui/material"
 
 /* eslint-disable max-len */
 const Page = () => (
-  <InfoPageLayout title="Privacy Policy">
+  <InfoPageLayout title="Terms of Use">
     <Stack>
       <h2><strong>Terms and Conditions</strong></h2>
 
