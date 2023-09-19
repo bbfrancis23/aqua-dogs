@@ -77,7 +77,12 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
         borderTop: '1px solid',
         borderColor: theme.palette.divider}} >
         <Link href={'/privacy-policy'}
-          style={{textDecoration: "none", color: theme.palette.text.primary}} >Privacy Policy</Link>
+          style={{textDecoration: "none", color: theme.palette.text.primary,
+            paddingRight: '15px'}} >
+            Privacy Policy
+        </Link>
+        <Link href={'/terms-of-use'}
+          style={{textDecoration: "none", color: theme.palette.text.primary}} >Terms of Use</Link>
       </Box>
     </>
 
