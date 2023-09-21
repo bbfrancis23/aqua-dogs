@@ -2,7 +2,7 @@ import mongoose, {mongo} from 'mongoose'
 
 const memberSchema = new mongoose.Schema({
   email: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
+  password: {type: String, required: false},
   name: {type: String, required: false},
   phone: {type: String, required: false},
   emailAuth: {type: Boolean, required: false},

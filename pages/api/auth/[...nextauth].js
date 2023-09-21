@@ -5,6 +5,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import Member from '../../../mongo/schemas/MemberSchema'
 
 import db from '../../../mongo/db'
+import {findMember} from '../../../mongo/controls/member/memberControls'
 
 import bcryptjs from 'bcryptjs'
 
@@ -18,6 +19,22 @@ export default NextAuth({
     jwt({token, member}) {
       if (member?._id) token._id = member._id
       return token
+    },
+    async signIn({user, account, profile, email, credentials}) {
+      if (account?.provider === 'google') {
+        const member = await findMember(user?.email)
+        if (!member) {
+          await db.connect()
+          const newMember = new Member({
+            email: user?.email,
+            name: user?.name,
+          })
+          await newMember.save()
+          await db.disconnect()
+        }
+      }
+
+      return true
     },
     async session({session, token}) {
       if (token?._id) session.member._id = token._id

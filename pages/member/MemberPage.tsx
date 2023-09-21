@@ -26,8 +26,11 @@ export type MemberPage = { member: Member, projects: Project[]}
 export const getServerSideProps: GetServerSideProps<MemberPage> = async(context) => {
 
   const authSession = await getSession({req: context.req})
-  const member: Member | false = await findMember(authSession?.user?.email)
 
+  // console.log(authSession)
+
+
+  const member: Member | false = await findMember(authSession?.user?.email)
   if(! member) return {redirect: {destination: "/", permanent: false}}
 
   const projects: Project[] = await findMemberProjects(member?.id)
