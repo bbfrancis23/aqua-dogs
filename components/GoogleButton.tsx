@@ -3,7 +3,7 @@ import { signIn } from "next-auth/react";
 
 /* eslint-disable */
 const GoogleButton = () => (
-  <Button variant='outlined' sx={{width: '100%', p: 1}}>
+  <Button variant='outlined' sx={{width: '100%', p: 1}} onClick={() => signIn("google")}>
     <Stack spacing={1} direction={'row'} 
     sx={{ alignItems: 'center'}}>
        <GoogleLogo />
