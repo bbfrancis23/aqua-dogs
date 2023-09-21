@@ -1,5 +1,7 @@
 import NextAuth from 'next-auth/next'
 import CredentialsProvider from 'next-auth/providers/credentials'
+
+import GoogleProvider from 'next-auth/providers/google'
 import Member from '../../../mongo/schemas/MemberSchema'
 
 import db from '../../../mongo/db'
@@ -86,6 +88,10 @@ export default NextAuth({
           })
         )
       },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,

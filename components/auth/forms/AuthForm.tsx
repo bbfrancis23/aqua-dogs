@@ -2,7 +2,7 @@ import {useState} from "react"
 
 import {signIn} from "next-auth/react"
 
-import {Alert, Button, DialogActions, DialogContent, Stack} from "@mui/material"
+import {Alert, Box, Button, DialogActions, DialogContent, Divider, Stack} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 import {useSnackbar} from "notistack"
 
@@ -11,6 +11,7 @@ import axios from "axios"
 
 import AuthSchema from "../AuthFormSchema"
 import {EmailTextField, PasswordTextField} from "../AuthTextFields"
+import GoogleButton from "@/components/GoogleButton"
 
 
 interface AuthFormProps{
@@ -66,32 +67,36 @@ export default function AuthForm(props: AuthFormProps) {
   const forgotPassword = () => { closeDialog(); openForgotDialog() }
 
   return (
-    <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <DialogContent>
-          <Stack spacing={3} sx={{width: "100%"}}>
-            { loginError && (<Alert severity="error">{loginError}</Alert>) }
-            <EmailTextField getFieldProps={getFieldProps} error={errors.email}
-              touched={touched.email} />
-            <PasswordTextField getFieldProps={getFieldProps} error={errors.password}
-              touched={touched.password} />
-          </Stack>
-        </DialogContent>
-        <DialogActions disableSpacing={false}>
-          <Button onClick={closeForm} color="inherit"> CANCEL </Button>
-          <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
-            type="submit" variant="contained" loading={isSubmitting} >
+    <>
+      <Box sx={{px: 3}}><GoogleButton /></Box>
+      <Divider sx={{px: 3, pt: 3}}>Or with Email and Password</Divider>
+      <FormikProvider value={formik}>
+        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+          <DialogContent>
+            <Stack spacing={3} sx={{width: "100%"}}>
+              { loginError && (<Alert severity="error">{loginError}</Alert>) }
+              <EmailTextField getFieldProps={getFieldProps} error={errors.email}
+                touched={touched.email} />
+              <PasswordTextField getFieldProps={getFieldProps} error={errors.password}
+                touched={touched.password} />
+            </Stack>
+          </DialogContent>
+          <DialogActions disableSpacing={false}>
+            <Button onClick={closeForm} color="inherit"> CANCEL </Button>
+            <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
+              type="submit" variant="contained" loading={isSubmitting} >
             Login
-          </LoadingButton>
-        </DialogActions>
-        <DialogContent>
-          <Stack sx={{width: "100%"}}>
-            <Button onClick={() => startRegistration()}>Register New Member</Button>
-            <Button onClick={() => forgotPassword()} color="inherit">Forgot Password</Button>
-          </Stack>
-        </DialogContent>
-      </Form>
-    </FormikProvider>
+            </LoadingButton>
+          </DialogActions>
+          <DialogContent>
+            <Stack sx={{width: "100%"}}>
+              <Button onClick={() => startRegistration()}>Register New Member</Button>
+              <Button onClick={() => forgotPassword()} color="inherit">Forgot Password</Button>
+            </Stack>
+          </DialogContent>
+        </Form>
+      </FormikProvider>
+    </>
   )
 }
 // QA: Brian Francis 08-04-23
