@@ -38,7 +38,7 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
           { boards.map( (b: Board) => (
             <Grid item xs={12} md={6} lg={4} key={b.id}>
               <Card >
-                <Link href={`/boards/${b.title.toLowerCase().replace(/ /g, '')}`}
+                <Link href={`/boards/${b.title.toLowerCase().replace(/[^a-z]/g, '')}`}
                   style={{textDecoration: "none"}} >
                   <CardHeader title={ <CategoryHeader title={b.title} />}
                     sx={{bgcolor: "secondary.main", color: "secondary.contrastText"}} />
@@ -54,7 +54,7 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
                           sx={{pl: 1, '&:hover': {backgroundColor: 'action.hover'}}}>
                           <Link
                           // eslint-disable-next-line max-len
-                            href={`/boards/items/${i.title.toLocaleLowerCase().trim().replace(/ /g, '-')}/${i.id}`}
+                            href={`/boards/items/${i.title.toLocaleLowerCase().trim().replace(/ /g, '-').replace(/[^a-z -]/g, '')}/${i.id}`}
                             style={{textDecoration: "none", color: theme.palette.text.primary}} >
                             {i.title}
                           </Link>

@@ -35,7 +35,7 @@ export const PublicBoardPage = ( props: {board: Board}) => {
                         sx={{pl: 1, '&:hover': {backgroundColor: 'action.hover'}}}>
                         <Link
                           // eslint-disable-next-line max-len
-                          href={`/boards/items/${i.title.toLocaleLowerCase().trim().replace(/ /g, '-')}/${i.id}`}
+                          href={`/boards/items/${i.title.toLocaleLowerCase().trim().replace(/ /g, '-').replace(/[^a-z -]/g, '')}/${i.id}`}
                           style={{textDecoration: "none", color: theme.palette.text.primary}} >
                           {i.title}
                         </Link>
