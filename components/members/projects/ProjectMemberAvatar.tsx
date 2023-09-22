@@ -4,6 +4,7 @@ import AdminBadge from '@mui/icons-material/Shield';
 
 import { Member } from "@/interfaces/MemberInterface";
 import { PermissionCodes } from "@/ui/PermissionComponent";
+import { useSession } from "next-auth/react";
 
 export interface ProjectMemberAvatarProps {
   type: PermissionCodes;
@@ -11,6 +12,7 @@ export interface ProjectMemberAvatarProps {
 }
 
 export const ProjectMemberAvatar = ( props: ProjectMemberAvatarProps) => {
+
 
   const {type, member} = props
 
@@ -28,6 +30,15 @@ export const ProjectMemberAvatar = ( props: ProjectMemberAvatarProps) => {
   }
 
 
+  const getImgAvatar = () => {
+
+    if(! member) return ''
+    if(! member.image) return ''
+    return member.image
+
+  }
+
+
   return (
     <>
       {
@@ -36,7 +47,8 @@ export const ProjectMemberAvatar = ( props: ProjectMemberAvatarProps) => {
       (
 
         <Avatar sx={{ fontSize: '1.25rem',
-          color: 'secondary.contrastText', bgcolor: 'secondary.main', width: 40, height: 40}} >
+          color: 'secondary.contrastText', bgcolor: 'secondary.main', width: 40, height: 40}}
+        src={getImgAvatar()} >
           {getAvatar()}
         </Avatar>
       )
@@ -47,7 +59,7 @@ export const ProjectMemberAvatar = ( props: ProjectMemberAvatarProps) => {
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             badgeContent={<LeaderBadge sx={{ color: 'primary.light', width: '30', height: 30}}/>} >
-            <Avatar sx={{ fontSize: '1.25rem',
+            <Avatar src={getImgAvatar()} sx={{ fontSize: '1.25rem',
               color: 'secondary.contrastText', bgcolor: 'secondary.main', width: 40, height: 40}} >
               {getAvatar()}
             </Avatar>
@@ -61,7 +73,7 @@ export const ProjectMemberAvatar = ( props: ProjectMemberAvatarProps) => {
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             badgeContent={<AdminBadge sx={{ color: 'primary.light', width: '15', height: 15}}/>} >
-            <Avatar sx={{ fontSize: '1.25rem',
+            <Avatar src={getImgAvatar()} sx={{ fontSize: '1.25rem',
               color: 'secondary.contrastText', bgcolor: 'secondary.main', width: 40, height: 40}} >
               {getAvatar()}
             </Avatar>

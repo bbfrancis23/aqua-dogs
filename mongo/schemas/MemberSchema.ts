@@ -12,6 +12,7 @@ const memberSchema = new mongoose.Schema({
   invalidCount: {type: Number, required: false},
   locked: {type: Boolean, required: false},
   favoriteItems: [{type: String, required: false}],
+  image: {type: String, required: false},
 })
 
 const Member = mongoose.models.members || mongoose.model('members', memberSchema)

@@ -63,7 +63,7 @@ const EditTitleItemForm = (props: EditItemTitleFormProps) => {
         .catch((error) => {
 
           formik.setSubmitting(false)
-          enqueueSnackbar(error.message, {variant: "error"})
+          enqueueSnackbar(`McFly ${error.message}`, {variant: "error"})
         })
     }
   })

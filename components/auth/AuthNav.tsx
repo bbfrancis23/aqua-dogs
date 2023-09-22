@@ -5,6 +5,7 @@ import AccountIcon from "@mui/icons-material/AccountCircle"
 
 import {useSession} from "next-auth/react"
 import Link from "next/link"
+import { Avatar } from "@mui/material"
 
 interface AuthNavProps{
   setAuthDialogIsOpen: (authDialogIsOpen:boolean) => void
@@ -15,13 +16,17 @@ export const AuthNav = (params: AuthNavProps) => {
   const {data: session, status} = useSession()
   const loading = status === "loading"
 
+  console.log(session)
+
   return (
     <>
       { session && (
         <Link href={"/member"} >
           <IconButton color="secondary" sx={{color: "primary.contrastText"}}
             disabled={loading} >
-            <AccountIcon />
+            { session.user?.image ? (<Avatar src={session.user.image}
+              sx={{ height: 25, width: 25}} />) : ( <AccountIcon />)
+            }
           </IconButton>
         </Link>
       )}

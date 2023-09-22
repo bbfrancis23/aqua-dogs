@@ -64,7 +64,7 @@ export const getStaticPaths = async () => {
   let boards: Board[] = await findProjectBoards('64b6bc0a1b836981ba0c4cc5')
 
   const paths = boards.map((b: Board) =>
-    ({ params: {dirId: b.title.toLowerCase().replace(/ /g, '')}}))
+    ({ params: {dirId: b.title.toLowerCase().replace(/[^a-z]/g, '')}}))
 
 
   return {paths, fallback: false}

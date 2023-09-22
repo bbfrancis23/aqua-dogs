@@ -115,7 +115,7 @@ export const getStaticPaths = async () => {
 
   const paths = items.map( (i: any) =>
     ({params: {
-      dirId: `${i.title.toLocaleLowerCase().trim().replace(/ /g, '-')}`,
+      dirId: `${i.title.toLocaleLowerCase().trim().replace(/ /g, '-').replace(/[^a-z]/g, '')}`,
       itemId: i._id
     }}))
 

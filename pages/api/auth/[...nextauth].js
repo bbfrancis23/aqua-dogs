@@ -32,6 +32,20 @@ export default NextAuth({
           await newMember.save()
           await db.disconnect()
         }
+
+        if (member) {
+          if (user.image) {
+            console.log('adding image', user.image, user.email)
+
+            await db.connect()
+            try {
+              await Member.updateOne({email: user.email}, {$set: {image: user.image}})
+            } catch (err) {
+              console.log(err)
+            }
+            await db.disconnect()
+          }
+        }
       }
 
       return true

@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect, useMemo} from "react"
 
 import type {AppProps} from "next/app"
 import Link from "next/link"
@@ -38,6 +38,8 @@ export interface UpdateThemeOptionsProps {
 }
 /* eslint-disable */
 export default function App({Component, pageProps: {session, ...pageProps},}: AppProps) {
+
+  
 
   const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)
   const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)
@@ -81,7 +83,6 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
       router.events.on('routeChangeError', () => setLoading(false))
     },[router])
   
-    // console.log('loading', loading)
 
 
 

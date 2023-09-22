@@ -10,7 +10,8 @@ import Permission, { PermissionCodes, NoPermission } from "@/ui/PermissionCompon
 
 import ProjectMemberActions from "./ProjectMemberActions"
 import { ProjectContext } from "@/interfaces/ProjectInterface"
-
+import { useSession } from "next-auth/react"
+/* eslint-disable */
 
 export interface ProjectMemberProps {
   type: PermissionCodes;
@@ -21,6 +22,9 @@ export interface ProjectMemberProps {
 const ProjectMember = ( props: ProjectMemberProps) => {
 
   const {type, member, sessionMember} = props;
+
+
+
   const {project, setProject} = useContext(ProjectContext)
 
   const getAvatar = () => {
@@ -35,6 +39,14 @@ const ProjectMember = ( props: ProjectMemberProps) => {
     }else{ avatar = member.email.charAt(0) }
 
     return avatar
+  }
+
+  const getImgAvatar = () => {
+
+    if(! member) return ''
+    if(! member.image) return ''
+    return member.image
+    
   }
 
   const getMemberLabel = () => {
@@ -68,7 +80,7 @@ const ProjectMember = ( props: ProjectMemberProps) => {
             <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
               <Badge overlap="circular" badgeContent={getBadge() }
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} >
-                <Avatar
+                <Avatar src={getImgAvatar()}
                   sx={{ bgcolor: 'primary.light', color: 'primary.contrastText',
                     width: 50, height: 50}} >
                   {getAvatar()}

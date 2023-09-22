@@ -4,15 +4,15 @@ const connection = {}
 
 const connect = async () => {
   if (connection.isConnected) {
-    // console.log('already connected')
+    console.log('already connected')
     return
   }
 
   if (mongoose.connections.length > 0) {
-    connection.isConnected = mongoose.connections[0].readyState
+    connection.isConnected = await mongoose.connections[0].readyState
 
     if (connection.isConnected === 1) {
-      // console.log('use previous connection')
+      console.log('use previous connection')
       return
     }
 
@@ -21,9 +21,9 @@ const connect = async () => {
 
   const db = await mongoose.connect(process.env.MONGO_CONNECT)
 
-  // console.log('new connection')
+  console.log('new connection')
 
-  connection.isConnected = db.connections[0].readyState
+  connection.isConnected = await db.connections[0].readyState
 }
 
 const disconnect = async () => {
@@ -32,7 +32,7 @@ const disconnect = async () => {
       await mongoose.disconnect()
       connection.isConnected = false
     } else {
-      // console.log('not disconnected')
+      console.log('not disconnected')
     }
   }
 }

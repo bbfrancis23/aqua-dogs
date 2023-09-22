@@ -4,7 +4,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import { signOut, getSession} from "next-auth/react"
 import { useRouter } from "next/router"
 
-import {Button, Stack, Typography, Grid, useTheme } from "@mui/material"
+import {Button, Stack, Typography, Grid, useTheme, Avatar } from "@mui/material"
 import {useSnackbar} from "notistack"
 
 import { Project } from "@/interfaces/ProjectInterface"
@@ -20,14 +20,13 @@ import InfoPageLayout from "@/ui/InfoPageLayout"
 import CreateProjectForm from "@/components/members/projects/forms/CreateProjectForm"
 import Link from "next/link"
 import { FxTheme } from "theme/globalTheme"
+import { relative } from "path"
 
 export type MemberPage = { member: Member, projects: Project[]}
 
 export const getServerSideProps: GetServerSideProps<MemberPage> = async(context) => {
 
   const authSession = await getSession({req: context.req})
-
-  // console.log(authSession)
 
 
   const member: Member | false = await findMember(authSession?.user?.email)
@@ -68,8 +67,22 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
   const theme: FxTheme = useTheme()
   const handleCloseChangePasswordForm = () => { setShowChangePasswordForm(false) }
 
+  const MemberPageTitle = () => (
+    <Stack direction={'row'}>
+      {member.image && (
+        <Avatar src={member.image} sx={{ height: 100, width: 100, mr: 3,
+          positon: 'relative', top: '20px'}} />
+      )}
+      <Typography
+        sx={{p: 5, pl: {sm: 2, md: 0}, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}
+        variant={'h2'} noWrap >
+      Member Info
+      </Typography>
+    </ Stack>
+  )
+
   return (
-    <InfoPageLayout title="Member Info">
+    <InfoPageLayout title={<MemberPageTitle />} >
       <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%', }}>
         <NameForm name={member?.name ? member.name : ""}
           onUpdateMember={() => handleOnUpdateMember()}/>

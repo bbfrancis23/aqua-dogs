@@ -23,7 +23,8 @@ export const InfoPageLayout = (props: InfoPageLayoutComponent) => {
       <GridHeader item xs={12} >
         <Box sx={{width: '1200px', display: 'flex', justifyContent: 'left'}}>
           { typeof title === 'string' ?
-            ( <Typography sx={{p: 5, pl: 2, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}
+            ( <Typography
+              sx={{p: 5, pl: {sm: 2, md: 0}, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}
               variant={'h2'} noWrap >
               {title}
             </Typography> )
