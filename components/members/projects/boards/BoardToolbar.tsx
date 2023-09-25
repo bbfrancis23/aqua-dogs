@@ -1,8 +1,13 @@
-import { useContext, } from "react";
+import { useContext, useState, MouseEvent} from "react";
 
-import { Box, IconButton, Stack, alpha, useTheme } from "@mui/material";
+import { Box, IconButton, Stack, alpha,
+  useTheme, styled, Menu, MenuItem, Fade } from "@mui/material";
 import PublicIcon from '@mui/icons-material/Public';
 import PrivateIcon from '@mui/icons-material/Lock';
+import DropDownMenuIcon from '@mui/icons-material/ArrowDropDownCircle';
+import { useSnackbar } from "notistack";
+
+import axios from "axios";
 
 import { Member } from "@/interfaces/MemberInterface";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
@@ -12,17 +17,29 @@ import { PermissionCodes } from "@/ui/PermissionComponent";
 import { BoardTitleForm } from "./forms/BoardTitleForm";
 import { ProjectMemberAvatar } from "../ProjectMemberAvatar";
 import BoardOptionsMenu from "./BoardOptionsMenu";
-import { BoardContext } from "@/interfaces/BoardInterface";
+import { Board, BoardContext } from "@/interfaces/BoardInterface";
 import Scope from "@/interfaces/ScopeInterface";
-import axios from "axios";
-import { useSnackbar } from "notistack";
 
 
-export const BoardToolbar = () => {
+const BoardToolbarContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: theme.spacing(1, 3, 1, 3),
+  backgroundColor: alpha(theme.palette.background.default, 0.7)
+}));
 
-  const {project} = useContext(ProjectContext)
+export interface BoardToolbarProps {
+  projectBoards: Board[];
+}
 
+export const BoardToolbar = (props: BoardToolbarProps) => {
+
+  const {projectBoards} = props
+
+
+  const theme = useTheme()
   const {enqueueSnackbar} = useSnackbar()
+  const {project} = useContext(ProjectContext)
   const {board, setBoard} = useContext(BoardContext)
 
 
@@ -39,7 +56,6 @@ export const BoardToolbar = () => {
     return avatar
   }
 
-  const theme = useTheme()
 
   const handleChangeScope = async () => {
 
@@ -60,38 +76,58 @@ export const BoardToolbar = () => {
     }
   }
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const open = Boolean(anchorEl)
+
+
+  const handleShowBoardMenu = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = (board: Board):void => {
+    setBoard(board)
+    setAnchorEl(null)
+  }
 
   return (
-    <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-      py: 1, px: 3, bgcolor: alpha(theme.palette.background.default, 0.4)}} >
+    <BoardToolbarContainer >
       <Stack direction={'row'} spacing={1}>
         { board.scope !== Scope.PUBLIC && (
-          <IconButton aria-label="delete" color={'error'}
-            onClick={() => handleChangeScope()}>
+          <IconButton aria-label="delete" color={'error'} onClick={() => handleChangeScope()}>
             <PrivateIcon />
           </IconButton>
+        )}
+        { board.scope === Scope.PUBLIC && (
+          <IconButton aria-label="delete" color={'success'} onClick={() => handleChangeScope()}>
+            <PublicIcon />
+          </IconButton>
         ) }
-        {
-          board.scope === Scope.PUBLIC && (
-            <IconButton aria-label="delete" color={'success'}
-              onClick={() => handleChangeScope()}>
-              <PublicIcon />
-            </IconButton>
-          )
-        }
         <BoardTitleForm />
+        <IconButton onClick={handleShowBoardMenu} >
+          <DropDownMenuIcon />
+        </IconButton>
+        <Menu id="board-list" anchorEl={anchorEl} open={open} TransitionComponent={Fade}
+          onClose={handleClose} anchorOrigin={{horizontal: 'center', vertical: 'bottom'}}>
+          { projectBoards.map( (b: Board) => (
+            <MenuItem key={b.id}
+              selected={board.id === b.id}>
+              <a href={`/member/projects/${project.id}/boards/${b.id}`}>{b.title}</a>
+            </MenuItem>
+          ))}
+        </Menu>
       </Stack>
       <Stack direction={'row'} spacing={1}>
         <ProjectMemberAvatar type={PermissionCodes.PROJECT_LEADER} member={project.leader} />
-        { project?.admins?.map( (a: Member) => (
-          <ProjectMemberAvatar type={PermissionCodes.PROJECT_ADMIN} member={a} key={a.id}/>
+        { project?.admins?.map( (admin: Member) => (
+          <ProjectMemberAvatar type={PermissionCodes.PROJECT_ADMIN} member={admin} key={admin.id}/>
         ))}
-        { project?.members?.map( (a: Member) => (
-          <ProjectMemberAvatar type={PermissionCodes.PROJECT_MEMBER} member={a} key={a.id}/>
+        { project?.members?.map( (m: Member) => (
+          <ProjectMemberAvatar type={PermissionCodes.PROJECT_MEMBER} member={m} key={m.id}/>
         ))}
         <BoardOptionsMenu />
       </Stack>
-    </Box>
+    </BoardToolbarContainer>
   )
 }
-// QA: Brian Francisc 8-13-23
+// QA: Brian Francisc 9-22-23

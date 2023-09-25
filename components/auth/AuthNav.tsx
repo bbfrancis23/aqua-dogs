@@ -16,8 +16,6 @@ export const AuthNav = (params: AuthNavProps) => {
   const {data: session, status} = useSession()
   const loading = status === "loading"
 
-  console.log(session)
-
   return (
     <>
       { session && (
