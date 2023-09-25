@@ -83,7 +83,7 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
       router.events.on('routeChangeError', () => setLoading(false))
     },[router])
   
-
+ 
 
 
   return(

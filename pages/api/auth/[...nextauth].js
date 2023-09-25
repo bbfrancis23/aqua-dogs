@@ -35,8 +35,6 @@ export default NextAuth({
 
         if (member) {
           if (user.image) {
-            console.log('adding image', user.image, user.email)
-
             await db.connect()
             try {
               await Member.updateOne({email: user.email}, {$set: {image: user.image}})
@@ -97,7 +95,7 @@ export default NextAuth({
                 id: member._id,
                 name: member.name ? member.name : undefined,
                 email: member.email,
-                image: 'f',
+                image: member.image ? member.image : undefined,
               }
             }
           }

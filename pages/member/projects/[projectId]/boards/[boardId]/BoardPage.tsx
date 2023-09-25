@@ -13,7 +13,7 @@ import { Project, ProjectContext} from "@/interfaces/ProjectInterface"
 import { Member, MemberContext } from "@/interfaces/MemberInterface";
 
 import { findMember } from "@/mongo/controls/member/memberControls";
-import { findProject } from "@/mongo/controls/member/project/projectControls";
+import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls";
 import findPublicBoard from "@/mongo/controls/member/project/board/findPublicBoard";
 
 import { BoardToolbar } from "@/components/members/projects/boards/BoardToolbar";
@@ -26,6 +26,7 @@ import MemberItemDialog from "@/components/items/dialogs/MemberItemDialog";
 
 export interface BoardPage {
   project: Project;
+  projectBoards: Board[];
   board: Board;
   member: Member;
 }
@@ -34,7 +35,6 @@ const unAuthRedirect: Redirect = {destination: "/", permanent: false}
 
 export const getServerSideProps:
 GetServerSideProps<BoardPage> = async(context) => {
-
   const authSession = await getSession({req: context.req})
 
   if(!authSession) return {redirect: unAuthRedirect}
@@ -55,7 +55,10 @@ GetServerSideProps<BoardPage> = async(context) => {
 
   let board: any = await findPublicBoard(context.query.boardId)
   resetServerContext()
-  return {props: {project, member, board}}
+
+  let projectBoards: Board[] = await findProjectBoards(project.id)
+
+  return {props: {key: context.params, project, projectBoards, member, board}}
 
 }
 
@@ -84,7 +87,7 @@ export const Page = (props: BoardPage) => {
               overflow: 'hidden', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
               backgroundAttachment: 'fixed',
               backgroundPosition: 'center', width: '100vw', height: 'calc(100vh - 64px)'}} >
-            <BoardToolbar />
+            <BoardToolbar projectBoards={props.projectBoards}/>
             <Stack spacing={2} direction={'row'}
               sx={{ p: 2, width: '100%', overflow: 'auto', height: 'calc(100vh - 124px)' }} >
               <ProjectBoard member={member}/>
