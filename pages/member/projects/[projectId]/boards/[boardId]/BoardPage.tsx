@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { GetServerSideProps, Redirect } from "next";
+import Head from "next/head"
 import { getSession } from "next-auth/react";
 
 import { Box, Stack, useTheme } from "@mui/material";
@@ -24,6 +25,7 @@ import { FxTheme } from "theme/globalTheme";
 import CreateColumnForm from "@/components/members/projects/boards/columns/forms/CreateColumnForm";
 import MemberItemDialog from "@/components/items/dialogs/MemberItemDialog";
 
+/********** Interfaces Globals and Helpers *********/
 export interface BoardPage {
   project: Project;
   projectBoards: Board[];
@@ -32,6 +34,8 @@ export interface BoardPage {
 }
 
 const unAuthRedirect: Redirect = {destination: "/", permanent: false}
+
+/********** Backend **********/
 
 export const getServerSideProps:
 GetServerSideProps<BoardPage> = async(context) => {
@@ -62,6 +66,8 @@ GetServerSideProps<BoardPage> = async(context) => {
 
 }
 
+/********** Frontend **********/
+
 export const Page = (props: BoardPage) => {
 
   const [member, setMember] = useState<Member>(props.member)
@@ -81,6 +87,9 @@ export const Page = (props: BoardPage) => {
   return (
     <ProjectContext.Provider value={{project, setProject, setItemDialogIsOpen, setSelectedItem}}>
       <BoardContext.Provider value={{board, setBoard}}>
+        <Head>
+          <title>{`${board.title}- Strategy Fx - Board Page`}</title>
+        </Head>
         <MemberContext.Provider value={{member, setMember}}>
           <Box style={{overflow: 'hidden'}}
             sx={{background: `url(/images/themes/${theme.palette.name}/hero.jpg)`,
@@ -108,5 +117,4 @@ export const Page = (props: BoardPage) => {
 export default Page
 
 
-// QA: Brian Francisc 8-17-23
-// ENHANCEMENTS: Replace numbers with theme vars
+// QA: Brian Francisc 9-27-23

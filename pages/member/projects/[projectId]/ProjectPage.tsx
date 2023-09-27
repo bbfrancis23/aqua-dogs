@@ -8,7 +8,6 @@ import { Button, Grid, Stack, Typography } from "@mui/material"
 
 import { Project, ProjectContext } from "@/interfaces/ProjectInterface"
 
-
 import { Member } from "@/interfaces/MemberInterface"
 import { Board } from "@/interfaces/BoardInterface"
 
@@ -24,9 +23,11 @@ import ProjectMember from "@/components/members/projects/ProjectMember"
 import ProjectEditTitleForm from "@/components/members/projects/forms/ProjectEditTitleForm"
 import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm"
 
-
 import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm"
 import BoardStub from "@/components/members/projects/boards/BoardStub"
+import Head from "next/head"
+
+/********** Intrerfaces Globals and Helper *********/
 
 export type ProjectPage = {
   project: Project;
@@ -35,6 +36,9 @@ export type ProjectPage = {
 }
 
 const unAuthRedirect: Redirect = {destination: "/", permanent: false}
+
+
+/********** Backend **********/
 
 export const getServerSideProps: GetServerSideProps<ProjectPage> = async(context) => {
 
@@ -64,6 +68,8 @@ export const getServerSideProps: GetServerSideProps<ProjectPage> = async(context
 
 }
 
+/********** Frontend **********/
+
 const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps> ) => {
 
   const {member} = memberPage
@@ -76,6 +82,9 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 
   return (
     <ProjectContext.Provider value={{project, setProject}}>
+      <Head>
+        <title>{`${project.title} - Strategy Fx - Projects Page`}</title>
+      </Head>
       <InfoPageLayout title={<ProjectEditTitleForm project={project}/>}>
         <Stack spacing={3} sx={{ width: '100%'}}>
           <Typography variant="h4">Members</Typography>
@@ -145,4 +154,4 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 }
 export default Page
 
-// QA: Brian Francis 8-23-23
+// QA: Brian Francis 9-27-23

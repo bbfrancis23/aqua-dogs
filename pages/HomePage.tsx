@@ -1,6 +1,8 @@
 import {Grid, Card, CardHeader, CardContent, useTheme, Typography, Box} from "@mui/material"
 
 import Link from "next/link"
+import Head from 'next/head'
+
 import { GetStaticProps, InferGetServerSidePropsType } from "next"
 
 import { Item } from "@/interfaces/ItemInterface"
@@ -10,15 +12,17 @@ import { Board } from "@/interfaces/BoardInterface"
 import { FxTheme } from "theme/globalTheme"
 import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 
-const websiteProjectId: string = '64b6bc0a1b836981ba0c4cc5'
+/********  Interfaces Globals and Helpers *********/
 
-export interface HomePage{ boards: Board[]}
-
-export const getStaticProps: GetStaticProps<HomePage> = async () => {
-  let boards: Board[] = await findProjectBoards(websiteProjectId)
-
-  return {props: { boards}}
-}
+export const DESCRIPTION = "A Simple way to Orginize your Projects and impliment Strategies. "
+  + "Hundreds of Software Developement Best Practices, Standards and Eamples."
+export const KEYWORDS = "JavaScript, TypeScript, React, Next.js, Node.js, MongoDB, Github, Git, "
+  + "HTML, CSS, SCSS, SASS, Material-UI, MUI, Strategy, Project, Organization, Best Practices, "
+  + "VS Code, Software Development, Web Framwork, Web Development, Web App, Web Application,  "
+  + "Mongoose, Express, Material-UI, MUI, Strategy, Project, Organization, Best Practices,  "
+  + "Standards, Examples, Software Development, Web Framwork, Web Development, "
+  + "Web App, Web Application, Full Stack, Full Stack Development, Full Stack Developer, "
+  + "Software Engineer, Software Engineering, Software Developer, Software Development Engineer "
 
 const CategoryHeader = (props: {title: string}) => (
   <Typography variant={'h2'} sx={{fontSize: '1.25rem', fontWeight: '500'}}>
@@ -26,6 +30,19 @@ const CategoryHeader = (props: {title: string}) => (
   </Typography>
 )
 
+const websiteProjectId: string = '64b6bc0a1b836981ba0c4cc5'
+
+export interface HomePage{ boards: Board[]}
+
+/********** Backend **********/
+
+export const getStaticProps: GetStaticProps<HomePage> = async () => {
+  let boards: Board[] = await findProjectBoards(websiteProjectId)
+
+  return {props: { boards}}
+}
+
+/********** Frontend **********/
 const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
 
   const {boards} = homePage
@@ -33,6 +50,11 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
 
   return (
     <>
+      <Head>
+        <title>Strategy Fx - Simple Project Strategies and Organization.</title>
+        <meta name="description" content={DESCRIPTION} />
+        <meta name="keywords" content={KEYWORDS} />
+      </Head>
       <Box sx={{ p: theme.defaultPadding}}>
         <Grid container spacing={theme.defaultPadding}>
           { boards.map( (b: Board) => (
@@ -91,4 +113,4 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
 
 export default Page
 
-// QA: done 8-23-23
+// QA: done 9-27-23
