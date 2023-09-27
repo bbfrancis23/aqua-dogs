@@ -114,4 +114,6 @@ GetServerSideProps<MemberItemPageProps> = async(context) => {
   return {redirect: {destination: "/", permanent: false}}
 }
 
+// QA: Brian Francis 9-27-2023
+// Depreciated: 9-27-2023 use Modal instead
 // TODO: replace getItem with findItem
