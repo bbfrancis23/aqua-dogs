@@ -1,8 +1,10 @@
 import {useState} from "react"
 
 import { GetServerSideProps, InferGetServerSidePropsType } from "next"
-import { signOut, getSession} from "next-auth/react"
+import Link from "next/link"
 import { useRouter } from "next/router"
+import Head from "next/head"
+import { signOut, getSession} from "next-auth/react"
 
 import {Button, Stack, Typography, Grid, useTheme, Avatar } from "@mui/material"
 import {useSnackbar} from "notistack"
@@ -18,11 +20,34 @@ import EmailForm from "@/components/members/EmailForm"
 import ProjectStub from "@/components/members/projects/ProjectStub"
 import InfoPageLayout from "@/ui/InfoPageLayout"
 import CreateProjectForm from "@/components/members/projects/forms/CreateProjectForm"
-import Link from "next/link"
 import { FxTheme } from "theme/globalTheme"
-import { relative } from "path"
 
-export type MemberPage = { member: Member, projects: Project[]}
+/********** Interfaces Globals and Helpers **********/
+
+interface MemberPage { member: Member, projects: Project[]}
+
+const MemberPageTitleString = () => (
+  <Typography sx={{p: 5, pl: {sm: 2, md: 0}, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}
+    variant={'h2'} noWrap >
+      Member Info
+  </Typography>
+)
+
+const ChangePasswordButton = (props: {onClick: () => void}) => (
+  <Button variant="outlined" sx={{ borderColor: 'divider'}} onClick={props.onClick}>
+    CHANGE PASSWORD
+  </Button>
+)
+
+const strGuard = (str: string | undefined) => {
+  if(str) return str
+  return 'Unknown Please Update'
+}
+
+
+const ON_UPDATE_MEMBER_MESSAGE = "Member Info Updated. Must validate credentials again"
+
+/********** Backend **********/
 
 export const getServerSideProps: GetServerSideProps<MemberPage> = async(context) => {
 
@@ -37,15 +62,17 @@ export const getServerSideProps: GetServerSideProps<MemberPage> = async(context)
   return {props: { member, projects}}
 }
 
+/********** Frontend **********/
+
 const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps> ) => {
+
   const router = useRouter();
+  const {enqueueSnackbar} = useSnackbar()
 
   const [projects, setProjects] = useState<Project[]>(memberPage.projects)
   const [member, setMember] = useState<Member>(memberPage.member)
-
-  const [showChangePasswordForm, setShowChangePasswordForm] = useState<boolean>(false)
+  const [showPasswordForm, setShowPasswordForm] = useState<boolean>(false)
   const [showProjectForm, setShowProjectForm] = useState<boolean>(false)
-  const {enqueueSnackbar} = useSnackbar()
 
   const handleLogout = async() => {
     await signOut()
@@ -55,80 +82,75 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 
   const handleCloseCreateProjectForm = () => { setShowProjectForm(false) }
 
+  // TODO : this could be smoother - maybe better placement of the message
   const handleOnUpdateMember = () => {
     setTimeout(() => {
-      enqueueSnackbar("Member Info Updated. Must validate credentials again",
-        {variant: "success"})
+      enqueueSnackbar(ON_UPDATE_MEMBER_MESSAGE, {variant: "success"})
       handleLogout()
     }, 10000)
-
   }
 
   const theme: FxTheme = useTheme()
-  const handleCloseChangePasswordForm = () => { setShowChangePasswordForm(false) }
+
+  const handleCloseChangePasswordForm = () => { setShowPasswordForm(false) }
 
   const MemberPageTitle = () => (
     <Stack direction={'row'}>
       {member.image && (
-        <Avatar src={member.image} sx={{ height: 100, width: 100, mr: 3,
-          positon: 'relative', top: '20px'}} />
+        <Avatar src={member.image} sx={{ height: 100, width: 100, mt: 3, mr: 3}} />
       )}
-      <Typography
-        sx={{p: 5, pl: {sm: 2, md: 0}, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}
-        variant={'h2'} noWrap >
-      Member Info
-      </Typography>
+      <MemberPageTitleString />
     </ Stack>
   )
 
   return (
-    <InfoPageLayout title={<MemberPageTitle />} >
-      <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%', }}>
-        <NameForm name={member?.name ? member.name : ""}
-          onUpdateMember={() => handleOnUpdateMember()}/>
-        <EmailForm email={member?.email ? member.email : ""}
-          onUpdateMember={() => handleOnUpdateMember()}/>
-        <Button variant="outlined" color="inherit" sx={{ borderColor: 'divider'}}
-          onClick={() => setShowChangePasswordForm(!showChangePasswordForm)} >
-          CHANGE PASSWORD
-        </Button>
-        { showChangePasswordForm &&
-          <ChangePasswordForm closePasswordForm={() => handleCloseChangePasswordForm()}/>
-        }
-        <Button sx={{ borderColor: 'divider'}} variant="outlined" color="inherit"
-          onClick={handleLogout}>
+    <>
+      <Head>
+        <title>{strGuard(member.name) + " - Strategy Fx - Member Page"}</title>
+      </Head>
+      <InfoPageLayout title={<MemberPageTitle />} >
+        <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%' }}>
+          <NameForm name={strGuard(member.name)} onUpdateMember={() => handleOnUpdateMember()}/>
+          <EmailForm email={strGuard(member.email)} onUpdateMember={() => handleOnUpdateMember()}/>
+          <ChangePasswordButton onClick={() => setShowPasswordForm(!showPasswordForm)} />
+          { showPasswordForm &&
+            <ChangePasswordForm closePasswordForm={() => handleCloseChangePasswordForm()}/>
+          }
+          <Button sx={{ borderColor: 'divider'}} variant="outlined" onClick={handleLogout}>
             LOG OUT
-        </Button>
-        <Typography variant={'h4'}>Projects:</Typography>
-        { showProjectForm && (
-          <CreateProjectForm setProjects={(p: Project[]) => setProjects(p)}
-            closeForm={handleCloseCreateProjectForm}/>
-        ) }
-        <Grid container spacing={0} sx={{pr: 3 }}>
-          { projects.map( (p: Project) => (
-            <Grid item xs={6} sm={3} md={2} key={p.id} sx={{p: 1}}>
-              <Button sx={{ m: 0, p: 0, width: '100%'}}
-                onClick={() => router.push(`/member/projects/${p.id}`)} >
-                <ProjectStub project={p} />
+          </Button>
+          <Typography variant={'h4'}>Projects:</Typography>
+          { showProjectForm && (
+            <CreateProjectForm setProjects={(p: Project[]) => setProjects(p)}
+              closeForm={handleCloseCreateProjectForm}/> ) }
+          <Grid container spacing={0} sx={{pr: 3 }}>
+            { projects.map( (p: Project) => (
+              <Grid item xs={6} sm={3} md={2} key={p.id} sx={{p: 1}}>
+                <Button sx={{ m: 0, p: 0, width: '100%'}}
+                  onClick={() => router.push(`/member/projects/${p.id}`)} >
+                  <ProjectStub project={p} />
+                </Button>
+              </Grid>
+            )
+            ) }
+            <Grid item xs={6} sm={3} md={2} sx={{p: 1}}>
+              <Button onClick={() => setShowProjectForm(true)} sx={{ m: 0, p: 0, width: '100%'}}>
+                <ProjectStub />
               </Button>
             </Grid>
-          )
-          ) }
-          <Grid item xs={6} sm={3} md={2} sx={{p: 1}}>
-            <Button onClick={() => setShowProjectForm(true)} sx={{ m: 0, p: 0, width: '100%'}}>
-              <ProjectStub />
-            </Button>
           </Grid>
-        </Grid>
-        <Link href={'/privacy-policy'}
-          style={{textDecoration: "none", color: theme.palette.text.primary}} >Privacy Policy</Link>
-        <Link href={'/terms-of-use'}
-          style={{textDecoration: "none", color: theme.palette.text.primary}} >Terms of Use</Link>
-      </Stack>
-    </InfoPageLayout>
+          <Link href={'/privacy-policy'}
+            style={{textDecoration: "none", color: theme.palette.text.primary}} >
+            Privacy Policy
+          </Link>
+          <Link href={'/terms-of-use'}
+            style={{textDecoration: "none", color: theme.palette.text.primary}} >Terms of Use</Link>
+        </Stack>
+      </InfoPageLayout>
+    </>
   )
 }
 
 export default Page
 
-// QA done 8-23-23
+// QA done 9-27-23
