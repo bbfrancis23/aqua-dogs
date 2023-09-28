@@ -31,8 +31,6 @@ const connect = async () => {
     console.log('new connection')
     connection.isConnected = db.connections[0].readyState
   }
-
-  // Never an error when you want one
 }
 
 const disconnect = async () => {
