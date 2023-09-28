@@ -31,12 +31,6 @@ const connect = async () => {
     console.log('new connection')
     connection.isConnected = db.connections[0].readyState
   }
-
-  // const db = await mongoose.connect(process.env.MONGO_CONNECT)
-
-  //console.log('new connection')
-
-  // connection.isConnected = await db.connections[0].readyState
 }
 
 const disconnect = async () => {
