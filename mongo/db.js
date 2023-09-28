@@ -19,11 +19,24 @@ const connect = async () => {
     await mongoose.disconnect()
   }
 
-  const db = await mongoose.connect(process.env.MONGO_CONNECT)
+  try {
+    const db = await mongoose.connect(process.env.MONGO_CONNECT)
+    console.log('new connection')
+    connection.isConnected = db.connections[0].readyState
+  } catch (error) {
+    console.log('error connecting to db')
+    console.log(error)
+    console.log('try conntecting again')
+    const db = await mongoose.connect(process.env.MONGO_CONNECT)
+    console.log('new connection')
+    connection.isConnected = db.connections[0].readyState
+  }
 
-  console.log('new connection')
+  // const db = await mongoose.connect(process.env.MONGO_CONNECT)
 
-  connection.isConnected = await db.connections[0].readyState
+  //console.log('new connection')
+
+  // connection.isConnected = await db.connections[0].readyState
 }
 
 const disconnect = async () => {
