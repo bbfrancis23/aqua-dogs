@@ -11,6 +11,7 @@ import { Board } from "@/interfaces/BoardInterface"
 
 import { FxTheme } from "theme/globalTheme"
 import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
+import { getPublicBoardDirectory } from "./categories/[dirId]/PublicCategoryPage"
 
 /********  Interfaces Globals and Helpers *********/
 
@@ -60,7 +61,7 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
           { boards.map( (b: Board) => (
             <Grid item xs={12} md={6} lg={4} key={b.id}>
               <Card >
-                <Link href={`/boards/${b.title.toLowerCase().replace(/[^a-z]/g, '')}`}
+                <Link href={`/categories/${getPublicBoardDirectory(b)}`}
                   style={{textDecoration: "none"}} >
                   <CardHeader title={ <CategoryHeader title={b.title} />}
                     sx={{bgcolor: "secondary.main", color: "secondary.contrastText"}} />
