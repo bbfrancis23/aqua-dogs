@@ -48,7 +48,7 @@ export default function AppBarMenu(props: AppBarMenuProps){
       <Menu id="fade-menu" MenuListProps={{ "aria-labelledby": "fade-button", }}
         anchorEl={anchorElement} open={open} onClose={handleClose} TransitionComponent={Fade} >
         { boards.map( (p: any) => (
-          <Link href={`/boards/${p.dirId}`}
+          <Link href={`/categories/${p.dirId}`}
             style={{textDecoration: "none", color: theme.palette.text.primary}} key={p.id} >
             <MenuItem onClick={handleClose}>{p.title}</MenuItem>
           </Link>
