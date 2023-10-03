@@ -13,15 +13,23 @@ export const findProjectItems = async (projectId) => {
 
   await db.connect()
 
-  const boards = await Board.find({project: projectId}).populate({
+  let boards = await Board.find({project: projectId}).populate({
     path: 'columns',
     match: {archive: {$ne: true}},
     model: Column,
     populate: {path: 'items', match: {archive: {$ne: true}}, model: Item},
   })
 
+  boards = await JSON.stringify(boards)
+  boards = await JSON.parse(boards)
+
   boards.forEach((b) => {
     b.columns.forEach((c) => {
+      c.items = c.items.map((i) => ({
+        ...i,
+        category: b.title,
+      }))
+
       items = items.concat(c.items)
     })
   })
