@@ -9,6 +9,7 @@ import Link from "next/link";
 import { FxTheme } from "theme/globalTheme";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
+import { getPublicCardDirectory } from "../../cards/[catId]/[dirId]/[itemId]/PublicCardPage";
 
 /******** Interfaces Globals and Helpers *********/
  interface PublicCategoryPage { board: Board}
@@ -21,6 +22,10 @@ export const WEBSITE_BOARD_ID = '64b6bc0a1b836981ba0c4cc5'
 
 export const getPublicBoardDirectory = (board: Board): string => (
   board.title.toLowerCase().replace(/[^a-z]/g, '')
+)
+
+export const getPublicCategoryDirectory = (title: string): string => (
+  title.toLowerCase().replace(/[^a-z]/g, '')
 )
 
 /********* Backend **********/
@@ -71,7 +76,7 @@ export const Page = ( props: PublicCategoryPage) => {
                         sx={{pl: 1, '&:hover': {backgroundColor: 'action.hover'}}}>
                         <Link
                         // eslint-disable-next-line max-len
-                          href={`/boards/items/${i.title.toLocaleLowerCase().trim().replace(/ /g, '-').replace(/[^a-z -]/g, '')}/${i.id}`}
+                          href={`/cards/${getPublicBoardDirectory(board)}/${getPublicCardDirectory(i)}/${i.id}`}
                           style={{textDecoration: "none", color: theme.palette.text.primary}} >
                           {i.title}
                         </Link>

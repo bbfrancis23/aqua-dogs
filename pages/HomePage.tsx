@@ -12,6 +12,7 @@ import { Board } from "@/interfaces/BoardInterface"
 import { FxTheme } from "theme/globalTheme"
 import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 import { getPublicBoardDirectory } from "./categories/[dirId]/PublicCategoryPage"
+import { getPublicCardDirectory } from "./cards/[catId]/[dirId]/[itemId]/PublicCardPage"
 
 /********  Interfaces Globals and Helpers *********/
 
@@ -77,7 +78,7 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
                           sx={{pl: 1, '&:hover': {backgroundColor: 'action.hover'}}}>
                           <Link
                           // eslint-disable-next-line max-len
-                            href={`/boards/items/${i.title.toLocaleLowerCase().trim().replace(/ /g, '-').replace(/[^a-z -]/g, '')}/${i.id}`}
+                            href={`/cards/${getPublicBoardDirectory(b)}/${getPublicCardDirectory(i)}/${i.id}`}
                             style={{textDecoration: "none", color: theme.palette.text.primary}} >
                             {i.title}
                           </Link>
