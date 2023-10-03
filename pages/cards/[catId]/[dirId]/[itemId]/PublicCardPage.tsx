@@ -5,6 +5,9 @@ import { useSession } from "next-auth/react"
 import dynamic from "next/dynamic";
 import { GetStaticPaths, GetStaticProps } from "next";
 
+
+import { publicBoards } from "data/publicBoards";
+
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 
 import { findItem } from "@/mongo/controls/member/project/items/findItem";
@@ -25,6 +28,10 @@ import { WEBSITE_BOARD_ID, getPublicCategoryDirectory }
   from "pages/categories/[dirId]/PublicCategoryPage";
 
 
+import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards"
+import { Board } from "@/interfaces/BoardInterface";
+
+
 /********* Interfaces Globals and Helpers **********/
 
 const CodeEditor = dynamic(
@@ -33,7 +40,10 @@ const CodeEditor = dynamic(
 )
 export interface PublicCardPage {
   item: Item
-  dirId: string
+  dirId: string,
+  catTitle: string,
+  colTitle: string,
+  board: Board | undefined,
   openAuthDialog: () => void
 }
 
@@ -57,8 +67,6 @@ export const getStaticPaths: GetStaticPaths<PublicCardPageParams> = async () => 
   let items: Item[] = await findProjectItems(WEBSITE_BOARD_ID)
 
 
-  //let boards: Board[] = await findProjectBoards(WEBSITE_BOARD_ID)
-
   const paths = items.map( (i: any) =>
     ({params: {
       catId: getPublicCategoryDirectory(i.category),
@@ -72,11 +80,28 @@ export const getStaticPaths: GetStaticPaths<PublicCardPageParams> = async () => 
 
 export const getStaticProps: GetStaticProps<PublicCardPageBackend> = async (context) => {
 
-  const {dirId, itemId} = context.params as PublicCardPageParams
+  const {catId, dirId, itemId} = context.params as PublicCardPageParams
 
   const item = await findItem(itemId)
 
-  return {props: {dirId, item}}
+  let boards: Board[] = await findProjectBoards(WEBSITE_BOARD_ID)
+
+  const currentBoardStub = publicBoards.find( (pb: any) => pb.dirId === catId)
+  const currentBoard = boards.find( (b: Board) => b.id === currentBoardStub.id)
+
+  let colTitle = ''
+  currentBoard?.columns.forEach( (c: any) => {
+    const currentItem = c.items.find( (i: any) => i.id === itemId)
+
+    if(currentItem){
+      colTitle = c.title
+    }
+  })
+
+
+  const catTitle = publicBoards.find( (pb: any) => pb.dirId === catId)?.title
+
+  return {props: {catTitle, colTitle, dirId, item, board: currentBoard}}
 
 }
 
@@ -86,8 +111,7 @@ export const getStaticProps: GetStaticProps<PublicCardPageBackend> = async (cont
 export const Page = ( props: PublicCardPage) => {
 
 
-  const {dirId, item, openAuthDialog} = props
-
+  const { catTitle, colTitle, item, board, openAuthDialog} = props
 
   const {data: session} = useSession()
 
@@ -110,7 +134,7 @@ export const Page = ( props: PublicCardPage) => {
 
     <InfoPageLayout title={ <Typography variant={'h1'}
       sx={{p: 5, pl: 2, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}>
-      {item.title}
+      {catTitle} : {colTitle} <br /> {item.title}
     </Typography> }>
       <Stack spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
         { item.sections?.map( ( s: Section) => {
