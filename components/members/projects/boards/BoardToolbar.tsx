@@ -86,7 +86,6 @@ export const BoardToolbar = (props: BoardToolbarProps) => {
   };
 
   const handleClose = (board: Board):void => {
-    setBoard(board)
     setAnchorEl(null)
   }
 
@@ -112,7 +111,8 @@ export const BoardToolbar = (props: BoardToolbarProps) => {
           { projectBoards.map( (b: Board) => (
             <MenuItem key={b.id}
               selected={board.id === b.id}>
-              <a href={`/member/projects/${project.id}/boards/${b.id}`}>{b.title}</a>
+              <a href={`/member/projects/${project.id}/boards/${b.id}`}
+                style={{textDecoration: "none", color: theme.palette.text.primary}}>{b.title}</a>
             </MenuItem>
           ))}
         </Menu>
