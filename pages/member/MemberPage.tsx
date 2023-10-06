@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 import Head from "next/head"
 import { signOut, getSession} from "next-auth/react"
 
-import {Button, Stack, Typography, Grid, useTheme, Avatar } from "@mui/material"
+import {Button, Stack, Typography, Grid, useTheme, Avatar, Box } from "@mui/material"
 import {useSnackbar} from "notistack"
 
 import { Project } from "@/interfaces/ProjectInterface"
@@ -21,6 +21,7 @@ import ProjectStub from "@/components/members/projects/ProjectStub"
 import InfoPageLayout from "@/ui/InfoPageLayout"
 import CreateProjectForm from "@/components/members/projects/forms/CreateProjectForm"
 import { FxTheme } from "theme/globalTheme"
+import useMemberActivity from "hooks/useMemberActivity"
 
 /********** Interfaces Globals and Helpers **********/
 
@@ -82,6 +83,9 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
 
   const handleCloseCreateProjectForm = () => { setShowProjectForm(false) }
 
+  const [activities, addActivity] = useMemberActivity();
+
+
   // TODO : this could be smoother - maybe better placement of the message
   const handleOnUpdateMember = () => {
     setTimeout(() => {
@@ -102,6 +106,8 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
       <MemberPageTitleString />
     </ Stack>
   )
+
+  console.log(activities)
 
   return (
     <>
@@ -139,6 +145,15 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
               </Button>
             </Grid>
           </Grid>
+          {
+            activities.map((a) => (
+              <Box key={a.id}>
+                <Typography >{a.title}</Typography>
+                <Typography >{a.description}</Typography>
+                <Typography>{a.createdAt.toString()}</Typography>
+              </ Box>
+            ))
+          }
           <Link href={'/privacy-policy'}
             style={{textDecoration: "none", color: theme.palette.text.primary}} >
             Privacy Policy

@@ -86,15 +86,19 @@ export const CodeSection = (props: TextSectionProps) => {
   return (
     <>
       { displayEditCodeSectionForm && (
-        <Box sx={{ width: '100%'}}>
+        <Box sx={{ width: '100%', color: '#ff0000'}}>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+
+
               <CodeEditor language="jsx" placeholder="Create Code Section"
                 {...getFieldProps('section')} padding={15}
                 style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5",
+                  color: "#000000",
                   fontFamily:
                   "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace" }}
               />
+
               <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                 <LoadingButton color="success" disabled={!(isValid && formik.dirty)} type="submit"
                   loading={isSubmitting} sx={{minWidth: '0', pl: 1}} >
@@ -119,13 +123,13 @@ export const CodeSection = (props: TextSectionProps) => {
 
             <CodeEditor onClick={() => setDisplayEditCodeSectionForm(true)}
               key={section.id} value={section.content} language="jsx" readOnly padding={15}
-              style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5",
+              style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5", color: "#000",
                 fontFamily: "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace" }} />
           </Permission>
           <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
             <CodeEditor key={section.id}
               value={section.content} language="jsx" readOnly padding={15}
-              style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5",
+              style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5", color: "#000",
                 fontFamily:"ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace" }} />
           </NoPermission>
         </>
