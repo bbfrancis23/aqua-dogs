@@ -2,7 +2,11 @@ import {Activity, NewActivity} from '@/interfaces/ActivityInterface'
 import {useSnackbar} from 'notistack'
 import {useEffect, useState} from 'react'
 
-const useMemberActivity = (): [activity: Activity[], (a: NewActivity) => void] => {
+// export interface useMemberInterface {
+
+// }
+
+const useMemberActivity = (): [activity: Activity[], newActivity: (a: NewActivity) => void] => {
   const [activities, setActivity] = useState<Activity[]>([])
   const [id, setId] = useState<number>(0)
 
