@@ -1,4 +1,4 @@
-import {useState, useEffect, useMemo} from "react"
+import {useState, useEffect, useMemo, useReducer} from "react"
 
 import type {AppProps} from "next/app"
 import Link from "next/link"
@@ -6,7 +6,8 @@ import Image from "next/image"
 import {SessionProvider} from "next-auth/react"
 
 import { CssBaseline, ThemeProvider, AppBar, Toolbar, Box, alpha,
-  IconButton} from "@mui/material"
+  IconButton,
+  Theme} from "@mui/material"
 import {ConfirmProvider} from "material-ui-confirm"
 import SettingsIcon from "@mui/icons-material/Settings"
 import {SnackbarProvider} from "notistack"
@@ -31,23 +32,60 @@ import '../styles/globals.css'
 import { useRouter } from "next/router"
 import Loading from "./Loading"
 
+
+/********* Interfaces Global and Helpers ********/
+
 export interface UpdateThemeOptionsProps {
   palette: FxPaletteOptions
   name?: string
   mode?: string
 }
-/* eslint-disable */
-export default function App({Component, pageProps: {session, ...pageProps},}: AppProps) {
 
-  
 
-  const [settingsDialogIsOpen, setSettingsDialogIsOpen] = useState(false)
-  const [authDialogIsOpen, setAuthDialogIsOpen] = useState(false)
-  const [regDialogIsOpen, setRegDialogIsOpen] = useState(false)
-  const [forgotDialogIsOpen, setForgotDialogIsOpen] = useState(false)
+enum AppActions {
+  SetSettingsDialogIsOpen = "SetSettingsDialogIsOpen",
+  SetAuthDialogIsOpen = "SetAuthDialogIsOpen",
+  SetRegDialogIsOpen = "SetRegDialogIsOpen",
+  SetForgotDialogIsOpen = "SetForgotDialogIsOpen",
+}
 
-  const [theme, setTheme] = useState(createFxTheme( appThemes[0]))
+export interface AppState{
+  settingsDialogIsOpen: boolean,
+  authDialogIsOpen: boolean,
+  regDialogIsOpen: boolean,
+  forgotDialogIsOpen: boolean,
+}
+export interface AppAction{
+  type: AppActions,
+  payload: boolean
+}
 
+export const reducer = (state: AppState, action: AppAction): AppState => {
+  switch (action.type) {
+  case AppActions.SetSettingsDialogIsOpen:
+    return { ...state, settingsDialogIsOpen: action.payload }
+  case AppActions.SetAuthDialogIsOpen:
+    return { ...state, authDialogIsOpen: action.payload }
+  case AppActions.SetRegDialogIsOpen:
+    return { ...state, regDialogIsOpen: action.payload }
+  case AppActions.SetForgotDialogIsOpen:
+    return { ...state, forgotDialogIsOpen: action.payload }
+  default:
+    return state
+  }
+}
+
+
+/********* FrontEnd  **********/
+
+const App = ({Component, pageProps: {session, ...pageProps},}: AppProps) => {
+
+  const [state, dispatch] = useReducer(reducer,
+    {settingsDialogIsOpen: false, authDialogIsOpen: false, regDialogIsOpen: false,
+      forgotDialogIsOpen: false})
+
+
+  const [theme, setTheme] = useState<Theme>(createFxTheme(appThemes[0]))
   const handleUpdateTheme = (options: UpdateThemeOptionsProps) => {
     let fxOptions: any = { }
 
@@ -61,10 +99,10 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
       if (options.name) fxOptions!.name = options.name
       if (options.palette) fxOptions.palette = options.palette
       if (options.mode && fxOptions.palette) fxOptions.palette.mode = options.mode
-      else fxOptions!.palette!.mode = theme.palette.mode
+      else fxOptions!.palette!.mode = theme?.palette.mode
     }
-
     setTheme(createFxTheme(fxOptions))
+
     localStorage.setItem("themeOptions", JSON.stringify(fxOptions))
   }
 
@@ -73,17 +111,15 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
     setTheme(createFxTheme(themeOptions ? (JSON.parse(themeOptions)) : appThemes[0]))
   }, [])
 
-    const router = useRouter();
+  const router = useRouter();
 
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    useEffect(() => {      
-      router.events.on('routeChangeStart', () => setLoading(true))
-      router.events.on('routeChangeComplete', () => setLoading(false))
-      router.events.on('routeChangeError', () => setLoading(false))
-    },[router])
-  
- 
+  useEffect(() => {
+    router.events.on('routeChangeStart', () => setLoading(true))
+    router.events.on('routeChangeComplete', () => setLoading(false))
+    router.events.on('routeChangeError', () => setLoading(false))
+  }, [router])
 
 
   return(
@@ -107,42 +143,56 @@ export default function App({Component, pageProps: {session, ...pageProps},}: Ap
                   )) }
                 </ Box>
                 <Box sx={{flexGrow: 1}} />
-                <AuthNav setAuthDialogIsOpen={setAuthDialogIsOpen} />
+                <AuthNav
+
+                  setAuthDialogIsOpen={(payload) =>
+                    dispatch({type: AppActions.SetAuthDialogIsOpen, payload}) } />
+
+
                 <IconButton size="large" edge="end" aria-label="app settings" aria-haspopup="true"
-                  color="inherit" onClick={ () => setSettingsDialogIsOpen(true)} >
+                  color="inherit"
+                  onClick={ () =>
+                    dispatch({type: AppActions.SetSettingsDialogIsOpen, payload: true})} >
                   <SettingsIcon />
                 </IconButton>
               </Toolbar> {
-              loading ? <Loading /> :  <></>
-            }
+                loading ? <Loading /> : <></>
+              }
             </AppBar>
-           
-           
+
+
             <Box>
-              
 
 
-              <Component {...pageProps} openAuthDialog={ () => setAuthDialogIsOpen(true)} />
+              <Component {...pageProps} openAuthDialog={
+                () => dispatch({type: AppActions.SetAuthDialogIsOpen, payload: true}) } />
 
-             
-              
+
             </Box>
-           
-            <SettingsDialog updateFx={handleUpdateTheme} dialogIsOpen={settingsDialogIsOpen}
-              closeDialog={ () => setSettingsDialogIsOpen(false)} />
-            <AuthDialog dialogIsOpen={authDialogIsOpen}
-              closeDialog={ () => setAuthDialogIsOpen(false)}
-              openRegDialog={ () => setRegDialogIsOpen(true)}
-              openForgotDialog={ () => setForgotDialogIsOpen(true)} />
-            <RegisterDialog dialogIsOpen={regDialogIsOpen}
-              closeDialog={ () => setRegDialogIsOpen(false)}
-              openAuthDialog={ () => setAuthDialogIsOpen(true)} />
-            <ForgotPasswordDialog dialogIsOpen={forgotDialogIsOpen}
-              closeDialog={ () => setForgotDialogIsOpen(false)} />
+
+            <SettingsDialog updateFx={handleUpdateTheme} dialogIsOpen={state.settingsDialogIsOpen}
+              closeDialog={
+                () =>
+                  dispatch({type: AppActions.SetSettingsDialogIsOpen, payload: false}) }/>
+            <AuthDialog dialogIsOpen={state.authDialogIsOpen}
+              closeDialog={() => dispatch({ type: AppActions.SetAuthDialogIsOpen, payload: false}) }
+              openRegDialog={
+                () => dispatch({ type: AppActions.SetRegDialogIsOpen, payload: true}) }
+              openForgotDialog={
+                () => dispatch({type: AppActions.SetForgotDialogIsOpen, payload: true})} />
+            <RegisterDialog dialogIsOpen={state.regDialogIsOpen}
+              closeDialog={ () => dispatch({ type: AppActions.SetRegDialogIsOpen, payload: false})}
+              openAuthDialog={
+                () => dispatch({ type: AppActions.SetAuthDialogIsOpen, payload: true})} />
+            <ForgotPasswordDialog dialogIsOpen={state.forgotDialogIsOpen}
+              closeDialog={
+                () => dispatch({type: AppActions.SetForgotDialogIsOpen, payload: false}) } />
           </SnackbarProvider>
         </ConfirmProvider>
       </ ThemeProvider>
     </SessionProvider>
   )
 }
+
+export default App
 // QA: Brian Francis 08-23-23
