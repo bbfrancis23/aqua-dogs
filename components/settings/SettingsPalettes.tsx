@@ -5,31 +5,36 @@ import StarIcon from "@mui/icons-material/Star"
 import Fab from "@mui/material/Fab"
 import { useSnackbar} from "notistack"
 
-// import { palettes} from "../../theme/themes"
-import { FxTheme, FxThemeContext, createFxTheme, fxThemeOptionsList,
-  UpdateThemeOptionsProps } from "fx-theme"
-//import { FxTheme } from "theme/globalTheme"
+import { FxThemeContext, createFxTheme, fxThemeOptionsList,
+  UpdateThemeOptionsProps,
+  FxThemeOptions} from "fx-theme"
 
 
-type SettingsPalettesProps = {
-  updateFx: (options: UpdateThemeOptionsProps) => void
-}
-
-const SettingsPalettes = ( props: SettingsPalettesProps) => {
+const SettingsPalettes = ( ) => {
 
   const theme: Theme = useTheme()
 
   const {fxTheme} = useContext(FxThemeContext)
-
-  const {updateFx} = props
   const paletteCols = 4
 
   const {enqueueSnackbar} = useSnackbar()
 
+  const { setFxTheme} = useContext(FxThemeContext)
+
   const handleUpdateTheme = (index: number) => {
-    enqueueSnackbar(`${fxThemeOptionsList[index].name} Theme`,
-      {})
-    updateFx({name: fxThemeOptionsList[index].name})
+
+    let fxThemeOptions: FxThemeOptions| undefined = undefined
+    setFxTheme((prev) => {
+      fxThemeOptions = fxThemeOptionsList[index]
+      if (!fxThemeOptions) return prev
+
+      console.log(prev)
+      fxThemeOptions.palette.mode = prev.theme.palette.mode
+      localStorage.setItem('themeName', fxThemeOptions.name)
+      return createFxTheme(fxThemeOptions)
+    })
+
+    enqueueSnackbar(`${fxThemeOptionsList[index].name} Theme`)
   }
 
 

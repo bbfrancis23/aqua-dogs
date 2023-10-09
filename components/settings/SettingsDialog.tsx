@@ -1,37 +1,46 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Box, Button, DialogActions, DialogContent, useTheme, Typography,
-  ToggleButtonGroup, ToggleButton, Stack} from "@mui/material"
+  ToggleButtonGroup, ToggleButton, Stack, PaletteMode} from "@mui/material"
 import {VariantType, useSnackbar} from "notistack"
 import DarkModeIcon from "@mui/icons-material/DarkMode"
 import LightModeIcon from "@mui/icons-material/LightMode"
 
 import SettingsPalettes from "./SettingsPalettes"
-// import { UpdateThemeOptionsProps } from "pages/_app"
 import DraggableDialog from "@/ui/DraggableDialog"
-import { UpdateThemeOptionsProps } from "fx-theme"
+import { FxThemeContext, FxThemeOptions, UpdateThemeOptionsProps,
+  createFxTheme, fxThemeOptionsList } from "fx-theme"
+import { DialogActions as AppDialogActions, AppContext, AppDialogs } from "@/react/app/App"
 
 
-export interface SettingsDialogProps {
-  dialogIsOpen: boolean
-  updateFx: (theme: UpdateThemeOptionsProps) => void
-  closeDialog: () => void
-}
-
-export default function SettingsDialog(props: any) {
-  const {dialogIsOpen, updateFx, closeDialog} = props
-
+export default function SettingsDialog() {
   const theme = useTheme()
 
   const {enqueueSnackbar} = useSnackbar()
 
-  const handleUpdateMode = (mode: any) => {
-    const variant: VariantType = "default"
-    enqueueSnackbar(`${mode} Mode`, {variant})
-    updateFx({mode: mode.toLowerCase()})
+  const {app, dialogActions} = useContext(AppContext)
+
+  const { setFxTheme} = useContext(FxThemeContext)
+
+  const handleUpdateMode = (mode: 'Light' | 'Dark') => {
+
+    let fxThemeOptions: FxThemeOptions| undefined = undefined
+    setFxTheme((prev) => {
+      fxThemeOptions = fxThemeOptionsList.find((i) => i.name === prev.name)
+      if (!fxThemeOptions) return prev
+      fxThemeOptions.palette.mode = mode.toLowerCase() as PaletteMode
+      localStorage.setItem('themeMode', mode.toLowerCase())
+      return createFxTheme(fxThemeOptions)
+    })
+    enqueueSnackbar(`${mode} Mode` )
+  }
+
+  const handleCloseDialog = () => {
+    dialogActions({type: AppDialogActions.Close, dialog: AppDialogs.Settings})
   }
 
   return (
-    <DraggableDialog dialogIsOpen={dialogIsOpen} ariaLabel="app-settings" title="SETTINGS" >
+    <DraggableDialog
+      dialogIsOpen={app.settingsDialogIsOpen} ariaLabel="app-settings" title="SETTINGS" >
       <DialogContent sx={{width: "100%"}}>
         <Stack direction={"column"} spacing={3}>
           <Box>
@@ -45,11 +54,14 @@ export default function SettingsDialog(props: any) {
               </ToggleButton>
             </ToggleButtonGroup>
           </Box>
-          <SettingsPalettes updateFx={updateFx} />
+          <SettingsPalettes />
         </Stack>
       </DialogContent>
       <DialogActions disableSpacing={false}>
-        <Button onClick={closeDialog} color="inherit" variant="outlined"> Done </Button>
+        <Button color="inherit" variant="outlined"
+          onClick={ handleCloseDialog} >
+          Done
+        </Button>
       </DialogActions>
     </DraggableDialog>
   )

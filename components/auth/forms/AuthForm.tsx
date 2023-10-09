@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useContext, useState} from "react"
 
 import {signIn} from "next-auth/react"
 
@@ -12,20 +12,28 @@ import axios from "axios"
 import AuthSchema from "../AuthFormSchema"
 import {EmailTextField, PasswordTextField} from "../AuthTextFields"
 import GoogleButton from "@/components/GoogleButton"
+import { AppContext, AppDialogs, DialogActions as AppDialogActions, } from "@/react/app/App"
 
 
-interface AuthFormProps{
-  closeDialog: () => void;
-  openRegisterDialog: () => void;
-  openForgotDialog: () => void;
-}
+export default function AuthForm() {
 
-export default function AuthForm(props: AuthFormProps) {
+
+  const {app, dialogActions} = useContext(AppContext)
 
   const [loginError, setLoginError] = useState<string>('')
   const {enqueueSnackbar} = useSnackbar()
 
-  const {closeDialog, openRegisterDialog, openForgotDialog} = props
+  const handleCloseDialog = () => {
+    dialogActions({type: AppDialogActions.Close, dialog: AppDialogs.Auth})
+  }
+
+  const handleOpenRegisterDialog = () => {
+    dialogActions({type: AppDialogActions.Open, dialog: AppDialogs.Reg})
+  }
+
+  const handleOpenForgotDialog = () => {
+    dialogActions({type: AppDialogActions.Open, dialog: AppDialogs.Forgot})
+  }
 
   const formik = useFormik({
     initialValues: { email: "", password: "", },
@@ -41,14 +49,14 @@ export default function AuthForm(props: AuthFormProps) {
       if( result?.status &&
         result.status === axios.HttpStatusCode.Ok &&
         result.ok === true && result.error === null ){
-        closeDialog()
+        handleCloseDialog()
         enqueueSnackbar("You are now Logged In", {variant: "success"})
       }else{
 
         const parsedResult = JSON.parse(result?.error ? result.error : '')
 
         if(parsedResult.status === axios.HttpStatusCode.Locked){
-          closeDialog();
+          handleCloseDialog()
           enqueueSnackbar("Your account is locked. Please contact support", {variant: "error"})
         }
         if(parsedResult?.status === axios.HttpStatusCode.Unauthorized){
@@ -62,9 +70,9 @@ export default function AuthForm(props: AuthFormProps) {
 
   const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
 
-  const closeForm = () => { formik.resetForm(); closeDialog(); setLoginError("") }
-  const startRegistration = () => { closeDialog(); openRegisterDialog() }
-  const forgotPassword = () => { closeDialog(); openForgotDialog() }
+  const closeForm = () => { formik.resetForm(); handleCloseDialog(); setLoginError("") }
+  const startRegistration = () => { handleCloseDialog(); handleOpenRegisterDialog() }
+  const forgotPassword = () => { handleCloseDialog(); handleOpenForgotDialog() }
 
   return (
     <>

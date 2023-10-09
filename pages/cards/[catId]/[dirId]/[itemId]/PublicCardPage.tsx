@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { GetStaticPaths, GetStaticProps } from "next";
 
 
-import { publicBoards } from "data/publicBoards";
+import { publicBoards } from "@/react/app/data/publicBoards";
 
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 

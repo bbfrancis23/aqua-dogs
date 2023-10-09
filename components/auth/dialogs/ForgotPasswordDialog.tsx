@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useContext, useState} from "react"
 
 import {Alert, Button, DialogActions, DialogContent, Stack} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
@@ -11,18 +11,21 @@ import * as Yup from "yup"
 import DraggableDialog from "@/ui/DraggableDialog"
 import {EmailTextField} from "../AuthTextFields"
 import VerifyCodeForm from "../forms/VerifyCodeForm"
+import { DialogActions as AppDialogActions, AppContext, AppDialogs } from "@/react/app/App"
 
-interface ForgotPasswordDialogProps {
-  dialogIsOpen: boolean;
-  closeDialog: () => void;
-}
 
 const ForgetPasswordSchema = Yup.object().shape({
   email: Yup.string().email("Email must be a valid email address").required("Email is required"),
 })
 
-export default function AuthDialog(props: ForgotPasswordDialogProps) {
-  const {dialogIsOpen, closeDialog} = props
+export default function AuthDialog() {
+
+  const {app, dialogActions} = useContext(AppContext)
+
+  const handleForgotCloseDialog = () => {
+    dialogActions({type: AppDialogActions.Close, dialog: AppDialogs.Forgot})
+  }
+
 
   const {enqueueSnackbar} = useSnackbar()
 
@@ -50,7 +53,7 @@ export default function AuthDialog(props: ForgotPasswordDialogProps) {
           setServerError(error.response.data.message)
 
           if(error.response.status === axios.HttpStatusCode.Locked){
-            closeDialog()
+            handleForgotCloseDialog()
             formik.resetForm()
             setServerError("")
             setShowVerificationCodeField(false)
@@ -64,14 +67,15 @@ export default function AuthDialog(props: ForgotPasswordDialogProps) {
     formik.resetForm()
     setServerError("")
     setShowVerificationCodeField(false)
-    closeDialog()
+    handleForgotCloseDialog()
   }
 
   const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
 
 
   return (
-    <DraggableDialog dialogIsOpen={dialogIsOpen} ariaLabel="forgot-dialog" title="FORGOT PASSWORD" >
+    <DraggableDialog dialogIsOpen={app.forgotDialogIsOpen}
+      ariaLabel="forgot-dialog" title="FORGOT PASSWORD" >
       <DialogContent>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>

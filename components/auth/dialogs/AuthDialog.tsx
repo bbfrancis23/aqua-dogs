@@ -3,21 +3,17 @@ import DraggableDialog from "@/ui/DraggableDialog"
 
 
 import AuthForm from "../forms/AuthForm"
+import { useContext } from "react"
+import { AppContext } from "@/react/app/App"
 
-interface AuthDialogProps {
-  dialogIsOpen: boolean;
-  closeDialog: () => void;
-  openRegDialog: () => void;
-  openForgotDialog: () => void;
-}
 
-export default function AuthDialog(props: AuthDialogProps) {
-  const {dialogIsOpen, closeDialog, openRegDialog, openForgotDialog} = props
+export default function AuthDialog() {
+
+  const {app, dialogActions} = useContext(AppContext)
 
   return (
-    <DraggableDialog dialogIsOpen={dialogIsOpen} ariaLabel="auth-dialog" title="LOGIN" >
-      <AuthForm openRegisterDialog={openRegDialog} closeDialog={closeDialog}
-        openForgotDialog={openForgotDialog} />
+    <DraggableDialog dialogIsOpen={app.authDialogIsOpen} ariaLabel="auth-dialog" title="LOGIN" >
+      <AuthForm />
     </DraggableDialog>
   )
 }

@@ -2,7 +2,7 @@ import { Board } from "@/interfaces/BoardInterface"
 import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards"
 import {findPublicBoard} from "@/mongo/controls/member/project/board/findPublicBoard"
 import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from "@mui/material"
-import { publicBoards } from "data/publicBoards";
+import { publicBoards } from "@/react/app/data/publicBoards";
 import { Column } from "@/interfaces/ColumnInterface";
 import { Item } from "@/interfaces/ItemInterface";
 import Link from "next/link";
