@@ -6,8 +6,9 @@ import DarkModeIcon from "@mui/icons-material/DarkMode"
 import LightModeIcon from "@mui/icons-material/LightMode"
 
 import SettingsPalettes from "./SettingsPalettes"
-import { UpdateThemeOptionsProps } from "pages/_app"
+// import { UpdateThemeOptionsProps } from "pages/_app"
 import DraggableDialog from "@/ui/DraggableDialog"
+import { UpdateThemeOptionsProps } from "fx-theme"
 
 
 export interface SettingsDialogProps {
@@ -24,7 +25,7 @@ export default function SettingsDialog(props: any) {
   const {enqueueSnackbar} = useSnackbar()
 
   const handleUpdateMode = (mode: any) => {
-    const variant: VariantType = "info"
+    const variant: VariantType = "default"
     enqueueSnackbar(`${mode} Mode`, {variant})
     updateFx({mode: mode.toLowerCase()})
   }
