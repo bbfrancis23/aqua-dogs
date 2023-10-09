@@ -1,22 +1,25 @@
-import React from "react"
+import React, { useContext } from "react"
 
-import {useTheme, Stack, Box} from "@mui/material"
+import {useTheme, Stack, Box, Theme} from "@mui/material"
 import StarIcon from "@mui/icons-material/Star"
 import Fab from "@mui/material/Fab"
 import { useSnackbar} from "notistack"
 
-import { palettes} from "../../theme/themes"
-import { FxTheme } from "theme/globalTheme"
+// import { palettes} from "../../theme/themes"
+import { FxTheme, FxThemeContext, createFxTheme, fxThemeOptionsList,
+  UpdateThemeOptionsProps } from "fx-theme"
+//import { FxTheme } from "theme/globalTheme"
 
-import { UpdateThemeOptionsProps } from "pages/_app"
 
 type SettingsPalettesProps = {
-  updateFx: (theme: UpdateThemeOptionsProps) => void
+  updateFx: (options: UpdateThemeOptionsProps) => void
 }
 
 const SettingsPalettes = ( props: SettingsPalettesProps) => {
 
-  const theme: FxTheme = useTheme()
+  const theme: Theme = useTheme()
+
+  const {fxTheme} = useContext(FxThemeContext)
 
   const {updateFx} = props
   const paletteCols = 4
@@ -24,9 +27,11 @@ const SettingsPalettes = ( props: SettingsPalettesProps) => {
   const {enqueueSnackbar} = useSnackbar()
 
   const handleUpdateTheme = (index: number) => {
-    enqueueSnackbar(`${palettes[index].name} Theme`, {variant: "info"})
-    updateFx({palette: palettes[index]})
+    enqueueSnackbar(`${fxThemeOptionsList[index].name} Theme`,
+      {})
+    updateFx({name: fxThemeOptionsList[index].name})
   }
+
 
   const getPaletteButton = (index: number) => (
     <Fab onClick={() => handleUpdateTheme(index)}
@@ -34,20 +39,21 @@ const SettingsPalettes = ( props: SettingsPalettesProps) => {
         background:
           `linear-gradient( 
             -25deg, 
-            ${palettes[index].secondary.main} -50%, 
-            ${palettes[index]?.primary?.main} 100% )`,
+            ${fxThemeOptionsList[index].palette.secondary[100]} -50%, 
+            ${fxThemeOptionsList[index].palette.primary[800]} 100% )`,
         ":hover":
         { background:
             `linear-gradient( 
               -25deg, 
-              ${palettes[index].secondary.main} -5%, 
-              ${palettes[index].primary.main} 100% )`, },
+              ${fxThemeOptionsList[index].palette.secondary[100]} -5%, 
+              ${fxThemeOptionsList[index].palette.primary[800]} 100% )`, },
         m: 1,
       }}
-      style={{color: theme.palette.getContrastText(palettes[index].primary.main)}}
+      style={{color: theme.palette.getContrastText('#000000')}}
     >
       <StarIcon
-        style={{visibility: theme.palette.name === palettes[index].name ? "visible" : "hidden"}} />
+        style={{visibility: fxTheme.name === fxThemeOptionsList[index].name ? "visible"
+          : "hidden"}} />
     </Fab>
   )
 
@@ -55,10 +61,10 @@ const SettingsPalettes = ( props: SettingsPalettesProps) => {
     <Box >
       <span>Palette:</span>
       <Stack direction={"row"}>
-        { palettes.slice(0, paletteCols).map((t, index) => getPaletteButton(index)) }
+        { fxThemeOptionsList.slice(0, paletteCols).map((t, index) => getPaletteButton(index)) }
       </Stack>
       <Stack direction={"row"} >
-        { palettes.slice(paletteCols, paletteCols + paletteCols)
+        { fxThemeOptionsList.slice(paletteCols, paletteCols + paletteCols)
           .map((t, index) => getPaletteButton((index + paletteCols))) }
       </Stack>
     </ Box>

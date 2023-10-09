@@ -1,18 +1,15 @@
-import {useState, useEffect, useMemo, useReducer} from "react"
+import {useState, useEffect, useMemo, useReducer, Dispatch, SetStateAction} from "react"
 
 import type {AppProps} from "next/app"
 import Link from "next/link"
 import Image from "next/image"
 import {SessionProvider} from "next-auth/react"
 
-import { CssBaseline, ThemeProvider, AppBar, Toolbar, Box, alpha,
-  IconButton,
-  Theme} from "@mui/material"
+import { CssBaseline, ThemeProvider, AppBar,
+  Toolbar, Box, IconButton, PaletteMode, } from "@mui/material"
 import {ConfirmProvider} from "material-ui-confirm"
 import SettingsIcon from "@mui/icons-material/Settings"
 import {SnackbarProvider} from "notistack"
-
-import {appThemes, palettes, createFxTheme, FxThemeOptions, FxPaletteOptions} from "../theme/themes"
 
 import AuthNav from "@/components/auth/AuthNav"
 import AppBarMenu, {AppBarMenuProps} from "@/components/AppBarMenu"
@@ -31,15 +28,11 @@ import {appMenuItems} from "../data/appMenuItems"
 import '../styles/globals.css'
 import { useRouter } from "next/router"
 import Loading from "./Loading"
+import { FxTheme, FxThemeContext, FxThemeNames,
+  UpdateThemeOptionsProps, createFxTheme, defaultFxTheme, fxThemeOptionsList,} from "fx-theme"
 
 
 /********* Interfaces Global and Helpers ********/
-
-export interface UpdateThemeOptionsProps {
-  palette: FxPaletteOptions
-  name?: string
-  mode?: string
-}
 
 
 enum AppActions {
@@ -75,7 +68,6 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
   }
 }
 
-
 /********* FrontEnd  **********/
 
 const App = ({Component, pageProps: {session, ...pageProps},}: AppProps) => {
@@ -84,31 +76,41 @@ const App = ({Component, pageProps: {session, ...pageProps},}: AppProps) => {
     {settingsDialogIsOpen: false, authDialogIsOpen: false, regDialogIsOpen: false,
       forgotDialogIsOpen: false})
 
+  const [fxTheme, setFxTheme] = useState<FxTheme>(defaultFxTheme)
 
-  const [theme, setTheme] = useState<Theme>(createFxTheme(appThemes[0]))
-  const handleUpdateTheme = (options: UpdateThemeOptionsProps) => {
-    let fxOptions: any = { }
+  const handleUpdateTheme = (
+    options: UpdateThemeOptionsProps,
+  ) => {
+    let themeName =
+      localStorage.getItem('themeName') !== null ?
+        localStorage.getItem('themeName') : FxThemeNames.Ocean
+    let themeMode = localStorage.getItem('themeMode') ? localStorage.getItem('themeMode') : 'light'
 
-    if (options) {
-      let fxOptionsJSON = localStorage.getItem("themeOptions")
+    if (options.name) themeName = options.name
+    if (options.mode) themeMode = options.mode
 
-      fxOptions = fxOptionsJSON ? (JSON.parse(fxOptionsJSON)) : {
-        palette: palettes[0],
-      }
+    if (!themeName) return
+    if (!themeMode) return
 
-      if (options.name) fxOptions!.name = options.name
-      if (options.palette) fxOptions.palette = options.palette
-      if (options.mode && fxOptions.palette) fxOptions.palette.mode = options.mode
-      else fxOptions!.palette!.mode = theme?.palette.mode
-    }
-    setTheme(createFxTheme(fxOptions))
+    if (themeMode !== 'light' && themeMode !== 'dark') themeMode = 'light'
+    themeName = Object.keys(FxThemeNames).some((tn) => tn === themeName)
+      ? themeName
+      : FxThemeNames.Ocean
 
-    localStorage.setItem("themeOptions", JSON.stringify(fxOptions))
+    const fxThemeOptions = fxThemeOptionsList.find((i) => i.name === themeName)
+    if (!fxThemeOptions) return
+
+    if (themeMode) fxThemeOptions!.palette.mode = themeMode as PaletteMode
+
+    setFxTheme(createFxTheme(fxThemeOptions))
+
+    localStorage.setItem('themeName', themeName)
+    localStorage.setItem('themeMode', themeMode)
   }
 
   useEffect( () => {
-    const themeOptions = localStorage.getItem("themeOptions")
-    setTheme(createFxTheme(themeOptions ? (JSON.parse(themeOptions)) : appThemes[0]))
+    console.log("useEffect triggered")
+    handleUpdateTheme({})
   }, [])
 
   const router = useRouter();
@@ -123,74 +125,68 @@ const App = ({Component, pageProps: {session, ...pageProps},}: AppProps) => {
 
 
   return(
-    <SessionProvider session={session} refetchInterval={5 * 60}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <ConfirmProvider>
-          <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: "right", vertical: "bottom"}}
-            hideIconVariant={ true } >
-            <AppBar position={'sticky'} sx={{boxShadow: 0}}>
-              <Toolbar >
-                <Link href={"/"} style={{textDecoration: "none"}} >
-                  <Image src="/images/strategy-fx-logo.png" alt="logo" width="125" height="25"
-                    style={{position: 'relative', top: '5px'}}/>
-
-                </Link>
-                <Box sx={{pl: 2, display: 'flex', position: 'relative', top: '3px'}}>
-                  { appMenuItems.map( (i: AppBarMenuProps) => (
-                    <AppBarMenu key={i.id} title={i.title} id={i.id} boards={i.boards}
-                      icon={i.icon} />
-                  )) }
-                </ Box>
-                <Box sx={{flexGrow: 1}} />
-                <AuthNav
-
-                  setAuthDialogIsOpen={(payload) =>
-                    dispatch({type: AppActions.SetAuthDialogIsOpen, payload}) } />
-
-
-                <IconButton size="large" edge="end" aria-label="app settings" aria-haspopup="true"
-                  color="inherit"
-                  onClick={ () =>
-                    dispatch({type: AppActions.SetSettingsDialogIsOpen, payload: true})} >
-                  <SettingsIcon />
-                </IconButton>
-              </Toolbar> {
-                loading ? <Loading /> : <></>
-              }
-            </AppBar>
+    <FxThemeContext.Provider value={{fxTheme, setFxTheme}}>
+      <SessionProvider session={session} refetchInterval={5 * 60}>
+        <ThemeProvider theme={fxTheme.theme}>
+          <CssBaseline />
+          <ConfirmProvider>
+            <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: "right", vertical: "bottom"}}
+              hideIconVariant={ true } >
+              <AppBar position={'sticky'} sx={{boxShadow: 0}}>
+                <Toolbar >
+                  <Link href={"/"} style={{textDecoration: "none"}} >
+                    <Image src="/images/strategy-fx-logo.png" alt="logo" width="125" height="25"
+                      style={{position: 'relative', top: '5px'}}/>
+                  </Link>
+                  <Box sx={{pl: 2, display: 'flex', position: 'relative', top: '3px'}}>
+                    { appMenuItems.map( (i: AppBarMenuProps) => (
+                      <AppBarMenu key={i.id} title={i.title} id={i.id} boards={i.boards}
+                        icon={i.icon} /> )) }
+                  </ Box>
+                  <Box sx={{flexGrow: 1}} />
+                  <AuthNav
+                    setAuthDialogIsOpen={(payload) =>
+                      dispatch({type: AppActions.SetAuthDialogIsOpen, payload}) } />
+                  <IconButton size="large" edge="end" aria-label="app settings" aria-haspopup="true"
+                    color="inherit" onClick={ () =>
+                      dispatch({type: AppActions.SetSettingsDialogIsOpen, payload: true})} >
+                    <SettingsIcon />
+                  </IconButton>
+                </Toolbar> {
+                  loading ? <Loading /> : <></>
+                }
+              </AppBar>
+              <Box>
+                <Component {...pageProps} openAuthDialog={
+                  () => dispatch({type: AppActions.SetAuthDialogIsOpen, payload: true}) } />
 
 
-            <Box>
+              </Box>
 
-
-              <Component {...pageProps} openAuthDialog={
-                () => dispatch({type: AppActions.SetAuthDialogIsOpen, payload: true}) } />
-
-
-            </Box>
-
-            <SettingsDialog updateFx={handleUpdateTheme} dialogIsOpen={state.settingsDialogIsOpen}
-              closeDialog={
-                () =>
+              <SettingsDialog
+                updateFx={handleUpdateTheme} dialogIsOpen={state.settingsDialogIsOpen}
+                closeDialog={ () =>
                   dispatch({type: AppActions.SetSettingsDialogIsOpen, payload: false}) }/>
-            <AuthDialog dialogIsOpen={state.authDialogIsOpen}
-              closeDialog={() => dispatch({ type: AppActions.SetAuthDialogIsOpen, payload: false}) }
-              openRegDialog={
-                () => dispatch({ type: AppActions.SetRegDialogIsOpen, payload: true}) }
-              openForgotDialog={
-                () => dispatch({type: AppActions.SetForgotDialogIsOpen, payload: true})} />
-            <RegisterDialog dialogIsOpen={state.regDialogIsOpen}
-              closeDialog={ () => dispatch({ type: AppActions.SetRegDialogIsOpen, payload: false})}
-              openAuthDialog={
-                () => dispatch({ type: AppActions.SetAuthDialogIsOpen, payload: true})} />
-            <ForgotPasswordDialog dialogIsOpen={state.forgotDialogIsOpen}
-              closeDialog={
-                () => dispatch({type: AppActions.SetForgotDialogIsOpen, payload: false}) } />
-          </SnackbarProvider>
-        </ConfirmProvider>
-      </ ThemeProvider>
-    </SessionProvider>
+              <AuthDialog dialogIsOpen={state.authDialogIsOpen}
+                closeDialog={
+                  () => dispatch({ type: AppActions.SetAuthDialogIsOpen, payload: false}) }
+                openRegDialog={
+                  () => dispatch({ type: AppActions.SetRegDialogIsOpen, payload: true}) }
+                openForgotDialog={
+                  () => dispatch({type: AppActions.SetForgotDialogIsOpen, payload: true})} />
+              <RegisterDialog dialogIsOpen={state.regDialogIsOpen}
+                closeDialog={
+                  () => dispatch({ type: AppActions.SetRegDialogIsOpen, payload: false})}
+                openAuthDialog={
+                  () => dispatch({ type: AppActions.SetAuthDialogIsOpen, payload: true})} />
+              <ForgotPasswordDialog dialogIsOpen={state.forgotDialogIsOpen}
+                closeDialog={
+                  () => dispatch({type: AppActions.SetForgotDialogIsOpen, payload: false}) } />
+            </SnackbarProvider>
+          </ConfirmProvider>
+        </ ThemeProvider>
+      </SessionProvider>
+    </FxThemeContext.Provider>
   )
 }
 
