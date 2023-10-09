@@ -17,12 +17,11 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["components/*"],
+      "@/react/*": ["react/*"],
       "@/interfaces/*": ["interfaces/*"],
       "@/mongo/*": ["mongo/*"],
       "@/ui/*": ["ui/*"],
-      "@/itemComponents/*": [
-        "components/members/projects/boards/columns/items/*"
-      ]
+      "@/itemComponents/*": ["components/members/projects/boards/columns/items/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

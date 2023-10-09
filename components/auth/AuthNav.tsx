@@ -6,15 +6,21 @@ import AccountIcon from "@mui/icons-material/AccountCircle"
 import {useSession} from "next-auth/react"
 import Link from "next/link"
 import { Avatar } from "@mui/material"
+import { AppContext, AppDialogs, DialogActions } from "@/react/app/App"
+import { useContext } from "react"
 
-interface AuthNavProps{
-  setAuthDialogIsOpen: (authDialogIsOpen:boolean) => void
-}
 
-export const AuthNav = (params: AuthNavProps) => {
-  const {setAuthDialogIsOpen} = params
+export const AuthNav = () => {
+
   const {data: session, status} = useSession()
   const loading = status === "loading"
+
+
+  const { dialogActions} = useContext(AppContext)
+
+  const handleOpenAuthDialog = () => {
+    dialogActions({type: DialogActions.Open, dialog: AppDialogs.Auth})
+  }
 
   return (
     <>
@@ -29,7 +35,8 @@ export const AuthNav = (params: AuthNavProps) => {
         </Link>
       )}
       { !session && (
-        <IconButton color="secondary" onClick={() => setAuthDialogIsOpen(true)}
+        <IconButton color="secondary"
+          onClick={handleOpenAuthDialog }
           disabled={loading} >
           <LoginIcon />
         </IconButton>

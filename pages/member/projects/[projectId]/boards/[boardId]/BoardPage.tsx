@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import { GetServerSideProps, Redirect } from "next";
 import Head from "next/head"
@@ -24,6 +24,7 @@ import Permission, { PermissionCodes, permission } from "@/ui/PermissionComponen
 import { FxTheme } from "theme/globalTheme";
 import CreateColumnForm from "@/components/members/projects/boards/columns/forms/CreateColumnForm";
 import MemberItemDialog from "@/components/items/dialogs/MemberItemDialog";
+import { FxThemeContext } from "fx-theme";
 
 /********** Interfaces Globals and Helpers *********/
 export interface BoardPage {
@@ -72,7 +73,8 @@ export const Page = (props: BoardPage) => {
 
   const [member, setMember] = useState<Member>(props.member)
 
-  const theme: FxTheme = useTheme()
+  //const theme: FxTheme = useTheme()
+  const {fxTheme} = useContext(FxThemeContext)
   const {enqueueSnackbar} = useSnackbar()
 
   const [project, setProject] = useState<Project>(props.project)
@@ -92,7 +94,7 @@ export const Page = (props: BoardPage) => {
         </Head>
         <MemberContext.Provider value={{member, setMember}}>
           <Box style={{overflow: 'hidden'}}
-            sx={{background: `url(/images/themes/${theme.palette.name}/hero.jpg)`,
+            sx={{background: `url(/images/themes/${fxTheme.name}/hero.jpg)`,
               overflow: 'hidden', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
               backgroundAttachment: 'fixed',
               backgroundPosition: 'center', width: '100vw', height: 'calc(100vh - 64px)'}} >
