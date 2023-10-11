@@ -1,12 +1,12 @@
 import {publicBoards} from "./publicBoards"
-import {AppBarMenuProps} from "../components/AppBarMenu"
+import {AppBarMenuItem, AppBarMenuProps} from "../components/AppBarMenu"
 
 
 import WebFrameworkIcon from "@mui/icons-material/Language"
 import JavaScriptIcon from "@mui/icons-material/Code"
 import SoftwareDevIcon from "@mui/icons-material/DataObject"
 
-export const appMenuItems: AppBarMenuProps[] = [
+export const appMenuItems: AppBarMenuItem[] = [
   {
     title: "WEB FRAMEWORK",
     id: "web-framework",

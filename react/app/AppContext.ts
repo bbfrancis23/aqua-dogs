@@ -1,36 +1,7 @@
-/* eslint-disable no-fallthrough */
 /* eslint-disable indent */
-// eslint bug on indent for switch case
 
-import {Dispatch, createContext} from 'react'
-export enum DialogActions {
-  Open = 'Open',
-  Close = 'Close',
-}
-
-export enum AppDialogs {
-  Settings = 'Settings',
-  Auth = 'Auth',
-  Reg = 'Reg',
-  Forgot = 'Forgot',
-  All = 'All',
-}
-
-export interface AppState {
-  settingsDialogIsOpen: boolean
-  authDialogIsOpen: boolean
-  regDialogIsOpen: boolean
-  forgotDialogIsOpen: boolean
-}
-export interface DialogAction {
-  type: DialogActions
-  dialog: AppDialogs
-}
-
-export interface AppContextProps {
-  app: AppState
-  dialogActions: Dispatch<DialogAction>
-}
+import {createContext} from 'react'
+import {AppContextProps, AppDialogs, AppState, DialogAction, DialogActions} from '../app'
 
 export const appReducer = (app: AppState, action: DialogAction): AppState => {
   if (!action) return app

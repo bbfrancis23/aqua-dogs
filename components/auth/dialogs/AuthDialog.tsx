@@ -4,7 +4,7 @@ import DraggableDialog from "@/ui/DraggableDialog"
 
 import AuthForm from "../forms/AuthForm"
 import { useContext } from "react"
-import { AppContext } from "@/react/app/App"
+import { AppContext } from "@/react/app"
 
 
 export default function AuthDialog() {

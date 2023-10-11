@@ -9,7 +9,8 @@ import SettingsPalettes from "./SettingsPalettes"
 import DraggableDialog from "@/ui/DraggableDialog"
 import { FxThemeContext, FxThemeOptions, UpdateThemeOptionsProps,
   createFxTheme, fxThemeOptionsList } from "fx-theme"
-import { DialogActions as AppDialogActions, AppContext, AppDialogs } from "@/react/app/App"
+import { DialogActions as AppDialogActions, AppDialogs } from "@/react/app/app-types"
+import { AppContext } from "@/react/app"
 
 
 export default function SettingsDialog() {
