@@ -2,7 +2,8 @@ import React, { useContext } from "react"
 import RegisterForm from "../forms/RegisterForm"
 
 import DraggableDialog from "@/ui/DraggableDialog"
-import { DialogActions, AppContext, AppDialogs } from "@/react/app/App"
+import { DialogActions, AppDialogs } from "@/react/app/app-types"
+import { AppContext } from "@/react/app"
 
 
 export default function RegisterDialog() {

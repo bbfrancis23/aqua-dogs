@@ -6,8 +6,9 @@ import AccountIcon from "@mui/icons-material/AccountCircle"
 import {useSession} from "next-auth/react"
 import Link from "next/link"
 import { Avatar } from "@mui/material"
-import { AppContext, AppDialogs, DialogActions } from "@/react/app/App"
+import { AppDialogs, DialogActions } from "@/react/app/app-types"
 import { useContext } from "react"
+import { AppContext } from "@/react/app"
 
 
 export const AuthNav = () => {

@@ -11,7 +11,8 @@ import * as Yup from "yup"
 import DraggableDialog from "@/ui/DraggableDialog"
 import {EmailTextField} from "../AuthTextFields"
 import VerifyCodeForm from "../forms/VerifyCodeForm"
-import { DialogActions as AppDialogActions, AppContext, AppDialogs } from "@/react/app/App"
+import { DialogActions as AppDialogActions, AppDialogs } from "@/react/app/app-types"
+import { AppContext } from "@/react/app"
 
 
 const ForgetPasswordSchema = Yup.object().shape({

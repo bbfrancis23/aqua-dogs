@@ -1,4 +1,3 @@
-import { AppContext, appReducer } from "@/react/app/App"
 import { CssBaseline, PaletteMode, ThemeProvider } from "@mui/material"
 import { FxTheme, FxThemeContext, FxThemeNames, UpdateThemeOptionsProps,
   createFxTheme, defaultFxTheme, fxThemeOptionsList } from "fx-theme"
@@ -11,13 +10,11 @@ export interface AppCompoentProps {
 }
 
 
-export const AppComponent = (props:AppCompoentProps) => {
-
-  const {children} = props
-
+export const AppComponent = ({children}:AppCompoentProps) => {
 
   const [fxTheme, setFxTheme] = useState<FxTheme>(defaultFxTheme)
 
+  // TODO: This could be more modular and could be put into FxTheme
   const handleUpdateTheme = (
     options: UpdateThemeOptionsProps,
   ) => {
@@ -49,7 +46,6 @@ export const AppComponent = (props:AppCompoentProps) => {
   }
 
   useEffect( () => {
-    console.log("useEffect triggered")
     handleUpdateTheme({})
   }, [])
 
@@ -71,3 +67,5 @@ export const AppComponent = (props:AppCompoentProps) => {
 }
 
 export default AppComponent
+/* QA: Brian Francis 10-10-23 - 3 stars
+    - Update theme could be better and put into FxTheme - low priority */

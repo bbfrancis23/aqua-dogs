@@ -12,7 +12,7 @@ import axios from "axios"
 import AuthSchema from "../AuthFormSchema"
 import {EmailTextField, PasswordTextField} from "../AuthTextFields"
 import GoogleButton from "@/components/GoogleButton"
-import { AppContext, AppDialogs, DialogActions as AppDialogActions, } from "@/react/app/App"
+import { AppContext, DialogActions as AppDialogActions, AppDialogs } from "@/react/app"
 
 
 export default function AuthForm() {

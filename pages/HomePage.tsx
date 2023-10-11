@@ -13,6 +13,9 @@ import { FxTheme } from "theme/globalTheme"
 import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 import { getPublicBoardDirectory } from "./categories/[dirId]/PublicCategoryPage"
 import { getPublicCardDirectory } from "./cards/[catId]/[dirId]/[itemId]/PublicCardPage"
+import { error } from "console"
+import { useSnackbar } from "notistack"
+import { use, useEffect } from "react"
 
 /********  Interfaces Globals and Helpers *********/
 
@@ -34,21 +37,39 @@ const CategoryHeader = (props: {title: string}) => (
 
 const websiteProjectId: string = '64b6bc0a1b836981ba0c4cc5'
 
-export interface HomePage{ boards: Board[]}
+export interface HomePage{
+  boards?: Board[],
+  errors?: string[]
+}
 
 /********** Backend **********/
 
 export const getStaticProps: GetStaticProps<HomePage> = async () => {
-  let boards: Board[] = await findProjectBoards(websiteProjectId)
+
+  let boards: Board[] = []
+  try {
+    boards = await findProjectBoards(websiteProjectId)
+  } catch (error) {
+    return {props: { errors: ['Error finding project boards.']}}
+  }
 
   return {props: { boards}}
 }
 
 /********** Frontend **********/
-const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
+const Page = ({boards, errors}: InferGetServerSidePropsType<typeof getStaticProps>) => {
 
-  const {boards} = homePage
   const theme: FxTheme = useTheme()
+
+  const {enqueueSnackbar} = useSnackbar()
+
+  useEffect( () => {
+    if(errors){
+      errors.forEach( (e: string) => {
+        enqueueSnackbar(e, {variant: 'error'})
+      })
+    }
+  }, [enqueueSnackbar, errors])
 
   return (
     <>
@@ -59,12 +80,13 @@ const Page = (homePage: InferGetServerSidePropsType<typeof getStaticProps>) => {
       </Head>
       <Box sx={{ p: theme.defaultPadding}}>
         <Grid container spacing={theme.defaultPadding}>
-          { boards.map( (b: Board) => (
+          { boards?.map( (b: Board) => (
             <Grid item xs={12} md={6} lg={4} key={b.id}>
               <Card >
                 <Link href={`/categories/${getPublicBoardDirectory(b)}`}
                   style={{textDecoration: "none"}} >
-                  <CardHeader title={ <CategoryHeader title={b.title} />}
+                  <CardHeader
+                    title={ <CategoryHeader title={b.title} />}
                     sx={{bgcolor: "secondary.main", color: "secondary.contrastText"}} />
                 </Link>
                 <CardContent style={{height: "175px", overflow: "auto", paddingBottom: "0px"}}>
