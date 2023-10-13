@@ -12,7 +12,7 @@ import {PasswordTextField} from "../AuthTextFields"
 import {useSnackbar} from "notistack"
 import * as Yup from "yup"
 
-import {passwordSchema} from "../AuthFormSchema"
+import {passwordSchema} from "../../AuthFormSchema"
 
 const ChangePasswordFormSchema = Yup.object().shape({
   oldPassword: passwordSchema,

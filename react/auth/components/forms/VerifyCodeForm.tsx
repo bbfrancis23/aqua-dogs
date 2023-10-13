@@ -8,7 +8,7 @@ import axios from "axios"
 import {Form, FormikProvider, useFormik} from "formik"
 import * as Yup from "yup"
 
-import {passwordSchema} from "../AuthFormSchema"
+import {passwordSchema} from "../../AuthFormSchema"
 import {PasswordTextField} from "../AuthTextFields"
 
 interface VerifyCodeFormProps{

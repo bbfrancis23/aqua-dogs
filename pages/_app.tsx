@@ -5,29 +5,27 @@ import type {AppProps} from "next/app"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import {SessionProvider} from "next-auth/react"
+import Loading from "./Loading"
 
 import { AppBar, Toolbar, Box, IconButton, IconButtonProps } from "@mui/material"
 import SettingsIcon from "@mui/icons-material/Settings"
 
-import Loading from "./Loading"
-
 import LogoImage from '@/react/LogoImage'
-
 import { AppContext, AppDialogs, DialogActions, appReducer, appMenuItems } from '@/react/app'
 import AppBarMenu, {AppBarMenuItem} from "@/react/app/components/AppBarMenu"
+import AuthNav from "@/react/auth/components/AuthNav"
+import SettingsDialog from "@/react/settings/SettingsDialog"
+import RegisterDialog from "@/react/auth/components/dialogs/RegisterDialog"
+import AuthDialog from "@/react/auth/components/dialogs/AuthDialog"
+import ForgotPasswordDialog from "@/react/auth/components/dialogs/ForgotPasswordDialog"
 
 import App from "./App"
-
-import AuthNav from "@/components/auth/AuthNav"
-import SettingsDialog from "@/components/settings/SettingsDialog"
-import RegisterDialog from "@/components/auth/dialogs/RegisterDialog"
-import AuthDialog from "@/components/auth/dialogs/AuthDialog"
-import ForgotPasswordDialog from "@/components/auth/dialogs/ForgotPasswordDialog"
 
 const FiveMinutes = 5 * 60;
 
 const NextApp = ({Component, pageProps: {session, ...pageProps},}: AppProps) => {
 
+  // init app state
   const [app, dialogActions] = useReducer(appReducer,
     {settingsDialogIsOpen: false, authDialogIsOpen: false,
       regDialogIsOpen: false, forgotDialogIsOpen: false})
@@ -41,18 +39,13 @@ const NextApp = ({Component, pageProps: {session, ...pageProps},}: AppProps) => 
     router.events.on('routeChangeError', () => setLoading(false))
   }, [router])
 
-
-  const handleOpenSettingsDialog = () => {
-    dialogActions({type: DialogActions.Open, dialog: AppDialogs.Settings})
-  }
-
   const iconButton: IconButtonProps = {
     size: "large",
     edge: "end",
     "aria-label": "app settings",
     "aria-haspopup": true,
     color: "inherit",
-    onClick: handleOpenSettingsDialog,
+    onClick: () => dialogActions({type: DialogActions.Open, dialog: AppDialogs.Settings}),
   }
 
   return(
@@ -61,23 +54,17 @@ const NextApp = ({Component, pageProps: {session, ...pageProps},}: AppProps) => 
         <SessionProvider session={session} refetchInterval={FiveMinutes}>
           <AppBar position={'sticky'}>
             <Toolbar >
-              <Link href={"/"} style={{textDecoration: "none"}} >
-                <LogoImage />
-              </Link>
+              <Link href={"/"} style={{textDecoration: "none"}} ><LogoImage /></Link>
               <Box sx={{display: 'flex'}}>
                 { appMenuItems.map( (i: AppBarMenuItem) => (
                   <AppBarMenu key={i.id} appBarMenuIem={i}/> )) }
               </ Box>
               <Box sx={{flexGrow: 1}} />
               <AuthNav />
-              <IconButton {...iconButton}>
-                <SettingsIcon />
-              </IconButton>
+              <IconButton {...iconButton}><SettingsIcon /></IconButton>
             </Toolbar> { loading ? <Loading /> : <></> }
           </AppBar>
-          <Box>
-            <Component {...pageProps} />
-          </Box>
+          <Box><Component {...pageProps} /></Box>
           <SettingsDialog />
           <AuthDialog />
           <RegisterDialog />
