@@ -9,7 +9,7 @@ import {Form, FormikProvider, useFormik} from "formik"
 
 import { FxTheme } from "theme/globalTheme"
 
-import AuthSchema from "../AuthFormSchema"
+import AuthSchema from "../../AuthFormSchema"
 
 import {EmailTextField, PasswordTextField} from "../AuthTextFields"
 import Link from "next/link"

@@ -9,7 +9,7 @@ import {useSnackbar} from "notistack"
 import {Form, FormikProvider, useFormik} from "formik"
 import axios from "axios"
 
-import AuthSchema from "../AuthFormSchema"
+import AuthSchema from "../../AuthFormSchema"
 import {EmailTextField, PasswordTextField} from "../AuthTextFields"
 import GoogleButton from "@/components/GoogleButton"
 import { AppContext, DialogActions as AppDialogActions, AppDialogs } from "@/react/app"

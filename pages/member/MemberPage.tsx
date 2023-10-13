@@ -14,7 +14,7 @@ import {Member} from "@/interfaces/MemberInterface"
 
 import { findMember, findMemberProjects } from "@/mongo/controls/member/memberControls"
 
-import ChangePasswordForm from "@/components/auth/forms/ChangePasswordForm"
+import ChangePasswordForm from "@/react/auth/components/forms/ChangePasswordForm"
 import NameForm from "@/components/members/NameForm"
 import EmailForm from "@/components/members/EmailForm"
 import ProjectStub from "@/components/members/projects/ProjectStub"
