@@ -1,4 +1,4 @@
-import {Grid, Card, CardHeader, CardContent, useTheme, Typography, Box} from "@mui/material"
+import {Grid, useTheme, Typography, Box, Theme} from "@mui/material"
 
 import Link from "next/link"
 import Head from 'next/head'
@@ -11,13 +11,12 @@ import { Board } from "@/interfaces/BoardInterface"
 
 import { FxTheme } from "theme/globalTheme"
 import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
-import { getPublicBoardDirectory } from "./categories/[dirId]/PublicCategoryPage"
-import { getPublicCardDirectory } from "./cards/[catId]/[dirId]/[itemId]/PublicCardPage"
-import { error } from "console"
-import { useSnackbar } from "notistack"
-import { use, useEffect } from "react"
+import { getPublicBoardDirectory} from "./categories/[dirId]/PublicCategoryPage"
+import { getPublicCardDirectory} from "./cards/[catId]/[dirId]/[itemId]/PublicCardPage"
 
-/********  Interfaces Globals and Helpers *********/
+import AppFooter from "@/react/app/components/AppFooter"
+import ListCard from "@/ui/ListCard"
+import { HoverLink } from "@/ui/HoverLink"
 
 export const DESCRIPTION = "A Simple way to Orginize your Projects and impliment Strategies. "
   + "Hundreds of Software Developement Best Practices, Standards and Eamples."
@@ -29,47 +28,36 @@ export const KEYWORDS = "JavaScript, TypeScript, React, Next.js, Node.js, MongoD
   + "Web App, Web Application, Full Stack, Full Stack Development, Full Stack Developer, "
   + "Software Engineer, Software Engineering, Software Developer, Software Development Engineer "
 
-const CategoryHeader = (props: {title: string}) => (
-  <Typography variant={'h2'} sx={{fontSize: '1.25rem', fontWeight: '500'}}>
-    {props.title}
-  </Typography>
+const CategoryHeader = ({title, href}: {title: string, href: string}) => (
+  <Link href={`/categories/${href}`} >
+    <Typography variant={'h2'} sx={{fontSize: '1.25rem',
+      fontWeight: '500', color: "secondary.contrastText"}}>
+      {title}
+    </Typography>
+  </Link>
 )
 
 const websiteProjectId: string = '64b6bc0a1b836981ba0c4cc5'
 
-export interface HomePage{
-  boards?: Board[],
-  errors?: string[]
-}
-
-/********** Backend **********/
+export interface HomePage{ boards: Board[]}
 
 export const getStaticProps: GetStaticProps<HomePage> = async () => {
 
-  let boards: Board[] = []
-  try {
-    boards = await findProjectBoards(websiteProjectId)
-  } catch (error) {
-    return {props: { errors: ['Error finding project boards.']}}
-  }
-
+  let boards: Board[] = await findProjectBoards(websiteProjectId)
   return {props: { boards}}
 }
 
-/********** Frontend **********/
-const Page = ({boards, errors}: InferGetServerSidePropsType<typeof getStaticProps>) => {
+const Page = ({boards}: InferGetServerSidePropsType<typeof getStaticProps>) => {
 
   const theme: FxTheme = useTheme()
 
-  const {enqueueSnackbar} = useSnackbar()
+  const getBoardDirectory = (board: Board): string => (
+    getPublicBoardDirectory(board)
+  )
 
-  useEffect( () => {
-    if(errors){
-      errors.forEach( (e: string) => {
-        enqueueSnackbar(e, {variant: 'error'})
-      })
-    }
-  }, [enqueueSnackbar, errors])
+  const getCardDirectory = (b: Board, c: Item): string => (
+    `/cards/${getPublicBoardDirectory(b)}/${getPublicCardDirectory(c)}/${c.id}`
+  )
 
   return (
     <>
@@ -82,54 +70,27 @@ const Page = ({boards, errors}: InferGetServerSidePropsType<typeof getStaticProp
         <Grid container spacing={theme.defaultPadding}>
           { boards?.map( (b: Board) => (
             <Grid item xs={12} md={6} lg={4} key={b.id}>
-              <Card >
-                <Link href={`/categories/${getPublicBoardDirectory(b)}`}
-                  style={{textDecoration: "none"}} >
-                  <CardHeader
-                    title={ <CategoryHeader title={b.title} />}
-                    sx={{bgcolor: "secondary.main", color: "secondary.contrastText"}} />
-                </Link>
-                <CardContent style={{height: "175px", overflow: "auto", paddingBottom: "0px"}}>
+              <ListCard title={ <CategoryHeader title={b.title} href={getBoardDirectory(b)} /> } >
+                <>
                   {b?.columns.map( (c: Column) => (
                     <Box sx={{ pb: 1}} key={c.id}>
                       <Typography variant={'h3'} sx={{ fontSize: '16px', fontWeight: '500'}} >
                         {c.title}
                       </Typography>
                       { c.items && c?.items.map( (i: Item) => (
-                        <Typography key={i.id}
-                          sx={{pl: 1, '&:hover': {backgroundColor: 'action.hover'}}}>
-                          <Link
-                          // eslint-disable-next-line max-len
-                            href={`/cards/${getPublicBoardDirectory(b)}/${getPublicCardDirectory(i)}/${i.id}`}
-                            style={{textDecoration: "none", color: theme.palette.text.primary}} >
-                            {i.title}
-                          </Link>
-                        </Typography>
+                        <HoverLink key={i.id} href={getCardDirectory(b, i)} title={i.title} />
                       )) }
                       { !c.items.length && ( <Typography>Comming soon.</Typography>) }
                     </ Box>
                   ))}
                   { b.columns.length < 1 && ( <Typography>Comming soon.</Typography>) }
-                </CardContent>
-              </Card>
+                </>
+              </ListCard>
             </Grid>
           ))}
         </Grid>
       </Box>
-      <Box sx={{ display: 'flex', height: '25px',
-        color: 'secondary.constrastText',
-        justifyContent: 'center',
-        width: '100%',
-        borderTop: '1px solid',
-        borderColor: theme.palette.divider}} >
-        <Link href={'/privacy-policy'}
-          style={{textDecoration: "none", color: theme.palette.text.primary,
-            paddingRight: '15px'}} >
-            Privacy Policy
-        </Link>
-        <Link href={'/terms-of-use'}
-          style={{textDecoration: "none", color: theme.palette.text.primary}} >Terms of Use</Link>
-      </Box>
+      <AppFooter />
     </>
 
   )
@@ -137,4 +98,4 @@ const Page = ({boards, errors}: InferGetServerSidePropsType<typeof getStaticProp
 
 export default Page
 
-// QA: done 9-27-23
+// QA: done 10-11-23
