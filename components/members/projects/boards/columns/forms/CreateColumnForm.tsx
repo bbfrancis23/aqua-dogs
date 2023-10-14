@@ -10,7 +10,7 @@ import * as Yup from "yup"
 import axios from "axios"
 
 import { ProjectContext } from "@/interfaces/ProjectInterface"
-import { BoardContext } from "@/interfaces/BoardInterface"
+import { BoardContext } from "@/react/board/BoardContext"
 
 import ColumnStub from "../ColStub";
 

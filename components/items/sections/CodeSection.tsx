@@ -13,7 +13,7 @@ import * as Yup from "yup"
 
 import Permission, { NoPermission, PermissionCodes } from "@/ui/PermissionComponent"
 
-import { ItemContext } from "@/interfaces/ItemInterface"
+import { ItemContext } from "@/react/item/ItemContext"
 import { Member } from "@/interfaces/MemberInterface"
 import { Project } from "@/interfaces/ProjectInterface"
 import { Section } from "@/interfaces/SectionInterface"

@@ -1,4 +1,4 @@
-import {Column} from '@/interfaces/ColumnInterface'
+import {Column} from '@/react/column/column-types'
 import { Box, IconButton, TextField, Typography, alpha, useTheme } from "@mui/material"
 
 import DoneIcon from '@mui/icons-material/Done';
@@ -9,7 +9,7 @@ import * as Yup from "yup"
 import axios from "axios"
 import { useContext, useState } from 'react'
 import { ProjectContext } from '@/interfaces/ProjectInterface'
-import { BoardContext } from '@/interfaces/BoardInterface'
+import { BoardContext } from '@/react/board/BoardContext'
 import { useSnackbar } from 'notistack'
 import { FxTheme } from 'theme/globalTheme'
 import Permission, { PermissionCodes, NoPermission } from '@/ui/PermissionComponent';

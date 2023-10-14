@@ -11,11 +11,11 @@ import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup"
 import axios from "axios";
 
-import { Item } from "@/interfaces/ItemInterface";
-import { Column } from "@/interfaces/ColumnInterface";
+import { Item } from "@/react/item/item-types";
+import { Column } from "@/react/column/column-types";
 import { Member } from "@/interfaces/MemberInterface";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-import { BoardContext } from "@/interfaces/BoardInterface";
+import { BoardContext } from "@/react/board/BoardContext";
 
 export interface EditItemFormProps{
   column: Column;

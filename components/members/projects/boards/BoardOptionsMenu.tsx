@@ -10,7 +10,7 @@ import { MemberContext } from "@/interfaces/MemberInterface";
 import { useSnackbar } from "notistack";
 import axios from "axios";
 import router from "next/router";
-import { BoardContext } from "@/interfaces/BoardInterface";
+import { BoardContext } from "@/react/board/BoardContext";
 
 
 const BoardOptionsMenu = () => {

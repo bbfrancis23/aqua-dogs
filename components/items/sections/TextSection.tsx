@@ -9,7 +9,7 @@ import axios from "axios";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useSnackbar } from "notistack";
 
-import { ItemContext } from "@/interfaces/ItemInterface";
+import { ItemContext } from "@/react/item/ItemContext";
 import { Member } from "@/interfaces/MemberInterface";
 import { Project } from "@/interfaces/ProjectInterface";
 import { Section } from "@/interfaces/SectionInterface";

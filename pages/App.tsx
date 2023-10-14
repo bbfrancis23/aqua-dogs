@@ -3,7 +3,7 @@ import { FxTheme, FxThemeContext, FxThemeNames, UpdateThemeOptionsProps,
   createFxTheme, defaultFxTheme, fxThemeOptionsList } from "fx-theme"
 import { ConfirmProvider } from "material-ui-confirm"
 import { SnackbarOrigin, SnackbarProvider } from "notistack"
-import { useEffect, useReducer, useState } from "react"
+import { useEffect, useState } from "react"
 
 export interface AppCompoentProps {
   children: JSX.Element | JSX.Element []

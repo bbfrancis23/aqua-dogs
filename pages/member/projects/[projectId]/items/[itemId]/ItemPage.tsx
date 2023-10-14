@@ -14,7 +14,7 @@ import Permission, { NoPermission, PermissionCodes, permission } from "@/ui/Perm
 
 import { Project, ProjectContext } from "@/interfaces/ProjectInterface"
 import { Member, MemberContext } from "@/interfaces/MemberInterface"
-import { Item, ItemContext } from "@/interfaces/ItemInterface"
+import { ItemContext } from "@/react/item/ItemContext"
 
 import { Section } from "@/interfaces/SectionInterface"
 
@@ -23,6 +23,7 @@ import CreateSectionForm from "@/components/items/forms/CreateSectionForm"
 import TextSection from "@/components/items/sections/TextSection"
 import CodeSection from "@/components/items/sections/CodeSection"
 import ArchiveItemForm from "@/components/items/forms/ArchiveItemForm"
+import { Item } from "@/react/item/item-types"
 
 
 export interface MemberItemPageProps {

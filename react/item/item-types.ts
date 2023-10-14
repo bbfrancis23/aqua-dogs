@@ -1,6 +1,6 @@
 import {Dispatch, SetStateAction, createContext} from 'react'
-import {Section} from './SectionInterface'
-import {Comment} from './CommentInterface'
+import {Section} from '../../interfaces/SectionInterface'
+import {Comment} from '../../interfaces/CommentInterface'
 
 export interface Item {
   title: string
@@ -18,10 +18,5 @@ export interface ItemContextProps {
   item: Item | undefined
   setItem: Dispatch<SetStateAction<Item>> | (() => {})
 }
-
-export const ItemContext = createContext<ItemContextProps>({
-  item: undefined,
-  setItem: () => {},
-})
 
 // QA done 8-3-23

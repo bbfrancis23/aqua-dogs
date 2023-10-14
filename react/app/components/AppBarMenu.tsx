@@ -4,7 +4,7 @@ import {Box, Button, IconButton, Menu, MenuItem, useTheme, Fade} from "@mui/mate
 
 import Link from "next/link"
 import { FxTheme } from "theme/globalTheme";
-import { Board } from "@/interfaces/BoardInterface";
+import { Board } from "@/react/board/board-types";
 
 export interface AppBarMenuItem{
   title: string;

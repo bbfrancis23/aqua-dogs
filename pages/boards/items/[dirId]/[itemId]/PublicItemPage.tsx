@@ -1,4 +1,4 @@
-import { Item } from "@/interfaces/ItemInterface"
+import { Item } from "@/react/item/item-types"
 
 import {findProjectItems} from "@/mongo/controls/member/project/items/findProjectItems"
 

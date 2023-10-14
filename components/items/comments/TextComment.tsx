@@ -14,9 +14,9 @@ import { FormikProvider, useFormik, Form } from "formik";
 import * as Yup from "yup"
 import axios from "axios";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-import { ItemContext } from "@/interfaces/ItemInterface";
 import { useSnackbar } from "notistack";
 import { LoadingButton } from "@mui/lab";
+import { ItemContext } from "@/react/item/ItemContext";
 
 export interface TextCommentProps {
   comment: Comment;

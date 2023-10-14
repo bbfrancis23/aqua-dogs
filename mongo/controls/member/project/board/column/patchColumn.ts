@@ -1,5 +1,5 @@
 import db from '@/mongo/db'
-import {ColumnResponse} from '@/interfaces/ColumnInterface'
+import {ColumnResponse} from '@/react/column/column-types'
 import {
   forbiddenResponse,
   internalServerErrorResponse,

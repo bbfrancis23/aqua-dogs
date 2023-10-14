@@ -8,7 +8,6 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 import * as Yup from "yup"
 
-import { ItemContext } from "@/interfaces/ItemInterface";
 import { Member } from "@/interfaces/MemberInterface";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 
@@ -28,6 +27,7 @@ import axios from "axios";
 import { Form, FormikProvider, useFormik } from "formik";
 import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
 import { LoadingButton } from "@mui/lab";
+import { ItemContext } from "@/react/item/ItemContext";
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
   {ssr: false}

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { Box, Card, CardContent, CardHeader, Skeleton, Typography, useTheme } from "@mui/material";
 
-import { Board } from "@/interfaces/BoardInterface";
+import { Board } from "@/react/board/board-types";
 
 export interface BoardStubProps{
   board ?: Board

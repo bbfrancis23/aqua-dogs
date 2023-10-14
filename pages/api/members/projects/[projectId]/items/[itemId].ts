@@ -1,4 +1,4 @@
-import {Item} from '@/interfaces/ItemInterface'
+import {Item} from '@/react/item/item-types'
 import {findItem} from '@/mongo/controls/member/project/items/findItem'
 import getItem from '@/mongo/controls/member/project/items/getItem'
 import {patchItem} from 'mongo/controls/member/project/items/patchItem'

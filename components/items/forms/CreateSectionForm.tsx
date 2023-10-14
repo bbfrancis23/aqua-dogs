@@ -8,7 +8,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 import * as Yup from "yup"
 
-import { ItemContext } from "@/interfaces/ItemInterface";
+import { ItemContext } from "@/react/item/ItemContext";
 import { Member } from "@/interfaces/MemberInterface";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 

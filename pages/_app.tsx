@@ -11,13 +11,10 @@ import { AppBar, Toolbar, Box, IconButton, IconButtonProps } from "@mui/material
 import SettingsIcon from "@mui/icons-material/Settings"
 
 import LogoImage from '@/react/LogoImage'
-import { AppContext, AppDialogs, DialogActions, appReducer, appMenuItems } from '@/react/app'
-import AppBarMenu, {AppBarMenuItem} from "@/react/app/components/AppBarMenu"
-import AuthNav from "@/react/auth/components/AuthNav"
-import SettingsDialog from "@/react/settings/SettingsDialog"
-import RegisterDialog from "@/react/auth/components/dialogs/RegisterDialog"
-import AuthDialog from "@/react/auth/components/dialogs/AuthDialog"
-import ForgotPasswordDialog from "@/react/auth/components/dialogs/ForgotPasswordDialog"
+import { AppContext, AppDialogs, DialogActions, appReducer, AppBarMenuItems } from '@/react/app'
+
+import { AuthDialog, AuthNav, RegisterDialog, ForgotPasswordDialog } from '@/react/auth'
+import { SettingsDialog } from '@/react/settings'
 
 import App from "./App"
 
@@ -55,10 +52,7 @@ const NextApp = ({Component, pageProps: {session, ...pageProps},}: AppProps) => 
           <AppBar position={'sticky'}>
             <Toolbar >
               <Link href={"/"} style={{textDecoration: "none"}} ><LogoImage /></Link>
-              <Box sx={{display: 'flex'}}>
-                { appMenuItems.map( (i: AppBarMenuItem) => (
-                  <AppBarMenu key={i.id} appBarMenuIem={i}/> )) }
-              </ Box>
+              <AppBarMenuItems />
               <Box sx={{flexGrow: 1}} />
               <AuthNav />
               <IconButton {...iconButton}><SettingsIcon /></IconButton>

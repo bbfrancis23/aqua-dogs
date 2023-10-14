@@ -10,9 +10,9 @@ import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup"
 import axios from "axios";
 
-import { Column } from "@/interfaces/ColumnInterface";
+import { Column } from "@/react/column/column-types";
 import { Member } from "@/interfaces/MemberInterface";
-import { BoardContext } from "@/interfaces/BoardInterface";
+import { BoardContext } from "@/react/board/BoardContext";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 
 import ItemStub from "../ItemStub";

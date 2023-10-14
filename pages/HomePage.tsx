@@ -1,26 +1,22 @@
-import {Grid, useTheme, Typography, Box, Theme} from "@mui/material"
-
-import Link from "next/link"
+import { GetStaticProps, InferGetServerSidePropsType } from "next"
 import Head from 'next/head'
 
-import { GetStaticProps, InferGetServerSidePropsType } from "next"
+import {Grid, useTheme, Typography, Box} from "@mui/material"
 
-import { Item } from "@/interfaces/ItemInterface"
-import { Column } from "@/interfaces/ColumnInterface"
-import { Board } from "@/interfaces/BoardInterface"
+import { Item, getItemDirectory } from "@/react/item/"
+import { Column } from "@/react/column/"
+import { Board, getBoardDirectory } from "@/react/board/"
 
 import { FxTheme } from "theme/globalTheme"
 import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
-import { getPublicBoardDirectory} from "./categories/[dirId]/PublicCategoryPage"
-import { getPublicCardDirectory} from "./cards/[catId]/[dirId]/[itemId]/PublicCardPage"
 
-import AppFooter from "@/react/app/components/AppFooter"
-import ListCard from "@/ui/ListCard"
-import { HoverLink } from "@/ui/HoverLink"
+import {AppFooter} from "@/react/app/"
+import {ListCard, HoverLink} from "@/ui/components"
 
-export const DESCRIPTION = "A Simple way to Orginize your Projects and impliment Strategies. "
+
+const DESCRIPTION = "A Simple way to Orginize your Projects and impliment Strategies. "
   + "Hundreds of Software Developement Best Practices, Standards and Eamples."
-export const KEYWORDS = "JavaScript, TypeScript, React, Next.js, Node.js, MongoDB, Github, Git, "
+const KEYWORDS = "JavaScript, TypeScript, React, Next.js, Node.js, MongoDB, Github, Git, "
   + "HTML, CSS, SCSS, SASS, Material-UI, MUI, Strategy, Project, Organization, Best Practices, "
   + "VS Code, Software Development, Web Framwork, Web Development, Web App, Web Application,  "
   + "Mongoose, Express, Material-UI, MUI, Strategy, Project, Organization, Best Practices,  "
@@ -28,21 +24,11 @@ export const KEYWORDS = "JavaScript, TypeScript, React, Next.js, Node.js, MongoD
   + "Web App, Web Application, Full Stack, Full Stack Development, Full Stack Developer, "
   + "Software Engineer, Software Engineering, Software Developer, Software Development Engineer "
 
-const CategoryHeader = ({title, href}: {title: string, href: string}) => (
-  <Link href={`/categories/${href}`} >
-    <Typography variant={'h2'} sx={{fontSize: '1.25rem',
-      fontWeight: '500', color: "secondary.contrastText"}}>
-      {title}
-    </Typography>
-  </Link>
-)
-
 const websiteProjectId: string = '64b6bc0a1b836981ba0c4cc5'
 
 export interface HomePage{ boards: Board[]}
 
 export const getStaticProps: GetStaticProps<HomePage> = async () => {
-
   let boards: Board[] = await findProjectBoards(websiteProjectId)
   return {props: { boards}}
 }
@@ -51,12 +37,8 @@ const Page = ({boards}: InferGetServerSidePropsType<typeof getStaticProps>) => {
 
   const theme: FxTheme = useTheme()
 
-  const getBoardDirectory = (board: Board): string => (
-    getPublicBoardDirectory(board)
-  )
-
   const getCardDirectory = (b: Board, c: Item): string => (
-    `/cards/${getPublicBoardDirectory(b)}/${getPublicCardDirectory(c)}/${c.id}`
+    `/cards/${getBoardDirectory(b)}/${getItemDirectory(c)}/${c.id}`
   )
 
   return (
@@ -70,7 +52,7 @@ const Page = ({boards}: InferGetServerSidePropsType<typeof getStaticProps>) => {
         <Grid container spacing={theme.defaultPadding}>
           { boards?.map( (b: Board) => (
             <Grid item xs={12} md={6} lg={4} key={b.id}>
-              <ListCard title={ <CategoryHeader title={b.title} href={getBoardDirectory(b)} /> } >
+              <ListCard title={ b.title } href={getBoardDirectory(b)}>
                 <>
                   {b?.columns.map( (c: Column) => (
                     <Box sx={{ pb: 1}} key={c.id}>
@@ -92,10 +74,9 @@ const Page = ({boards}: InferGetServerSidePropsType<typeof getStaticProps>) => {
       </Box>
       <AppFooter />
     </>
-
   )
 }
 
 export default Page
 
-// QA: done 10-11-23
+// QA: Brian Francis - 10-13-2023 - 5 stars

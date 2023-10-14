@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import * as Yup from "yup"
 import axios from "axios";
-import { ItemContext } from "@/interfaces/ItemInterface";
+import { ItemContext } from "@/react/item/ItemContext";
 import { LoadingButton } from "@mui/lab";
 
 export interface EditItemTitleFormProps{

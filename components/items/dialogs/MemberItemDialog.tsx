@@ -9,7 +9,7 @@ import axios from "axios"
 import DraggableDialog from "@/ui/DraggableDialog"
 import Permission, { NoPermission, PermissionCodes } from "@/ui/PermissionComponent"
 
-import { Item, ItemContext } from "@/interfaces/ItemInterface"
+import { Item } from "@/react/item/item-types"
 import { Section } from "@/interfaces/SectionInterface"
 import { ProjectContext } from "@/interfaces/ProjectInterface"
 import { MemberContext } from "@/interfaces/MemberInterface"
@@ -26,6 +26,7 @@ import CreateCommentForm from "../forms/CreateCommentForm"
 import { Comment } from "@/interfaces/CommentInterface"
 import { TextComment } from "../comments/TextComment"
 import { CodeComment } from "../comments/CodeComment"
+import { ItemContext } from "@/react/item/ItemContext"
 
 export interface MemberItemDialogProps {
   dialogIsOpen: boolean

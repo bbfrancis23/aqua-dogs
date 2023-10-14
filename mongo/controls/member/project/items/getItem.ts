@@ -1,4 +1,4 @@
-import {Item} from '@/interfaces/ItemInterface'
+import {Item} from '@/react/item/item-types'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {findItem} from './findItem'
 

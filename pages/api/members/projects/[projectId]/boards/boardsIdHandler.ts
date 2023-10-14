@@ -2,7 +2,7 @@ import {patchBoard} from '@/mongo/controls/member/project/board/patchBoard'
 import {patchBoardCols} from '@/mongo/controls/member/project/board/patchBoardCols'
 import {getBoard} from '@/mongo/controls/member/project/board/findBoard'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {Board} from '@/interfaces/BoardInterface'
+import {Board} from '@/react/board/board-types'
 import {getSession} from 'next-auth/react'
 import axios from 'axios'
 

@@ -9,7 +9,7 @@ import { Button, Grid, Stack, Typography } from "@mui/material"
 import { Project, ProjectContext } from "@/interfaces/ProjectInterface"
 
 import { Member } from "@/interfaces/MemberInterface"
-import { Board } from "@/interfaces/BoardInterface"
+import { Board } from "@/react/board/board-types"
 
 import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 import { findMember } from "@/mongo/controls/member/memberControls"
