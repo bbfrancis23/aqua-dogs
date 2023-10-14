@@ -17,7 +17,7 @@ import {findProjectItems} from "@/mongo/controls/member/project/items/findProjec
 import InfoPageLayout from "@/ui/InfoPageLayout";
 import { PermissionCodes } from "@/ui/PermissionComponent";
 
-import { Item } from "@/interfaces/ItemInterface"
+import { Item } from "@/react/item/item-types"
 import { Section } from "@/interfaces/SectionInterface";
 import { Member } from "@/interfaces/MemberInterface";
 
@@ -29,7 +29,7 @@ import { WEBSITE_BOARD_ID, getPublicCategoryDirectory }
 
 
 import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards"
-import { Board } from "@/interfaces/BoardInterface";
+import { Board } from "@/react/board/board-types";
 
 
 /********* Interfaces Globals and Helpers **********/

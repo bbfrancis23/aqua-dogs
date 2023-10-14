@@ -2,10 +2,10 @@ import { Stack } from "@mui/material";
 
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
-import { Item } from "@/interfaces/ItemInterface";
+import { Item } from "@/react/item/item-types";
 
 
-import { Column } from "@/interfaces/ColumnInterface";
+import { Column } from "@/react/column/column-types";
 import { Member } from "@/interfaces/MemberInterface";
 
 import ColumnListItem from "./items/ColumnListItem";

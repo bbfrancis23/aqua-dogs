@@ -13,11 +13,11 @@ import { PermissionCodes, permission } from "@/ui/PermissionComponent"
 
 import { findItem } from "@/mongo/controls/member/project/items/findItem"
 import findMemberPublicBoard from "@/mongo/controls/member/project/board/findMemberPublicBoard"
-import { Board } from "@/interfaces/BoardInterface"
+import { Board } from "@/react/board/board-types"
 import InfoPageLayout from "@/ui/InfoPageLayout"
 import { Box, Button, Divider, Stack, Typography } from "@mui/material"
 import { Section } from "@/interfaces/SectionInterface"
-import { Item } from "@/interfaces/ItemInterface";
+import { Item } from "@/react/item/item-types";
 import { useEffect, useState } from "react";
 import { ProjectMemberAvatar } from "@/components/members/projects/ProjectMemberAvatar";
 import CreateCommentForm from "@/components/items/forms/CreateCommentForm";

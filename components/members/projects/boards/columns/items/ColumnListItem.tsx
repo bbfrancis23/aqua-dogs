@@ -3,9 +3,9 @@ import Link from "next/link"
 
 import { Button, Card, CardHeader, IconButton, Typography, useTheme } from "@mui/material";
 
-import { Column } from "@/interfaces/ColumnInterface";
+import { Column } from "@/react/column/column-types";
 import { Member } from "@/interfaces/MemberInterface";
-import { Item } from "@/interfaces/ItemInterface";
+import { Item } from "@/react/item/item-types";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 
 import EditItemForm from "./forms/EditItemForm";

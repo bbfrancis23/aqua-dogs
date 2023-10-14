@@ -17,8 +17,9 @@ import { PermissionCodes } from "@/ui/PermissionComponent";
 import { BoardTitleForm } from "./forms/BoardTitleForm";
 import { ProjectMemberAvatar } from "../ProjectMemberAvatar";
 import BoardOptionsMenu from "./BoardOptionsMenu";
-import { Board, BoardContext } from "@/interfaces/BoardInterface";
+import { BoardContext } from "@/react/board/BoardContext";
 import Scope from "@/interfaces/ScopeInterface";
+import { Board } from "@/react/board/board-types";
 
 
 const BoardToolbarContainer = styled(Box)(({ theme }) => ({

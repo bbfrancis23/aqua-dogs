@@ -11,7 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import * as Yup from "yup"
 import axios from "axios";
 
-import { Board } from "@/interfaces/BoardInterface";
+import { Board } from "@/react/board/board-types";
 import { Project } from "@/interfaces/ProjectInterface";
 
 

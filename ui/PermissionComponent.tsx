@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 
 import { Member } from '@/interfaces/MemberInterface';
 import { Project } from '@/interfaces/ProjectInterface';
-import { Item } from '@/interfaces/ItemInterface';
+import { Item } from '@/react/item/item-types';
 
 import { Comment } from '@/interfaces/CommentInterface';
 

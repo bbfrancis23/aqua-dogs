@@ -1,5 +1,5 @@
-import {Board} from './BoardInterface'
-import {Item} from './ItemInterface'
+import {Board} from '../board/board-types'
+import {Item} from '../item/item-types'
 
 export interface Column {
   id: string

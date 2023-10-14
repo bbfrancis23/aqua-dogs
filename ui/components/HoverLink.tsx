@@ -19,3 +19,5 @@ export const HoverLink = ({href, title}: HoverLinkProps) => {
     </Typography>
   );
 }
+
+export default HoverLink

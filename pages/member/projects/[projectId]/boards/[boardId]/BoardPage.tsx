@@ -9,7 +9,7 @@ import { useSnackbar } from "notistack";
 
 import { resetServerContext } from "react-beautiful-dnd";
 
-import { Board, BoardContext } from "@/interfaces/BoardInterface";
+import { Board } from "@/react/board/board-types";
 import { Project, ProjectContext} from "@/interfaces/ProjectInterface"
 import { Member, MemberContext } from "@/interfaces/MemberInterface";
 
@@ -25,6 +25,7 @@ import { FxTheme } from "theme/globalTheme";
 import CreateColumnForm from "@/components/members/projects/boards/columns/forms/CreateColumnForm";
 import MemberItemDialog from "@/components/items/dialogs/MemberItemDialog";
 import { FxThemeContext } from "fx-theme";
+import { BoardContext } from "@/react/board/BoardContext";
 
 /********** Interfaces Globals and Helpers *********/
 export interface BoardPage {

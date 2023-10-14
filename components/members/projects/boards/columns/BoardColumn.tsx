@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { Box, Typography} from "@mui/material";
 
 import { Draggable } from "react-beautiful-dnd";
-import { Column } from "@/interfaces/ColumnInterface";
+import { Column } from "@/react/column/column-types";
 import { Member } from "@/interfaces/MemberInterface";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 

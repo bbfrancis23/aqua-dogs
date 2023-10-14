@@ -1,10 +1,10 @@
-import { Board } from "@/interfaces/BoardInterface"
+import { Board } from "@/react/board/board-types"
 import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards"
 import {findPublicBoard} from "@/mongo/controls/member/project/board/findPublicBoard"
 import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from "@mui/material"
 import { publicBoards } from "@/react/app/data/publicBoards";
-import { Column } from "@/interfaces/ColumnInterface";
-import { Item } from "@/interfaces/ItemInterface";
+import { Column } from "@/react/column/column-types";
+import { Item } from "@/react/item/item-types";
 import Link from "next/link";
 import { FxTheme } from "theme/globalTheme";
 import { GetStaticPaths, GetStaticProps } from "next";

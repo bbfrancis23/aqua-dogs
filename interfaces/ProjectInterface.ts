@@ -1,6 +1,6 @@
 import {Dispatch, SetStateAction, createContext} from 'react'
 
-import {Board} from './BoardInterface'
+import {Board} from '../react/board/board-types'
 import {Member} from './MemberInterface'
 
 export interface Project {

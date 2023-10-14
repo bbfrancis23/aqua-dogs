@@ -1,6 +1,6 @@
-import { Board } from "@/interfaces/BoardInterface";
-import { Column } from "@/interfaces/ColumnInterface";
-import { Item } from "@/interfaces/ItemInterface";
+import { Board } from "@/react/board/board-types";
+import { Column } from "@/react/column/column-types";
+import { Item } from "@/react/item/item-types";
 import findMemberPublicBoard from "@/mongo/controls/member/project/board/findMemberPublicBoard";
 import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from "@mui/material";
 import { GetServerSideProps, Redirect } from "next";

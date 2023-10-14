@@ -1,4 +1,4 @@
-import {Column, ColumnResponse} from '@/interfaces/ColumnInterface'
+import {Column, ColumnResponse} from '@/react/column/column-types'
 import {patchColumn} from '@/mongo/controls/member/project/board/column/patchColumn'
 import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'

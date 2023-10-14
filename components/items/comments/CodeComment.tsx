@@ -1,5 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import { ItemContext } from "@/interfaces/ItemInterface"
+
 import { ProjectContext } from "@/interfaces/ProjectInterface"
 import { useSnackbar } from "notistack"
 import { useContext, useState } from "react"
@@ -20,6 +20,7 @@ import { Box, IconButton, Stack } from "@mui/material"
 import Permission, { NoPermission, PermissionCodes } from "@/ui/PermissionComponent"
 import { ProjectMemberAvatar } from "@/components/members/projects/ProjectMemberAvatar"
 import { LoadingButton } from "@mui/lab"
+import { ItemContext } from "@/react/item/ItemContext"
 
 export interface CodeCommentProps {
   comment: Comment

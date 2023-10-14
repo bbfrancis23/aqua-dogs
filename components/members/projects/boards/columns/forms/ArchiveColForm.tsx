@@ -3,10 +3,10 @@ import MenuIcon from '@mui/icons-material/MoreVert';
 import { useSnackbar } from "notistack";
 import { useConfirm } from "material-ui-confirm";
 import { useState, MouseEvent, useContext } from "react";
-import { Column } from "@/interfaces/ColumnInterface";
+import { Column } from "@/react/column/column-types";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 import { MemberContext } from "@/interfaces/MemberInterface";
-import { BoardContext } from "@/interfaces/BoardInterface";
+import { BoardContext } from "@/react/board/BoardContext";
 import axios from "axios";
 import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
 
