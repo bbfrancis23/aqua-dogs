@@ -3,14 +3,14 @@ import Head from 'next/head'
 
 import {Grid, useTheme, Typography, Box} from "@mui/material"
 
-import { Item, getItemDirectory } from "@/react/item/"
+import { Item, getCardDirectory } from "@/react/item/"
 import { Column } from "@/react/column/"
 import { Board, getBoardDirectory } from "@/react/board/"
+import {AppFooter} from "@/react/app/"
 
 import { FxTheme } from "theme/globalTheme"
 import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 
-import {AppFooter} from "@/react/app/"
 import {ListCard, HoverLink} from "@/ui/components"
 
 
@@ -24,12 +24,13 @@ const KEYWORDS = "JavaScript, TypeScript, React, Next.js, Node.js, MongoDB, Gith
   + "Web App, Web Application, Full Stack, Full Stack Development, Full Stack Developer, "
   + "Software Engineer, Software Engineering, Software Developer, Software Development Engineer "
 
-const websiteProjectId: string = '64b6bc0a1b836981ba0c4cc5'
+export const WEBSITE_PROJECT_ID: string = '64b6bc0a1b836981ba0c4cc5'
 
 export interface HomePage{ boards: Board[]}
 
+
 export const getStaticProps: GetStaticProps<HomePage> = async () => {
-  let boards: Board[] = await findProjectBoards(websiteProjectId)
+  let boards: Board[] = await findProjectBoards(WEBSITE_PROJECT_ID)
   return {props: { boards}}
 }
 
@@ -37,9 +38,6 @@ const Page = ({boards}: InferGetServerSidePropsType<typeof getStaticProps>) => {
 
   const theme: FxTheme = useTheme()
 
-  const getCardDirectory = (b: Board, c: Item): string => (
-    `/cards/${getBoardDirectory(b)}/${getItemDirectory(c)}/${c.id}`
-  )
 
   return (
     <>
