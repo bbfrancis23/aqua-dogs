@@ -24,12 +24,11 @@ import { Member } from "@/interfaces/MemberInterface";
 import CreateCommentForm from "@/components/items/forms/CreateCommentForm";
 import { ProjectMemberAvatar } from "@/components/members/projects/ProjectMemberAvatar";
 
-import { WEBSITE_BOARD_ID, getPublicCategoryDirectory }
-  from "pages/categories/[dirId]/PublicCategoryPage";
-
 
 import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards"
 import { Board } from "@/react/board/board-types";
+import { WEBSITE_PROJECT_ID } from "pages/HomePage";
+import { getBoardDirectory } from "@/react/board";
 
 
 /********* Interfaces Globals and Helpers **********/
@@ -64,12 +63,12 @@ export const getPublicCardDirectory = (item: Item): string => (
 
 export const getStaticPaths: GetStaticPaths<PublicCardPageParams> = async () => {
 
-  let items: Item[] = await findProjectItems(WEBSITE_BOARD_ID)
+  let items: Item[] = await findProjectItems(WEBSITE_PROJECT_ID)
 
 
   const paths = items.map( (i: any) =>
     ({params: {
-      catId: getPublicCategoryDirectory(i.category),
+      catId: getBoardDirectory(i.category),
       dirId: getPublicCardDirectory(i),
       itemId: i._id
     }}))
@@ -84,7 +83,7 @@ export const getStaticProps: GetStaticProps<PublicCardPageBackend> = async (cont
 
   const item = await findItem(itemId)
 
-  let boards: Board[] = await findProjectBoards(WEBSITE_BOARD_ID)
+  let boards: Board[] = await findProjectBoards(WEBSITE_PROJECT_ID)
 
   const currentBoardStub = publicBoards.find( (pb: any) => pb.dirId === catId)
   const currentBoard = boards.find( (b: Board) => b.id === currentBoardStub.id)
