@@ -1,6 +1,6 @@
 import {AppDialogs, DialogActions, DialogAction, AppState, AppContextProps} from './app-types'
 import {AppContext, appReducer} from './AppContext'
-import {publicBoards} from './data/publicBoards'
+import {WebsiteBoards} from './data/WebsiteBoards'
 import {appMenuItems} from './data/appMenuItems'
 import AppBarMenu, {AppBarMenuItem} from './components/AppBarMenu'
 import AppBarMenuItems from './components/AppBarMenuItems'
@@ -11,7 +11,7 @@ export {
   DialogActions,
   AppContext,
   appReducer,
-  publicBoards,
+  WebsiteBoards,
   appMenuItems,
   AppBarMenu,
   AppBarMenuItems,

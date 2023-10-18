@@ -1,4 +1,4 @@
-import {publicBoards} from "./publicBoards"
+import {WebsiteBoards} from "./WebsiteBoards"
 import {AppBarMenuItem, AppBarMenuProps} from "../components/AppBarMenu"
 
 
@@ -10,19 +10,19 @@ export const appMenuItems: AppBarMenuItem[] = [
   {
     title: "WEB FRAMEWORK",
     id: "web-framework",
-    boards: publicBoards.slice(0, 3),
+    boards: WebsiteBoards.slice(0, 3),
     icon: <WebFrameworkIcon sx={{color: "primary.contrastText"}}/>
   },
   {
     title: "JAVASCRIPT",
     id: "java-script",
-    boards: publicBoards.slice(3, 9),
+    boards: WebsiteBoards.slice(3, 9),
     icon: <JavaScriptIcon sx={{color: "primary.contrastText"}}/>
   },
   {
     title: "SOFTWARE DEVELOPMENT",
     id: "softwate-dev",
-    boards: publicBoards.slice(9, 12),
+    boards: WebsiteBoards.slice(9, 12),
     icon: <SoftwareDevIcon sx={{color: "primary.contrastText"}}/>
   }
 

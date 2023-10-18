@@ -1,4 +1,4 @@
-export const publicBoards: any[] = [
+export const WebsiteBoards: any[] = [
   {
     id: '64b6bc191b836981ba0c4cd5',
     title: 'JavaScript',
