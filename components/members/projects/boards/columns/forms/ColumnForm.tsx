@@ -13,7 +13,7 @@ import { BoardContext } from '@/react/board/BoardContext'
 import { useSnackbar } from 'notistack'
 import { FxTheme } from 'theme/globalTheme'
 import Permission, { PermissionCodes, NoPermission } from 'fx/ui/PermissionComponent';
-import { MemberContext } from '@/react/Member/member-types';
+import { MemberContext } from '@/react/Member/';
 import { LoadingButton } from '@mui/lab';
 
 interface ColumnFormProps {

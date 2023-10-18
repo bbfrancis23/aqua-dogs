@@ -11,7 +11,7 @@ import { resetServerContext } from "react-beautiful-dnd";
 
 import { Board } from "@/react/board/board-types";
 import { Project, ProjectContext} from "@/interfaces/ProjectInterface"
-import { Member, MemberContext } from "@/react/Member/member-types";
+import { Member, MemberContext } from "@/react/Member/";
 
 import { findMember } from "@/mongo/controls/member/memberControls";
 import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls";

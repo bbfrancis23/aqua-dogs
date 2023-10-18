@@ -6,7 +6,7 @@ import MenuIcon from '@mui/icons-material/MoreVert';
 import { useState, MouseEvent, useContext } from "react";
 import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-import { MemberContext } from "@/react/Member/member-types";
+import { MemberContext } from "@/react/Member/";
 import { useSnackbar } from "notistack";
 import axios from "axios";
 import router from "next/router";
