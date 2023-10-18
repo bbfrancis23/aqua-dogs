@@ -2,8 +2,8 @@ import { Avatar, Badge } from "@mui/material";
 import LeaderBadge from '@mui/icons-material/Star';
 import AdminBadge from '@mui/icons-material/Shield';
 
-import { Member } from "@/interfaces/MemberInterface";
-import { PermissionCodes } from "@/ui/PermissionComponent";
+import { Member } from "@/react/Member/member-types";
+import { PermissionCodes } from "fx/ui/PermissionComponent";
 import { useSession } from "next-auth/react";
 
 export interface ProjectMemberAvatarProps {

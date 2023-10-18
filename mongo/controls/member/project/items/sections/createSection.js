@@ -7,7 +7,7 @@ import mongoose from 'mongoose'
 import Item from 'mongo/schemas/ItemSchema'
 import Section from '/mongo/schemas/SectionSchema'
 
-import {PermissionCodes, permission} from '/ui/PermissionComponent'
+import {PermissionCodes, permission} from '/fx/ui/PermissionComponent'
 
 export const createSection = async (req, res) => {
   const {sectiontype, content} = req.body

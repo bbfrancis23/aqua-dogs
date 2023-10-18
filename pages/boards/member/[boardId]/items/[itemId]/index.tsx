@@ -1,4 +1,4 @@
-import { Member } from "@/interfaces/MemberInterface"
+import { Member } from "@/react/Member/member-types"
 import { Project } from "@/interfaces/ProjectInterface"
 import { GetServerSideProps, Redirect } from "next"
 
@@ -9,18 +9,18 @@ import { getSession, useSession } from "next-auth/react"
 import { findMember } from "@/mongo/controls/member/memberControls"
 
 import { findProject } from "@/mongo/controls/member/project/projectControls"
-import { PermissionCodes, permission } from "@/ui/PermissionComponent"
+import { PermissionCodes, permission } from "fx/ui/PermissionComponent"
 
 import { findItem } from "@/mongo/controls/member/project/items/findItem"
 import findMemberPublicBoard from "@/mongo/controls/member/project/board/findMemberPublicBoard"
 import { Board } from "@/react/board/board-types"
-import InfoPageLayout from "@/ui/InfoPageLayout"
+import InfoPageLayout from "fx/ui/InfoPageLayout"
 import { Box, Button, Divider, Stack, Typography } from "@mui/material"
-import { Section } from "@/interfaces/SectionInterface"
+import { Section } from "@/react/section/section-types"
 import { Item } from "@/react/item/item-types";
 import { useEffect, useState } from "react";
-import { ProjectMemberAvatar } from "@/components/members/projects/ProjectMemberAvatar";
-import CreateCommentForm from "@/components/items/forms/CreateCommentForm";
+import { ProjectMemberAvatar } from "@/react/Member/components/ProjectMemberAvatar";
+import CreateCommentForm from "@/react/item/components/CreateCommentForm";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),

@@ -8,7 +8,7 @@ import { findProjectBoards } from "@/mongo/controls/member/project/old-findProje
 import {findPublicBoard} from "@/mongo/controls/member/project/board/findPublicBoard"
 
 import { Board, getBoardDirectory } from "@/react/board"
-import { publicBoards } from "@/react/app/"
+import { WebsiteBoards } from "@/react/app/"
 import { Column } from "@/react/column/"
 import { Item, getCardDirectory } from "@/react/item"
 
@@ -31,7 +31,7 @@ export const getStaticPaths: GetStaticPaths<CategoryPageParams> = async () => {
 export const getStaticProps: GetStaticProps<CategoryPage> = async (context) => {
 
   const {dirId}: CategoryPageParams = context.params as CategoryPageParams
-  const publicBoard = await publicBoards.find( (pb: BoardCategory) => pb.dirId === dirId)
+  const publicBoard = await WebsiteBoards.find( (pb: BoardCategory) => pb.dirId === dirId)
   const board = await findPublicBoard(publicBoard?.id)
   return {props: {board}}
 }

@@ -8,7 +8,7 @@ import Item from '/mongo/schemas/ItemSchema'
 import Member from '/mongo/schemas/MemberSchema'
 import {getSession} from 'next-auth/react'
 
-import {PermissionCodes, permission} from '/ui/PermissionComponent'
+import {PermissionCodes, permission} from 'fx/ui/PermissionComponent'
 
 import findPublicBoard from '../../findPublicBoard'
 

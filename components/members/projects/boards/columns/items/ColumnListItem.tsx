@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Button, Card, CardHeader, IconButton, Typography, useTheme } from "@mui/material";
 
 import { Column } from "@/react/column/column-types";
-import { Member } from "@/interfaces/MemberInterface";
+import { Member } from "@/react/Member/member-types";
 import { Item } from "@/react/item/item-types";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 

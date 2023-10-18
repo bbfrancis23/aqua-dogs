@@ -1,5 +1,5 @@
 import {Dispatch, SetStateAction, createContext} from 'react'
-import {Section} from '../../interfaces/SectionInterface'
+import {Section} from '../section/section-types'
 import {Comment} from '../../interfaces/CommentInterface'
 
 export interface Item {

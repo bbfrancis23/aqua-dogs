@@ -8,10 +8,10 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 import * as Yup from "yup"
 
-import { Member } from "@/interfaces/MemberInterface";
+import { Member } from "@/react/Member/member-types";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 
-import SectionStub from "../sections/SectionStub";
+import SectionStub from "../../../components/items/sections/SectionStub";
 
 export interface CreateCommentFormProps {
   member: Member;
@@ -25,7 +25,7 @@ import dynamic from "next/dynamic"
 import "@uiw/react-textarea-code-editor/dist.css"
 import axios from "axios";
 import { Form, FormikProvider, useFormik } from "formik";
-import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
+import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
 import { LoadingButton } from "@mui/lab";
 import { ItemContext } from "@/react/item/ItemContext";
 const CodeEditor = dynamic(

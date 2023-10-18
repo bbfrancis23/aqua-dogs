@@ -10,7 +10,7 @@ import {Button, Stack, Typography, Grid, useTheme, Avatar, Box } from "@mui/mate
 import {useSnackbar} from "notistack"
 
 import { Project } from "@/interfaces/ProjectInterface"
-import {Member} from "@/interfaces/MemberInterface"
+import {Member} from "@/react/Member/member-types"
 
 import { findMember, findMemberProjects } from "@/mongo/controls/member/memberControls"
 
@@ -18,7 +18,7 @@ import ChangePasswordForm from "@/react/auth/components/forms/ChangePasswordForm
 import NameForm from "@/components/members/NameForm"
 import EmailForm from "@/components/members/EmailForm"
 import ProjectStub from "@/components/members/projects/ProjectStub"
-import InfoPageLayout from "@/ui/InfoPageLayout"
+import InfoPageLayout from "fx/ui/InfoPageLayout"
 import CreateProjectForm from "@/components/members/projects/forms/CreateProjectForm"
 import { FxTheme } from "theme/globalTheme"
 import useMemberActivity from "hooks/useMemberActivity"

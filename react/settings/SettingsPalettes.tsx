@@ -7,7 +7,7 @@ import { useSnackbar} from "notistack"
 
 import { FxThemeContext, createFxTheme, fxThemeOptionsList,
   UpdateThemeOptionsProps,
-  FxThemeOptions} from "fx-theme"
+  FxThemeOptions} from "fx/theme"
 
 
 const SettingsPalettes = ( ) => {

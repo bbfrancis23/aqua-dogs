@@ -1,7 +1,7 @@
 
-import { Member, MemberContext } from "@/interfaces/MemberInterface"
+import { MemberContext } from "@/react/Member/"
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
+import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
 import { Box, Button } from "@mui/material";
 import axios from "axios";
 import { useConfirm } from "material-ui-confirm";

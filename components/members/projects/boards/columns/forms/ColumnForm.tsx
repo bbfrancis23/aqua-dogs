@@ -12,8 +12,8 @@ import { ProjectContext } from '@/interfaces/ProjectInterface'
 import { BoardContext } from '@/react/board/BoardContext'
 import { useSnackbar } from 'notistack'
 import { FxTheme } from 'theme/globalTheme'
-import Permission, { PermissionCodes, NoPermission } from '@/ui/PermissionComponent';
-import { MemberContext } from '@/interfaces/MemberInterface';
+import Permission, { PermissionCodes, NoPermission } from 'fx/ui/PermissionComponent';
+import { MemberContext } from '@/react/Member/';
 import { LoadingButton } from '@mui/lab';
 
 interface ColumnFormProps {

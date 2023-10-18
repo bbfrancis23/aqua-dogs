@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useState } from 'react';
 
 import { useSession } from 'next-auth/react';
 
-import { Member } from '@/interfaces/MemberInterface';
+import { Member } from '@/react/Member/member-types';
 import { Project } from '@/interfaces/ProjectInterface';
 import { Item } from '@/react/item/item-types';
 

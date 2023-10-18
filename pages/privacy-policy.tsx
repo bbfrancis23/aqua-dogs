@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import InfoPageLayout from "@/ui/InfoPageLayout"
+import InfoPageLayout from "fx/ui/InfoPageLayout"
 import { Stack } from "@mui/material"
 
 import Head from 'next/head'

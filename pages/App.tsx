@@ -1,6 +1,6 @@
 import { CssBaseline, PaletteMode, ThemeProvider } from "@mui/material"
 import { FxTheme, FxThemeContext, FxThemeNames, UpdateThemeOptionsProps,
-  createFxTheme, defaultFxTheme, fxThemeOptionsList } from "fx-theme"
+  createFxTheme, defaultFxTheme, fxThemeOptionsList } from "fx/theme"
 import { ConfirmProvider } from "material-ui-confirm"
 import { SnackbarOrigin, SnackbarProvider } from "notistack"
 import { useEffect, useState } from "react"

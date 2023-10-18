@@ -4,10 +4,10 @@ import { Box, Typography} from "@mui/material";
 
 import { Draggable } from "react-beautiful-dnd";
 import { Column } from "@/react/column/column-types";
-import { Member } from "@/interfaces/MemberInterface";
+import { Member } from "@/react/Member/member-types";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 
-import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
+import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
 
 
 import ColumnList from "./ColumnList";

@@ -8,9 +8,9 @@ import { useSnackbar } from "notistack"
 
 import axios from "axios"
 
-import Permission, { PermissionCodes } from "@/ui/PermissionComponent"
+import Permission, { PermissionCodes } from "fx/ui/PermissionComponent"
 
-import { Member } from "@/interfaces/MemberInterface"
+import { Member } from "@/react/Member/member-types"
 import { ProjectContext } from "@/interfaces/ProjectInterface"
 
 export interface ProjectMemberActionsProps{

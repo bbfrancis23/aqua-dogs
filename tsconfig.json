@@ -21,6 +21,7 @@
       "@/interfaces/*": ["interfaces/*"],
       "@/mongo/*": ["mongo/*"],
       "@/ui/*": ["ui/*"],
+      "@/fx/*": ["fx/*"],
       "@/itemComponents/*": ["components/members/projects/boards/columns/items/*"]
     }
   },

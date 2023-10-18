@@ -6,7 +6,7 @@ import { Item } from "@/react/item/item-types";
 
 
 import { Column } from "@/react/column/column-types";
-import { Member } from "@/interfaces/MemberInterface";
+import { Member } from "@/react/Member/member-types";
 
 import ColumnListItem from "./items/ColumnListItem";
 

@@ -4,9 +4,9 @@ import { Avatar, Badge, Card, CardHeader, Typography } from "@mui/material"
 import LeaderBadge from '@mui/icons-material/Star'
 import AdminBadge from '@mui/icons-material/Shield'
 
-import { Member } from "@/interfaces/MemberInterface"
+import { Member } from "@/react/Member/member-types"
 
-import Permission, { PermissionCodes, NoPermission } from "@/ui/PermissionComponent"
+import Permission, { PermissionCodes, NoPermission } from "fx/ui/PermissionComponent"
 
 import ProjectMemberActions from "./ProjectMemberActions"
 import { ProjectContext } from "@/interfaces/ProjectInterface"
