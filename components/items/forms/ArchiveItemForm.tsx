@@ -1,5 +1,5 @@
 
-import { Member, MemberContext } from "@/react/Member/member-types"
+import { MemberContext } from "@/react/Member/"
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
 import { Box, Button } from "@mui/material";
