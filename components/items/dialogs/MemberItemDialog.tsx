@@ -12,7 +12,7 @@ import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionCompo
 import { Item } from "@/react/item/item-types"
 import { Section } from "@/react/section/section-types"
 import { ProjectContext } from "@/interfaces/ProjectInterface"
-import { MemberContext } from "@/react/Member/member-types"
+import { MemberContext } from "@/react/Member/"
 
 import CodeSection from "@/components/items/sections/CodeSection"
 import CreateSectionForm from "@/components/items/forms/CreateSectionForm"
