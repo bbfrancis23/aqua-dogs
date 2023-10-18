@@ -7,7 +7,7 @@ import Item from '/mongo/schemas/ItemSchema'
 import Section from '/mongo/schemas/SectionSchema'
 import Project from '/mongo/schemas/ProjectSchema'
 
-import {PermissionCodes, permission} from '/ui/PermissionComponent'
+import {PermissionCodes, permission} from 'fx/ui/PermissionComponent'
 import {findItem} from './findItem'
 
 export const patchItem = async (req, res) => {

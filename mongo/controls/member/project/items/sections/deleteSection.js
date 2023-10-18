@@ -9,7 +9,7 @@ import Section from '/mongo/schemas/SectionSchema'
 
 import SectionType from '/mongo/schemas/SectionTypeSchema'
 
-import {PermissionCodes, permission} from '/ui/PermissionComponent'
+import {PermissionCodes, permission} from 'fx/ui/PermissionComponent'
 
 export const deleteSection = async (req, res) => {
   const {sectionId} = req.query
