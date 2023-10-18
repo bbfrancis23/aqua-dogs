@@ -5,30 +5,24 @@ import { useSession } from "next-auth/react"
 import dynamic from "next/dynamic";
 import { GetStaticPaths, GetStaticProps } from "next";
 
-
-import { publicBoards } from "@/react/app/data/publicBoards";
-
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+
+import { publicBoards } from "@/react/app/";
+
 
 import { findItem } from "@/mongo/controls/member/project/items/findItem";
 import {findProjectItems} from "@/mongo/controls/member/project/items/findProjectItems"
-
-
-import InfoPageLayout from "@/ui/InfoPageLayout";
-import { PermissionCodes } from "@/ui/PermissionComponent";
-
-import { Item } from "@/react/item/item-types"
-import { Section } from "@/interfaces/SectionInterface";
-import { Member } from "@/interfaces/MemberInterface";
-
-import CreateCommentForm from "@/components/items/forms/CreateCommentForm";
-import { ProjectMemberAvatar } from "@/components/members/projects/ProjectMemberAvatar";
-
-
 import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards"
-import { Board } from "@/react/board/board-types";
-import { WEBSITE_PROJECT_ID } from "pages/HomePage";
-import { getBoardDirectory } from "@/react/board";
+
+
+import {InfoPageLayout, PermissionCodes} from "fx/ui/"
+
+import { Item, CreateCommentForm } from "@/react/item/"
+import { Section } from "@/react/section/"
+import { Member, ProjectMemberAvatar } from "@/react/Member/"
+import { Board, getBoardDirectory } from "@/react/board/"
+
+import { WEBSITE_PROJECT_ID } from "pages/HomePage"
 
 
 /********* Interfaces Globals and Helpers **********/

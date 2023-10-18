@@ -11,7 +11,7 @@ import { resetServerContext } from "react-beautiful-dnd";
 
 import { Board } from "@/react/board/board-types";
 import { Project, ProjectContext} from "@/interfaces/ProjectInterface"
-import { Member, MemberContext } from "@/interfaces/MemberInterface";
+import { Member, MemberContext } from "@/react/Member/member-types";
 
 import { findMember } from "@/mongo/controls/member/memberControls";
 import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls";
@@ -20,11 +20,11 @@ import findPublicBoard from "@/mongo/controls/member/project/board/findPublicBoa
 import { BoardToolbar } from "@/components/members/projects/boards/BoardToolbar";
 import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
 
-import Permission, { PermissionCodes, permission } from "@/ui/PermissionComponent";
+import Permission, { PermissionCodes, permission } from "fx/ui/PermissionComponent";
 import { FxTheme } from "theme/globalTheme";
 import CreateColumnForm from "@/components/members/projects/boards/columns/forms/CreateColumnForm";
 import MemberItemDialog from "@/components/items/dialogs/MemberItemDialog";
-import { FxThemeContext } from "fx-theme";
+import { FxThemeContext } from "fx/theme";
 import { BoardContext } from "@/react/board/BoardContext";
 
 /********** Interfaces Globals and Helpers *********/

@@ -13,7 +13,7 @@ import axios from "axios";
 
 import { Item } from "@/react/item/item-types";
 import { Column } from "@/react/column/column-types";
-import { Member } from "@/interfaces/MemberInterface";
+import { Member } from "@/react/Member/member-types";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 import { BoardContext } from "@/react/board/BoardContext";
 

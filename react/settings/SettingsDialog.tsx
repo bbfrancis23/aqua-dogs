@@ -8,7 +8,7 @@ import LightModeIcon from "@mui/icons-material/LightMode"
 import SettingsPalettes from "./SettingsPalettes"
 import DraggableDialog from "@/ui/DraggableDialog"
 import { FxThemeContext, FxThemeOptions, UpdateThemeOptionsProps,
-  createFxTheme, fxThemeOptionsList } from "fx-theme"
+  createFxTheme, fxThemeOptionsList } from "fx/theme"
 import { DialogActions as AppDialogActions, AppDialogs } from "@/react/app/app-types"
 import { AppContext } from "@/react/app"
 

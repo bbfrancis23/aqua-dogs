@@ -9,9 +9,9 @@ import { useSnackbar } from "notistack";
 import axios from "axios";
 
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-import { Member } from "@/interfaces/MemberInterface"
+import { Member } from "@/react/Member/member-types"
 
-import Permission, { PermissionCodes } from "@/ui/PermissionComponent"
+import Permission, { PermissionCodes } from "fx/ui/PermissionComponent"
 
 
 export type ArchiveProjectFormProps = { member: Member}

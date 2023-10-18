@@ -8,15 +8,15 @@ import { Button, Grid, Stack, Typography } from "@mui/material"
 
 import { Project, ProjectContext } from "@/interfaces/ProjectInterface"
 
-import { Member } from "@/interfaces/MemberInterface"
+import { Member } from "@/react/Member/member-types"
 import { Board } from "@/react/board/board-types"
 
 import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 import { findMember } from "@/mongo/controls/member/memberControls"
 
 
-import Permission, { permission, PermissionCodes } from "@/ui/PermissionComponent"
-import InfoPageLayout from "@/ui/InfoPageLayout"
+import Permission, { permission, PermissionCodes } from "fx/ui/PermissionComponent"
+import InfoPageLayout from "fx/ui/InfoPageLayout"
 
 import AddProjectMemberForm from "@/components/members/projects/forms/AddProjectMemberForm"
 import ProjectMember from "@/components/members/projects/ProjectMember"

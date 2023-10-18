@@ -9,13 +9,13 @@ import { useSnackbar } from "notistack";
 
 import axios from "axios";
 
-import { Member } from "@/interfaces/MemberInterface";
+import { Member } from "@/react/Member/member-types";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 
-import { PermissionCodes } from "@/ui/PermissionComponent";
+import { PermissionCodes } from "fx/ui/PermissionComponent";
 
 import { BoardTitleForm } from "./forms/BoardTitleForm";
-import { ProjectMemberAvatar } from "../ProjectMemberAvatar";
+import { ProjectMemberAvatar } from "../../../../react/Member/components/ProjectMemberAvatar";
 import BoardOptionsMenu from "./BoardOptionsMenu";
 import { BoardContext } from "@/react/board/BoardContext";
 import Scope from "@/interfaces/ScopeInterface";

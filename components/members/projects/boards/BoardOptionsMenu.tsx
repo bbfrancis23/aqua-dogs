@@ -4,9 +4,9 @@ import { useConfirm } from "material-ui-confirm";
 
 import MenuIcon from '@mui/icons-material/MoreVert';
 import { useState, MouseEvent, useContext } from "react";
-import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
+import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-import { MemberContext } from "@/interfaces/MemberInterface";
+import { MemberContext } from "@/react/Member/member-types";
 import { useSnackbar } from "notistack";
 import axios from "axios";
 import router from "next/router";

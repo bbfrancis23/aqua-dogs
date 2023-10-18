@@ -5,10 +5,10 @@ import { useConfirm } from "material-ui-confirm";
 import { useState, MouseEvent, useContext } from "react";
 import { Column } from "@/react/column/column-types";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-import { MemberContext } from "@/interfaces/MemberInterface";
+import { MemberContext } from "@/react/Member/member-types";
 import { BoardContext } from "@/react/board/BoardContext";
 import axios from "axios";
-import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
+import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
 
 
 export interface ArchiveColumnProps {

@@ -11,12 +11,12 @@ import axios from "axios"
 import { Form, FormikProvider, useFormik } from "formik"
 import * as Yup from "yup"
 
-import Permission, { NoPermission, PermissionCodes } from "@/ui/PermissionComponent"
+import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent"
 
 import { ItemContext } from "@/react/item/ItemContext"
-import { Member } from "@/interfaces/MemberInterface"
+import { Member } from "@/react/Member/member-types"
 import { Project } from "@/interfaces/ProjectInterface"
-import { Section } from "@/interfaces/SectionInterface"
+import { Section } from "@/react/section/section-types"
 import { LoadingButton } from "@mui/lab"
 
 const CodeEditor = dynamic(

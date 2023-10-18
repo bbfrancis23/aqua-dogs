@@ -9,7 +9,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import * as Yup from "yup"
 
 import { ItemContext } from "@/react/item/ItemContext";
-import { Member } from "@/interfaces/MemberInterface";
+import { Member } from "@/react/Member/member-types";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 
 import SectionStub from "../sections/SectionStub";
@@ -26,7 +26,7 @@ import dynamic from "next/dynamic"
 import "@uiw/react-textarea-code-editor/dist.css"
 import axios from "axios";
 import { Form, FormikProvider, useFormik } from "formik";
-import Permission, { PermissionCodes } from "@/ui/PermissionComponent";
+import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
 import { LoadingButton } from "@mui/lab";
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
