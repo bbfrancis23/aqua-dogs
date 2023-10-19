@@ -16,6 +16,7 @@ import Comments from "@/react/comments";
 
 import { WEBSITE_PROJECT_ID } from "pages/HomePage"
 import { BoardDrawer, InfoPageLayout, FxCodeEditor } from "@/fx/ui";
+import Head from "next/head";
 
 export interface PublicCardPage {
   item: Item,
@@ -76,6 +77,9 @@ const PageTitle = ({children}: any) => (
 
 export const Page = ({catTitle, colTitle, item, board}: PublicCardPage) => (
   <>
+    <Head>
+      <title>Strategy Fx - {item.title}</title>
+    </Head>
     { board && ( <BoardDrawer board={board} /> ) }
     <Box sx={{ml: {xs: 0, sm: '240px'} }}>
       <InfoPageLayout

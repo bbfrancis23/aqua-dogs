@@ -28,8 +28,8 @@ const BoardDrawer = ({board, children}: BoardDrawerProps) => (
     <Box sx={{ mt: 8}} >
       { board?.columns.map((c) =>
         (
-          <>
-            <Box key={c.id} >
+          <Box key={c.id}>
+            <Box >
               <Typography sx={{p: 2, bgcolor: 'secondary.main', color: 'secondary.contrastText'}}>
                 {c.title}
               </Typography>
@@ -39,7 +39,7 @@ const BoardDrawer = ({board, children}: BoardDrawerProps) => (
                 <HoverLink href={getCardDirectory(board, i)} title={i.title} key={i.id} />
               ) ) }
             </ Box>
-          </>
+          </ Box>
         )
       )
       }

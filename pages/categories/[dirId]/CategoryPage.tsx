@@ -45,7 +45,7 @@ export const Page = ( props: CategoryPage) => {
   return (
     <>
       <Head>
-        <title>{board.title} - Strategy Fx</title>
+        <title>Strategy Fx - {board.title}</title>
         <meta name="description" content={board.description} />
       </Head>
       <Typography variant="h1" sx={{ pl: 4, pt: 3, fontSize: '2em'}}>{board.title}</Typography>
