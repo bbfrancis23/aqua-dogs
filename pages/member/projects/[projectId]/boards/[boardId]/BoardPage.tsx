@@ -4,7 +4,7 @@ import { GetServerSideProps, Redirect } from "next";
 import Head from "next/head"
 import { getSession } from "next-auth/react";
 
-import { Box, Stack, useTheme } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { useSnackbar } from "notistack";
 
 import { resetServerContext } from "react-beautiful-dnd";
@@ -21,7 +21,6 @@ import { BoardToolbar } from "@/components/members/projects/boards/BoardToolbar"
 import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
 
 import Permission, { PermissionCodes, permission } from "fx/ui/PermissionComponent";
-import { FxTheme } from "theme/globalTheme";
 import CreateColumnForm from "@/components/members/projects/boards/columns/forms/CreateColumnForm";
 import MemberItemDialog from "@/components/items/dialogs/MemberItemDialog";
 import { FxThemeContext } from "fx/theme";
@@ -74,7 +73,6 @@ export const Page = (props: BoardPage) => {
 
   const [member, setMember] = useState<Member>(props.member)
 
-  //const theme: FxTheme = useTheme()
   const {fxTheme} = useContext(FxThemeContext)
   const {enqueueSnackbar} = useSnackbar()
 

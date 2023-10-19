@@ -7,9 +7,7 @@ import { Column } from "@/react/column/column-types";
 import { Member } from "@/react/Member/member-types";
 import { Item } from "@/react/item/item-types";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
-
-import EditItemForm from "./forms/EditItemForm";
-import { FxTheme } from "theme/globalTheme";
+import { FxThemeContext } from "@/fx/theme";
 
 
 export interface ColumnListProps {
@@ -23,7 +21,7 @@ const ColumnListItem = (props: ColumnListProps) => {
 
   const {project, setItemDialogIsOpen, setSelectedItem} = useContext(ProjectContext)
 
-  const theme: FxTheme = useTheme()
+  const {fxTheme: fx} = useContext(FxThemeContext)
 
   const handleOptenItemDialog = () => {
     if(!setItemDialogIsOpen) return
@@ -36,7 +34,7 @@ const ColumnListItem = (props: ColumnListProps) => {
 
   const getBgColor = () => {
 
-    if(theme.palette.mode === 'light'){
+    if(fx.theme.palette.mode === 'light'){
 
       return 'secondary.main'
     }
@@ -46,7 +44,7 @@ const ColumnListItem = (props: ColumnListProps) => {
 
   const getTextColor = () => {
 
-    if(theme.palette.mode === 'light'){
+    if(fx.theme.palette.mode === 'light'){
 
       return 'secondary.contrastText'
     }
@@ -65,7 +63,7 @@ const ColumnListItem = (props: ColumnListProps) => {
             </Button>
             :
             <Link href={`/member/projects/${project.id}/items/${item.id}`}
-              style={{textDecoration: "none", color: theme.palette.text.primary}}>
+              style={{textDecoration: "none", color: fx.theme.palette.text.primary}}>
               <Typography>{item.title}</Typography>
             </Link>
         }

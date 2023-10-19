@@ -11,10 +11,10 @@ import { useContext, useState } from 'react'
 import { ProjectContext } from '@/interfaces/ProjectInterface'
 import { BoardContext } from '@/react/board/BoardContext'
 import { useSnackbar } from 'notistack'
-import { FxTheme } from 'theme/globalTheme'
 import Permission, { PermissionCodes, NoPermission } from 'fx/ui/PermissionComponent';
 import { MemberContext } from '@/react/Member/';
 import { LoadingButton } from '@mui/lab';
+import { FxThemeContext } from '@/fx/theme';
 
 interface ColumnFormProps {
   column: Column
@@ -32,7 +32,7 @@ export const ColumnForm = (props: ColumnFormProps) => {
   const {member} = useContext(MemberContext)
 
 
-  const theme: FxTheme = useTheme()
+  const {fxTheme: fx} = useContext(FxThemeContext)
   const {project} = useContext(ProjectContext)
   const {enqueueSnackbar} = useSnackbar()
 
@@ -75,7 +75,7 @@ export const ColumnForm = (props: ColumnFormProps) => {
 
   const ColumnForm = (
     <Box sx={{ width: '272px', display: 'inline-block' }}>
-      <Box sx={{ bgcolor: alpha(theme.palette.background.default, 0.4), p: 1,
+      <Box sx={{ bgcolor: alpha(fx.theme.palette.background.default, 0.4), p: 1,
         borderRadius: 3, width: 272, }}>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>

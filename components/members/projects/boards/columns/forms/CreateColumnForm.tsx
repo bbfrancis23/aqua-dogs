@@ -13,9 +13,8 @@ import { ProjectContext } from "@/interfaces/ProjectInterface"
 import { BoardContext } from "@/react/board/BoardContext"
 
 import ColumnStub from "../ColStub";
-
-import { FxTheme } from "theme/globalTheme";
 import { LoadingButton } from "@mui/lab";
+import { FxThemeContext } from "@/fx/theme";
 
 const createColSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
@@ -25,7 +24,7 @@ export const CreateColumnForm = () => {
 
   const {project} = useContext(ProjectContext)
 
-  const theme: FxTheme = useTheme()
+  const {fxTheme} = useContext(FxThemeContext)
 
   const {board, setBoard} = useContext(BoardContext)
 
@@ -70,7 +69,7 @@ export const CreateColumnForm = () => {
 
   const ColumnForm = (
     <Box sx={{ width: '272px', display: 'inline-block' }}>
-      <Box sx={{ bgcolor: alpha(theme.palette.background.default, 0.4), p: 1,
+      <Box sx={{ bgcolor: alpha(fxTheme.theme.palette.background.default, 0.4), p: 1,
         borderRadius: 3, width: 272, }}>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>

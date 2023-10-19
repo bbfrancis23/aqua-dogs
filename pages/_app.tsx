@@ -12,7 +12,6 @@ import SettingsIcon from "@mui/icons-material/Settings"
 
 import LogoImage from '@/react/LogoImage'
 import { AppContext, AppDialogs, DialogActions, appReducer, AppBarMenuItems } from '@/react/app'
-
 import { AuthDialog, AuthNav, RegisterDialog, ForgotPasswordDialog } from '@/react/auth'
 import { SettingsDialog } from '@/react/settings'
 

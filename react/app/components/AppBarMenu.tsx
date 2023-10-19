@@ -1,10 +1,10 @@
-import { useState, MouseEvent} from "react"
+import { useState, MouseEvent, useContext} from "react"
 
 import {Box, Button, IconButton, Menu, MenuItem, useTheme, Fade} from "@mui/material"
 
 import Link from "next/link"
-import { FxTheme } from "theme/globalTheme";
 import { Board } from "@/react/board/board-types";
+import { FxThemeContext } from "@/fx/theme";
 
 export interface AppBarMenuItem{
   title: string;
@@ -20,7 +20,7 @@ export interface AppBarMenuProps{
 export default function AppBarMenu(props: AppBarMenuProps){
 
   const {appBarMenuIem} = props
-  const theme: FxTheme = useTheme()
+  const {fxTheme} = useContext(FxThemeContext)
 
   const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorElement)
@@ -53,7 +53,7 @@ export default function AppBarMenu(props: AppBarMenuProps){
         anchorEl={anchorElement} open={open} onClose={handleClose} TransitionComponent={Fade} >
         { appBarMenuIem.boards.map( (p: any) => (
           <Link href={`/categories/${p.dirId}`}
-            style={{textDecoration: "none", color: theme.palette.text.primary}} key={p.id} >
+            style={{textDecoration: "none", color: fxTheme.theme.palette.text.primary}} key={p.id} >
             <MenuItem onClick={handleClose}>{p.title}</MenuItem>
           </Link>
         )) }

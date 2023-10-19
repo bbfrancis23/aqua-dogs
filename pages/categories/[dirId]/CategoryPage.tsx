@@ -1,8 +1,10 @@
-import { ParsedUrlQuery } from "querystring";
+import { useContext } from "react"
+import { ParsedUrlQuery } from "querystring"
 
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next"
+import Head from "next/head";
 
-import { Box, Grid, Typography, useTheme } from "@mui/material"
+import { Box, Grid, Typography } from "@mui/material"
 
 import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards"
 import {findPublicBoard} from "@/mongo/controls/member/project/board/findPublicBoard"
@@ -12,10 +14,9 @@ import { WebsiteBoards } from "@/react/app/"
 import { Column } from "@/react/column/"
 import { Item, getCardDirectory } from "@/react/item"
 
-import { FxTheme } from "theme/globalTheme"
-
 import { WEBSITE_PROJECT_ID} from "pages/HomePage"
-import { HoverLink, ListCard } from "@/ui/components";
+import { FxThemeContext } from "@/fx/theme"
+import { HoverLink, ListCard } from "@/fx/ui"
 
 interface CategoryPage { board: Board}
 interface CategoryPageParams extends ParsedUrlQuery{ dirId: string}
@@ -38,14 +39,18 @@ export const getStaticProps: GetStaticProps<CategoryPage> = async (context) => {
 
 export const Page = ( props: CategoryPage) => {
 
-  const theme: FxTheme = useTheme()
+  const {fxTheme} = useContext(FxThemeContext)
   const {board} = props
 
   return (
     <>
+      <Head>
+        <title>Strategy Fx - {board.title}</title>
+        <meta name="description" content={board.description} />
+      </Head>
       <Typography variant="h1" sx={{ pl: 4, pt: 3, fontSize: '2em'}}>{board.title}</Typography>
-      <Box sx={{ p: theme.defaultPadding}}>
-        <Grid container spacing={theme.defaultPadding}>
+      <Box sx={{ p: fxTheme.theme.defaultPadding}}>
+        <Grid container spacing={fxTheme.theme.defaultPadding}>
           { board.columns.map( (c: Column) => (
             <Grid item xs={12} md={6} lg={4} key={c.id}>
               <ListCard title={c.title}>
@@ -66,4 +71,4 @@ export const Page = ( props: CategoryPage) => {
 
 export default Page
 
-// QA Brian Francis 10-15-23
+// QA Brian Francis 10-19-23
