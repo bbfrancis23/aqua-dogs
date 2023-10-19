@@ -5,7 +5,8 @@ import findMemberPublicBoard from "@/mongo/controls/member/project/board/findMem
 import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from "@mui/material";
 import { GetServerSideProps, Redirect } from "next";
 import Link from "next/link";
-import { FxTheme } from "@/fx/theme/globalTheme";
+import { useContext } from "react";
+import { FxThemeContext } from "@/fx/theme";
 
 
 export interface PublicMemberBoardPage {
@@ -27,7 +28,7 @@ export const getServerSideProps: GetServerSideProps<PublicMemberBoardPage> = asy
 
 export const Page = ( props: {board: Board}) => {
 
-  const theme: FxTheme = useTheme()
+  const {fxTheme: fx} = useContext(FxThemeContext)
 
   const {board} = props
 
@@ -35,9 +36,9 @@ export const Page = ( props: {board: Board}) => {
     <>
       <Typography variant="h4"
         sx={{ pl: 5, position: 'relative', top: '10px'}}>{board.title}</Typography>
-      <Box sx={{ p: theme.defaultPadding}}>
+      <Box sx={{ p: fx.theme.defaultPadding}}>
 
-        <Grid container spacing={theme.defaultPadding}>
+        <Grid container spacing={fx.theme.defaultPadding}>
           { board.columns.map( (c: Column) => (
             <Grid item xs={12} md={6} lg={4} key={c.id}>
               <Card >
@@ -52,7 +53,7 @@ export const Page = ( props: {board: Board}) => {
                         sx={{pl: 1, '&:hover': {backgroundColor: 'action.hover'}}}>
                         <Link
                           href={`/boards/member/${board.id}/items/${i.id}`}
-                          style={{textDecoration: "none", color: theme.palette.text.primary}} >
+                          style={{textDecoration: "none", color: fx.theme.palette.text.primary}} >
                           {i.title}
                         </Link>
                       </Typography>

@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useContext, useState} from "react"
 
 import {Alert, Box, Button, DialogActions, DialogContent, Stack, useTheme} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
@@ -7,12 +7,11 @@ import {useSnackbar} from "notistack"
 import axios from "axios"
 import {Form, FormikProvider, useFormik} from "formik"
 
-import { FxTheme } from "@/fx/theme/globalTheme"
-
 import AuthSchema from "../../AuthFormSchema"
 
 import {EmailTextField, PasswordTextField} from "../AuthTextFields"
 import Link from "next/link"
+import { FxThemeContext } from "@/fx/theme"
 
 interface RegisterFormProps{
   closeDialog: () => void;
@@ -22,7 +21,7 @@ interface RegisterFormProps{
 export default function RegisterForm(props: RegisterFormProps) {
 
 
-  const fxTheme: FxTheme = useTheme()
+  const {fxTheme} = useContext(FxThemeContext)
   const [formError, setFormError] = useState<string>('')
   const {closeDialog, openAuthDialog} = props
 
@@ -52,7 +51,6 @@ export default function RegisterForm(props: RegisterFormProps) {
 
   const closeForm = () => { formik.resetForm(); closeDialog(); setFormError("") }
 
-  const theme: FxTheme = useTheme()
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -79,12 +77,12 @@ export default function RegisterForm(props: RegisterFormProps) {
           <Stack direction={'row'} spacing={1} sx={{p: 1, justifyContent: 'center', width: '100%'}}>
 
             <Link href={'/privacy-policy'}
-              style={{textDecoration: "none", color: theme.palette.text.primary,
+              style={{textDecoration: "none", color: fxTheme.theme.palette.text.primary,
                 fontSize: '12px'}} >
               Privacy Policy
             </Link>
             <Link href={'/terms-of-use'}
-              style={{textDecoration: "none", color: theme.palette.text.primary,
+              style={{textDecoration: "none", color: fxTheme.theme.palette.text.primary,
                 fontSize: '12px'}} >
               Terms of Use
             </Link>

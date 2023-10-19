@@ -12,10 +12,10 @@ import { WebsiteBoards } from "@/react/app/"
 import { Column } from "@/react/column/"
 import { Item, getCardDirectory } from "@/react/item"
 
-import { FxTheme } from "@/fx/theme/globalTheme"
-
 import { WEBSITE_PROJECT_ID} from "pages/HomePage"
-import { HoverLink, ListCard } from "@/ui/components";
+import { FxTheme, FxThemeContext } from "@/fx/theme";
+import { useContext } from "react";
+import { HoverLink, ListCard } from "@/fx/ui";
 
 interface CategoryPage { board: Board}
 interface CategoryPageParams extends ParsedUrlQuery{ dirId: string}
@@ -38,14 +38,14 @@ export const getStaticProps: GetStaticProps<CategoryPage> = async (context) => {
 
 export const Page = ( props: CategoryPage) => {
 
-  const theme: FxTheme = useTheme()
+  const {fxTheme} = useContext(FxThemeContext)
   const {board} = props
 
   return (
     <>
       <Typography variant="h1" sx={{ pl: 4, pt: 3, fontSize: '2em'}}>{board.title}</Typography>
-      <Box sx={{ p: theme.defaultPadding}}>
-        <Grid container spacing={theme.defaultPadding}>
+      <Box sx={{ p: fxTheme.theme.defaultPadding}}>
+        <Grid container spacing={fxTheme.theme.defaultPadding}>
           { board.columns.map( (c: Column) => (
             <Grid item xs={12} md={6} lg={4} key={c.id}>
               <ListCard title={c.title}>

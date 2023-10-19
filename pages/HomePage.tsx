@@ -1,7 +1,9 @@
+import { useContext } from "react"
+
 import { GetStaticProps, InferGetServerSidePropsType } from "next"
 import Head from 'next/head'
 
-import {Grid, useTheme, Typography, Box} from "@mui/material"
+import {Grid, Typography, Box} from "@mui/material"
 
 import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 
@@ -10,10 +12,8 @@ import { Column } from "@/react/column/"
 import { Board, getBoardDirectory } from "@/react/board/"
 import {AppFooter} from "@/react/app/"
 
-import { FxTheme } from "@/fx/theme/globalTheme"
-
-
-import {ListCard, HoverLink} from "@/ui/components"
+import { FxThemeContext } from "@/fx/theme"
+import { HoverLink, ListCard } from "@/fx/ui"
 
 
 const DESCRIPTION = "A Simple way to Orginize your Projects and impliment Strategies. "
@@ -38,8 +38,7 @@ export const getStaticProps: GetStaticProps<HomePage> = async () => {
 
 const Page = ({boards}: InferGetServerSidePropsType<typeof getStaticProps>) => {
 
-  const theme: FxTheme = useTheme()
-
+  const {fxTheme: fx} = useContext(FxThemeContext)
 
   return (
     <>
@@ -48,8 +47,8 @@ const Page = ({boards}: InferGetServerSidePropsType<typeof getStaticProps>) => {
         <meta name="description" content={DESCRIPTION} />
         <meta name="keywords" content={KEYWORDS} />
       </Head>
-      <Box sx={{ p: theme.defaultPadding}}>
-        <Grid container spacing={theme.defaultPadding}>
+      <Box sx={{ p: fx.theme.defaultPadding}}>
+        <Grid container spacing={fx.theme.defaultPadding}>
           { boards?.map( (b: Board) => (
             <Grid item xs={12} md={6} lg={4} key={b.id}>
               <ListCard title={ b.title } href={getBoardDirectory(b)}>
@@ -79,4 +78,4 @@ const Page = ({boards}: InferGetServerSidePropsType<typeof getStaticProps>) => {
 
 export default Page
 
-// QA: Brian Francis - 10-13-2023 - 5 stars
+// QA: Brian Francis - 10-19-2023 - 5 stars

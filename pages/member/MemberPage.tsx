@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useContext, useState} from "react"
 
 import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import Link from "next/link"
@@ -20,8 +20,8 @@ import EmailForm from "@/components/members/EmailForm"
 import ProjectStub from "@/components/members/projects/ProjectStub"
 import InfoPageLayout from "fx/ui/InfoPageLayout"
 import CreateProjectForm from "@/components/members/projects/forms/CreateProjectForm"
-import { FxTheme } from "@/fx/theme/globalTheme"
 import useMemberActivity from "hooks/useMemberActivity"
+import { FxThemeContext } from "@/fx/theme"
 
 /********** Interfaces Globals and Helpers **********/
 
@@ -94,7 +94,7 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
     }, 10000)
   }
 
-  const theme: FxTheme = useTheme()
+  const {fxTheme} = useContext(FxThemeContext)
 
   const handleCloseChangePasswordForm = () => { setShowPasswordForm(false) }
 
@@ -155,11 +155,12 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
             ))
           }
           <Link href={'/privacy-policy'}
-            style={{textDecoration: "none", color: theme.palette.text.primary}} >
+            style={{textDecoration: "none", color: fxTheme.theme.palette.text.primary}} >
             Privacy Policy
           </Link>
           <Link href={'/terms-of-use'}
-            style={{textDecoration: "none", color: theme.palette.text.primary}} >Terms of Use</Link>
+            style={{textDecoration: "none",
+              color: fxTheme.theme.palette.text.primary}} >Terms of Use</Link>
         </Stack>
       </InfoPageLayout>
     </>

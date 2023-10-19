@@ -15,6 +15,7 @@ import {
   teal,
   yellow,
 } from '@mui/material/colors'
+import {FxThemeGlobals} from './globalTheme'
 
 export type FxPaletteColorOptions = PaletteColorOptions & {
   main?: string
@@ -42,7 +43,7 @@ export enum FxThemeNames {
 
 export interface FxTheme {
   name: FxThemeNames
-  theme: Theme
+  theme: FxThemeGlobals
 }
 
 export interface FxThemeProps {
@@ -180,7 +181,7 @@ export const createFxTheme = (fxThemeOptions: FxThemeOptions): FxTheme => {
   }
 
   theme = createTheme(theme, globalTheme)
-  return {name: fxThemeOptions.name, theme}
+  return {name: fxThemeOptions.name, theme: theme as FxThemeGlobals}
 }
 
 export const defaultFxTheme = createFxTheme({

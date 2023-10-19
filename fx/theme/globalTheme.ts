@@ -4,7 +4,7 @@ export interface FxPalette extends Palette {
   name: string
 }
 
-export interface FxTheme extends Omit<Theme, 'palette'> {
+export interface FxThemeGlobals extends Omit<Theme, 'palette'> {
   passwordMinLength: number
   pageContentTopPadding: number
   defaultPadding: number

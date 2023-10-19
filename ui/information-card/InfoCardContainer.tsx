@@ -1,6 +1,7 @@
 
+import { FxThemeContext } from "@/fx/theme";
 import { Box, useTheme } from "@mui/material"
-import { FxTheme } from "../../fx/theme/globalTheme";
+import { useContext } from "react";
 
 export interface InfoCardContainerProps {
   children: JSX.Element | JSX.Element[];
@@ -8,11 +9,11 @@ export interface InfoCardContainerProps {
 
 const InfoCardContainer = (props: InfoCardContainerProps) => {
 
-  const theme: FxTheme = useTheme()
+  const {fxTheme} = useContext(FxThemeContext)
 
   return (
     <Box sx={{display: "flex", justifyContent: "center",
-      pt: {xs: 0, md: theme.pageContentTopPadding} }}>
+      pt: {xs: 0, md: fxTheme.theme.pageContentTopPadding} }}>
       {props.children}
     </Box>
   )
