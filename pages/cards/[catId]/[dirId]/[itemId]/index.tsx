@@ -1,4 +1,4 @@
-import PublicCardPage, {getStaticPaths, getStaticProps} from "./CardPage";
+import CardPage, {getStaticPaths, getStaticProps} from "./CardPage";
 
-export default PublicCardPage
+export default CardPage
 export {getStaticProps, getStaticPaths}

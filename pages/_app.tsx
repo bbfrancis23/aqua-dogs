@@ -49,7 +49,7 @@ const NextApp = ({Component, pageProps: {session, ...pageProps},}: AppProps) => 
     <App>
       <AppContext.Provider value={{app, dialogActions}}>
         <SessionProvider session={session} refetchInterval={FiveMinutes}>
-          <AppBar position={'sticky'}>
+          <AppBar position={'sticky'} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Toolbar >
               <Link href={"/"} style={{textDecoration: "none"}} ><LogoImage /></Link>
               <AppBarMenuItems />
