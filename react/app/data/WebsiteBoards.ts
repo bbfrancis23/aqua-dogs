@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 export const WebsiteBoards: any[] = [
   {
     id: '64b6bc191b836981ba0c4cd5',
