@@ -5,7 +5,7 @@ import findMemberPublicBoard from "@/mongo/controls/member/project/board/findMem
 import { Box, Card, CardContent, CardHeader, Grid, Typography, useTheme } from "@mui/material";
 import { GetServerSideProps, Redirect } from "next";
 import Link from "next/link";
-import { FxTheme } from "theme/globalTheme";
+import { FxTheme } from "@/fx/theme/globalTheme";
 
 
 export interface PublicMemberBoardPage {

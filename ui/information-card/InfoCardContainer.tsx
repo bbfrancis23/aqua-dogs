@@ -1,6 +1,6 @@
 
 import { Box, useTheme } from "@mui/material"
-import { FxTheme } from "../../theme/globalTheme";
+import { FxTheme } from "../../fx/theme/globalTheme";
 
 export interface InfoCardContainerProps {
   children: JSX.Element | JSX.Element[];

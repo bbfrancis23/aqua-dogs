@@ -14,7 +14,7 @@ import { BoardContext } from "@/react/board/BoardContext"
 
 import ColumnStub from "../ColStub";
 
-import { FxTheme } from "theme/globalTheme";
+import { FxTheme } from "@/fx/theme/globalTheme";
 import { LoadingButton } from "@mui/lab";
 
 const createColSchema = Yup.object().shape({

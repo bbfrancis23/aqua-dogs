@@ -3,7 +3,7 @@ import { useState, MouseEvent} from "react"
 import {Box, Button, IconButton, Menu, MenuItem, useTheme, Fade} from "@mui/material"
 
 import Link from "next/link"
-import { FxTheme } from "theme/globalTheme";
+import { FxTheme } from "@/fx/theme/globalTheme";
 import { Board } from "@/react/board/board-types";
 
 export interface AppBarMenuItem{

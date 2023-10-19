@@ -11,7 +11,7 @@ import { useContext, useState } from 'react'
 import { ProjectContext } from '@/interfaces/ProjectInterface'
 import { BoardContext } from '@/react/board/BoardContext'
 import { useSnackbar } from 'notistack'
-import { FxTheme } from 'theme/globalTheme'
+import { FxTheme } from '@/fx/theme/globalTheme'
 import Permission, { PermissionCodes, NoPermission } from 'fx/ui/PermissionComponent';
 import { MemberContext } from '@/react/Member/';
 import { LoadingButton } from '@mui/lab';

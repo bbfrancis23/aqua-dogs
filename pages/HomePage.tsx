@@ -3,13 +3,15 @@ import Head from 'next/head'
 
 import {Grid, useTheme, Typography, Box} from "@mui/material"
 
+import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
+
 import { Item, getCardDirectory } from "@/react/item/"
 import { Column } from "@/react/column/"
 import { Board, getBoardDirectory } from "@/react/board/"
 import {AppFooter} from "@/react/app/"
 
-import { FxTheme } from "theme/globalTheme"
-import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
+import { FxTheme } from "@/fx/theme/globalTheme"
+
 
 import {ListCard, HoverLink} from "@/ui/components"
 

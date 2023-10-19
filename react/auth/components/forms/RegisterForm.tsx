@@ -7,7 +7,7 @@ import {useSnackbar} from "notistack"
 import axios from "axios"
 import {Form, FormikProvider, useFormik} from "formik"
 
-import { FxTheme } from "theme/globalTheme"
+import { FxTheme } from "@/fx/theme/globalTheme"
 
 import AuthSchema from "../../AuthFormSchema"
 

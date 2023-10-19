@@ -21,7 +21,7 @@ import { BoardToolbar } from "@/components/members/projects/boards/BoardToolbar"
 import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
 
 import Permission, { PermissionCodes, permission } from "fx/ui/PermissionComponent";
-import { FxTheme } from "theme/globalTheme";
+import { FxTheme } from "@/fx/theme/globalTheme";
 import CreateColumnForm from "@/components/members/projects/boards/columns/forms/CreateColumnForm";
 import MemberItemDialog from "@/components/items/dialogs/MemberItemDialog";
 import { FxThemeContext } from "fx/theme";

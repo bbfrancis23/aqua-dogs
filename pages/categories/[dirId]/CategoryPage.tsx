@@ -12,7 +12,7 @@ import { WebsiteBoards } from "@/react/app/"
 import { Column } from "@/react/column/"
 import { Item, getCardDirectory } from "@/react/item"
 
-import { FxTheme } from "theme/globalTheme"
+import { FxTheme } from "@/fx/theme/globalTheme"
 
 import { WEBSITE_PROJECT_ID} from "pages/HomePage"
 import { HoverLink, ListCard } from "@/ui/components";

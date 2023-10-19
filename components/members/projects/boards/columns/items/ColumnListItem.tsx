@@ -9,7 +9,7 @@ import { Item } from "@/react/item/item-types";
 import { ProjectContext } from "@/interfaces/ProjectInterface";
 
 import EditItemForm from "./forms/EditItemForm";
-import { FxTheme } from "theme/globalTheme";
+import { FxTheme } from "@/fx/theme/globalTheme";
 
 
 export interface ColumnListProps {

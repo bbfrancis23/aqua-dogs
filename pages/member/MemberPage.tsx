@@ -20,7 +20,7 @@ import EmailForm from "@/components/members/EmailForm"
 import ProjectStub from "@/components/members/projects/ProjectStub"
 import InfoPageLayout from "fx/ui/InfoPageLayout"
 import CreateProjectForm from "@/components/members/projects/forms/CreateProjectForm"
-import { FxTheme } from "theme/globalTheme"
+import { FxTheme } from "@/fx/theme/globalTheme"
 import useMemberActivity from "hooks/useMemberActivity"
 
 /********** Interfaces Globals and Helpers **********/
