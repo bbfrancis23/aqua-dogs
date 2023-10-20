@@ -20,7 +20,7 @@ import { Box, IconButton, Stack } from "@mui/material"
 import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent"
 import { LoadingButton } from "@mui/lab"
 import { ItemContext } from "@/react/item/ItemContext"
-import { ProjectMemberAvatar } from "@/react/member"
+import { ProjectMemberAvatar } from "@/react/member/components/ProjectMemberAvatar"
 
 export interface CodeCommentProps {
   comment: Comment
