@@ -12,7 +12,7 @@ import { BoardContext } from "@/react/board/BoardContext";
 import { Member } from "@/react/members/member-types";
 import { Column } from "@/react/column/column-types";
 
-import BoardColumn from "./columns/BoardColumn";
+import BoardColumn from "../../../components/members/projects/boards/columns/BoardColumn";
 
 export interface ProjectBoardProps {
   member: Member;
