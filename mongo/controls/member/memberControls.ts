@@ -4,7 +4,7 @@ import Member from '@/mongo/schemas/MemberSchema'
 import Project from '@/mongo/schemas/ProjectSchema'
 
 import {Project as ProjectInterface} from '@/react/project/project-types'
-import {Member as MemberInterface} from '@/react/member/member-types'
+import {Member as MemberInterface} from '@/react/members/member-types'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 import {getSession} from 'next-auth/react'

@@ -13,7 +13,7 @@ import InfoPageLayout from "fx/ui/InfoPageLayout"
 import Permission, { NoPermission, PermissionCodes, permission } from "fx/ui/PermissionComponent"
 
 import { Project, ProjectContext } from "@/react/project/project-types"
-import { Member, MemberContext } from "@/react/member"
+import { Member, MemberContext } from "@/react/members"
 import { ItemContext } from "@/react/item/ItemContext"
 
 import { Section } from "@/react/section/section-types"

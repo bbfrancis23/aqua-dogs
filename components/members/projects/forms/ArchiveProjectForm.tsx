@@ -9,7 +9,7 @@ import { useSnackbar } from "notistack";
 import axios from "axios";
 
 import { ProjectContext } from "@/react/project/project-types";
-import { Member } from "@/react/member/member-types"
+import { Member } from "@/react/members/member-types"
 
 import Permission, { PermissionCodes } from "fx/ui/PermissionComponent"
 

@@ -8,7 +8,7 @@ import { Button, Grid, Stack, Typography } from "@mui/material"
 
 import { Project, ProjectContext } from "@/react/project/project-types"
 
-import { Member } from "@/react/member/member-types"
+import { Member } from "@/react/members/member-types"
 import { Board } from "@/react/board/board-types"
 
 import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls"

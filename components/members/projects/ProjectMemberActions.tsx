@@ -10,7 +10,7 @@ import axios from "axios"
 
 import Permission, { PermissionCodes } from "fx/ui/PermissionComponent"
 
-import { Member } from "@/react/member/member-types"
+import { Member } from "@/react/members/member-types"
 import { ProjectContext } from "@/react/project/project-types"
 
 export interface ProjectMemberActionsProps{

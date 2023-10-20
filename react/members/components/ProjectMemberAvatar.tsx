@@ -2,7 +2,7 @@ import { Avatar, Badge } from "@mui/material";
 import LeaderBadge from '@mui/icons-material/Star';
 import AdminBadge from '@mui/icons-material/Shield';
 
-import { Member } from "@/react/member/member-types";
+import { Member } from "@/react/members/member-types";
 import { PermissionCodes } from "fx/ui/PermissionComponent";
 import { useSession } from "next-auth/react";
 

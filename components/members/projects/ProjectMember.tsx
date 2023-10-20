@@ -4,7 +4,7 @@ import { Avatar, Badge, Card, CardHeader, Typography } from "@mui/material"
 import LeaderBadge from '@mui/icons-material/Star'
 import AdminBadge from '@mui/icons-material/Shield'
 
-import { Member } from "@/react/member/member-types"
+import { Member } from "@/react/members/member-types"
 
 import Permission, { PermissionCodes, NoPermission } from "fx/ui/PermissionComponent"
 

@@ -5,7 +5,7 @@ import { useConfirm } from "material-ui-confirm";
 import { useState, MouseEvent, useContext } from "react";
 import { Column } from "@/react/column/column-types";
 import { ProjectContext } from "@/react/project/project-types";
-import { MemberContext } from "@/react/member";
+import { MemberContext } from "@/react/members";
 import { BoardContext } from "@/react/board/BoardContext";
 import axios from "axios";
 import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";

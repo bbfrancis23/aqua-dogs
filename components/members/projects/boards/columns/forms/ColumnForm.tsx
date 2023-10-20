@@ -12,7 +12,7 @@ import { ProjectContext } from '@/react/project/project-types'
 import { BoardContext } from '@/react/board/BoardContext'
 import { useSnackbar } from 'notistack'
 import Permission, { PermissionCodes, NoPermission } from 'fx/ui/PermissionComponent';
-import { MemberContext } from '@/react/member';
+import { MemberContext } from '@/react/members';
 import { LoadingButton } from '@mui/lab';
 import { FxThemeContext } from '@/fx/theme';
 

@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 
 
-import { Member, ProjectMemberAvatar } from "@/react/member"
+import { Member, ProjectMemberAvatar } from "@/react/members"
 import { PermissionCodes } from "@/fx/ui";
 
 import { CreateCommentForm } from "@/react/item/"

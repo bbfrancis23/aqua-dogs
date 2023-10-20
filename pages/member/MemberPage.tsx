@@ -9,7 +9,7 @@ import {useSnackbar} from "notistack"
 
 import { findMember, findMemberProjects } from "@/mongo/controls/member/memberControls"
 
-import {Member, NameForm, EmailForm, MemberPageHeader, MemberContext} from "@/react/member"
+import {Member, NameForm, EmailForm, MemberPageHeader, MemberContext} from "@/react/members"
 import {ChangePasswordForm} from "@/react/auth/"
 import { Project, Projects } from "@/react/project/"
 

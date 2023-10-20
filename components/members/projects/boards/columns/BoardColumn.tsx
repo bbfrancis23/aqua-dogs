@@ -4,7 +4,7 @@ import { Box, Typography} from "@mui/material";
 
 import { Draggable } from "react-beautiful-dnd";
 import { Column } from "@/react/column/column-types";
-import { Member } from "@/react/member/member-types";
+import { Member } from "@/react/members/member-types";
 import { ProjectContext } from "@/react/project/project-types";
 
 import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";

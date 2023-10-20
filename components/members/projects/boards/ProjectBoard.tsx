@@ -9,7 +9,7 @@ import axios from "axios";
 
 import { ProjectContext } from "@/react/project/project-types";
 import { BoardContext } from "@/react/board/BoardContext";
-import { Member } from "@/react/member/member-types";
+import { Member } from "@/react/members/member-types";
 import { Column } from "@/react/column/column-types";
 
 import BoardColumn from "./columns/BoardColumn";

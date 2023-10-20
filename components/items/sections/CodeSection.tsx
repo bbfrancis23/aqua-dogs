@@ -14,7 +14,7 @@ import * as Yup from "yup"
 import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent"
 
 import { ItemContext } from "@/react/item/ItemContext"
-import { Member } from "@/react/member/member-types"
+import { Member } from "@/react/members/member-types"
 import { Project } from "@/react/project/project-types"
 import { Section } from "@/react/section/section-types"
 import { LoadingButton } from "@mui/lab"

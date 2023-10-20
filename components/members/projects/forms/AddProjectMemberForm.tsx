@@ -14,7 +14,7 @@ import {FormikProvider, useFormik, Form} from "formik"
 import * as Yup from "yup"
 
 import { ProjectContext } from "@/react/project/project-types";
-import { Member } from "@/react/member/member-types";
+import { Member } from "@/react/members/member-types";
 
 const AddMemberSchema = Yup.object().shape({ member: Yup.string().required("Member is required")})
 

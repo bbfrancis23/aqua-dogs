@@ -12,7 +12,7 @@ import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionCompo
 import { Item } from "@/react/item/item-types"
 import { Section } from "@/react/section/section-types"
 import { ProjectContext } from "@/react/project/project-types"
-import { MemberContext } from "@/react/member"
+import { MemberContext } from "@/react/members"
 
 import CodeSection from "@/components/items/sections/CodeSection"
 import CreateSectionForm from "@/components/items/forms/CreateSectionForm"
@@ -20,7 +20,7 @@ import { TextSection } from "@/components/items/sections/TextSection"
 import EditItemTitleForm from "@/components/items/forms/EditItemTitleForm"
 import ArchiveItemForm from "@/components/items/forms/ArchiveItemForm"
 import styled from "@emotion/styled"
-import { ProjectMemberAvatar } from "@/react/member/components/ProjectMemberAvatar"
+import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar"
 import CreateCommentForm from "../../../react/item/components/CreateCommentForm"
 
 import { Comment } from "@/interfaces/CommentInterface"
