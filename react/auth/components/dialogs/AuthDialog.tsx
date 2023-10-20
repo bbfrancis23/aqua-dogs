@@ -1,5 +1,5 @@
 
-import DraggableDialog from "@/ui/DraggableDialog"
+import DraggableDialog from "@/fx/ui/DraggableDialog"
 
 
 import AuthForm from "../forms/AuthForm"

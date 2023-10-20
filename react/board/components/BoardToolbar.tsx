@@ -18,7 +18,7 @@ import { BoardTitleForm } from "../../../components/members/projects/boards/form
 import { ProjectMemberAvatar } from "../../members/components/ProjectMemberAvatar";
 import BoardOptionsMenu from "../../../components/members/projects/boards/BoardOptionsMenu";
 import { BoardContext } from "@/react/board/BoardContext";
-import Scope from "@/interfaces/ScopeInterface";
+import Scope from "@/react/scope/scope-types";
 import { Board } from "@/react/board/board-types";
 
 

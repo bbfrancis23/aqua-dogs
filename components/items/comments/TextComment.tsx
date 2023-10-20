@@ -5,7 +5,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { Comment } from "@/interfaces/CommentInterface";
+import { Comment } from "@/react/comments/comment-types";
 import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar";
 import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent";
 import { FormikProvider, useFormik, Form } from "formik";
