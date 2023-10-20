@@ -12,7 +12,7 @@ import axios from "axios"
 import { ProjectContext } from "@/react/project/"
 import { BoardContext } from "@/react/board/BoardContext"
 
-import ColumnStub from "../../../../components/members/projects/boards/columns/ColStub";
+import ColumnStub from "../ColStub";
 import { LoadingButton } from "@mui/lab";
 import { FxThemeContext } from "@/fx/theme";
 

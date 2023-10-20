@@ -12,7 +12,7 @@ import { BoardContext } from "@/react/board/BoardContext";
 import { Member } from "@/react/members/member-types";
 import { Column } from "@/react/column/column-types";
 
-import BoardColumn from "../../../components/members/projects/boards/columns/BoardColumn";
+import BoardColumn from "../../column/components/BoardColumn";
 import { Permission, PermissionCodes } from "@/fx/ui";
 import { CreateColumnForm } from "@/react/column";
 

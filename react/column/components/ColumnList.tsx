@@ -8,7 +8,8 @@ import { Item } from "@/react/item/item-types";
 import { Column } from "@/react/column/column-types";
 import { Member } from "@/react/members/member-types";
 
-import ColumnListItem from "./items/ColumnListItem";
+// eslint-disable-next-line max-len
+import ColumnListItem from "./ColumnListItem";
 
 export interface ColumnListProps {
   column: Column;

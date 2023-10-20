@@ -11,7 +11,7 @@ import * as Yup from "yup"
 import { Member } from "@/react/members/member-types";
 import { ProjectContext } from "@/react/project/";
 
-import SectionStub from "../../../components/items/sections/SectionStub";
+import SectionStub from "../../section/components/SectionStub";
 
 export interface CreateCommentFormProps {
   member: Member;

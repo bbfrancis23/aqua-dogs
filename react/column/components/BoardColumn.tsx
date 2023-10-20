@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useContext } from "react";
 
 import { Box, Typography} from "@mui/material";
@@ -11,7 +12,7 @@ import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
 
 
 import ColumnList from "./ColumnList";
-import CreateItemForm from "./items/forms/CreateItemForm";
+import CreateItemForm from "../../item/components/forms/CreateItemForm";
 import ArchiveColumnForm from "./forms/ArchiveColForm";
 import ColumnForm from "./forms/ColumnForm";
 
