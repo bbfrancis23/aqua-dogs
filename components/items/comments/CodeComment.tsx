@@ -18,9 +18,9 @@ import { Form, FormikProvider, useFormik } from "formik"
 import * as Yup from "yup"
 import { Box, IconButton, Stack } from "@mui/material"
 import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent"
-import { ProjectMemberAvatar } from "@/react/member/components/ProjectMemberAvatar"
 import { LoadingButton } from "@mui/lab"
 import { ItemContext } from "@/react/item/ItemContext"
+import { ProjectMemberAvatar } from "@/react/member"
 
 export interface CodeCommentProps {
   comment: Comment
