@@ -8,8 +8,8 @@ import { Member } from "@/react/members/member-types"
 
 import Permission, { PermissionCodes, NoPermission } from "fx/ui/PermissionComponent"
 
-import ProjectMemberActions from "./ProjectMemberActions"
-import { ProjectContext } from "@/react/project/project-types"
+import ProjectMemberActions from "../../../components/members/projects/ProjectMemberActions"
+import { ProjectContext } from "@/react/project/"
 import { useSession } from "next-auth/react"
 /* eslint-disable */
 

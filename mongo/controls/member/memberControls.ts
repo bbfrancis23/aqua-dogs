@@ -3,7 +3,7 @@ import db from '@/mongo/db'
 import Member from '@/mongo/schemas/MemberSchema'
 import Project from '@/mongo/schemas/ProjectSchema'
 
-import {Project as ProjectInterface} from '@/react/project/project-types'
+import {Project as ProjectInterface} from '@/react/project/'
 import {Member as MemberInterface} from '@/react/members/member-types'
 import {NextApiRequest, NextApiResponse} from 'next'
 

@@ -11,7 +11,7 @@ import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionCompo
 
 import { Item } from "@/react/item/item-types"
 import { Section } from "@/react/section/section-types"
-import { ProjectContext } from "@/react/project/project-types"
+import { ProjectContext } from "@/react/project/"
 import { MemberContext } from "@/react/members"
 
 import CodeSection from "@/components/items/sections/CodeSection"

@@ -12,7 +12,7 @@ import * as Yup from "yup"
 import { Form, FormikProvider, useFormik } from "formik";
 import axios from "axios";
 
-import { Project } from "@/react/project/project-types";
+import { Project } from "@/react/project/";
 
 export interface ProjectTitleFormComponent{
   project: Project

@@ -1,44 +1,27 @@
 import { useState } from "react"
 
-import { GetServerSideProps, InferGetServerSidePropsType, Redirect } from "next"
+import { GetServerSideProps, InferGetServerSidePropsType } from "next"
+import Head from "next/head"
 import { getSession } from "next-auth/react"
-import router from "next/router"
 
-import { Button, Grid, Stack, Typography } from "@mui/material"
-
-import { Project, ProjectContext } from "@/react/project/project-types"
-
-import { Member } from "@/react/members/member-types"
-import { Board } from "@/react/board/board-types"
+import {Stack, Typography } from "@mui/material"
 
 import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 import { findMember } from "@/mongo/controls/member/memberControls"
 
+import { Project, ProjectContext,
+  ProjectEditTitleForm, ArchiveProjectForm, ProjectMembers, ProjectBoards } from "@/react/project/"
+import { Member, MemberContext } from "@/react/members"
+import { Board } from "@/react/board"
 
-import Permission, { permission, PermissionCodes } from "fx/ui/PermissionComponent"
-import InfoPageLayout from "fx/ui/InfoPageLayout"
-
-import AddProjectMemberForm from "@/components/members/projects/forms/AddProjectMemberForm"
-import ProjectMember from "@/components/members/projects/ProjectMember"
-import ProjectEditTitleForm from "@/components/members/projects/forms/ProjectEditTitleForm"
-import ArchiveProjectForm from "@/components/members/projects/forms/ArchiveProjectForm"
-
-import CreateBoardForm from "@/components/members/projects/boards/forms/CreateBoardForm"
-import BoardStub from "@/components/members/projects/boards/BoardStub"
-import Head from "next/head"
-
-/********** Intrerfaces Globals and Helper *********/
+import { InfoPageLayout, PermissionCodes, permission } from "@/fx/ui"
+import { unAuthRedirect } from "error"
 
 export type ProjectPage = {
   project: Project;
   member: Member;
   boards: Board[];
 }
-
-const unAuthRedirect: Redirect = {destination: "/", permanent: false}
-
-
-/********** Backend **********/
 
 export const getServerSideProps: GetServerSideProps<ProjectPage> = async(context) => {
 
@@ -68,90 +51,30 @@ export const getServerSideProps: GetServerSideProps<ProjectPage> = async(context
 
 }
 
-/********** Frontend **********/
+const Page = (projectPage: InferGetServerSidePropsType<typeof getServerSideProps> ) => {
 
-const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps> ) => {
-
-  const {member} = memberPage
-
-  const [boards, setBoards] = useState<Board[]>(memberPage.boards)
-  const [project, setProject] = useState<Project>(memberPage.project)
-  const [showBoardForm, setShowBoardForm] = useState<boolean>(false)
-
-  const handleCloseCreateBoardForm = () => { setShowBoardForm(false) }
+  const [member, setMember] = useState<Member>(projectPage.member)
+  const [project, setProject] = useState<Project>(projectPage.project)
 
   return (
     <ProjectContext.Provider value={{project, setProject}}>
-      <Head>
-        <title>{`${project.title} - Strategy Fx - Projects Page`}</title>
-      </Head>
-      <InfoPageLayout title={<ProjectEditTitleForm project={project}/>}>
-        <Stack spacing={3} sx={{ width: '100%'}}>
-          <Typography variant="h4">Members</Typography>
-          <Stack spacing={1} sx={{ pr: 3, }}>
-            <Grid container spacing={1} sx={{ m: 0}}>
-              { project?.leader && (
-                <Grid item xs={12} sm={6} md={4}>
-                  <ProjectMember sessionMember={member} member={project.leader}
-                    type={PermissionCodes.PROJECT_LEADER} />
-                </ Grid>
-              )}
-              <Grid container spacing={1} sx={{ m: 0}}>
-                {project?.admins?.map( (m:Member) => (
-                  <Grid item xs={12} sm={6} md={4} key={m.id}>
-                    <ProjectMember member={m} type={PermissionCodes.PROJECT_ADMIN}
-                      sessionMember={member} key={m.id} />
-                  </Grid>
-                ))}
-              </Grid>
-              <Grid container spacing={1} sx={{ m: 0}}>
-                { project?.members?.map( (m:Member) => (
-                  <Grid item xs={12} sm={6} md={4} key={m.id}>
-                    <ProjectMember member={m} type={PermissionCodes.PROJECT_MEMBER}
-                      sessionMember={member} key={m.id} />
-                  </Grid>
-                ))}
-              </Grid>
-              <Permission code={PermissionCodes.PROJECT_LEADER} project={project} member={member}>
-                <Grid container spacing={1} sx={{ m: 0}}>
-                  <Grid item xs={12} sm={6} md={4} ><AddProjectMemberForm /></Grid>
-                </Grid>
-              </Permission>
-            </Grid>
+      <MemberContext.Provider value={{member, setMember}}>
+        <Head>
+          <title>Strategy Fx - Projects Page - {project.title}</title>
+        </Head>
+        <InfoPageLayout title={<ProjectEditTitleForm project={project}/>}>
+          <Stack spacing={3} sx={{ width: '100%'}}>
+            <Typography variant="h4">Members</Typography>
+            <ProjectMembers />
+            <ProjectBoards boards={projectPage.boards}/>
+            <Typography variant="h4">Actions</Typography>
+            <ArchiveProjectForm member={member}/>
           </Stack>
-          <Typography variant="h4">Boards</Typography>
-          { showBoardForm && (
-            <Grid container spacing={1} sx={{ m: 0}}>
-              <Grid item xs={12} sm={6} md={4} >
-                <CreateBoardForm setBoards={(b: Board[]) => setBoards(b)} project={project}
-                  closeForm={() => handleCloseCreateBoardForm()}/>
-              </Grid>
-            </Grid>
-          )}
-          <Grid container spacing={1} sx={{pr: 3 }}>
-            { boards.map( (b) => (
-              <Grid item xs={6} sm={3} md={2} key={b.id}>
-                <Button onClick={() => router.push(`/member/projects/${project.id}/boards/${b.id}`)}
-                  sx={{ m: 0, p: 0, width: '100%'}}>
-                  <BoardStub board={b}/>
-                </Button>
-              </Grid>
-            ))}
-            <Grid item xs={6} sm={3} md={2}>
-              <Permission code={PermissionCodes.PROJECT_LEADER} project={project} member={member} >
-                <Button onClick={() => setShowBoardForm(true)} sx={{ m: 0, p: 0, width: '100%'}}>
-                  <BoardStub />
-                </Button>
-              </Permission>
-            </Grid>
-          </Grid>
-          <Typography variant="h4">Actions</Typography>
-          <ArchiveProjectForm member={member}/>
-        </Stack>
-      </InfoPageLayout>
+        </InfoPageLayout>
+      </MemberContext.Provider>
     </ProjectContext.Provider>
   )
 }
 export default Page
 
-// QA: Brian Francis 9-27-23
+// QA: Brian Francis 10-20-23

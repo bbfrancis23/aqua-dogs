@@ -10,7 +10,7 @@ import * as Yup from "yup"
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
 
-import { Project } from "@/react/project/project-types";
+import { Project } from "@/react/project/";
 
 
 export interface CreateProjectFormProps{

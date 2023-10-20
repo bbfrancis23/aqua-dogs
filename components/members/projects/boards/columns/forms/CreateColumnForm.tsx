@@ -9,7 +9,7 @@ import { Form, FormikProvider, useFormik } from "formik"
 import * as Yup from "yup"
 import axios from "axios"
 
-import { ProjectContext } from "@/react/project/project-types"
+import { ProjectContext } from "@/react/project/"
 import { BoardContext } from "@/react/board/BoardContext"
 
 import ColumnStub from "../ColStub";

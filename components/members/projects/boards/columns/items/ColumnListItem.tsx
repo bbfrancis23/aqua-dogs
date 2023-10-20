@@ -6,7 +6,7 @@ import { Button, Card, CardHeader, IconButton, Typography, useTheme } from "@mui
 import { Column } from "@/react/column/column-types";
 import { Member } from "@/react/members/member-types";
 import { Item } from "@/react/item/item-types";
-import { ProjectContext } from "@/react/project/project-types";
+import { ProjectContext } from "@/react/project/";
 import { FxThemeContext } from "@/fx/theme";
 
 

@@ -1,5 +1,5 @@
 import { Member } from "@/react/members/member-types"
-import { Project } from "@/react/project/project-types"
+import { Project } from "@/react/project/"
 import { GetServerSideProps, Redirect } from "next"
 
 import dynamic from "next/dynamic";
