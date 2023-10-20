@@ -1,4 +1,4 @@
-import {Member} from '../members/member-types'
+import {Member} from '../members'
 
 export interface Comment {
   content: string
@@ -7,3 +7,5 @@ export interface Comment {
   id: string
   owner: Member
 }
+
+// QA: Brian Francis 10-20-23

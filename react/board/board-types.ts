@@ -1,6 +1,6 @@
-import {Dispatch, SetStateAction, createContext} from 'react'
-import {Column} from '../column/column-types'
-import Scope from '../scope/scope-types'
+import {Dispatch, SetStateAction} from 'react'
+import {Column} from '../column'
+import {Scope} from '../scope'
 
 export interface Board {
   id: string
@@ -16,4 +16,4 @@ export interface BoardContextProps {
   setBoard: Dispatch<SetStateAction<Board>> | (() => {})
 }
 
-// QA: Brian Francis 8-12-23
+// QA: Brian Francis 10-20-23

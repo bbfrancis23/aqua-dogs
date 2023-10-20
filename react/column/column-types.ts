@@ -1,5 +1,5 @@
-import {Board} from '../board/board-types'
-import {Item} from '../item/item-types'
+import {Board} from '../board'
+import {Item} from '../item'
 
 export interface Column {
   id: string
@@ -13,4 +13,4 @@ export type ColumnResponse = {
   board?: Board | null | undefined
 }
 
-// QA: Done 8-3-2023
+// QA: Done 10-20-2023

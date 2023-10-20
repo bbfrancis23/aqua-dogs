@@ -1,9 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
-import InfoPageLayout from "fx/ui/InfoPageLayout"
+/* eslint-disable max-len */
+
 import { Stack } from "@mui/material"
 import Head from "next/head"
+import InfoPageLayout from "fx/ui/InfoPageLayout"
 
-/* eslint-disable max-len */
 const Page = () => (
   <>
     <Head>
@@ -137,3 +138,5 @@ const Page = () => (
   </>
 )
 export default Page
+
+// QA: Brian Francis - 10-20-2023
