@@ -12,7 +12,7 @@ import { findItem } from "@/mongo/controls/member/project/items/findItem"
 import InfoPageLayout from "fx/ui/InfoPageLayout"
 import Permission, { NoPermission, PermissionCodes, permission } from "fx/ui/PermissionComponent"
 
-import { Project, ProjectContext } from "@/react/project/project-types"
+import { Project, ProjectContext } from "@/react/project/"
 import { Member, MemberContext } from "@/react/members"
 import { ItemContext } from "@/react/item/ItemContext"
 

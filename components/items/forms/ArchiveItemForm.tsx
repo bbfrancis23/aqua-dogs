@@ -1,6 +1,6 @@
 
 import { MemberContext } from "@/react/members"
-import { ProjectContext } from "@/react/project/project-types";
+import { ProjectContext } from "@/react/project/";
 import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
 import { Box, Button } from "@mui/material";
 import axios from "axios";

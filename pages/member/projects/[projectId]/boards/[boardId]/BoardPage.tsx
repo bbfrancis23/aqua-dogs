@@ -10,7 +10,7 @@ import { useSnackbar } from "notistack";
 import { resetServerContext } from "react-beautiful-dnd";
 
 import { Board } from "@/react/board/board-types";
-import { Project, ProjectContext} from "@/react/project/project-types"
+import { Project, ProjectContext} from "@/react/project/"
 import { Member, MemberContext } from "@/react/members";
 
 import { findMember } from "@/mongo/controls/member/memberControls";

@@ -9,7 +9,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import * as Yup from "yup"
 
 import { Member } from "@/react/members/member-types";
-import { ProjectContext } from "@/react/project/project-types";
+import { ProjectContext } from "@/react/project/";
 
 import SectionStub from "../../../components/items/sections/SectionStub";
 

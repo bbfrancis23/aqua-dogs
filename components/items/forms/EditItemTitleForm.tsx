@@ -1,5 +1,5 @@
 
-import { ProjectContext } from "@/react/project/project-types";
+import { ProjectContext } from "@/react/project/";
 import { useContext } from "react";
 import { Box, Button, IconButton, TextField, styled } from "@mui/material";
 import { useSnackbar } from "notistack";

@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 
-import { ProjectContext } from "@/react/project/project-types"
+import { ProjectContext } from "@/react/project"
 import { useSnackbar } from "notistack"
 import { useContext, useState } from "react"
 
