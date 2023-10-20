@@ -14,7 +14,7 @@ import { Form, FormikProvider, useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup"
 
-import { ProjectContext } from "@/interfaces/ProjectInterface";
+import { ProjectContext } from "@/react/project/project-types";
 import { BoardContext } from "@/react/board/BoardContext";
 
 const TitleSchema = Yup.object().shape({

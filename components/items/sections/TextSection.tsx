@@ -10,8 +10,8 @@ import { Form, FormikProvider, useFormik } from "formik";
 import { useSnackbar } from "notistack";
 
 import { ItemContext } from "@/react/item/ItemContext";
-import { Member } from "@/react/Member/member-types";
-import { Project } from "@/interfaces/ProjectInterface";
+import { Member } from "@/react/member/member-types";
+import { Project } from "@/react/project/project-types";
 import { Section } from "@/react/section/section-types";
 
 import * as Yup from "yup"

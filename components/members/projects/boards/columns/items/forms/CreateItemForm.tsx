@@ -11,9 +11,9 @@ import * as Yup from "yup"
 import axios from "axios";
 
 import { Column } from "@/react/column/column-types";
-import { Member } from "@/react/Member/member-types";
+import { Member } from "@/react/member/member-types";
 import { BoardContext } from "@/react/board/BoardContext";
-import { ProjectContext } from "@/interfaces/ProjectInterface";
+import { ProjectContext } from "@/react/project/project-types";
 
 import ItemStub from "../ItemStub";
 import { LoadingButton } from "@mui/lab";

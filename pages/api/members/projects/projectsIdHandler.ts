@@ -1,6 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {patchProject} from '@/mongo/controls/member/project/patchProject'
-import {Project} from '@/interfaces/ProjectInterface'
+import {Project} from '@/react/project/project-types'
 import axios from 'axios'
 
 import {forbiddenResponse, notFoundResponse, unauthorizedResponse} from '@/mongo/controls/responses'

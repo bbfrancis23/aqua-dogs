@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 
-import { ProjectContext } from "@/interfaces/ProjectInterface"
+import { ProjectContext } from "@/react/project/project-types"
 import { useSnackbar } from "notistack"
 import { useContext, useState } from "react"
 
@@ -18,7 +18,7 @@ import { Form, FormikProvider, useFormik } from "formik"
 import * as Yup from "yup"
 import { Box, IconButton, Stack } from "@mui/material"
 import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent"
-import { ProjectMemberAvatar } from "@/react/Member/components/ProjectMemberAvatar"
+import { ProjectMemberAvatar } from "@/react/member/components/ProjectMemberAvatar"
 import { LoadingButton } from "@mui/lab"
 import { ItemContext } from "@/react/item/ItemContext"
 

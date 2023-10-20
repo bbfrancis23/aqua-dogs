@@ -22,6 +22,7 @@
       "@/mongo/*": ["mongo/*"],
       "@/ui/*": ["ui/*"],
       "@/fx/*": ["fx/*"],
+      "@/error": ["error"],
       "@/itemComponents/*": ["components/members/projects/boards/columns/items/*"]
     }
   },

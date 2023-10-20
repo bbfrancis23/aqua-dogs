@@ -12,7 +12,7 @@ import * as Yup from "yup"
 import axios from "axios";
 
 import { Board } from "@/react/board/board-types";
-import { Project } from "@/interfaces/ProjectInterface";
+import { Project } from "@/react/project/project-types";
 
 
 export interface CreateBoardFormProps{

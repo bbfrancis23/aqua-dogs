@@ -4,12 +4,12 @@ import { Avatar, Badge, Card, CardHeader, Typography } from "@mui/material"
 import LeaderBadge from '@mui/icons-material/Star'
 import AdminBadge from '@mui/icons-material/Shield'
 
-import { Member } from "@/react/Member/member-types"
+import { Member } from "@/react/member/member-types"
 
 import Permission, { PermissionCodes, NoPermission } from "fx/ui/PermissionComponent"
 
 import ProjectMemberActions from "./ProjectMemberActions"
-import { ProjectContext } from "@/interfaces/ProjectInterface"
+import { ProjectContext } from "@/react/project/project-types"
 import { useSession } from "next-auth/react"
 /* eslint-disable */
 
