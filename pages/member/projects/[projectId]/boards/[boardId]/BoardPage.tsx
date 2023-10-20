@@ -1,42 +1,25 @@
-import { useState, useContext } from "react";
-
-import { GetServerSideProps, Redirect } from "next";
+import { useState, useContext } from "react"
+import { GetServerSideProps } from "next"
 import Head from "next/head"
-import { getSession } from "next-auth/react";
-
-import { Box, Stack } from "@mui/material";
-import { useSnackbar } from "notistack";
-
-import { resetServerContext } from "react-beautiful-dnd";
-
-import { Board } from "@/react/board/board-types";
+import { getSession } from "next-auth/react"
+import { Stack } from "@mui/material"
+import { resetServerContext } from "react-beautiful-dnd"
+import { findMember } from "@/mongo/controls/member/memberControls"
+import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls"
+import findPublicBoard from "@/mongo/controls/member/project/board/findPublicBoard"
+import { Board, BoardToolbar, ProjectBoard, BoardContext, BoardThemeBG } from "@/react/board"
 import { Project, ProjectContext} from "@/react/project/"
-import { Member, MemberContext } from "@/react/members";
-
-import { findMember } from "@/mongo/controls/member/memberControls";
-import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls";
-import findPublicBoard from "@/mongo/controls/member/project/board/findPublicBoard";
-
-import { BoardToolbar } from "@/components/members/projects/boards/BoardToolbar";
-import ProjectBoard from "@/components/members/projects/boards/ProjectBoard";
-
-import Permission, { PermissionCodes, permission } from "fx/ui/PermissionComponent";
-import CreateColumnForm from "@/components/members/projects/boards/columns/forms/CreateColumnForm";
-import MemberItemDialog from "@/components/items/dialogs/MemberItemDialog";
-import { FxThemeContext } from "fx/theme";
-import { BoardContext } from "@/react/board/BoardContext";
-
-/********** Interfaces Globals and Helpers *********/
+import { Member, MemberContext } from "@/react/members"
+import {MemberItemDialog} from "@/react/item/"
+import {CreateColumnForm} from "@/react/column/"
+import { unAuthRedirect } from "@/error"
+import { Permission, PermissionCodes, permission } from "@/fx/ui"
 export interface BoardPage {
   project: Project;
   projectBoards: Board[];
   board: Board;
   member: Member;
 }
-
-const unAuthRedirect: Redirect = {destination: "/", permanent: false}
-
-/********** Backend **********/
 
 export const getServerSideProps:
 GetServerSideProps<BoardPage> = async(context) => {
@@ -67,23 +50,18 @@ GetServerSideProps<BoardPage> = async(context) => {
 
 }
 
-/********** Frontend **********/
-
 export const Page = (props: BoardPage) => {
 
   const [member, setMember] = useState<Member>(props.member)
 
-  const {fxTheme} = useContext(FxThemeContext)
-  const {enqueueSnackbar} = useSnackbar()
 
   const [project, setProject] = useState<Project>(props.project)
   const [board, setBoard] = useState<Board>(props.board)
-  const [showColForm, setShowColForm] = useState<boolean>(false)
-
-  const handleCloseColForm = () => setShowColForm(false)
 
   const [itemDialogIsOpen, setItemDialogIsOpen] = useState(false)
   const [selectedItem, setSelectedItem] = useState<null | string>('')
+
+  //TODO: Put ItemDialog in hook readablity low priorty
 
   return (
     <ProjectContext.Provider value={{project, setProject, setItemDialogIsOpen, setSelectedItem}}>
@@ -92,23 +70,18 @@ export const Page = (props: BoardPage) => {
           <title>{`${board.title}- Strategy Fx - Board Page`}</title>
         </Head>
         <MemberContext.Provider value={{member, setMember}}>
-          <Box style={{overflow: 'hidden'}}
-            sx={{background: `url(/images/themes/${fxTheme.name}/hero.jpg)`,
-              overflow: 'hidden', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-              backgroundAttachment: 'fixed',
-              backgroundPosition: 'center', width: '100vw', height: 'calc(100vh - 64px)'}} >
+          <BoardThemeBG>
             <BoardToolbar projectBoards={props.projectBoards}/>
-            <Stack spacing={2} direction={'row'}
-              sx={{ p: 2, width: '100%', overflow: 'auto', height: 'calc(100vh - 124px)' }} >
+            <Stack sx={{ p: 2, width: '100%', overflow: 'auto', height: 'calc(100vh - 124px)' }} >
               <ProjectBoard member={member}/>
               <Permission code={PermissionCodes.PROJECT_LEADER} member={member} project={project}>
                 <CreateColumnForm />
               </Permission>
             </Stack>
-          </Box>
-          <MemberItemDialog dialogIsOpen={itemDialogIsOpen}
-            closeDialog={() => setItemDialogIsOpen(false)}
-            itemId={selectedItem}/>
+          </BoardThemeBG>
+          <MemberItemDialog
+            dialogIsOpen={itemDialogIsOpen}
+            closeDialog={() => setItemDialogIsOpen(false)} itemId={selectedItem}/>
         </MemberContext.Provider>
       </BoardContext.Provider>
     </ProjectContext.Provider>
@@ -116,6 +89,4 @@ export const Page = (props: BoardPage) => {
 }
 
 export default Page
-
-
-// QA: Brian Francisc 9-27-23
+// QA: Brian Francisc 10-20-23

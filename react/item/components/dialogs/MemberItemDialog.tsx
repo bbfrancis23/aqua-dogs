@@ -21,11 +21,11 @@ import EditItemTitleForm from "@/components/items/forms/EditItemTitleForm"
 import ArchiveItemForm from "@/components/items/forms/ArchiveItemForm"
 import styled from "@emotion/styled"
 import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar"
-import CreateCommentForm from "../../../react/item/components/CreateCommentForm"
+import CreateCommentForm from "../CreateCommentForm"
 
 import { Comment } from "@/interfaces/CommentInterface"
-import { TextComment } from "../comments/TextComment"
-import { CodeComment } from "../comments/CodeComment"
+import { TextComment } from "../../../../components/items/comments/TextComment"
+import { CodeComment } from "../../../../components/items/comments/CodeComment"
 import { ItemContext } from "@/react/item/ItemContext"
 
 export interface MemberItemDialogProps {
@@ -41,6 +41,8 @@ const ItemTitleText = styled(Typography)(() => ({ padding: 5, paddingLeft: 2, wi
 const MemberItemDialog = (props: MemberItemDialogProps) => {
 
   const {dialogIsOpen, closeDialog, itemId} = props
+
+  const [itemDialogIsOpen, setItemDialogIsOpen] = useState(false)
   const {project} = useContext(ProjectContext)
   const {member} = useContext(MemberContext)
 
