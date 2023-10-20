@@ -8,11 +8,11 @@ import { Form, FormikProvider, useFormik } from "formik"
 import * as Yup from "yup"
 import axios from "axios"
 import { useContext, useState } from 'react'
-import { ProjectContext } from '@/interfaces/ProjectInterface'
+import { ProjectContext } from '@/react/project/project-types'
 import { BoardContext } from '@/react/board/BoardContext'
 import { useSnackbar } from 'notistack'
 import Permission, { PermissionCodes, NoPermission } from 'fx/ui/PermissionComponent';
-import { MemberContext } from '@/react/Member/';
+import { MemberContext } from '@/react/members';
 import { LoadingButton } from '@mui/lab';
 import { FxThemeContext } from '@/fx/theme';
 

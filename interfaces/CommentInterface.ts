@@ -1,4 +1,4 @@
-import {Member} from '../react/Member/member-types'
+import {Member} from '../react/members/member-types'
 
 export interface Comment {
   content: string

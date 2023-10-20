@@ -1,5 +1,5 @@
-import { Member } from "@/react/Member/member-types"
-import { Project } from "@/interfaces/ProjectInterface"
+import { Member } from "@/react/members/member-types"
+import { Project } from "@/react/project/project-types"
 import { GetServerSideProps, Redirect } from "next"
 
 import dynamic from "next/dynamic";
@@ -19,7 +19,7 @@ import { Box, Button, Divider, Stack, Typography } from "@mui/material"
 import { Section } from "@/react/section/section-types"
 import { Item } from "@/react/item/item-types";
 import { useEffect, useState } from "react";
-import { ProjectMemberAvatar } from "@/react/Member/components/ProjectMemberAvatar";
+import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar";
 import CreateCommentForm from "@/react/item/components/CreateCommentForm";
 
 const CodeEditor = dynamic(

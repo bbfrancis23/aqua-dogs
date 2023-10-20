@@ -9,9 +9,9 @@ import { Section } from "@/react/section/section-types";
 import dynamic from "next/dynamic";
 import InfoPageLayout from "fx/ui/InfoPageLayout";
 import { findItem } from "@/mongo/controls/member/project/items/findItem";
-import { ProjectMemberAvatar } from "@/react/Member/components/ProjectMemberAvatar";
+import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar";
 import { PermissionCodes } from "fx/ui/PermissionComponent";
-import { Member } from "@/react/Member/member-types";
+import { Member } from "@/react/members/member-types";
 import CreateCommentForm from "@/react/item/components/CreateCommentForm";
 import { useEffect, useState } from "react";
 const CodeEditor = dynamic(

@@ -7,9 +7,9 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import axios from "axios";
 
-import { ProjectContext } from "@/interfaces/ProjectInterface";
+import { ProjectContext } from "@/react/project/project-types";
 import { BoardContext } from "@/react/board/BoardContext";
-import { Member } from "@/react/Member/member-types";
+import { Member } from "@/react/members/member-types";
 import { Column } from "@/react/column/column-types";
 
 import BoardColumn from "./columns/BoardColumn";

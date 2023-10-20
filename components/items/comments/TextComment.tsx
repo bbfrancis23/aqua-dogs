@@ -6,14 +6,14 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { Comment } from "@/interfaces/CommentInterface";
-import { ProjectMemberAvatar } from "@/react/Member/components/ProjectMemberAvatar";
+import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar";
 import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent";
 import { FormikProvider, useFormik, Form } from "formik";
 
 
 import * as Yup from "yup"
 import axios from "axios";
-import { ProjectContext } from "@/interfaces/ProjectInterface";
+import { ProjectContext } from "@/react/project/project-types";
 import { useSnackbar } from "notistack";
 import { LoadingButton } from "@mui/lab";
 import { ItemContext } from "@/react/item/ItemContext";

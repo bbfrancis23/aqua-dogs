@@ -4,7 +4,7 @@ import {getSession} from 'next-auth/react'
 import axios from 'axios'
 
 import {findMembers} from '@/mongo/controls/member/memberControls'
-import {Member} from '@/react/Member/member-types'
+import {Member} from '@/react/members/member-types'
 
 const membersHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'GET') {
