@@ -12,7 +12,7 @@ import { ItemContext } from "@/react/item/ItemContext";
 import { Member } from "@/react/members/member-types";
 import { ProjectContext } from "@/react/project/";
 
-import SectionStub from "../sections/SectionStub";
+import SectionStub from "../SectionStub";
 
 export interface CreateSectionFormProps {
   member: Member;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Item } from "../../react/item/item-types";
+import { Item } from "../item-types";
 import { useSession } from "next-auth/react";
 import { useSnackbar } from "notistack";
 import { IconButton } from "@mui/material";

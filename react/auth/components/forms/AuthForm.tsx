@@ -11,7 +11,7 @@ import axios from "axios"
 
 import AuthSchema from "../../AuthFormSchema"
 import {EmailTextField, PasswordTextField} from "../AuthTextFields"
-import GoogleButton from "@/components/GoogleButton"
+import GoogleButton from "@/react/components/GoogleButton"
 import { AppContext, DialogActions as AppDialogActions, AppDialogs } from "@/react/app"
 
 

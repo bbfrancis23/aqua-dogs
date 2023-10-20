@@ -18,11 +18,11 @@ import { ItemContext } from "@/react/item/ItemContext"
 
 import { Section } from "@/react/section/section-types"
 
-import EditItemTitleForm from "@/components/items/forms/EditItemTitleForm"
-import CreateSectionForm from "@/components/items/forms/CreateSectionForm"
-import TextSection from "@/components/items/sections/TextSection"
-import CodeSection from "@/components/items/sections/CodeSection"
-import ArchiveItemForm from "@/components/items/forms/ArchiveItemForm"
+import EditItemTitleForm from "@/react/item/components/forms/EditItemTitleForm"
+import CreateSectionForm from "@/react/section/components/forms/CreateSectionForm"
+import TextSection from "@/react/section/components/TextSection"
+import CodeSection from "@/react/section/components/CodeSection"
+import ArchiveItemForm from "@/react/item/components/forms/ArchiveItemForm"
 import { Item } from "@/react/item/item-types"
 
 

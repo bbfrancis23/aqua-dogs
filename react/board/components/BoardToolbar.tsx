@@ -14,9 +14,9 @@ import { ProjectContext } from "@/react/project/";
 
 import { PermissionCodes } from "fx/ui/PermissionComponent";
 
-import { BoardTitleForm } from "../../../components/members/projects/boards/forms/BoardTitleForm";
+import { BoardTitleForm } from "./forms/BoardTitleForm";
 import { ProjectMemberAvatar } from "../../members/components/ProjectMemberAvatar";
-import BoardOptionsMenu from "../../../components/members/projects/boards/BoardOptionsMenu";
+import BoardOptionsMenu from "./BoardOptionsMenu";
 import { BoardContext } from "@/react/board/BoardContext";
 import Scope from "@/react/scope/scope-types";
 import { Board } from "@/react/board/board-types";
