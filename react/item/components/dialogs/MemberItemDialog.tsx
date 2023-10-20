@@ -6,7 +6,7 @@ import { useSnackbar } from "notistack"
 
 import axios from "axios"
 
-import DraggableDialog from "@/ui/DraggableDialog"
+import DraggableDialog from "@/fx/ui/DraggableDialog"
 import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent"
 
 import { Item } from "@/react/item/item-types"
@@ -23,7 +23,7 @@ import styled from "@emotion/styled"
 import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar"
 import CreateCommentForm from "../CreateCommentForm"
 
-import { Comment } from "@/interfaces/CommentInterface"
+import { Comment } from "@/react/comments/comment-types"
 import { TextComment } from "../../../../components/items/comments/TextComment"
 import { CodeComment } from "../../../../components/items/comments/CodeComment"
 import { ItemContext } from "@/react/item/ItemContext"

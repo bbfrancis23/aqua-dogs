@@ -7,7 +7,7 @@ import { Member } from '@/react/members/member-types';
 import { Project } from '@/react/project/';
 import { Item } from '@/react/item/item-types';
 
-import { Comment } from '@/interfaces/CommentInterface';
+import { Comment } from '@/react/comments/comment-types';
 
 export enum PermissionCodes {
   PROJECT_LEADER = 'ProjectLeader',

@@ -8,7 +8,7 @@ import {FormikProvider, useFormik, Form} from "formik"
 import axios from "axios"
 import * as Yup from "yup"
 
-import DraggableDialog from "@/ui/DraggableDialog"
+import DraggableDialog from "@/fx/ui/DraggableDialog"
 import {EmailTextField} from "../AuthTextFields"
 import VerifyCodeForm from "../forms/VerifyCodeForm"
 import { DialogActions as AppDialogActions, AppDialogs } from "@/react/app/app-types"

@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import RegisterForm from "../forms/RegisterForm"
 
-import DraggableDialog from "@/ui/DraggableDialog"
+import DraggableDialog from "@/fx/ui/DraggableDialog"
 import { DialogActions, AppDialogs } from "@/react/app/app-types"
 import { AppContext } from "@/react/app"
 

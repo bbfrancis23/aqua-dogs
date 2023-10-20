@@ -11,7 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 import dynamic from "next/dynamic"
 
-import { Comment } from "@/interfaces/CommentInterface";
+import { Comment } from "@/react/comments/comment-types";
 
 import axios from "axios"
 import { Form, FormikProvider, useFormik } from "formik"

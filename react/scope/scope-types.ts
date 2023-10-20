@@ -1,4 +1,4 @@
-enum Scope {
+export enum Scope {
   PRIVATE = 'PRIVATE',
   PUBLIC = 'PUBLIC',
 }

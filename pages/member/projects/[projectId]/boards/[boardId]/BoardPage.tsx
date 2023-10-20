@@ -2,7 +2,7 @@ import { useState, useContext } from "react"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
 import { getSession } from "next-auth/react"
-import { Stack } from "@mui/material"
+import { Box, Stack } from "@mui/material"
 import { resetServerContext } from "react-beautiful-dnd"
 import { findMember } from "@/mongo/controls/member/memberControls"
 import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls"
@@ -14,6 +14,7 @@ import {MemberItemDialog} from "@/react/item/"
 import {CreateColumnForm} from "@/react/column/"
 import { unAuthRedirect } from "@/error"
 import { Permission, PermissionCodes, permission } from "@/fx/ui"
+import { FxThemeContext } from "@/fx/theme"
 export interface BoardPage {
   project: Project;
   projectBoards: Board[];
@@ -53,7 +54,7 @@ GetServerSideProps<BoardPage> = async(context) => {
 export const Page = (props: BoardPage) => {
 
   const [member, setMember] = useState<Member>(props.member)
-
+  const {fxTheme} = useContext(FxThemeContext)
 
   const [project, setProject] = useState<Project>(props.project)
   const [board, setBoard] = useState<Board>(props.board)
@@ -72,11 +73,9 @@ export const Page = (props: BoardPage) => {
         <MemberContext.Provider value={{member, setMember}}>
           <BoardThemeBG>
             <BoardToolbar projectBoards={props.projectBoards}/>
-            <Stack sx={{ p: 2, width: '100%', overflow: 'auto', height: 'calc(100vh - 124px)' }} >
+            <Stack spacing={2}
+              sx={{ p: 2, width: '100%', overflow: 'auto', height: 'calc(100vh - 124px)' }} >
               <ProjectBoard member={member}/>
-              <Permission code={PermissionCodes.PROJECT_LEADER} member={member} project={project}>
-                <CreateColumnForm />
-              </Permission>
             </Stack>
           </BoardThemeBG>
           <MemberItemDialog

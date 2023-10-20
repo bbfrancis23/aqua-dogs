@@ -13,6 +13,8 @@ import { Member } from "@/react/members/member-types";
 import { Column } from "@/react/column/column-types";
 
 import BoardColumn from "../../../components/members/projects/boards/columns/BoardColumn";
+import { Permission, PermissionCodes } from "@/fx/ui";
+import { CreateColumnForm } from "@/react/column";
 
 export interface ProjectBoardProps {
   member: Member;
@@ -120,6 +122,9 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
                 <BoardColumn key={key} member={member} index={index} column={colKeys[key]}/>
               )))
             }
+            <Permission code={PermissionCodes.PROJECT_LEADER} member={member} project={project}>
+              <CreateColumnForm />
+            </Permission>
             {provided.placeholder}
           </Stack>
         ) }

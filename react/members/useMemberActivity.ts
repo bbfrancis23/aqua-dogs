@@ -1,4 +1,4 @@
-import {Activity, NewActivity} from '@/interfaces/ActivityInterface'
+import {Activity, NewActivity} from '@/react/activity/'
 import {useSnackbar} from 'notistack'
 import {useEffect, useState} from 'react'
 
