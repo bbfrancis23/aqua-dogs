@@ -1,18 +1,14 @@
 import { useState, MouseEvent, useContext} from "react"
-
-import {Box, Button, IconButton, Menu, MenuItem, useTheme, Fade} from "@mui/material"
-
 import Link from "next/link"
-import { Board } from "@/react/board/board-types";
-import { FxThemeContext } from "@/fx/theme";
-
+import {Box, Button, IconButton, Menu, MenuItem, Fade} from "@mui/material"
+import { Board } from "@/react/board"
+import { FxThemeContext } from "@/fx/theme"
 export interface AppBarMenuItem{
   title: string;
   id: string;
   boards: Board[];
   icon: JSX.Element;
 }
-
 export interface AppBarMenuProps{
   appBarMenuIem: AppBarMenuItem;
 }
@@ -22,39 +18,34 @@ export default function AppBarMenu(props: AppBarMenuProps){
   const {appBarMenuIem} = props
   const {fxTheme} = useContext(FxThemeContext)
 
-  const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorElement)
+  const [anchorEl, setAnchorElement] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
 
-  const handleClick = (event: MouseEvent<HTMLButtonElement>):void => {
+  const doClick = (event: MouseEvent<HTMLButtonElement>):void => {
     setAnchorElement(event.currentTarget)
   }
 
-  const handleClose = ():void => setAnchorElement(null)
+  const doClose = ():void => setAnchorElement(null)
+
+  const btnCtrls = open ? `${appBarMenuIem.id}-menu` : undefined
+  const exp = open ? "true" : undefined
+  const txtBtnSx = {px: 3, display: {xs: "none", md: "block"}, color: 'inherit'}
+  const icnBtnSx = {display: {xs: "block", md: "none" }}
+  const menuList = { "aria-labelledby": "fade-button"}
 
   return (
     <Box key={appBarMenuIem.id} >
-      <Button aria-controls={open ? `${appBarMenuIem.id}-menu` : undefined}
-        aria-haspopup="true" aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-        color="inherit"
-        sx={{px: 3, display: {xs: "none", md: "block"}}} >
+      <Button aria-controls={btnCtrls} aria-expanded={exp} onClick={doClick} sx={txtBtnSx} >
         {appBarMenuIem.title}
       </Button>
-      <IconButton
-        id={`${appBarMenuIem.id}-button`}
-        aria-controls={open ? `${appBarMenuIem.id}-menu` : undefined}
-        aria-haspopup="true" aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-        sx={{display: {xs: "block", md: "none", }}} >
+      <IconButton aria-controls={btnCtrls} aria-expanded={exp} onClick={doClick} sx={icnBtnSx} >
         {appBarMenuIem.icon}
       </IconButton>
-
-      <Menu id="fade-menu" MenuListProps={{ "aria-labelledby": "fade-button", }}
-        anchorEl={anchorElement} open={open} onClose={handleClose} TransitionComponent={Fade} >
+      <Menu MenuListProps={menuList} anchorEl={anchorEl} open={open} onClose={doClose} >
         { appBarMenuIem.boards.map( (p: any) => (
           <Link href={`/categories/${p.dirId}`}
             style={{textDecoration: "none", color: fxTheme.theme.palette.text.primary}} key={p.id} >
-            <MenuItem onClick={handleClose}>{p.title}</MenuItem>
+            <MenuItem onClick={doClose}>{p.title}</MenuItem>
           </Link>
         )) }
       </Menu>
@@ -62,4 +53,4 @@ export default function AppBarMenu(props: AppBarMenuProps){
   )
 }
 
-// QA: Brian Francisc 8-12-23
+// QA: Brian Francisc 10-20-23

@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 import { appMenuItems } from "../data/appMenuItems"
-import AppBarMenu, { AppBarMenuItem } from "./AppBarMenu"
+import { AppBarMenu, AppBarMenuItem } from "../"
 
 const AppBarMenuItems = () => (
   <Box sx={{display: 'flex'}}>
@@ -10,3 +10,5 @@ const AppBarMenuItems = () => (
 )
 
 export default AppBarMenuItems
+
+// QA: Brian Francis 10-20-2023

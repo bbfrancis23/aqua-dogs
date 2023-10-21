@@ -1,11 +1,9 @@
-import {WebsiteBoards} from "./WebsiteBoards"
-import {AppBarMenuItem, AppBarMenuProps} from "../components/AppBarMenu"
-
-
 import WebFrameworkIcon from "@mui/icons-material/Language"
 import JavaScriptIcon from "@mui/icons-material/Code"
 import SoftwareDevIcon from "@mui/icons-material/DataObject"
 
+import {WebsiteBoards} from "./WebsiteBoards"
+import {AppBarMenuItem} from "../"
 export const appMenuItems: AppBarMenuItem[] = [
   {
     title: "WEB FRAMEWORK",
@@ -28,4 +26,4 @@ export const appMenuItems: AppBarMenuItem[] = [
 
 ]
 
-// QA: Brian Francis 08-23-23
+// QA: Brian Francis 10-20-23
