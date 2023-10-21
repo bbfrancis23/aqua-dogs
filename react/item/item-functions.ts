@@ -11,3 +11,5 @@ export const getItemDirectory = (item: Item): string =>
 
 export const getCardDirectory = (b: Board, c: Item): string =>
   `/cards/${getBoardDirectory(b)}/${getItemDirectory(c)}/${c.id}`
+
+// QA Brian Francis 10-20-2023

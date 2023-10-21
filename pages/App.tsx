@@ -1,14 +1,13 @@
-import { CssBaseline, PaletteMode, ThemeProvider } from "@mui/material"
-import { FxTheme, FxThemeContext, FxThemeNames, UpdateThemeOptionsProps,
-  createFxTheme, defaultFxTheme, fxThemeOptionsList } from "fx/theme"
-import { ConfirmProvider } from "material-ui-confirm"
-import { SnackbarOrigin, SnackbarProvider } from "notistack"
 import { useEffect, useState } from "react"
+import { CssBaseline, PaletteMode, ThemeProvider } from "@mui/material"
+import { SnackbarOrigin, SnackbarProvider } from "notistack"
+import { ConfirmProvider } from "material-ui-confirm"
+// eslint-disable-next-line max-len
+import { FxTheme, FxThemeContext, FxThemeNames, UpdateThemeOptionsProps, createFxTheme, defaultFxTheme, fxThemeOptionsList } from "fx/theme"
 
 export interface AppCompoentProps {
   children: JSX.Element | JSX.Element []
 }
-
 
 export const AppComponent = ({children}:AppCompoentProps) => {
 

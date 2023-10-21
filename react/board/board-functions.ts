@@ -1,4 +1,4 @@
-import {Board} from './board-types'
+import {Board} from './'
 
 export const getBoardDirectory = (board: Board | string): string => {
   if (typeof board === 'string') {
@@ -7,3 +7,5 @@ export const getBoardDirectory = (board: Board | string): string => {
     return board.title.toLowerCase().replace(/[^a-z]/g, '')
   }
 }
+
+// QA: Brian Francis 10-23-23

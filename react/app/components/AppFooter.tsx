@@ -1,7 +1,8 @@
-
-import {Box, Theme, useTheme, styled} from '@mui/material'
+import { useContext } from 'react'
 import Link from 'next/link'
+import {Box, styled} from '@mui/material'
 
+import { FxThemeContext } from '@/fx/theme'
 
 const Footer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -14,20 +15,20 @@ const Footer = styled(Box)(({ theme }) => ({
 
 export const AppFooter = () => {
 
-
-  const theme: Theme = useTheme()
+  const {fxTheme: fx} = useContext(FxThemeContext)
+  const primaryColor = fx.theme.palette.text.primary
 
   return (
     <Footer >
-      <Link
-        href={'/privacy-policy'} style={{color: theme.palette.text.primary, paddingRight: '15px'}} >
+      <Link href={'/privacy-policy'} style={{color: primaryColor, paddingRight: '15px'}} >
             Privacy Policy
       </Link>
       <Link href={'/terms-of-use'}
-        style={{ color: theme.palette.text.primary}} >Terms of Use</Link>
+        style={{ color: fx.theme.palette.text.primary}} >Terms of Use</Link>
     </Footer>
-
   )
 }
 
 export default AppFooter
+
+//QA: Brian Francis 10-20-2023

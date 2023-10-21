@@ -9,10 +9,11 @@ import Loading from "./Loading"
 
 import { AppBar, Toolbar, Box, IconButton, IconButtonProps } from "@mui/material"
 import SettingsIcon from "@mui/icons-material/Settings"
-
 import LogoImage from '@/react/LogoImage'
 import { AppContext, AppDialogs, DialogActions, appReducer, AppBarMenuItems } from '@/react/app'
+
 import { AuthDialog, AuthNav, RegisterDialog, ForgotPasswordDialog } from '@/react/auth'
+
 import { SettingsDialog } from '@/react/settings'
 
 import App from "./App"

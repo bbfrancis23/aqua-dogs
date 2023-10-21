@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 
-import {createContext, useReducer} from 'react'
-import {AppContextProps, AppDialogs, AppState, DialogAction, DialogActions} from '../app'
+import {createContext} from 'react'
+import {AppContextProps, AppDialogs, AppState, DialogAction, DialogActions} from './'
 
 export const appReducer = (app: AppState, action: DialogAction): AppState => {
   if (!action) return app
@@ -46,3 +46,5 @@ export const appReducer = (app: AppState, action: DialogAction): AppState => {
 }
 
 export const AppContext = createContext<AppContextProps>({} as AppContextProps)
+
+//QA: Brian Francis 10-20-23

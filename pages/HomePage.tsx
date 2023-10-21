@@ -1,20 +1,15 @@
 import { useContext } from "react"
-
 import { GetStaticProps, InferGetServerSidePropsType } from "next"
 import Head from 'next/head'
-
 import {Grid, Typography, Box} from "@mui/material"
-
-import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
-
 import { Item, getCardDirectory } from "@/react/item/"
 import { Column } from "@/react/column/"
 import { Board, getBoardDirectory } from "@/react/board/"
 import {AppFooter} from "@/react/app/"
-
 import { FxThemeContext } from "@/fx/theme"
 import { HoverLink, ListCard } from "@/fx/ui"
 
+import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 
 const DESCRIPTION = "A Simple way to Orginize your Projects and impliment Strategies. "
   + "Hundreds of Software Developement Best Practices, Standards and Eamples."
@@ -29,7 +24,6 @@ const KEYWORDS = "JavaScript, TypeScript, React, Next.js, Node.js, MongoDB, Gith
 export const WEBSITE_PROJECT_ID: string = '64b6bc0a1b836981ba0c4cc5'
 
 export interface HomePage{ boards: Board[]}
-
 
 export const getStaticProps: GetStaticProps<HomePage> = async () => {
   let boards: Board[] = await findProjectBoards(WEBSITE_PROJECT_ID)
@@ -78,4 +72,4 @@ const Page = ({boards}: InferGetServerSidePropsType<typeof getStaticProps>) => {
 
 export default Page
 
-// QA: Brian Francis - 10-19-2023 - 5 stars
+// QA: Brian Francis - 10-20-2023

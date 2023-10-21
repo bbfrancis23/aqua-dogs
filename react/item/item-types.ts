@@ -1,6 +1,6 @@
-import {Dispatch, SetStateAction, createContext} from 'react'
-import {Section} from '../section/section-types'
-import {Comment} from '../comments/comment-types'
+import {Dispatch, SetStateAction} from 'react'
+import {Section} from '../section'
+import {Comment} from '../comments'
 
 export interface Item {
   title: string
@@ -19,4 +19,4 @@ export interface ItemContextProps {
   setItem: Dispatch<SetStateAction<Item>> | (() => {})
 }
 
-// QA done 8-3-23
+// QA done 10-20-23
