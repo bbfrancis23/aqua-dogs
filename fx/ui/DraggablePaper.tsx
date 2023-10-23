@@ -1,23 +1,17 @@
 import React from "react"
-
 import Draggable from "react-draggable"
-
 import {Paper} from "@mui/material"
 
-export default function DraggablePaper(props: any) {
-  const {"aria-labelledby": labelId} = props,
+export default function DraggablePaper(props: {"aria-labelledby"?: string}) {
 
-    nodeRef = React.useRef(null)
+  const {"aria-labelledby": handle} = props
+  const nodeRef = React.useRef(null)
 
   return (
-    <Draggable
-      nodeRef={nodeRef}
-      handle={`#${labelId}`}
-      cancel='[class*="MuiDialogContent-root"]'
-    >
+    <Draggable nodeRef={nodeRef} handle={`#${handle}`} cancel='[class*="MuiDialogContent-root"]' >
       <Paper ref={nodeRef} {...props} />
     </Draggable>
   )
 }
 
-// QA: Brian Francis 08/22/23
+// QA: Brian Francis 10/23/23

@@ -3,28 +3,34 @@ import { Box, Dialog, DialogTitle, useMediaQuery, useTheme} from "@mui/material"
 import DraggablePaper from "./DraggablePaper"
 
 export interface DraggableDialogProps {
-  dialogIsOpen: boolean;
-  ariaLabel: string;
+  dialogIsOpen: boolean
+  ariaLabel: string
   title: string | JSX.Element
-  children: JSX.Element | JSX.Element [];
-  fullWidth?: boolean
+  children: JSX.Element | JSX.Element []
 }
 
-export default function DraggableDialog(props: DraggableDialogProps) {
-  const { dialogIsOpen, ariaLabel, title, children, fullWidth } = props
+const DraggableDialog = ({dialogIsOpen, ariaLabel, title, children}: DraggableDialogProps) => {
 
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const theme = useTheme()
+  const fullScreenQuery = useMediaQuery(theme.breakpoints.down('sm'))
+  const fullScreen = Boolean(fullScreenQuery)
+
+  const dialogProps = {
+    open: dialogIsOpen,
+    PaperComponent: DraggablePaper,
+    'aria-labelledby': ariaLabel,
+    fullScreen }
 
   return (
-    <Dialog open={dialogIsOpen} PaperComponent={DraggablePaper} aria-labelledby={ariaLabel}
-      fullWidth={fullWidth} maxWidth={'md'} fullScreen={fullScreen}>
-      <DialogTitle style={{cursor: "move"}} id={ariaLabel}>
+    <Dialog {...dialogProps}>
+      <DialogTitle style={{ cursor: "move" }} id={ariaLabel}>
         <Box><div>{title}</div></Box>
       </DialogTitle>
       {children}
     </Dialog>
-  )
+  );
+
 }
 
-// QA: Brian Francis 09-05-23
+export default DraggableDialog
+// QA: Brian Francis 10-23-23

@@ -1,78 +1,63 @@
 import {useContext, useState} from "react"
-
 import {signIn} from "next-auth/react"
-
 import {Alert, Box, Button, DialogActions, DialogContent, Divider, Stack} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 import {useSnackbar} from "notistack"
-
 import {Form, FormikProvider, useFormik} from "formik"
 import axios from "axios"
-
-import AuthSchema from "../../AuthFormSchema"
-import {EmailTextField, PasswordTextField} from "../AuthTextFields"
+import {AuthFormSchema, AuthTextFields, EmailTextField, PasswordTextField} from "@/react/auth"
 import GoogleButton from "@/react/components/GoogleButton"
-import { AppContext, DialogActions as AppDialogActions, AppDialogs } from "@/react/app"
+import { AppContext, DialogActions as Actions, AppDialogs } from "@/react/app"
 
+const AuthForm = () => {
 
-export default function AuthForm() {
-
-
-  const {app, dialogActions} = useContext(AppContext)
+  const {dialogActions} = useContext(AppContext)
 
   const [loginError, setLoginError] = useState<string>('')
   const {enqueueSnackbar} = useSnackbar()
 
-  const handleCloseDialog = () => {
-    dialogActions({type: AppDialogActions.Close, dialog: AppDialogs.Auth})
-  }
+  const endAuth = () => { dialogActions({type: Actions.Close, dialog: AppDialogs.Auth}) }
+  const startReg = () => { endAuth(); dialogActions({type: Actions.Open, dialog: AppDialogs.Reg}) }
+  const startForgotPW = () => dialogActions({type: Actions.Open, dialog: AppDialogs.Forgot})
 
-  const handleOpenRegisterDialog = () => {
-    dialogActions({type: AppDialogActions.Open, dialog: AppDialogs.Reg})
-  }
+  const onSubmit = async (data: AuthTextFields) => {
 
-  const handleOpenForgotDialog = () => {
-    dialogActions({type: AppDialogActions.Open, dialog: AppDialogs.Forgot})
+    const StatusCode = axios.HttpStatusCode
+    const {email, password} = data
+    const result = await signIn("credentials", { redirect: false, email, password })
+
+    if( result?.status === StatusCode.Ok && result.error === null ){
+      endAuth()
+      enqueueSnackbar("You are now Logged In", {variant: "success"})
+      return
+    }
+
+    const parsedResult = JSON.parse(result?.error ? result.error : '')
+
+    if(parsedResult.status === StatusCode.Locked){
+      endAuth()
+      enqueueSnackbar("Your account is locked. Please contact support", {variant: "error"})
+      return
+    }
+    if(parsedResult.status === StatusCode.Unauthorized){
+      setLoginError("Invalid Credentials"); return
+    }
+    setLoginError("Unknown Error")
   }
 
   const formik = useFormik({
     initialValues: { email: "", password: "", },
-    validationSchema: AuthSchema,
-    onSubmit: async (data) => {
-
-      const result = await signIn("credentials", {
-        redirect: false,
-        email: data.email,
-        password: data.password,
-      })
-
-      if( result?.status &&
-        result.status === axios.HttpStatusCode.Ok &&
-        result.ok === true && result.error === null ){
-        handleCloseDialog()
-        enqueueSnackbar("You are now Logged In", {variant: "success"})
-      }else{
-
-        const parsedResult = JSON.parse(result?.error ? result.error : '')
-
-        if(parsedResult.status === axios.HttpStatusCode.Locked){
-          handleCloseDialog()
-          enqueueSnackbar("Your account is locked. Please contact support", {variant: "error"})
-        }
-        if(parsedResult?.status === axios.HttpStatusCode.Unauthorized){
-          setLoginError("Invalid Credentials")
-        }else{
-          setLoginError("Unknown Error")
-        }
-      }
-    },
+    validationSchema: AuthFormSchema,
+    onSubmit,
   })
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid, dirty} = formik
 
-  const closeForm = () => { formik.resetForm(); handleCloseDialog(); setLoginError("") }
-  const startRegistration = () => { handleCloseDialog(); handleOpenRegisterDialog() }
-  const forgotPassword = () => { handleCloseDialog(); handleOpenForgotDialog() }
+  const closeForm = () => { formik.resetForm(); endAuth(); setLoginError("") }
+
+  const emailTextField = {getFieldProps, error: errors.email, touched: touched.email}
+  const passwordTextField = {getFieldProps, error: errors.password, touched: touched.password}
+  const loginButton = {disabled: !(isValid && dirty), loading: isSubmitting,}
 
   return (
     <>
@@ -83,23 +68,20 @@ export default function AuthForm() {
           <DialogContent>
             <Stack spacing={3} sx={{width: "100%"}}>
               { loginError && (<Alert severity="error">{loginError}</Alert>) }
-              <EmailTextField getFieldProps={getFieldProps} error={errors.email}
-                touched={touched.email} />
-              <PasswordTextField getFieldProps={getFieldProps} error={errors.password}
-                touched={touched.password} />
+              <EmailTextField {...emailTextField} />
+              <PasswordTextField {...passwordTextField} />
             </Stack>
           </DialogContent>
           <DialogActions disableSpacing={false}>
             <Button onClick={closeForm} color="inherit"> CANCEL </Button>
-            <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
-              type="submit" variant="contained" loading={isSubmitting} >
+            <LoadingButton color="success" type="submit" variant="contained" {...loginButton} >
             Login
             </LoadingButton>
           </DialogActions>
           <DialogContent>
             <Stack sx={{width: "100%"}}>
-              <Button onClick={() => startRegistration()}>Register New Member</Button>
-              <Button onClick={() => forgotPassword()} color="inherit">Forgot Password</Button>
+              <Button onClick={() => startReg()}>Register New Member</Button>
+              <Button onClick={() => startForgotPW()} color="inherit">Forgot Password</Button>
             </Stack>
           </DialogContent>
         </Form>
@@ -107,4 +89,6 @@ export default function AuthForm() {
     </>
   )
 }
-// QA: Brian Francis 08-04-23
+
+export default AuthForm
+// QA: Brian Francis 10-23-23
