@@ -70,6 +70,10 @@ const AuthForm = () => {
               { loginError && (<Alert severity="error">{loginError}</Alert>) }
               <EmailTextField {...emailTextField} />
               <PasswordTextField {...passwordTextField} />
+              <Button onClick={() => startReg()}>Register New Member</Button>
+            </Stack>
+            <Stack sx={{width: "100%"}}>
+              <Button onClick={() => startForgotPW()} color="inherit">Forgot Password</Button>
             </Stack>
           </DialogContent>
           <DialogActions disableSpacing={false}>
@@ -78,12 +82,6 @@ const AuthForm = () => {
             Login
             </LoadingButton>
           </DialogActions>
-          <DialogContent>
-            <Stack sx={{width: "100%"}}>
-              <Button onClick={() => startReg()}>Register New Member</Button>
-              <Button onClick={() => startForgotPW()} color="inherit">Forgot Password</Button>
-            </Stack>
-          </DialogContent>
         </Form>
       </FormikProvider>
     </>
