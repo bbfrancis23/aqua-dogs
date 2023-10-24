@@ -1,35 +1,24 @@
 import React, {useContext, useState} from "react"
-
 import {Alert, Button, DialogActions, DialogContent, Stack} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 import { useSnackbar } from "notistack"
-
 import {FormikProvider, useFormik, Form} from "formik"
 import axios from "axios"
 import * as Yup from "yup"
-
 import DraggableDialog from "@/fx/ui/DraggableDialog"
-import {EmailTextField} from "../AuthTextFields"
-import VerifyCodeForm from "../forms/VerifyCodeForm"
-import { DialogActions as AppDialogActions, AppDialogs } from "@/react/app/app-types"
-import { AppContext } from "@/react/app"
+import {EmailTextField, VerifyCodeForm} from "@/react/auth"
+import { AppContext, DialogActions as Actions, AppDialogs } from "@/react/app"
 
+const Invalid = "Email must be a valid email address"
+const Required = "Email is required"
+const ForgetPWSchema = Yup.object().shape({ email: Yup.string().email(Invalid).required(Required)})
 
-const ForgetPasswordSchema = Yup.object().shape({
-  email: Yup.string().email("Email must be a valid email address").required("Email is required"),
-})
-
-export default function AuthDialog() {
+const AuthDialog = () => {
 
   const {app, dialogActions} = useContext(AppContext)
-
-  const handleForgotCloseDialog = () => {
-    dialogActions({type: AppDialogActions.Close, dialog: AppDialogs.Forgot})
-  }
-
+  const closeForgotPW = () => { dialogActions({type: Actions.Close, dialog: AppDialogs.Forgot}) }
 
   const {enqueueSnackbar} = useSnackbar()
-
   const [serverError, setServerError] = useState<string>("")
 
   const [displayVeificationCodeField, setShowVerificationCodeField] = useState<boolean>(false)
@@ -37,7 +26,7 @@ export default function AuthDialog() {
 
   const formik = useFormik({
     initialValues: { email: "" },
-    validationSchema: ForgetPasswordSchema,
+    validationSchema: ForgetPWSchema,
     onSubmit: (data) => {
       axios.post( "/api/auth/send-code/", {email: data.email}, )
         .then((res) => {
@@ -48,13 +37,12 @@ export default function AuthDialog() {
             setShowVerificationCodeField(true)
             enqueueSnackbar("Verification Code Sent", {variant: "success"})
           }
-        })
-        .catch((error) => {
+        }) .catch((error) => {
           formik.setSubmitting(false)
           setServerError(error.response.data.message)
 
           if(error.response.status === axios.HttpStatusCode.Locked){
-            handleForgotCloseDialog()
+            closeForgotPW()
             formik.resetForm()
             setServerError("")
             setShowVerificationCodeField(false)
@@ -64,15 +52,16 @@ export default function AuthDialog() {
     },
   })
 
-  const handleCloseDialog = () => {
+  const endForgotPW = () => {
     formik.resetForm()
     setServerError("")
     setShowVerificationCodeField(false)
-    handleForgotCloseDialog()
+    closeForgotPW()
   }
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
-
+  const {errors, dirty, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const emailTextField = {getFieldProps, error: errors.email, touched: touched.email}
+  const regButton = {disabled: !(isValid && dirty), loading: isSubmitting,}
 
   return (
     <DraggableDialog dialogIsOpen={app.forgotDialogIsOpen}
@@ -82,10 +71,8 @@ export default function AuthDialog() {
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <Stack spacing={3} sx={{width: "100%", mt: 3}}>
               { serverError && (<Alert severity="error">{serverError}</Alert>) }
-              <EmailTextField getFieldProps={getFieldProps} error={errors.email}
-                touched={touched.email} />
-              <LoadingButton color="success" disabled={!(isValid && formik.dirty)} type="submit"
-                variant="contained" loading={isSubmitting} >
+              <EmailTextField {...emailTextField} />
+              <LoadingButton color="success" type="submit" {...regButton} variant="contained" >
                 { displayVeificationCodeField ? "RESEND " : "SEND "}VERIFICATION CODE
               </LoadingButton>
             </Stack>
@@ -93,15 +80,16 @@ export default function AuthDialog() {
         </FormikProvider>
         <Stack spacing={3} sx={{width: "100%", mt: 3}}>
           { displayVeificationCodeField &&
-          <VerifyCodeForm closeDialog={ handleCloseDialog} email={email}/>
+            <VerifyCodeForm endForgotPW={ endForgotPW} email={email}/>
           }
         </Stack>
       </DialogContent>
       <DialogActions disableSpacing={false}>
-        <Button onClick={handleCloseDialog}> CANCEL </Button>
+        <Button onClick={endForgotPW}> CANCEL </Button>
       </DialogActions>
     </DraggableDialog>
   )
 }
 
-// QA: Brian Francis 08-06-23
+export default AuthDialog
+// QA: Brian Francis 10-23-23

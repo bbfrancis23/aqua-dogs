@@ -1,36 +1,29 @@
-import React, {useContext, useState} from "react"
-
-import {Alert, Box, Button, DialogActions, DialogContent, Stack, useTheme} from "@mui/material"
+import React, {useContext, useState, } from "react"
+import Link from "next/link"
+import {Alert, Button, DialogActions, DialogContent, Stack} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
 import {useSnackbar} from "notistack"
-
 import axios from "axios"
 import {Form, FormikProvider, useFormik} from "formik"
 
-import AuthSchema from "../../AuthFormSchema"
-
-import {EmailTextField, PasswordTextField} from "../AuthTextFields"
-import Link from "next/link"
+import {AuthFormSchema, EmailTextField, PasswordTextField} from "@/react/auth"
 import { FxThemeContext } from "@/fx/theme"
+import { AppContext, DialogActions as Actions, AppDialogs } from "@/react/app"
 
-interface RegisterFormProps{
-  closeDialog: () => void;
-  openAuthDialog: () => void;
-}
+const RegisterForm = () => {
 
-export default function RegisterForm(props: RegisterFormProps) {
-
-
-  const {fxTheme} = useContext(FxThemeContext)
+  const {dialogActions} = useContext(AppContext)
+  const {primary: primaryText} = useContext(FxThemeContext).fxTheme.theme.palette.text
   const [formError, setFormError] = useState<string>('')
-  const {closeDialog, openAuthDialog} = props
+
+  const endReg = () => { dialogActions({type: Actions.Close, dialog: AppDialogs.Reg}) }
+  const startAuth = () => { endReg(); dialogActions({type: Actions.Open, dialog: AppDialogs.Auth}) }
 
   const {enqueueSnackbar} = useSnackbar()
-  const startAuth = () => { closeDialog(); openAuthDialog() }
 
   const formik = useFormik({
     initialValues: { email: '', password: '', },
-    validationSchema: AuthSchema,
+    validationSchema: AuthFormSchema,
     onSubmit: (data) => {
       axios.post( "/api/auth/register", {email: data.email, password: data.password}, )
         .then((res) => {
@@ -49,7 +42,12 @@ export default function RegisterForm(props: RegisterFormProps) {
 
   const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
 
-  const closeForm = () => { formik.resetForm(); closeDialog(); setFormError("") }
+  const closeForm = () => { formik.resetForm(); endReg(); setFormError("") }
+
+  const emailTextField = {getFieldProps, error: errors.email, touched: touched.email}
+  const passwordTextField = {getFieldProps, error: errors.password, touched: touched.password}
+
+  const regButton = {disabled: !isValid, loading: isSubmitting,}
 
   return (
     <FormikProvider value={formik}>
@@ -57,39 +55,32 @@ export default function RegisterForm(props: RegisterFormProps) {
         <DialogContent>
           <Stack spacing={3} sx={{width: "100%"}}>
             { formError && (<Alert severity="error">{formError}</Alert>) }
-            <EmailTextField getFieldProps={getFieldProps} error={errors.email}
-              touched={touched.email} />
-            <PasswordTextField getFieldProps={getFieldProps} error={errors.password}
-              touched={touched.password} />
-          </Stack>
-        </DialogContent>
-        <DialogActions disableSpacing={false}>
-          <Button onClick={closeForm} color={'inherit'}> CANCEL </Button>
-          <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
-            type="submit" variant="contained" loading={isSubmitting} >
-            Register
-          </LoadingButton>
-        </DialogActions>
-        <DialogContent>
-          <Button onClick={() => startAuth()} color={'inherit'} sx={{ width: '100%'}}>
+            <EmailTextField {...emailTextField} />
+            <PasswordTextField {...passwordTextField} />
+            <Button onClick={() => startAuth()} color={'inherit'} sx={{ width: '100%'}}>
               Login Existing Member
-          </Button>
+            </Button>
+          </Stack>
           <Stack direction={'row'} spacing={1} sx={{p: 1, justifyContent: 'center', width: '100%'}}>
-
-            <Link href={'/privacy-policy'}
-              style={{textDecoration: "none", color: fxTheme.theme.palette.text.primary,
-                fontSize: '12px'}} >
+            <Link href={'/privacy-policy'} style={{color: primaryText, fontSize: '12px'}}>
               Privacy Policy
             </Link>
-            <Link href={'/terms-of-use'}
-              style={{textDecoration: "none", color: fxTheme.theme.palette.text.primary,
-                fontSize: '12px'}} >
+            <Link href={'/terms-of-use'} style={{color: primaryText, fontSize: '12px'}} >
               Terms of Use
             </Link>
           </Stack>
+
         </DialogContent>
+        <DialogActions disableSpacing={false}>
+          <Button onClick={closeForm} color={'inherit'}> CANCEL </Button>
+          <LoadingButton color="success" {...regButton} type="submit" variant="contained" >
+            Register
+          </LoadingButton>
+        </DialogActions>
       </Form>
     </FormikProvider>
   )
 }
-// QA: done 8-4-23
+
+export default RegisterForm
+// QA: done 10-23-23

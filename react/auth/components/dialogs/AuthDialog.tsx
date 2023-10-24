@@ -1,15 +1,11 @@
-
-import DraggableDialog from "@/fx/ui/DraggableDialog"
-
-
-import AuthForm from "../forms/AuthForm"
 import { useContext } from "react"
 import { AppContext } from "@/react/app"
-
+import AuthForm from "../forms/AuthForm"
+import DraggableDialog from "@/fx/ui/DraggableDialog"
 
 export default function AuthDialog() {
 
-  const {app, dialogActions} = useContext(AppContext)
+  const {app} = useContext(AppContext)
 
   return (
     <DraggableDialog dialogIsOpen={app.authDialogIsOpen} ariaLabel="auth-dialog" title="LOGIN" >
@@ -18,4 +14,4 @@ export default function AuthDialog() {
   )
 }
 
-// QA: Brian Francis 08-04-23
+// QA: Brian Francis 10-23-23

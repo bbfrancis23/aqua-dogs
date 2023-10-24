@@ -15,6 +15,7 @@ import VerifyCodeForm from './components/forms/VerifyCodeForm'
 import AuthDialog from './components/dialogs/AuthDialog'
 import ForgotPasswordDialog from './components/dialogs/ForgotPasswordDialog'
 import RegisterDialog from './components/dialogs/RegisterDialog'
+import {AuthTextFields} from './auth-types'
 
 export {
   AuthFormSchema,
@@ -30,4 +31,4 @@ export {
   RegisterDialog,
 }
 
-export type {TextFieldProps, PasswordTextFieldProps}
+export type {TextFieldProps, PasswordTextFieldProps, AuthTextFields}

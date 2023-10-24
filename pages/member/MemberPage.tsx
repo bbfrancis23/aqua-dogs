@@ -74,7 +74,7 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
             <EmailForm email={member.email} onUpdateMember={() => handleOnUpdateMember()}/>
             <ChangePasswordButton onClick={() => setShowPasswordForm(!showPasswordForm)} />
             { showPasswordForm &&
-            <ChangePasswordForm closePasswordForm={() => handleCloseChangePasswordForm()}/>
+            <ChangePasswordForm endChangePassword={() => handleCloseChangePasswordForm()}/>
             }
             <Button sx={{ borderColor: 'divider'}} variant="outlined" onClick={handleLogout}>
             LOG OUT

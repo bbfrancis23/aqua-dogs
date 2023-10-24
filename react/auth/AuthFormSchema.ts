@@ -1,7 +1,5 @@
 import * as Yup from 'yup'
-
 export const passwordMinLength = 6
-
 export const passwordSchema = Yup.string()
   .min(passwordMinLength, `Password must be at least ${passwordMinLength} characters`)
   .required('Password is required')
@@ -17,4 +15,4 @@ const AuthFormSchema = Yup.object().shape({
 
 export default AuthFormSchema
 
-// QA: Brian Francis 08-06-2023
+// QA: Brian Francis 10-23-23

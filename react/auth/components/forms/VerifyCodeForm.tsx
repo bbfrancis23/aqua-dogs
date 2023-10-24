@@ -1,32 +1,23 @@
 import {useState} from "react"
-
-import {Alert, Box, Stack, TextField} from "@mui/material"
-import {LoadingButton} from "@mui/lab"
+import {Alert, Box, Stack, TextField, TextFieldProps} from "@mui/material"
+import {LoadingButton, LoadingButtonProps} from "@mui/lab"
 import {useSnackbar} from "notistack"
-
 import axios from "axios"
 import {Form, FormikProvider, useFormik} from "formik"
 import * as Yup from "yup"
 
-import {passwordSchema} from "../../AuthFormSchema"
-import {PasswordTextField} from "../AuthTextFields"
+import {AuthFormSchema, PasswordTextField} from "@/react/auth"
 
 interface VerifyCodeFormProps{
   email?: string,
-  closeDialog: () => void;
+  endForgotPW: () => void;
 }
 
+const yupCode = Yup.string().required("Code is required")
+const CodeSchema = Yup.object().shape({ code: yupCode, newPassword: AuthFormSchema})
 
-const CodeSchema = Yup.object().shape({
-  code: Yup.string().required("Code is required"),
-  newPassword: passwordSchema,
-})
-
-export default function VerifyCodeForm(props: VerifyCodeFormProps){
-
+const VerifyCodeForm = ({email, endForgotPW}: VerifyCodeFormProps) => {
   const [serverError, setServerError] = useState<string>("")
-
-  const {email, closeDialog} = props
   const {enqueueSnackbar} = useSnackbar()
 
   const formik = useFormik({
@@ -40,7 +31,7 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
           formik.resetForm()
           if (res.status === axios.HttpStatusCode.Ok){
             setServerError("")
-            closeDialog()
+            endForgotPW()
             enqueueSnackbar("Password Changed", {variant: "success"})
           }
         })
@@ -48,7 +39,7 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
           formik.setSubmitting(false)
           setServerError(error.response.data.message)
           if(error.response.status === axios.HttpStatusCode.Locked){
-            closeDialog()
+            endForgotPW()
             formik.resetForm()
             enqueueSnackbar(error.response.data.message, {variant: "error"})
           }
@@ -56,9 +47,33 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
     }
   })
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const {errors, dirty, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
 
-  const closeForm = () => { formik.resetForm(); closeDialog(); setServerError("") }
+  const codeField: TextFieldProps = {
+    fullWidth: true,
+    size: "small",
+    type: "text",
+    label: "Verification Code",
+    ...getFieldProps("code"),
+    error: Boolean(touched && errors.code),
+    helperText: touched && errors.code
+  }
+
+  const passwordTextField = {
+    label: "New Password",
+    fieldID: "newPassword",
+    getFieldProps,
+    error: errors.newPassword,
+    touched: touched.newPassword
+  }
+
+  const changePasswordButton: LoadingButtonProps = {
+    color: "success",
+    disabled: !(isValid && dirty),
+    type: "submit",
+    variant: "contained",
+    loading: isSubmitting
+  }
 
   return (
     <Box>
@@ -66,16 +81,9 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
           <Stack spacing={3} sx={{width: "100%"}}>
             { serverError && (<Alert severity="error">{serverError}</Alert>) }
-            <TextField fullWidth size="small" type="text" label="Verification Code"
-              {...getFieldProps("code")} error={Boolean(touched && errors.code)}
-              helperText={touched && errors.code} />
-            <PasswordTextField label="New Password" fieldId="newPassword"
-              getFieldProps={getFieldProps} error={errors.newPassword}
-              touched={touched.newPassword} />
-            <LoadingButton color="success" disabled={!(isValid && formik.dirty)} type="submit"
-              variant="contained" loading={isSubmitting} >
-              Change Password
-            </LoadingButton>
+            <TextField {...codeField} />
+            <PasswordTextField {...passwordTextField} />
+            <LoadingButton >Change Password</LoadingButton>
           </ Stack>
         </ Form>
       </ FormikProvider>
@@ -83,4 +91,6 @@ export default function VerifyCodeForm(props: VerifyCodeFormProps){
   )
 }
 
-// QA: Brian Francis 08-07-23
+export default VerifyCodeForm
+
+// QA: Brian Francis 10-24-23

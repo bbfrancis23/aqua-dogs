@@ -99,15 +99,15 @@ export default NextAuth({
               }
             }
           }
-        }
 
-        let invalidCount = member.invalidCount || 0
-        invalidCount++
-        await Member.updateOne({email: credentials.email}, {$set: {invalidCount}})
+          let invalidCount = member.invalidCount || 0
+          invalidCount++
+          await Member.updateOne({email: credentials.email}, {$set: {invalidCount}})
 
-        if (invalidCount >= 5) {
-          await Member.updateOne({email: credentials.email}, {$set: {locked: true}})
-          await db.disconnect()
+          if (invalidCount >= 5) {
+            await Member.updateOne({email: credentials.email}, {$set: {locked: true}})
+            await db.disconnect()
+          }
         }
 
         throw new Error(

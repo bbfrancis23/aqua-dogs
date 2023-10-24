@@ -17,20 +17,19 @@ export interface PasswordTextFieldProps extends TextFieldProps {
   fieldId?: string
 }
 
-export const EmailTextField = (props: TextFieldProps) => {
-  const {getFieldProps, touched, error} = props
-
-  return (
-    <TextField fullWidth size="small" type="email" label="Email address"
-      {...getFieldProps("email")}
-      error={Boolean(touched && error)}
-      helperText={touched && error} />
-  )
-}
+export const EmailTextField = ({getFieldProps, touched, error}: TextFieldProps) => (
+  <TextField
+    fullWidth
+    size="small"
+    type="email"
+    label="Email address"
+    {...getFieldProps("email")}
+    error={Boolean(touched && error)}
+    helperText={touched && error} />
+)
 
 export const PasswordTextField = (props: PasswordTextFieldProps) => {
   const {getFieldProps, touched, error,} = props
-
   let {label, fieldId} = props
 
   label = label ? label : "Password"
@@ -39,8 +38,12 @@ export const PasswordTextField = (props: PasswordTextFieldProps) => {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <TextField fullWidth size="small" autoComplete="current-password"
-      type={showPassword ? "text" : "password"} label={label} {...getFieldProps(fieldId)}
+    <TextField
+      fullWidth
+      size="small"
+      autoComplete="current-password"
+      type={showPassword ? "text" : "password"}
+      label={label} {...getFieldProps(fieldId)}
       InputProps={{ endAdornment: (
         <InputAdornment position="end">
           <IconButton edge="end" onClick={() => setShowPassword((prev) => !prev)}>
@@ -53,4 +56,4 @@ export const PasswordTextField = (props: PasswordTextFieldProps) => {
 }
 
 
-// QA: Brian Francis 08-06-23
+// QA: Brian Francis 10-23-23
