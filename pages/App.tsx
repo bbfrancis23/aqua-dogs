@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
-import { CssBaseline, PaletteMode, ThemeProvider } from "@mui/material"
+import { PaletteMode } from "@mui/material"
+import { ThemeProvider } from "@mui/material/styles"
+import CssBaseline from "@mui/material/CssBaseline"
 import { SnackbarOrigin, SnackbarProvider } from "notistack"
 import { ConfirmProvider } from "material-ui-confirm"
 // eslint-disable-next-line max-len

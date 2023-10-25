@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Box, Card, CardContent, CardHeader, Skeleton, Typography, styled,
-  useTheme } from "@mui/material";
+import { Box, Card, CardContent, CardHeader, Skeleton, Typography } from "@mui/material"
+import { useTheme, styled } from "@mui/material/styles"
 
 import { Project } from "@/react/project/";
 

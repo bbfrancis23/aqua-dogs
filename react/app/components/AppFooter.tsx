@@ -1,6 +1,8 @@
 import { useContext } from 'react'
 import Link from 'next/link'
-import {Box, styled} from '@mui/material'
+import {Box} from '@mui/material'
+import { styled } from "@mui/material/styles"
+
 
 import { FxThemeContext } from '@/fx/theme'
 

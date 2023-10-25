@@ -2,7 +2,8 @@
 import { useEffect, useState, useContext } from "react"
 
 import { Autocomplete, Avatar, Box, Button, Card, CardHeader, Skeleton, TextField,
-  Typography, useTheme } from "@mui/material";
+  Typography } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import { LoadingButton } from "@mui/lab";
 import AddMemberIcon from '@mui/icons-material/PersonAdd';
 import CloseIcon from '@mui/icons-material/Close';

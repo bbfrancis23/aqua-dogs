@@ -1,5 +1,6 @@
 import {Dispatch, SetStateAction, createContext} from 'react'
-import {PaletteColorOptions, PaletteOptions, Theme, ThemeOptions, createTheme} from '@mui/material'
+import {PaletteColorOptions, PaletteOptions, Theme, ThemeOptions} from '@mui/material'
+import {createTheme} from '@mui/material/styles'
 import {
   blueGrey,
   brown,
