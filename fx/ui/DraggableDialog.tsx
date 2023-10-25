@@ -1,5 +1,6 @@
 import React from "react"
-import { Box, Dialog, DialogTitle, useMediaQuery, useTheme} from "@mui/material"
+import { Box, Dialog, DialogTitle, useMediaQuery} from "@mui/material"
+import { useTheme } from "@mui/material/styles"
 import DraggablePaper from "./DraggablePaper"
 
 export interface DraggableDialogProps {

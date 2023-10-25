@@ -1,4 +1,6 @@
-import { Theme, Typography, useTheme } from "@mui/material";
+import { Theme, Typography} from "@mui/material";
+
+import { useTheme } from "@mui/material/styles"
 import Link from "next/link";
 
 

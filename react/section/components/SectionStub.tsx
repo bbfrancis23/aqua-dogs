@@ -1,5 +1,7 @@
-import { alpha, Card, CardHeader,
-  Skeleton, Typography, useTheme } from "@mui/material"
+import { Card, CardHeader,
+  Skeleton, Typography} from "@mui/material"
+
+import { useTheme, alpha } from "@mui/material/styles"
 import { useState } from "react"
 
 const SectionStub = () => {

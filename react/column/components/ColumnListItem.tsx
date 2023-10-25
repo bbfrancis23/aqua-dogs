@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
 import Link from "next/link"
 
-import { Button, Card, CardHeader, IconButton, Typography, useTheme } from "@mui/material";
-
+import { Button, Card, CardHeader, IconButton, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { Column } from "@/react/column/column-types";
 import { Member } from "@/react/members/member-types";
 import { Item } from "@/react/item/item-types";

@@ -1,4 +1,6 @@
-import { Box, Grid, Typography, styled } from "@mui/material"
+import { Box, Grid, Typography } from "@mui/material"
+import { styled } from "@mui/material/styles"
+
 
 export interface InfoPageLayoutComponent{
   title: string | JSX.Element

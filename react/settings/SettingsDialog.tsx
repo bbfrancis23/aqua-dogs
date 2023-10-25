@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
-import { Box, Button, DialogActions, DialogContent, useTheme, Typography,
+import { Box, Button, DialogActions, DialogContent, Typography,
   ToggleButtonGroup, ToggleButton, Stack, PaletteMode} from "@mui/material"
+import { useTheme } from "@mui/material/styles"
 import {VariantType, useSnackbar} from "notistack"
 import DarkModeIcon from "@mui/icons-material/DarkMode"
 import LightModeIcon from "@mui/icons-material/LightMode"

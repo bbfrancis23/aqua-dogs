@@ -1,10 +1,10 @@
 import {
-  createTheme,
   ThemeOptions,
   PaletteOptions,
   PaletteColorOptions,
   SimplePaletteColorOptions,
 } from '@mui/material'
+import {createTheme} from '@mui/material/styles'
 import {
   lightBlue,
   red,

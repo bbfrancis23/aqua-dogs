@@ -1,13 +1,12 @@
 import React, { useContext } from "react"
 
-import {useTheme, Stack, Box, Theme} from "@mui/material"
+import { Stack, Box, Theme} from "@mui/material"
+import { useTheme } from '@mui/material/styles'
 import StarIcon from "@mui/icons-material/Star"
 import Fab from "@mui/material/Fab"
 import { useSnackbar} from "notistack"
 
-import { FxThemeContext, createFxTheme, fxThemeOptionsList,
-  UpdateThemeOptionsProps,
-  FxThemeOptions} from "fx/theme"
+import { FxThemeContext, createFxTheme, fxThemeOptionsList, FxThemeOptions} from "fx/theme"
 
 
 const SettingsPalettes = ( ) => {

@@ -1,5 +1,6 @@
 import {Column} from '@/react/column/column-types'
-import { Box, IconButton, TextField, Typography, alpha, useTheme } from "@mui/material"
+import { Box, IconButton, TextField, Typography } from "@mui/material"
+import { alpha } from '@mui/material/styles';
 
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';

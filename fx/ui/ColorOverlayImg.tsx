@@ -1,4 +1,4 @@
-import {styled} from "@mui/material"
+import { styled } from "@mui/material/styles"
 
 // Wishlist: theme color support, default: opacity and transition
 export const ColorOverlayImg = styled("div")<{

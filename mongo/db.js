@@ -21,14 +21,12 @@ const connect = async () => {
 
   try {
     const db = await mongoose.connect(process.env.MONGO_CONNECT)
-    console.log('new connection')
     connection.isConnected = db.connections[0].readyState
   } catch (error) {
     console.log('error connecting to db')
     console.log(error)
     console.log('try conntecting again')
     const db = await mongoose.connect(process.env.MONGO_CONNECT)
-    console.log('new connection')
     connection.isConnected = db.connections[0].readyState
   }
 }

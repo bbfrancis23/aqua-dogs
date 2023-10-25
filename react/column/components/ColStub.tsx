@@ -1,4 +1,5 @@
-import { Box, alpha, Skeleton, Typography, useTheme } from "@mui/material"
+import { Box, Skeleton, Typography } from "@mui/material"
+import { useTheme, alpha } from "@mui/material/styles"
 import { useState } from "react"
 
 export const ColumnStub = () => {

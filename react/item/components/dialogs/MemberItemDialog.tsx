@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 
 import { Box, Button, DialogActions, DialogContent, Divider, Skeleton, Stack,
   Typography } from "@mui/material"
+import { styled } from "@mui/material/styles"
 import { useSnackbar } from "notistack"
 
 import axios from "axios"
@@ -19,7 +20,6 @@ import CreateSectionForm from "@/react/section/components/forms/CreateSectionFor
 import { TextSection } from "@/react/section/components/TextSection"
 import EditItemTitleForm from "@/react/item/components/forms/EditItemTitleForm"
 import ArchiveItemForm from "@/react/item/components/forms/ArchiveItemForm"
-import styled from "@emotion/styled"
 import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar"
 import CreateCommentForm from "../CreateCommentForm"
 
