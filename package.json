@@ -29,7 +29,7 @@
     "material-ui-confirm": "^3.0.8",
     "mongodb": "^4.17.0",
     "mongoose": "^7.3.3",
-    "next": "13.4.19",
+    "next": "13.5.1",
     "next-auth": "^4.20.1",
     "next-remove-imports": "^1.0.8",
     "nodemailer": "^6.9.1",

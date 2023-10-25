@@ -75,7 +75,7 @@ export const Page = (props: BoardPage) => {
             <BoardToolbar projectBoards={props.projectBoards}/>
             <Stack spacing={2}
               sx={{ p: 2, width: '100%', overflow: 'auto', height: 'calc(100vh - 124px)' }} >
-              <ProjectBoard member={member}/>
+              <ProjectBoard />
             </Stack>
           </BoardThemeBG>
           <MemberItemDialog

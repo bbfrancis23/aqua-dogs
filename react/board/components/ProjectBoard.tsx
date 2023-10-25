@@ -1,127 +1,82 @@
-import { useMemo, useState, useContext } from "react";
+import { useMemo, useState, useContext } from "react"
+import { Stack } from "@mui/material"
+import { useSnackbar } from "notistack"
+import { DragDropContext, DropResult, Droppable, OnDragEndResponder } from "react-beautiful-dnd"
+import axios from "axios"
+import { ProjectContext } from "@/react/project"
+import { BoardContext, ColumnKeyArray, reorderArray, reorderBoard } from "@/react/board"
+import { Column, BoardColumn, CreateColumnForm } from "@/react/column"
+import { MemberContext } from "@/react/members"
+import { Permission, PermissionCodes } from "@/fx/ui"
 
-import { Stack } from "@mui/material";
-import { useSnackbar } from "notistack";
+export const ProjectBoard = ( ) => {
 
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
-
-import axios from "axios";
-
-import { ProjectContext } from "@/react/project/";
-import { BoardContext } from "@/react/board/BoardContext";
-import { Member } from "@/react/members/member-types";
-import { Column } from "@/react/column/column-types";
-
-import BoardColumn from "../../column/components/BoardColumn";
-import { Permission, PermissionCodes } from "@/fx/ui";
-import { CreateColumnForm } from "@/react/column";
-
-export interface ProjectBoardProps {
-  member: Member;
-}
-
-const reorderList = (list:any, startIndex:number, endIndex:number):string[] => {
-
-  const result: string[] = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-  return result;
-};
-
-export const reorderBoard = ({ boardCols, source, destination }:any) => {
-
-  const current = {...boardCols[source.droppableId]};
-  const next = {...boardCols[destination.droppableId]};
-  const target = current.items[source.index];
-
-  if (source.droppableId === destination.droppableId) {
-    let reordered = {...current}
-    reordered.items = reorderList(current.items, source.index, destination.index)
-    boardCols = { ...boardCols, [source.droppableId]: reordered }
-    return boardCols;
-  }else{
-    current.items.splice(source.index, 1)
-    next.items.splice(destination.index, 0, target)
-    boardCols = { ...boardCols, [source.droppableId]: current, [destination.droppableId]: next }
-  }
-  return boardCols
-}
-
-export const ProjectBoard = (props: ProjectBoardProps ) => {
-  const { member} = props
+  const {member} = useContext(MemberContext)
   const {project} = useContext(ProjectContext)
   const {board} = useContext(BoardContext)
-  const [colKeys, setColKeys] = useState<any>();
-  const [orderedColKeys, setOrderedColKeys] = useState<string[]>();
+
+  const [boardKeyCols, setBoardKeyCols] = useState<ColumnKeyArray>({});
+  const [orderedColKeys, setOrderedColKeys] = useState<string[]>([]);
   const {enqueueSnackbar} = useSnackbar();
 
   useMemo( () => {
-    let colKeys: any = {};
-    board.columns.forEach( (c: Column) =>
-      colKeys[c.id] = {title: c.title, id: c.id, items: c.items} )
 
+    let colKeys: ColumnKeyArray = {}
+    board.columns.forEach( (c: Column) => colKeys[c.id] = c )
     setOrderedColKeys(Object.keys(colKeys))
-    setColKeys(colKeys)
+    setBoardKeyCols(colKeys)
+
   }, [board.columns])
 
   const updateBoardCols = (boardCols: string[]) => {
     setOrderedColKeys(boardCols)
 
     axios.patch(`/api/members/projects/${project.id}/boards/${board.id}`, {columns: boardCols})
-      .then((res) => {
-        enqueueSnackbar(`Columns Reordered `, {variant: "success"})
-      })
-      .catch((e:string) => {
-        enqueueSnackbar(`Error Moving Columns: ${e}`, {variant: "error"})
-      })
+      .then((res) => enqueueSnackbar(`Columns Reordered `, {variant: "success"}))
+      .catch((e:string) => enqueueSnackbar(`Error Moving Columns: ${e}`, {variant: "error"}))
   }
 
-  const onDragEnd = async (result: any) => {
-    if(!result.destination) {
-      return
-    }
+  const onDragEnd: OnDragEndResponder = (result: DropResult) => {
+    if(!result.destination) return
     const source = result.source;
     const destination = result.destination;
 
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    ) {
+    if ( source.droppableId === destination.droppableId && source.index === destination.index ) {
       return
     }
 
     if (result.type === 'COLUMN') {
-      const redorder: string[] = reorderList(orderedColKeys, source.index, destination.index)
-      updateBoardCols(redorder)
+
+      const reorderProps = {
+        array: orderedColKeys,
+        startIndex: source.index,
+        endIndex: destination.index
+      }
+      const reorder: string[] = reorderArray(reorderProps)
+      updateBoardCols(reorder)
       return
     }
 
-    const boardCols:any = await reorderBoard({boardCols: colKeys, source, destination})
+    const boardCols = reorderBoard({boardCols: boardKeyCols, source, destination})
 
     axios.patch(`/api/members/projects/${project.id}/boards/${board.id}`, {boardCols} )
-      .catch((e:string) => {
-        console.log(`Error: ${e}`)
-      })
+      .then(() => enqueueSnackbar(`Cards Reordered `, {variant: "success"}))
+      .catch((e:string) => enqueueSnackbar(`Error Moving Cards: ${e}`, {variant: "error"}))
 
-    setColKeys(boardCols)
+    setBoardKeyCols(boardCols)
   }
-
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable
-        droppableId="board"
-        type="COLUMN"
-        direction="horizontal"
-      >
+      <Droppable droppableId="board" type="COLUMN" direction="horizontal" >
         { (provided) => (
           <Stack direction={'row'} spacing={1}
             ref={provided.innerRef} {...provided.droppableProps}>
-            { (orderedColKeys && colKeys) && orderedColKeys.map((key: string, index:number) => (
-              colKeys[key] && (
-                <BoardColumn key={key} member={member} index={index} column={colKeys[key]}/>
-              )))
-            }
+            { (orderedColKeys && boardKeyCols) && orderedColKeys.map((key: string, index:number) =>
+              ( boardKeyCols[key] && (
+                <BoardColumn key={key} member={member} index={index} column={boardKeyCols[key]}/>
+              ))
+            ) }
             <Permission code={PermissionCodes.PROJECT_LEADER} member={member} project={project}>
               <CreateColumnForm />
             </Permission>
@@ -135,4 +90,4 @@ export const ProjectBoard = (props: ProjectBoardProps ) => {
 
 export default ProjectBoard
 
-// QA: Brian Francisc 8-13-23
+// QA: Brian Francisc 10-24-23
