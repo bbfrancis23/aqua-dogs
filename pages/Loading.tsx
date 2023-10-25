@@ -1,4 +1,4 @@
-import { Box, LinearProgress } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material"
 
 const Loading = () => (
   <Box sx={{ width: '100%' }}>

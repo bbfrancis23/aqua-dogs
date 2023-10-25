@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { ParsedUrlQuery } from "querystring"
 
 import { GetStaticPaths, GetStaticProps } from "next"
-import Head from "next/head";
+import Head from "next/head"
 
 import { Box, Grid, Typography } from "@mui/material"
 

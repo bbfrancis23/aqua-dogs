@@ -1,8 +1,8 @@
 import {LoadingButton} from "@mui/lab"
 import {Box, Button, TextField, Typography} from "@mui/material"
 
-import SaveIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
+import SaveIcon from '@mui/icons-material/Done'
+import CloseIcon from '@mui/icons-material/Close'
 import axios from "axios"
 import {Form, FormikProvider, useFormik} from "formik"
 import {useSnackbar} from "notistack"

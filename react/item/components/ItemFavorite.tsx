@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { Item } from "../item-types";
-import { useSession } from "next-auth/react";
-import { useSnackbar } from "notistack";
-import { IconButton } from "@mui/material";
+import { useEffect, useState } from "react"
+import { Item } from "../item-types"
+import { useSession } from "next-auth/react"
+import { useSnackbar } from "notistack"
+import { IconButton } from "@mui/material"
 
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteIconBorder from '@mui/icons-material/FavoriteBorder';
-import axios from "axios";
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import FavoriteIconBorder from '@mui/icons-material/FavoriteBorder'
+import axios from "axios"
 
 
 export interface ItemFavoriteProps {

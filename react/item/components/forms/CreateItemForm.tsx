@@ -1,22 +1,22 @@
 
-import { useState, useContext } from "react";
+import { useState, useContext } from "react"
 
-import { Box, Button, IconButton, Paper, TextField } from "@mui/material";
-import DoneIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
-import { useSnackbar } from "notistack";
+import { Box, Button, IconButton, Paper, TextField } from "@mui/material"
+import DoneIcon from '@mui/icons-material/Done'
+import CloseIcon from '@mui/icons-material/Close'
+import { useSnackbar } from "notistack"
 
-import { Form, FormikProvider, useFormik } from "formik";
+import { Form, FormikProvider, useFormik } from "formik"
 import * as Yup from "yup"
-import axios from "axios";
+import axios from "axios"
 
-import { Column } from "@/react/column/column-types";
-import { Member } from "@/react/members/member-types";
-import { BoardContext } from "@/react/board/BoardContext";
-import { ProjectContext } from "@/react/project/";
+import { Column } from "@/react/column/column-types"
+import { Member } from "@/react/members/member-types"
+import { BoardContext } from "@/react/board/BoardContext"
+import { ProjectContext } from "@/react/project/"
 
-import ItemStub from "../ItemStub";
-import { LoadingButton } from "@mui/lab";
+import ItemStub from "../ItemStub"
+import { LoadingButton } from "@mui/lab"
 
 export interface CreateItemFormProps{
   column: Column;
@@ -29,7 +29,7 @@ const createItemSchema = Yup.object().shape({
 
 const CreateItemForm = (props: CreateItemFormProps) => {
 
-  const { column} = props;
+  const { column} = props
 
   const {project} = useContext(ProjectContext)
   const {board, setBoard} = useContext(BoardContext)
@@ -67,8 +67,8 @@ const CreateItemForm = (props: CreateItemFormProps) => {
   })
 
   const handleCloseForm = () => {
-    formik.resetForm();
-    setShowForm(false);
+    formik.resetForm()
+    setShowForm(false)
   }
 
   const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik

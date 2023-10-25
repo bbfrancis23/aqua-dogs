@@ -1,26 +1,16 @@
-import { useContext, useState, MouseEvent} from "react";
-
-import { Box, IconButton, Stack, Menu, MenuItem, Fade } from "@mui/material";
-import { alpha, styled, useTheme } from '@mui/material/styles';
-import PublicIcon from '@mui/icons-material/Public';
-import PrivateIcon from '@mui/icons-material/Lock';
-import DropDownMenuIcon from '@mui/icons-material/ArrowDropDownCircle';
-import { useSnackbar } from "notistack";
-
-import axios from "axios";
-
-import { Member } from "@/react/members/member-types";
-import { ProjectContext } from "@/react/project/";
-
-import { PermissionCodes } from "fx/ui/PermissionComponent";
-
-import { BoardTitleForm } from "./forms/BoardTitleForm";
-import { ProjectMemberAvatar } from "../../members/components/ProjectMemberAvatar";
-import BoardOptionsMenu from "./BoardOptionsMenu";
-import { BoardContext } from "@/react/board/BoardContext";
-import Scope from "@/react/scope/scope-types";
-import { Board } from "@/react/board/board-types";
-
+import { useContext, useState, MouseEvent} from "react"
+import { Box, IconButton, Stack, Menu, MenuItem, Fade, MenuProps } from "@mui/material"
+import { alpha, styled, useTheme } from '@mui/material/styles'
+import PublicIcon from '@mui/icons-material/Public'
+import PrivateIcon from '@mui/icons-material/Lock'
+import DropDownMenuIcon from '@mui/icons-material/ArrowDropDownCircle'
+import { useSnackbar } from "notistack"
+import axios from "axios"
+import { Member, ProjectMemberAvatar } from "@/react/members"
+import { ProjectContext } from "@/react/project"
+import { BoardTitleForm, BoardOptionsMenu, BoardContext, Board} from "@/react/board"
+import {Scope} from "@/react/scope"
+import { PermissionCodes } from "fx/ui"
 
 const BoardToolbarContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -29,47 +19,26 @@ const BoardToolbarContainer = styled(Box)(({ theme }) => ({
   backgroundColor: alpha(theme.palette.background.default, 0.7)
 }));
 
-export interface BoardToolbarProps {
-  projectBoards: Board[];
-}
+export interface BoardToolbarProps { projectBoards: Board[]}
 
-export const BoardToolbar = (props: BoardToolbarProps) => {
-
-  const {projectBoards} = props
-
+export const BoardToolbar = ({projectBoards}: BoardToolbarProps) => {
 
   const theme = useTheme()
   const {enqueueSnackbar} = useSnackbar()
   const {project} = useContext(ProjectContext)
   const {board, setBoard} = useContext(BoardContext)
 
-
-  const getAvatar = (member: Member) => {
-    let avatar = '';
-    if(member){
-      if(member.name){
-        const names = member.name.split(' ')
-        const firstInitial = names[0].charAt(0);
-        const secondInitial = names[1] ? names[1].charAt(0) : '';
-        avatar = [firstInitial, secondInitial].join('')
-      }else{ avatar = member.email.charAt(0) }
-    }
-    return avatar
-  }
-
-
-  const handleChangeScope = async () => {
+  const changeScope = async () => {
 
     const newScope = board.scope === Scope.PUBLIC ? Scope.PRIVATE : Scope.PUBLIC
     try{
-
       await axios.patch(`/api/members/projects/${project.id}/boards/${board.id}`, {scope: newScope})
-        .then((res) => {
-          enqueueSnackbar(`Made ${board.title} ${newScope}`, {variant: "success"})
+        .then(() => {
+          enqueueSnackbar(`SAVED ${board.title} ${newScope}`, {variant: "success"})
           setBoard({...board, scope: newScope})
         }).catch((error) => {
-          enqueueSnackbar(`ERROR updating board scope: ${error.response.data.message}`,
-            {variant: "error"})
+          const errorMessage = error.response.data.message
+          enqueueSnackbar(`ERROR saving board scope: ${errorMessage}`, {variant: "error"})
         })
 
     }catch(e){
@@ -77,43 +46,36 @@ export const BoardToolbar = (props: BoardToolbarProps) => {
     }
   }
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+  const showBoardMenu = (event: MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget)
+  const onClose = (board: Board):void => setAnchorEl(null)
 
-
-  const handleShowBoardMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = (board: Board):void => {
-    setAnchorEl(null)
+  const menuProps: MenuProps = {
+    id: 'board-list',
+    TransitionComponent: Fade,
+    anchorOrigin: {horizontal: 'center', vertical: 'bottom'},
+    anchorEl, open, onClose,
   }
+
+  const boardDir = `/member/projects/${project.id}/boards/`
+  const themeText = theme.palette.text.primary
 
   return (
     <BoardToolbarContainer >
       <Stack direction={'row'} spacing={1}>
         { board.scope !== Scope.PUBLIC && (
-          <IconButton aria-label="delete" color={'error'} onClick={() => handleChangeScope()}>
-            <PrivateIcon />
-          </IconButton>
+          <IconButton color={'error'} onClick={() => changeScope()}><PrivateIcon /></IconButton>
         )}
         { board.scope === Scope.PUBLIC && (
-          <IconButton aria-label="delete" color={'success'} onClick={() => handleChangeScope()}>
-            <PublicIcon />
-          </IconButton>
+          <IconButton color={'success'} onClick={() => changeScope()}><PublicIcon /></IconButton>
         ) }
         <BoardTitleForm />
-        <IconButton onClick={handleShowBoardMenu} >
-          <DropDownMenuIcon />
-        </IconButton>
-        <Menu id="board-list" anchorEl={anchorEl} open={open} TransitionComponent={Fade}
-          onClose={handleClose} anchorOrigin={{horizontal: 'center', vertical: 'bottom'}}>
+        <IconButton onClick={showBoardMenu} ><DropDownMenuIcon /></IconButton>
+        <Menu {...menuProps}>
           { projectBoards.map( (b: Board) => (
-            <MenuItem key={b.id}
-              selected={board.id === b.id}>
-              <a href={`/member/projects/${project.id}/boards/${b.id}`}
-                style={{textDecoration: "none", color: theme.palette.text.primary}}>{b.title}</a>
+            <MenuItem key={b.id} selected={board.id === b.id}>
+              <a href={`${boardDir}${b.id}`} style={{ color: themeText}}>{b.title}</a>
             </MenuItem>
           ))}
         </Menu>
@@ -131,4 +93,4 @@ export const BoardToolbar = (props: BoardToolbarProps) => {
     </BoardToolbarContainer>
   )
 }
-// QA: Brian Francisc 9-22-23
+// QA: Brian Francisc 10-23-23

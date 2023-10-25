@@ -11,7 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 import dynamic from "next/dynamic"
 
-import { Comment } from "@/react/comments/comment-types";
+import { Comment } from "@/react/comments/comment-types"
 
 import axios from "axios"
 import { Form, FormikProvider, useFormik } from "formik"
@@ -62,7 +62,7 @@ export const CodeComment = (props: CodeCommentProps) => {
             setItem(res.data.item)
             enqueueSnackbar("Item Section Updated", {variant: "success"})
             formik.resetForm()
-            setDisplayEditCodeCommentForm(false);
+            setDisplayEditCodeCommentForm(false)
           }
         })
         .catch((e) => {

@@ -1,10 +1,8 @@
-import { FxThemeContext } from "@/fx/theme";
-import { Box } from "@mui/material";
 import { useContext } from "react";
+import { Box } from "@mui/material";
+import { FxThemeContext } from "@/fx/theme";
 
-interface BoardThemeBGProps {
-  children: React.ReactNode
-}
+interface BoardThemeBGProps { children: React.ReactNode}
 
 const BoardThemeBG = ({children}: BoardThemeBGProps) => {
 
@@ -23,3 +21,5 @@ const BoardThemeBG = ({children}: BoardThemeBGProps) => {
 }
 
 export default BoardThemeBG
+
+// QA Brian Francis 10-24-23

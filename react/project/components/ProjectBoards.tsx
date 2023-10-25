@@ -24,7 +24,7 @@ const ProjectBoards = (props: ProjectBoardsProps) => {
       { showBoardForm && (
         <Grid container spacing={1} sx={{ m: 0}}>
           <Grid item xs={12} sm={6} md={4} >
-            <CreateBoardForm setBoards={(b: Board[]) => setBoards(b)} project={project}
+            <CreateBoardForm setBoards={(b: Board[]) => setBoards(b)}
               closeForm={() => handleCloseCreateBoardForm()}/>
           </Grid>
         </Grid>

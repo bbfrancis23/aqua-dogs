@@ -1,22 +1,22 @@
-import { ParsedUrlQuery } from "querystring";
+import { ParsedUrlQuery } from "querystring"
 
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next"
 
-import { Box, Stack, Typography} from "@mui/material";
+import { Box, Stack, Typography} from "@mui/material"
 
-import { findItem } from "@/mongo/controls/member/project/items/findItem";
+import { findItem } from "@/mongo/controls/member/project/items/findItem"
 import {findProjectItems} from "@/mongo/controls/member/project/items/findProjectItems"
-import { findProjectBoards } from "@/mongo/controls/member/project/projectControls";
+import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 
-import { WebsiteBoards } from "@/react/app/";
+import { WebsiteBoards } from "@/react/app/"
 import { Item, getItemDirectory } from "@/react/item/"
 import { Section } from "@/react/section/"
 import { Board, getBoardDirectory } from "@/react/board/"
-import Comments from "@/react/comments";
+import Comments from "@/react/comments"
 
 import { WEBSITE_PROJECT_ID } from "pages/HomePage"
-import { BoardDrawer, InfoPageLayout, FxCodeEditor } from "@/fx/ui";
-import Head from "next/head";
+import { BoardDrawer, InfoPageLayout, FxCodeEditor } from "@/fx/ui"
+import Head from "next/head"
 
 export interface PublicCardPage {
   item: Item,

@@ -1,20 +1,20 @@
 
-import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { useState } from "react"
+import { useSession } from "next-auth/react"
 
-import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
+import { Box, Button, Skeleton, TextField, Typography } from "@mui/material"
 import { styled } from "@mui/material/styles"
 
-import { LoadingButton } from "@mui/lab";
-import { useSnackbar } from "notistack";
-import SaveIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
+import { LoadingButton } from "@mui/lab"
+import { useSnackbar } from "notistack"
+import SaveIcon from '@mui/icons-material/Done'
+import CloseIcon from '@mui/icons-material/Close'
 
 import * as Yup from "yup"
-import { Form, FormikProvider, useFormik } from "formik";
-import axios from "axios";
+import { Form, FormikProvider, useFormik } from "formik"
+import axios from "axios"
 
-import { Project } from "@/react/project/";
+import { Project } from "@/react/project/"
 
 export interface ProjectTitleFormComponent{
   project: Project
@@ -24,7 +24,7 @@ const TitleSchema = Yup.object().shape({ title: Yup.string() .required("Title is
 
 const ProjectTitleTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': { fontSize: '3rem' },
-}));
+}))
 
 export const ProjectTitleForm = (props: ProjectTitleFormComponent) => {
 

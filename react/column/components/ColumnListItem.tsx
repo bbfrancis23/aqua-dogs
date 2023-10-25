@@ -1,13 +1,13 @@
-import { useState, useContext } from "react";
+import { useState, useContext } from "react"
 import Link from "next/link"
 
-import { Button, Card, CardHeader, IconButton, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { Column } from "@/react/column/column-types";
-import { Member } from "@/react/members/member-types";
-import { Item } from "@/react/item/item-types";
-import { ProjectContext } from "@/react/project/";
-import { FxThemeContext } from "@/fx/theme";
+import { Button, Card, CardHeader, IconButton, Typography } from "@mui/material"
+import { useTheme } from "@mui/material/styles"
+import { Column } from "@/react/column/column-types"
+import { Member } from "@/react/members/member-types"
+import { Item } from "@/react/item/item-types"
+import { ProjectContext } from "@/react/project/"
+import { FxThemeContext } from "@/fx/theme"
 
 
 export interface ColumnListProps {

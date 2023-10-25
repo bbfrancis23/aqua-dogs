@@ -18,7 +18,7 @@ import { SettingsDialog } from '@/react/settings'
 
 import App from "./App"
 
-const FiveMinutes = 5 * 60;
+const FiveMinutes = 5 * 60
 
 const NextApp = ({Component, pageProps: {session, ...pageProps},}: AppProps) => {
 

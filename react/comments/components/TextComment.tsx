@@ -1,22 +1,22 @@
 /* eslint-disable max-lines-per-function */
-import { useContext, useState } from "react";
-import { Box, IconButton, Stack, TextField, Typography } from "@mui/material";
-import CheckIcon from '@mui/icons-material/Check';
-import CancelIcon from '@mui/icons-material/Cancel';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useContext, useState } from "react"
+import { Box, IconButton, Stack, TextField, Typography } from "@mui/material"
+import CheckIcon from '@mui/icons-material/Check'
+import CancelIcon from '@mui/icons-material/Cancel'
+import DeleteIcon from '@mui/icons-material/Delete'
 
-import { Comment } from "@/react/comments/comment-types";
-import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar";
-import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent";
-import { FormikProvider, useFormik, Form } from "formik";
+import { Comment } from "@/react/comments/comment-types"
+import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar"
+import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent"
+import { FormikProvider, useFormik, Form } from "formik"
 
 
 import * as Yup from "yup"
-import axios from "axios";
-import { ProjectContext } from "@/react/project/";
-import { useSnackbar } from "notistack";
-import { LoadingButton } from "@mui/lab";
-import { ItemContext } from "@/react/item/ItemContext";
+import axios from "axios"
+import { ProjectContext } from "@/react/project/"
+import { useSnackbar } from "notistack"
+import { LoadingButton } from "@mui/lab"
+import { ItemContext } from "@/react/item/ItemContext"
 
 export interface TextCommentProps {
   comment: Comment;
@@ -27,7 +27,7 @@ const editCommentSchema = Yup.object().shape({
 })
 
 export const TextComment = (props: TextCommentProps) => {
-  const {comment} = props;
+  const {comment} = props
 
   const {project} = useContext(ProjectContext)
   const {item, setItem} = useContext(ItemContext)
@@ -49,7 +49,7 @@ export const TextComment = (props: TextCommentProps) => {
             formik.resetForm({values: {comment: data.comment}})
             setItem(res.data.item)
             enqueueSnackbar("Item Comment Updated", {variant: "success"})
-            setDisplayEditTextCommentForm(false);
+            setDisplayEditTextCommentForm(false)
           }
         })
         .catch((e) => {

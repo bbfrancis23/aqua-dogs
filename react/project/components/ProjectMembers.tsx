@@ -1,10 +1,10 @@
-import { Grid, Stack } from "@mui/material";
-import ProjectMember from "./ProjectMember";
-import { Permission, PermissionCodes } from "@/fx/ui";
-import AddProjectMemberForm from "./forms/AddProjectMemberForm";
-import { ProjectContext } from "../ProjectContext";
-import { useContext } from "react";
-import { Member, MemberContext } from "@/react/members";
+import { Grid, Stack } from "@mui/material"
+import ProjectMember from "./ProjectMember"
+import { Permission, PermissionCodes } from "@/fx/ui"
+import AddProjectMemberForm from "./forms/AddProjectMemberForm"
+import { ProjectContext } from "../ProjectContext"
+import { useContext } from "react"
+import { Member, MemberContext } from "@/react/members"
 
 
 const ProjectMembers = () => {

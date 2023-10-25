@@ -4,16 +4,16 @@ import {findProjectItems} from "@/mongo/controls/member/project/items/findProjec
 
 import { useSession } from "next-auth/react"
 
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
-import { Section } from "@/react/section/section-types";
-import dynamic from "next/dynamic";
-import InfoPageLayout from "fx/ui/InfoPageLayout";
-import { findItem } from "@/mongo/controls/member/project/items/findItem";
-import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar";
-import { PermissionCodes } from "fx/ui/PermissionComponent";
-import { Member } from "@/react/members/member-types";
-import CreateCommentForm from "@/react/item/components/CreateCommentForm";
-import { useEffect, useState } from "react";
+import { Box, Button, Divider, Stack, Typography } from "@mui/material"
+import { Section } from "@/react/section/section-types"
+import dynamic from "next/dynamic"
+import InfoPageLayout from "fx/ui/InfoPageLayout"
+import { findItem } from "@/mongo/controls/member/project/items/findItem"
+import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar"
+import { PermissionCodes } from "fx/ui/PermissionComponent"
+import { Member } from "@/react/members/member-types"
+import CreateCommentForm from "@/react/item/components/CreateCommentForm"
+import { useEffect, useState } from "react"
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
   {ssr: false}

@@ -1,4 +1,4 @@
-import BoardPage, {getServerSideProps} from "./BoardPage";
+import BoardPage, {getServerSideProps} from "./BoardPage"
 
 export default BoardPage
 export {getServerSideProps}
