@@ -2,7 +2,7 @@ import { Member } from "@/react/members/member-types"
 import { Project } from "@/react/project/"
 import { GetServerSideProps, Redirect } from "next"
 
-import dynamic from "next/dynamic";
+import dynamic from "next/dynamic"
 
 import { getSession, useSession } from "next-auth/react"
 
@@ -17,10 +17,10 @@ import { Board } from "@/react/board/board-types"
 import InfoPageLayout from "fx/ui/InfoPageLayout"
 import { Box, Button, Divider, Stack, Typography } from "@mui/material"
 import { Section } from "@/react/section/section-types"
-import { Item } from "@/react/item/item-types";
-import { useEffect, useState } from "react";
-import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar";
-import CreateCommentForm from "@/react/item/components/CreateCommentForm";
+import { Item } from "@/react/item/item-types"
+import { useEffect, useState } from "react"
+import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar"
+import CreateCommentForm from "@/react/item/components/CreateCommentForm"
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),

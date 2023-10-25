@@ -1,4 +1,4 @@
-import ProjectPage, {getServerSideProps} from "./ProjectPage";
+import ProjectPage, {getServerSideProps} from "./ProjectPage"
 
 export default ProjectPage
 export {getServerSideProps}
