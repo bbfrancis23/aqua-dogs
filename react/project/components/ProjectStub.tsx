@@ -1,20 +1,20 @@
-import { useState } from "react";
+import { useState } from "react"
 import { Box, Card, CardContent, CardHeader, Skeleton, Typography } from "@mui/material"
 import { useTheme, styled } from "@mui/material/styles"
 
-import { Project } from "@/react/project/";
+import { Project } from "@/react/project/"
 
 export interface ProjectStubProps{ project ?: Project}
 
 const ProjectStubHeader = styled(CardHeader)(() => ({
   '& .MuiCardHeader-content': { width: 'inherit', },
-}));
+}))
 
 const ProjectStub = (props: ProjectStubProps) => {
 
   const theme = useTheme()
 
-  const {project} = props;
+  const {project} = props
 
   const getBgColor = () => {
     if(project){
