@@ -6,6 +6,8 @@ import CreateBoardForm from './components/forms/CreateBoardForm'
 import {BoardToolbar} from './components/BoardToolbar'
 import ProjectBoard from './components/ProjectBoard'
 import BoardThemeBG from './components/BoardThemeBG'
+import {BoardTitleForm} from './components/forms/BoardTitleForm'
+import BoardOptionsMenu from './components/BoardOptionsMenu'
 
 export {
   BoardContext,
@@ -17,5 +19,7 @@ export {
   BoardThemeBG,
   reorderArray,
   reorderBoard,
+  BoardTitleForm,
+  BoardOptionsMenu,
 }
 export type {BoardContextProps, Board, ColumnKeyArray}

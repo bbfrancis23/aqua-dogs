@@ -1,1 +1,1 @@
-export type {Scope} from './scope-types'
+export {Scope} from './scope-types'

@@ -1,43 +1,30 @@
-import { useState, useContext } from "react";
-
-import { useSession } from "next-auth/react";
-
-import { Box, IconButton, Skeleton, TextField, Typography } from "@mui/material";
+import { useState, useContext } from "react"
+import { useSession } from "next-auth/react"
+import { Box, IconButton, Skeleton, TextField, TextFieldProps, Typography} from "@mui/material"
+import { TypographyProps } from "@mui/material/Typography"
 import { styled } from "@mui/material/styles"
-
-
-import SaveIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
-import { LoadingButton } from "@mui/lab";
-import { useSnackbar } from "notistack";
-
-import { Form, FormikProvider, useFormik } from "formik";
-import axios from "axios";
+import SaveIcon from '@mui/icons-material/Done'
+import CloseIcon from '@mui/icons-material/Close'
+import { LoadingButton, LoadingButtonProps } from "@mui/lab"
+import { useSnackbar } from "notistack"
+import { Form, FormikProvider, useFormik } from "formik"
+import axios from "axios"
 import * as Yup from "yup"
+import { ProjectContext } from "@/react/project"
+import { BoardContext } from "@/react/board"
 
-import { ProjectContext } from "@/react/project/";
-import { BoardContext } from "@/react/board/BoardContext";
+const TitleSchema = Yup.object().shape({ title: Yup.string() .required("Title is required")})
 
-const TitleSchema = Yup.object().shape({
-  title: Yup.string()
-    .required("Title is required"),
-})
-
-const BoardTitleTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiOutlinedInput-root': { fontSize: '1.19rem' },
-}));
+const BoardTitleTextField = styled(TextField)(() =>
+  ({ '& .MuiOutlinedInput-root': { fontSize: '1.19rem' } }))
 
 export const BoardTitleForm = () => {
   const {board} = useContext(BoardContext)
-
   const {project} = useContext(ProjectContext)
-
   const {data: session} = useSession()
   const {enqueueSnackbar} = useSnackbar()
-
   const [title, setTitle] = useState<string>(board.title)
   const [displayTextField, setDisplayTextField] = useState<boolean>(false)
-
 
   const formik = useFormik({
     initialValues: { title },
@@ -53,14 +40,13 @@ export const BoardTitleForm = () => {
             formik.resetForm({values: {title: data.title}})
           }else{ enqueueSnackbar(res.data.message, {variant: "error"}) }
         }).catch((error) => {
-
           formik.setSubmitting(false)
           enqueueSnackbar(`Error updating Board Title: ${error}`, {variant: "error"})
         })
     }
   })
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid, dirty} = formik
 
   const showTextField = () => {
     if(session && session.user){
@@ -69,23 +55,36 @@ export const BoardTitleForm = () => {
     }
   }
 
+  const boardTitleProps: TypographyProps = {
+    onClick: () => showTextField(),
+    sx: {cursor: "pointer", display: 'contents', fontSize: '1.85rem'}
+  }
+
+  const boardTitleTextField: TextFieldProps = {
+    size: 'small',
+    label: 'Title',
+    ...getFieldProps('title'),
+    error: Boolean(touched && errors.title),
+    helperText: touched && errors.title
+  }
+
+  const saveButtonProps: LoadingButtonProps = {
+    color: 'success',
+    disabled: !(isValid && formik.dirty),
+    type: 'submit',
+    loading: isSubmitting,
+    sx: {minWidth: '0'}
+  }
+
   return (
     <Box >
       {(!displayTextField) &&
-        <Typography onClick={() => showTextField()}
-          sx={{cursor: "pointer", display: 'contents', fontSize: '1.85rem'}}>
-          { title ? title : <Skeleton /> }
-        </Typography>
-      }
+        <Typography {...boardTitleProps}>{ title ? title : <Skeleton /> }</Typography> }
       { displayTextField && (
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <BoardTitleTextField size="small" label={"Title"} {...getFieldProps("title")}
-              error={Boolean(touched && errors.title)} helperText={touched && errors.title} />
-            <LoadingButton color="success" disabled={!(isValid && formik.dirty)} type="submit"
-              loading={isSubmitting} sx={{minWidth: '0' }}>
-              <SaveIcon />
-            </LoadingButton>
+            <BoardTitleTextField {...boardTitleTextField} />
+            <LoadingButton ><SaveIcon /></LoadingButton>
             {(title && displayTextField) && (
               <IconButton onClick={() => setDisplayTextField(false)}>
                 <CloseIcon color={'error'}/>
@@ -98,4 +97,4 @@ export const BoardTitleForm = () => {
   )
 }
 
-// QA: Brian Francisc 8-12-23
+// QA: Brian Francisc 10-24-23

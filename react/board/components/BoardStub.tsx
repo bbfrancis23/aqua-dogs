@@ -1,26 +1,35 @@
-import { useState } from "react";
+import { useState } from "react"
+import { Box, Card, CardContent, CardHeader, Skeleton, Typography} from "@mui/material"
+import { useTheme, styled } from "@mui/material/styles"
+import { Board } from "@/react/board"
+export interface BoardStubProps{ board ?: Board}
 
-import { Box, Card, CardContent, CardHeader, Skeleton, Typography} from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+const BoardTitle = styled(Typography)(({theme}) => ({
+  textOverflow: 'ellipsis',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  width: '70%',
+  maxWidth: '165px',
+  color: theme.palette.secondary.contrastText,
+  fontSize: '12px',
+  textAlign: 'start'
+}))
 
-import { Board } from "@/react/board/board-types";
+const SkeletonCol = styled(Skeleton)(({theme}) => ({
+  position: 'relative',
+  bottom: '10px',
+  width: '28px',
+  height: '75px',
+}))
 
-export interface BoardStubProps{
-  board ?: Board
-}
 
-const BoardStub = (props: BoardStubProps) => {
+const BoardStub = ({board}: BoardStubProps) => {
 
   const theme = useTheme()
 
-  const {board} = props;
-
   const getBgColor = () => {
-    if(board){
-      return 'secondary.main'
-    }else if (theme.palette.mode === 'dark'){
-      return 'grey.900'
-    }
+    if(board) return 'secondary.main'
+    if (theme.palette.mode === 'dark') return 'grey.900'
     return ''
   }
 
@@ -34,6 +43,8 @@ const BoardStub = (props: BoardStubProps) => {
     return''
   }
 
+  const getColColor = () => (board ? 'secondary.contrastText' : '')
+
   const [animation, setAnimation] = useState<false | 'wave'| 'pulse'>(false)
 
   return (
@@ -42,28 +53,16 @@ const BoardStub = (props: BoardStubProps) => {
     >
       <CardHeader
         title={ board ?
-          <Typography width={100}
-            sx={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '70%',
-              maxWidth: '165px', color: 'secondary.contrastText',
-              fontSize: '12px', textAlign: 'start'}}>
-            {board.title}</Typography>
+          <BoardTitle >{board.title}</BoardTitle>
           : <Skeleton width={100} height={18} animation={animation}/>}
         sx={{ pb: 0}}
       />
       <CardContent sx={{ pt: 0.25 }} style={{paddingBottom: '0'}}>
         <Box sx={{ display: 'flex'}}>
-          <Skeleton animation={animation} width={28} height={75}
-            sx={{position: 'relative', bottom: '10px',
-              bgcolor: board ? 'secondary.contrastText' : '' }} />
-          <Skeleton animation={animation} width={28} height={75}
-            sx={{ml: 1, position: 'relative', bottom: '10px',
-              bgcolor: board ? 'secondary.contrastText' : '' }} />
-          <Skeleton animation={animation} width={28} height={75}
-            sx={{ml: 1, position: 'relative', bottom: '10px',
-              bgcolor: board ? 'secondary.contrastText' : '' }} />
-          <Skeleton animation={animation} width={28} height={75}
-            sx={{ml: 1, position: 'relative', bottom: '10px',
-              bgcolor: board ? 'secondary.contrastText' : '' }} />
+          <SkeletonCol animation={animation} sx={{ bgcolor: getColColor() }} />
+          <SkeletonCol animation={animation} sx={{ml: 1, bgcolor: getColColor() }} />
+          <SkeletonCol animation={animation} sx={{ml: 1, bgcolor: getColColor() }} />
+          <SkeletonCol animation={animation} sx={{ml: 1, bgcolor: getColColor() }} />
         </Box>
       </CardContent>
     </Card>)
@@ -71,4 +70,4 @@ const BoardStub = (props: BoardStubProps) => {
 
 export default BoardStub
 
-// QA done
+// QA Brian Francis 10-24-23
