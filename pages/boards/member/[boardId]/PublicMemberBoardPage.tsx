@@ -1,12 +1,12 @@
-import { Board } from "@/react/board/board-types";
-import { Column } from "@/react/column/column-types";
-import { Item } from "@/react/item/item-types";
-import findMemberPublicBoard from "@/mongo/controls/member/project/board/findMemberPublicBoard";
-import { Box, Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
-import { GetServerSideProps, Redirect } from "next";
-import Link from "next/link";
-import { useContext } from "react";
-import { FxThemeContext } from "@/fx/theme";
+import { Board } from "@/react/board/board-types"
+import { Column } from "@/react/column/column-types"
+import { Item } from "@/react/item/item-types"
+import findMemberPublicBoard from "@/mongo/controls/member/project/board/findMemberPublicBoard"
+import { Box, Card, CardContent, CardHeader, Grid, Typography } from "@mui/material"
+import { GetServerSideProps, Redirect } from "next"
+import Link from "next/link"
+import { useContext } from "react"
+import { FxThemeContext } from "@/fx/theme"
 
 
 export interface PublicMemberBoardPage {
