@@ -1,5 +1,5 @@
-import { Button, Stack, Typography } from "@mui/material";
-import { signIn } from "next-auth/react";
+import { Button, Stack, Typography } from "@mui/material"
+import { signIn } from "next-auth/react"
 
 /* eslint-disable */
 const GoogleButton = () => (

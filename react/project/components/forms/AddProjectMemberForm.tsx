@@ -2,20 +2,20 @@
 import { useEffect, useState, useContext } from "react"
 
 import { Autocomplete, Avatar, Box, Button, Card, CardHeader, Skeleton, TextField,
-  Typography } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
-import { LoadingButton } from "@mui/lab";
-import AddMemberIcon from '@mui/icons-material/PersonAdd';
-import CloseIcon from '@mui/icons-material/Close';
-import SaveIcon from '@mui/icons-material/Done';
+  Typography } from "@mui/material"
+import { useTheme } from '@mui/material/styles'
+import { LoadingButton } from "@mui/lab"
+import AddMemberIcon from '@mui/icons-material/PersonAdd'
+import CloseIcon from '@mui/icons-material/Close'
+import SaveIcon from '@mui/icons-material/Done'
 import { useSnackbar } from "notistack"
 
 import axios from "axios"
 import {FormikProvider, useFormik, Form} from "formik"
 import * as Yup from "yup"
 
-import { ProjectContext } from "@/react/project/";
-import { Member } from "@/react/members/member-types";
+import { ProjectContext } from "@/react/project/"
+import { Member } from "@/react/members/member-types"
 
 const AddMemberSchema = Yup.object().shape({ member: Yup.string().required("Member is required")})
 
@@ -57,7 +57,7 @@ const AddProjectMemberForm = () => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
             enqueueSnackbar("Project Member Added Updated", {variant: "success"})
-            setProject(res.data.project);
+            setProject(res.data.project)
             setShowForm(false)
           }
         })
@@ -75,7 +75,7 @@ const AddProjectMemberForm = () => {
 
   const defaultProps = {
     getOptionLabel: (option: {email: string, id: string }) => option.email,
-  };
+  }
 
   return (
     <>
@@ -109,7 +109,7 @@ const AddProjectMemberForm = () => {
                 sx={{ minWidth: '300px'}}
                 onChange={(e, value) => {
                   const v = value !== null ? value.id : initialValues.member
-                  setFieldValue( "member", value !== null ? value.id : initialValues.member );
+                  setFieldValue( "member", value !== null ? value.id : initialValues.member )
                 }}
                 renderInput={ (params) =>
                   <TextField {...params} label="Add Member" {...getFieldProps("member")}

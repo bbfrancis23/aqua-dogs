@@ -2,8 +2,8 @@ import {useState} from "react"
 
 import {Box, Button, TextField, Typography} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
-import SaveIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
+import SaveIcon from '@mui/icons-material/Done'
+import CloseIcon from '@mui/icons-material/Close'
 
 import {useSnackbar} from "notistack"
 

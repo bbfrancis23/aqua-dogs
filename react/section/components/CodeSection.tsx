@@ -56,7 +56,7 @@ export const CodeSection = (props: TextSectionProps) => {
             setItem(res.data.item)
             enqueueSnackbar("Item Section Updated", {variant: "success"})
             formik.resetForm()
-            setDisplayEditCodeSectionForm(false);
+            setDisplayEditCodeSectionForm(false)
           }
         })
         .catch((e) => {

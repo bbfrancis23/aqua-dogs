@@ -1,21 +1,21 @@
 
-import { useContext } from "react";
+import { useContext } from "react"
 
-import { Box, IconButton, Paper, TextField } from "@mui/material";
-import DoneIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
+import { Box, IconButton, Paper, TextField } from "@mui/material"
+import DoneIcon from '@mui/icons-material/Done'
+import CloseIcon from '@mui/icons-material/Close'
 
-import { useSnackbar } from "notistack";
+import { useSnackbar } from "notistack"
 
-import { Form, FormikProvider, useFormik } from "formik";
+import { Form, FormikProvider, useFormik } from "formik"
 import * as Yup from "yup"
-import axios from "axios";
+import axios from "axios"
 
-import { Item } from "@/react/item/item-types";
-import { Column } from "@/react/column/column-types";
-import { Member } from "@/react/members/member-types";
-import { ProjectContext } from "@/react/project/";
-import { BoardContext } from "@/react/board/BoardContext";
+import { Item } from "@/react/item/item-types"
+import { Column } from "@/react/column/column-types"
+import { Member } from "@/react/members/member-types"
+import { ProjectContext } from "@/react/project/"
+import { BoardContext } from "@/react/board/BoardContext"
 
 export interface EditItemFormProps{
   column: Column;
@@ -32,7 +32,7 @@ const projectsPath = "/api/members/projects"
 
 const EditItemForm = (props: EditItemFormProps) => {
 
-  const { column, item, closeForm} = props;
+  const { column, item, closeForm} = props
 
   const {enqueueSnackbar} = useSnackbar()
 
@@ -56,7 +56,7 @@ const EditItemForm = (props: EditItemFormProps) => {
 
             enqueueSnackbar("Item updated", {variant: "success"})
             formik.resetForm()
-            closeForm();
+            closeForm()
           }
         })
         .catch((error) => {
@@ -68,7 +68,7 @@ const EditItemForm = (props: EditItemFormProps) => {
   })
 
   const handleCloseForm = () => {
-    formik.resetForm();
+    formik.resetForm()
     closeForm()
   }
 

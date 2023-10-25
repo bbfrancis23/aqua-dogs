@@ -1,15 +1,15 @@
-import { Stack } from "@mui/material";
+import { Stack } from "@mui/material"
 
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Draggable, Droppable } from "react-beautiful-dnd"
 
-import { Item } from "@/react/item/item-types";
+import { Item } from "@/react/item/item-types"
 
 
-import { Column } from "@/react/column/column-types";
-import { Member } from "@/react/members/member-types";
+import { Column } from "@/react/column/column-types"
+import { Member } from "@/react/members/member-types"
 
 // eslint-disable-next-line max-len
-import ColumnListItem from "./ColumnListItem";
+import ColumnListItem from "./ColumnListItem"
 
 export interface ColumnListProps {
   column: Column;

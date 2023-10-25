@@ -65,7 +65,7 @@ export default function ItemRating(props: ItemRatingProps){
 
     const upvotes = item?.upvotes?.length ? item?.upvotes?.length : 0
     const downvotes = item?.downvotes?.length ? item?.downvotes?.length : 0
-    setRating( upvotes - downvotes);
+    setRating( upvotes - downvotes)
 
   }, [session, item])
 

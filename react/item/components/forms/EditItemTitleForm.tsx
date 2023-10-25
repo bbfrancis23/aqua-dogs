@@ -1,18 +1,18 @@
 
-import { ProjectContext } from "@/react/project/";
-import { useContext } from "react";
-import { Box, Button, IconButton, TextField } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { useSnackbar } from "notistack";
+import { ProjectContext } from "@/react/project/"
+import { useContext } from "react"
+import { Box, Button, IconButton, TextField } from "@mui/material"
+import { styled } from "@mui/material/styles"
+import { useSnackbar } from "notistack"
 
-import { Form, FormikProvider, useFormik } from "formik";
-import DoneIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
+import { Form, FormikProvider, useFormik } from "formik"
+import DoneIcon from '@mui/icons-material/Done'
+import CloseIcon from '@mui/icons-material/Close'
 
 import * as Yup from "yup"
-import axios from "axios";
-import { ItemContext } from "@/react/item/ItemContext";
-import { LoadingButton } from "@mui/lab";
+import axios from "axios"
+import { ItemContext } from "@/react/item/ItemContext"
+import { LoadingButton } from "@mui/lab"
 
 export interface EditItemTitleFormProps{
   closeForm: () => void;
@@ -30,11 +30,11 @@ const editItemSchema = Yup.object().shape({
 
 const TitleTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': { fontSize: '3rem' },
-}));
+}))
 
 const EditTitleItemForm = (props: EditItemTitleFormProps) => {
 
-  const {closeForm} = props;
+  const {closeForm} = props
 
   const {project} = useContext(ProjectContext)
   const {item, setItem} = useContext(ItemContext)
@@ -58,7 +58,7 @@ const EditTitleItemForm = (props: EditItemTitleFormProps) => {
 
             enqueueSnackbar("Item title updated", {variant: "success"})
             formik.resetForm()
-            closeForm();
+            closeForm()
           }
         })
         .catch((error) => {
@@ -70,7 +70,7 @@ const EditTitleItemForm = (props: EditItemTitleFormProps) => {
   })
 
   const handleCloseForm = () => {
-    formik.resetForm();
+    formik.resetForm()
     closeForm()
   }
 

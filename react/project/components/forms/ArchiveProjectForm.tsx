@@ -1,14 +1,14 @@
-import { useContext } from "react";
+import { useContext } from "react"
 
-import router from "next/router";
+import router from "next/router"
 
-import { Box, Button } from "@mui/material";
-import { useConfirm } from "material-ui-confirm";
-import { useSnackbar } from "notistack";
+import { Box, Button } from "@mui/material"
+import { useConfirm } from "material-ui-confirm"
+import { useSnackbar } from "notistack"
 
-import axios from "axios";
+import axios from "axios"
 
-import { ProjectContext } from "@/react/project/";
+import { ProjectContext } from "@/react/project/"
 import { Member } from "@/react/members/member-types"
 
 import Permission, { PermissionCodes } from "fx/ui/PermissionComponent"
@@ -49,7 +49,7 @@ const ArchiveProjectForm = (props: ArchiveProjectFormProps) => {
         </Button>
       </Box>
     </Permission>
-  );
+  )
 
 }
 
