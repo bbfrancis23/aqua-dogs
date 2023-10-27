@@ -5,10 +5,11 @@ import { useFormikContext } from "formik"
 
 export interface SaveButtonProps {
   sx?: SxProps<Theme>
+  variant?: 'text' | 'outlined' | 'contained'
   children: React.ReactNode
 }
 
-const SaveButton = ({ sx, children}: SaveButtonProps) => {
+const SaveButton = ({ sx, children, variant}: SaveButtonProps) => {
 
   const {isValid, dirty, isSubmitting} = useFormikContext()
 
@@ -17,6 +18,7 @@ const SaveButton = ({ sx, children}: SaveButtonProps) => {
     disabled: !(isValid && dirty),
     type: 'submit',
     loading: isSubmitting,
+    variant,
     sx
   }
 
@@ -28,3 +30,5 @@ const SaveButton = ({ sx, children}: SaveButtonProps) => {
 }
 
 export default SaveButton
+
+// QA Brian Francis 10-26-23

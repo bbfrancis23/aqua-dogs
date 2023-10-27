@@ -3,16 +3,16 @@ import { useSession } from "next-auth/react"
 import { Box, Button, TextField, TextFieldProps} from "@mui/material"
 import { useSnackbar } from "notistack"
 import { FormikProvider, useFormik, Form } from "formik"
-import { LoadingButton, LoadingButtonProps } from "@mui/lab"
 import SaveIcon from '@mui/icons-material/Done'
 import CloseIcon from '@mui/icons-material/Close'
 import * as Yup from "yup"
 import axios from "axios"
 import { Board } from "@/react/board"
 import { ProjectContext } from "@/react/project"
+import { SaveButton } from "@/fx/ui"
 export interface CreateBoardFormProps{
-  setBoards: (b: Board[]) => void
-  closeForm: () => void;
+  setBoards: (b: Board[]) => void,
+  closeForm: () => void
 }
 
 const createBoardSchema = Yup.object().shape({ title: Yup.string().required('Title is required')})
@@ -45,7 +45,7 @@ const CreateBoardForm = ({setBoards, closeForm}: CreateBoardFormProps) => {
     }
   })
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid, dirty} = formik
+  const {errors, touched, handleSubmit, getFieldProps} = formik
 
   const boardTextFieldProps: TextFieldProps = {
     fullWidth: true,
@@ -56,14 +56,6 @@ const CreateBoardForm = ({setBoards, closeForm}: CreateBoardFormProps) => {
     helperText: touched && errors.title
   }
 
-  const saveButtonProps: LoadingButtonProps = {
-    color: 'success',
-    disabled: !(isValid && dirty),
-    type: 'submit',
-    loading: isSubmitting,
-    sx: {minWidth: '0'}
-  }
-
   return(
     <Box >
       { session && (
@@ -71,7 +63,7 @@ const CreateBoardForm = ({setBoards, closeForm}: CreateBoardFormProps) => {
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <Box sx={{ display: 'flex', mt: 3}}><TextField {...boardTextFieldProps} /></Box>
             <Box display={{ display: 'flex', justifyContent: "right" }}>
-              <LoadingButton {...saveButtonProps}><SaveIcon /></LoadingButton>
+              <SaveButton sx={{minWidth: '0'}}><SaveIcon /></SaveButton>
               <Button onClick={() => closeForm()} sx={{ minWidth: '0'}}>
                 <CloseIcon color={'error'}/>
               </Button>
@@ -84,4 +76,4 @@ const CreateBoardForm = ({setBoards, closeForm}: CreateBoardFormProps) => {
 }
 
 export default CreateBoardForm
-// QA: Brian Francis 10-25-23
+// QA: Brian Francis 10-26-23

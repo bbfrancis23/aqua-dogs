@@ -1,7 +1,6 @@
 import React, {useContext, useState, } from "react"
 import Link from "next/link"
 import {Alert, Button, DialogActions, DialogContent, Stack} from "@mui/material"
-import {LoadingButton} from "@mui/lab"
 import {useSnackbar} from "notistack"
 import axios from "axios"
 import {Form, FormikProvider, useFormik} from "formik"
@@ -9,6 +8,7 @@ import {Form, FormikProvider, useFormik} from "formik"
 import {AuthFormSchema, EmailTextField, PasswordTextField} from "@/react/auth"
 import { FxThemeContext } from "@/fx/theme"
 import { AppContext, DialogActions as Actions, AppDialogs } from "@/react/app"
+import { SaveButton } from "@/fx/ui"
 
 const RegisterForm = () => {
 
@@ -40,14 +40,12 @@ const RegisterForm = () => {
     },
   })
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const {errors, touched, handleSubmit, getFieldProps} = formik
 
   const closeForm = () => { formik.resetForm(); endReg(); setFormError("") }
 
   const emailTextField = {getFieldProps, error: errors.email, touched: touched.email}
   const passwordTextField = {getFieldProps, error: errors.password, touched: touched.password}
-
-  const regButton = {disabled: !isValid, loading: isSubmitting,}
 
   return (
     <FormikProvider value={formik}>
@@ -73,9 +71,9 @@ const RegisterForm = () => {
         </DialogContent>
         <DialogActions disableSpacing={false}>
           <Button onClick={closeForm} color={'inherit'}> CANCEL </Button>
-          <LoadingButton color="success" {...regButton} type="submit" variant="contained" >
+          <SaveButton variant="contained" >
             Register
-          </LoadingButton>
+          </SaveButton>
         </DialogActions>
       </Form>
     </FormikProvider>
@@ -83,4 +81,4 @@ const RegisterForm = () => {
 }
 
 export default RegisterForm
-// QA: done 10-23-23
+// QA: done 10-26-23

@@ -1,4 +1,4 @@
-import AuthFormSchema from './AuthFormSchema'
+import AuthFormSchema, {EmailSchema, PasswordSchema} from './AuthFormSchema'
 import AuthNav from './components/AuthNav'
 import {
   TextFieldProps,
@@ -19,6 +19,8 @@ import {AuthTextFields} from './auth-types'
 
 export {
   AuthFormSchema,
+  PasswordSchema,
+  EmailSchema,
   AuthNav,
   EmailTextField,
   PasswordTextField,
