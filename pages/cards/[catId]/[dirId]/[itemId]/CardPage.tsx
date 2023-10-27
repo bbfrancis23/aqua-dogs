@@ -72,7 +72,6 @@ export const getStaticProps: GetStaticProps<PublicCardPageBackend> = async (cont
 
   const project: Project = await findProject(WEBSITE_PROJECT_ID)
 
-  console.log('card page', project)
 
   return {props: {catTitle, colTitle, dirId, item, board: currentBoard, project}}
 
