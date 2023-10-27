@@ -1,30 +1,23 @@
 /* eslint-disable max-lines-per-function */
 
-import { ProjectContext } from "@/react/project"
-import { useSnackbar } from "notistack"
 import { useContext, useState } from "react"
-
-
-import CheckIcon from '@mui/icons-material/Check'
-import CancelIcon from '@mui/icons-material/Cancel'
-import DeleteIcon from '@mui/icons-material/Delete'
-
 import dynamic from "next/dynamic"
-
-import { Comment } from "@/react/comments/comment-types"
-
+import { Box, IconButton, Stack } from "@mui/material"
+import { useSnackbar } from "notistack"
+import CheckIcon from '@mui/icons-material/Check'
+import DeleteIcon from '@mui/icons-material/Delete'
+import CancelIcon from '@mui/icons-material/Cancel'
+import { LoadingButton } from "@mui/lab"
 import axios from "axios"
 import { Form, FormikProvider, useFormik } from "formik"
 import * as Yup from "yup"
-import { Box, IconButton, Stack } from "@mui/material"
+import { ProjectContext } from "@/react/project"
+import { Comment } from "@/react/comments"
+import { ItemContext } from "@/react/item"
+import { ProjectMemberAvatar } from "@/react/members"
 import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent"
-import { LoadingButton } from "@mui/lab"
-import { ItemContext } from "@/react/item/ItemContext"
-import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar"
 
-export interface CodeCommentProps {
-  comment: Comment
-}
+export interface CodeCommentProps { comment: Comment}
 
 const editCommentSchema = Yup.object().shape({
   comment: Yup.string().required('Comment Content is required'),
@@ -96,7 +89,7 @@ export const CodeComment = (props: CodeCommentProps) => {
           <Box sx={{ width: '100%', pt: 1, }}>
             <FormikProvider value={formik}>
               <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <CodeEditor language="jsx" placeholder="Create Code Section" padding={15}
+                <CodeEditor language="jsx" placeholder="Create Code Comment" padding={15}
                   {...getFieldProps('comment')}
                   style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5",
                     fontFamily:
@@ -135,7 +128,7 @@ export const CodeComment = (props: CodeCommentProps) => {
           <NoPermission code={PermissionCodes.COMMENT_OWNER} comment={comment}
             member={comment.owner}>
             <Stack spacing={3} direction={'row'} sx={{ width: '100%'}}>
-              <Avatar />
+              <Avatar />Me
               <CodeEditor key={comment.id}
                 value={comment.content} language="jsx" readOnly padding={15}
                 style={{ width: '100%', fontSize: 12, backgroundColor: "#f5f5f5",

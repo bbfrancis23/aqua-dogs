@@ -47,7 +47,7 @@ const MemberItemDialog = (props: MemberItemDialogProps) => {
   const {member} = useContext(MemberContext)
 
   const [itemIsLoading, setItemIsLoading] = useState<boolean>(true)
-  const [item, setItem] = useState<Item>(dummyItem);
+  const [item, setItem] = useState<Item>(dummyItem)
 
   const {enqueueSnackbar} = useSnackbar()
 
@@ -63,8 +63,8 @@ const MemberItemDialog = (props: MemberItemDialogProps) => {
       })
       .catch((error) => {
         enqueueSnackbar(error.response.data.message, {variant: "error"})
-      });
-  }, [project.id, itemId, dialogIsOpen, enqueueSnackbar]);
+      })
+  }, [project.id, itemId, dialogIsOpen, enqueueSnackbar])
 
 
   const [showForm, setShowForm] = useState<boolean>(false)

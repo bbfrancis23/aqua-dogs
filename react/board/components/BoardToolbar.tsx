@@ -17,7 +17,7 @@ const BoardToolbarContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between',
   padding: theme.spacing(1, 3, 1, 3),
   backgroundColor: alpha(theme.palette.background.default, 0.7)
-}));
+}))
 
 export interface BoardToolbarProps { projectBoards: Board[]}
 

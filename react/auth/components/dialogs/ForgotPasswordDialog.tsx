@@ -1,6 +1,5 @@
 import React, {useContext, useState} from "react"
 import {Alert, Button, DialogActions, DialogContent, Stack} from "@mui/material"
-import {LoadingButton} from "@mui/lab"
 import { useSnackbar } from "notistack"
 import {FormikProvider, useFormik, Form} from "formik"
 import axios from "axios"
@@ -8,6 +7,7 @@ import * as Yup from "yup"
 import DraggableDialog from "@/fx/ui/DraggableDialog"
 import {EmailTextField, VerifyCodeForm} from "@/react/auth"
 import { AppContext, DialogActions as Actions, AppDialogs } from "@/react/app"
+import { SaveButton } from "@/fx/ui"
 
 const Invalid = "Email must be a valid email address"
 const Required = "Email is required"
@@ -59,9 +59,8 @@ const AuthDialog = () => {
     closeForgotPW()
   }
 
-  const {errors, dirty, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const {errors, touched, handleSubmit, getFieldProps} = formik
   const emailTextField = {getFieldProps, error: errors.email, touched: touched.email}
-  const regButton = {disabled: !(isValid && dirty), loading: isSubmitting,}
 
   return (
     <DraggableDialog dialogIsOpen={app.forgotDialogIsOpen}
@@ -72,9 +71,9 @@ const AuthDialog = () => {
             <Stack spacing={3} sx={{width: "100%", mt: 3}}>
               { serverError && (<Alert severity="error">{serverError}</Alert>) }
               <EmailTextField {...emailTextField} />
-              <LoadingButton color="success" type="submit" {...regButton} variant="contained" >
+              <SaveButton variant="contained">
                 { displayVeificationCodeField ? "RESEND " : "SEND "}VERIFICATION CODE
-              </LoadingButton>
+              </SaveButton>
             </Stack>
           </Form>
         </FormikProvider>
@@ -92,4 +91,4 @@ const AuthDialog = () => {
 }
 
 export default AuthDialog
-// QA: Brian Francis 10-23-23
+// QA: Brian Francis 10-26-23

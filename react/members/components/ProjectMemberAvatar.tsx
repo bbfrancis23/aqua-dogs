@@ -1,10 +1,10 @@
-import { Avatar, Badge } from "@mui/material";
-import LeaderBadge from '@mui/icons-material/Star';
-import AdminBadge from '@mui/icons-material/Shield';
+import { Avatar, Badge } from "@mui/material"
+import LeaderBadge from '@mui/icons-material/Star'
+import AdminBadge from '@mui/icons-material/Shield'
 
-import { Member } from "@/react/members/member-types";
-import { PermissionCodes } from "fx/ui/PermissionComponent";
-import { useSession } from "next-auth/react";
+import { Member } from "@/react/members/member-types"
+import { PermissionCodes } from "fx/ui/PermissionComponent"
+import { useSession } from "next-auth/react"
 
 export interface ProjectMemberAvatarProps {
   type: PermissionCodes;
@@ -17,12 +17,12 @@ export const ProjectMemberAvatar = ( props: ProjectMemberAvatarProps) => {
   const {type, member} = props
 
   const getAvatar = () => {
-    let avatar = '';
+    let avatar = ''
     if(member){
       if(member.name){
         const names = member.name.split(' ')
-        const firstInitial = names[0].charAt(0);
-        const secondInitial = names[1] ? names[1].charAt(0) : '';
+        const firstInitial = names[0].charAt(0)
+        const secondInitial = names[1] ? names[1].charAt(0) : ''
         avatar = [firstInitial, secondInitial].join('')
       }else{ avatar = member.email.charAt(0) }
     }
@@ -31,6 +31,7 @@ export const ProjectMemberAvatar = ( props: ProjectMemberAvatarProps) => {
 
 
   const getImgAvatar = () => {
+
 
     if(! member) return ''
     if(! member.image) return ''

@@ -1,18 +1,19 @@
 import * as Yup from 'yup'
 export const passwordMinLength = 6
-export const passwordSchema = Yup.string()
+
+export const PasswordSchema = Yup.string()
   .min(passwordMinLength, `Password must be at least ${passwordMinLength} characters`)
   .required('Password is required')
 
-export const emailSchema = Yup.string()
+export const EmailSchema = Yup.string()
   .email('Email must be a valid email address')
   .required('Email is required')
 
 const AuthFormSchema = Yup.object().shape({
-  email: emailSchema,
-  password: passwordSchema,
+  email: EmailSchema,
+  password: PasswordSchema,
 })
 
 export default AuthFormSchema
 
-// QA: Brian Francis 10-23-23
+// QA: Brian Francis 10-26-23

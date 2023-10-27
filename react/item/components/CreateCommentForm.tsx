@@ -28,6 +28,7 @@ import { Form, FormikProvider, useFormik } from "formik"
 import Permission, { PermissionCodes } from "fx/ui/PermissionComponent"
 import { LoadingButton } from "@mui/lab"
 import { ItemContext } from "@/react/item/ItemContext"
+import { BoardContext } from "@/react/board"
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
   {ssr: false}
@@ -39,7 +40,7 @@ const CreateCommentForm = (props: CreateCommentFormProps) => {
 
   const {enqueueSnackbar} = useSnackbar()
   const {item, setItem} = useContext(ItemContext)
-  const {project} = useContext(ProjectContext)
+  const {board} = useContext(BoardContext)
 
   const [displayForm, setDisplayForm] = useState<boolean>(false)
   const [commentType, setCommentType] = useState("text")
@@ -48,7 +49,7 @@ const CreateCommentForm = (props: CreateCommentFormProps) => {
     initialValues: { comment: '' },
     validationSchema: createCommentSchema,
     onSubmit: (data) => {
-      axios.post(`/api/members/projects/${project?.id}/items/${item?.id}/comments`,
+      axios.post(`/api/members/projects/${board.project}/items/${item?.id}/comments`,
         {content: data.comment, commenttype: commentType === "text" ?
           "63b2503c49220f42d9fc17d9" : "63b88d18379a4f30bab59bad",})
         .then((res) => {

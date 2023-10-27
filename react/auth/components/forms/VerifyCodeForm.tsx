@@ -1,20 +1,16 @@
 import {useState} from "react"
 import {Alert, Box, Stack, TextField, TextFieldProps} from "@mui/material"
-import {LoadingButton, LoadingButtonProps} from "@mui/lab"
 import {useSnackbar} from "notistack"
 import axios from "axios"
 import {Form, FormikProvider, useFormik} from "formik"
 import * as Yup from "yup"
+import { PasswordTextField, PasswordSchema, PasswordTextFieldProps} from "@/react/auth"
+import { SaveButton } from "@/fx/ui"
 
-import {AuthFormSchema, PasswordTextField} from "@/react/auth"
-
-interface VerifyCodeFormProps{
-  email?: string,
-  endForgotPW: () => void;
-}
+interface VerifyCodeFormProps{ email?: string, endForgotPW: () => void}
 
 const yupCode = Yup.string().required("Code is required")
-const CodeSchema = Yup.object().shape({ code: yupCode, newPassword: AuthFormSchema})
+const CodeSchema = Yup.object().shape({ code: yupCode, newPassword:PasswordSchema})
 
 const VerifyCodeForm = ({email, endForgotPW}: VerifyCodeFormProps) => {
   const [serverError, setServerError] = useState<string>("")
@@ -47,7 +43,7 @@ const VerifyCodeForm = ({email, endForgotPW}: VerifyCodeFormProps) => {
     }
   })
 
-  const {errors, dirty, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const {errors, touched, handleSubmit, getFieldProps} = formik
 
   const codeField: TextFieldProps = {
     fullWidth: true,
@@ -59,20 +55,12 @@ const VerifyCodeForm = ({email, endForgotPW}: VerifyCodeFormProps) => {
     helperText: touched && errors.code
   }
 
-  const passwordTextField = {
+  const passwordTextField: PasswordTextFieldProps = {
     label: "New Password",
-    fieldID: "newPassword",
+    fieldId: "newPassword",
     getFieldProps,
     error: errors.newPassword,
     touched: touched.newPassword
-  }
-
-  const changePasswordButton: LoadingButtonProps = {
-    color: "success",
-    disabled: !(isValid && dirty),
-    type: "submit",
-    variant: "contained",
-    loading: isSubmitting
   }
 
   return (
@@ -83,7 +71,7 @@ const VerifyCodeForm = ({email, endForgotPW}: VerifyCodeFormProps) => {
             { serverError && (<Alert severity="error">{serverError}</Alert>) }
             <TextField {...codeField} />
             <PasswordTextField {...passwordTextField} />
-            <LoadingButton >Change Password</LoadingButton>
+            <SaveButton variant="contained">Change Password</SaveButton>
           </ Stack>
         </ Form>
       </ FormikProvider>
@@ -93,4 +81,4 @@ const VerifyCodeForm = ({email, endForgotPW}: VerifyCodeFormProps) => {
 
 export default VerifyCodeForm
 
-// QA: Brian Francis 10-24-23
+// QA: Brian Francis 10-26-23

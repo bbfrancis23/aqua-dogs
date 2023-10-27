@@ -5,13 +5,13 @@ import { TypographyProps } from "@mui/material/Typography"
 import { styled } from "@mui/material/styles"
 import SaveIcon from '@mui/icons-material/Done'
 import CloseIcon from '@mui/icons-material/Close'
-import { LoadingButton, LoadingButtonProps } from "@mui/lab"
 import { useSnackbar } from "notistack"
 import { Form, FormikProvider, useFormik } from "formik"
 import axios from "axios"
 import * as Yup from "yup"
 import { ProjectContext } from "@/react/project"
 import { BoardContext } from "@/react/board"
+import { SaveButton } from "@/fx/ui"
 
 const TitleSchema = Yup.object().shape({ title: Yup.string() .required("Title is required")})
 
@@ -46,7 +46,7 @@ export const BoardTitleForm = () => {
     }
   })
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid, dirty} = formik
+  const {errors, touched, handleSubmit, getFieldProps} = formik
 
   const showTextField = () => {
     if(session && session.user){
@@ -68,14 +68,6 @@ export const BoardTitleForm = () => {
     helperText: touched && errors.title
   }
 
-  const saveButtonProps: LoadingButtonProps = {
-    color: 'success',
-    disabled: !(isValid && formik.dirty),
-    type: 'submit',
-    loading: isSubmitting,
-    sx: {minWidth: '0'}
-  }
-
   return (
     <Box >
       {(!displayTextField) &&
@@ -84,7 +76,7 @@ export const BoardTitleForm = () => {
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <BoardTitleTextField {...boardTitleTextField} />
-            <LoadingButton ><SaveIcon /></LoadingButton>
+            <SaveButton sx={{minWidth: '0'}}><SaveIcon /></SaveButton>
             {(title && displayTextField) && (
               <IconButton onClick={() => setDisplayTextField(false)}>
                 <CloseIcon color={'error'}/>
@@ -97,4 +89,4 @@ export const BoardTitleForm = () => {
   )
 }
 
-// QA: Brian Francisc 10-24-23
+// QA: Brian Francisc 10-26-23

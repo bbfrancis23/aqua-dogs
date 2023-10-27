@@ -1,13 +1,13 @@
 import {useContext, useState} from "react"
 import {signIn} from "next-auth/react"
 import {Alert, Box, Button, DialogActions, DialogContent, Divider, Stack} from "@mui/material"
-import {LoadingButton} from "@mui/lab"
 import {useSnackbar} from "notistack"
 import {Form, FormikProvider, useFormik} from "formik"
 import axios from "axios"
 import {AuthFormSchema, AuthTextFields, EmailTextField, PasswordTextField} from "@/react/auth"
 import GoogleButton from "@/react/components/GoogleButton"
 import { AppContext, DialogActions as Actions, AppDialogs } from "@/react/app"
+import { SaveButton } from "@/fx/ui"
 
 const AuthForm = () => {
 
@@ -51,13 +51,12 @@ const AuthForm = () => {
     onSubmit,
   })
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid, dirty} = formik
+  const {errors, touched, handleSubmit, getFieldProps} = formik
 
   const closeForm = () => { formik.resetForm(); endAuth(); setLoginError("") }
 
   const emailTextField = {getFieldProps, error: errors.email, touched: touched.email}
   const passwordTextField = {getFieldProps, error: errors.password, touched: touched.password}
-  const loginButton = {disabled: !(isValid && dirty), loading: isSubmitting,}
 
   return (
     <>
@@ -78,9 +77,7 @@ const AuthForm = () => {
           </DialogContent>
           <DialogActions disableSpacing={false}>
             <Button onClick={closeForm} color="inherit"> CANCEL </Button>
-            <LoadingButton color="success" type="submit" variant="contained" {...loginButton} >
-            Login
-            </LoadingButton>
+            <SaveButton variant="contained" >Login</SaveButton>
           </DialogActions>
         </Form>
       </FormikProvider>
@@ -89,4 +86,4 @@ const AuthForm = () => {
 }
 
 export default AuthForm
-// QA: Brian Francis 10-23-23
+// QA: Brian Francis 10-26-23

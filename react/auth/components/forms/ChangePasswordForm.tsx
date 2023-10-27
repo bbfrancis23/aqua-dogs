@@ -1,14 +1,14 @@
 import {useState} from "react"
 import {useSession} from "next-auth/react"
 import {Alert, Box, Stack} from "@mui/material"
-import {LoadingButton, LoadingButtonProps} from "@mui/lab"
 import axios from "axios"
 import {FormikProvider, useFormik, Form} from "formik"
 import {useSnackbar} from "notistack"
 import * as Yup from "yup"
-import {PasswordTextField, AuthFormSchema as pwSchema} from "@/react/auth"
+import {PasswordTextField, PasswordSchema as PWSchema} from "@/react/auth"
+import { SaveButton } from "@/fx/ui"
 
-const ChangePasswordFormSchema = Yup.object().shape({ oldPassword: pwSchema, newPassword: pwSchema})
+const ChangePasswordFormSchema = Yup.object().shape({ oldPassword: PWSchema, newPassword: PWSchema})
 
 export interface ChangePasswordFormProps { endChangePassword: () => void}
 
@@ -39,7 +39,7 @@ export default function ChangePasswordForm({endChangePassword}: ChangePasswordFo
     }
   })
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid, dirty} = formik
+  const {errors, touched, handleSubmit, getFieldProps} = formik
 
   const oldPassword = {
     label: 'Old Password',
@@ -57,14 +57,6 @@ export default function ChangePasswordForm({endChangePassword}: ChangePasswordFo
     touched: touched.newPassword
   }
 
-  const changePWButton: LoadingButtonProps = {
-    disabled: !(isValid && dirty),
-    type: "submit",
-    variant: "contained",
-    loading: isSubmitting,
-    color: "success"
-  }
-
   return (
     <Box sx={{m: 3}}>
       { session && (
@@ -74,7 +66,7 @@ export default function ChangePasswordForm({endChangePassword}: ChangePasswordFo
               { formError && (<Alert severity="error">{formError}</Alert>) }
               <PasswordTextField {...oldPassword} />
               <PasswordTextField {...newPassword} />
-              <LoadingButton {...changePWButton}>Change Password</LoadingButton>
+              <SaveButton variant={"contained"}>Change Password</SaveButton>
             </Stack>
           </Form>
         </FormikProvider>
@@ -83,4 +75,4 @@ export default function ChangePasswordForm({endChangePassword}: ChangePasswordFo
   )
 }
 
-// QA done 10-24-23
+// QA done 10-26-23

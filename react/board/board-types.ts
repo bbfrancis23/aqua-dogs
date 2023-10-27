@@ -9,6 +9,7 @@ export interface Board {
   columns: Column[]
   description?: string
   directoryId?: string
+  project?: string
 }
 
 export interface BoardContextProps {

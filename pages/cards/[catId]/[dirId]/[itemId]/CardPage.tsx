@@ -6,17 +6,21 @@ import { Box, Stack, Typography} from "@mui/material"
 
 import { findItem } from "@/mongo/controls/member/project/items/findItem"
 import {findProjectItems} from "@/mongo/controls/member/project/items/findProjectItems"
-import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
+import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 
 import { WebsiteBoards } from "@/react/app/"
-import { Item, getItemDirectory } from "@/react/item/"
+import { Item, ItemContext, getItemDirectory } from "@/react/item/"
 import { Section } from "@/react/section/"
-import { Board, getBoardDirectory } from "@/react/board/"
+import { Board, BoardContext, getBoardDirectory } from "@/react/board/"
 import Comments from "@/react/comments"
 
 import { WEBSITE_PROJECT_ID } from "pages/HomePage"
 import { BoardDrawer, InfoPageLayout, FxCodeEditor } from "@/fx/ui"
-import Head from "next/head"
+
+import Head from 'next/head'
+import { use, useEffect, useState } from "react"
+import { gridColumnGroupsLookupSelector } from "@mui/x-data-grid"
+import { Project, ProjectContext } from "@/react/project"
 
 export interface PublicCardPage {
   item: Item,
@@ -24,6 +28,7 @@ export interface PublicCardPage {
   catTitle: string,
   colTitle: string,
   board: Board | undefined,
+  project: Project
 }
 
 type PublicCardPageBackend = Omit<PublicCardPage, "openAuthDialog">
@@ -65,7 +70,10 @@ export const getStaticProps: GetStaticProps<PublicCardPageBackend> = async (cont
 
   const catTitle = WebsiteBoards.find( (pb: any) => pb.dirId === catId)?.title
 
-  return {props: {catTitle, colTitle, dirId, item, board: currentBoard}}
+  const project: Project = await findProject(WEBSITE_PROJECT_ID)
+
+
+  return {props: {catTitle, colTitle, dirId, item, board: currentBoard, project}}
 
 }
 
@@ -75,27 +83,41 @@ const PageTitle = ({children}: any) => (
   </Typography>
 )
 
-export const Page = ({catTitle, colTitle, item, board}: PublicCardPage) => (
-  <>
-    <Head>
-      <title>Strategy Fx - {item.title}</title>
-    </Head>
-    { board && ( <BoardDrawer board={board} /> ) }
-    <Box sx={{ml: {xs: 0, sm: '240px'} }}>
-      <InfoPageLayout
-        title={ <PageTitle>{catTitle} : {colTitle} <br /> {item.title} </PageTitle> } >
-        <Stack spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
-          { item.sections?.map( ( s: Section) => {
-            if(s.sectiontype === "63b88d18379a4f30bab59bad"){
-              return ( <FxCodeEditor section={s} key={s.id}/> )
-            }
-            return ( <Typography key={s.id}>{s.content}</Typography>)
-          })}
-          <Comments />
-        </Stack>
-      </InfoPageLayout>
-    </Box>
-  </>
-)
+
+export const Page = ({catTitle, colTitle, item, board, project}: PublicCardPage) => {
+
+
+  return (
+    <>
+      <Head>
+        <title>{`Strategy Fx - ${item.title}`}</title>
+      </Head>
+      {board && (
+        <>
+          <ProjectContext.Provider value={{project, setProject: () => {} }} >
+            <BoardContext.Provider value={{ board, setBoard: () => {}} }>
+              <ItemContext.Provider value={{item, setItem: () => {}}} >
+                <BoardDrawer board={board} />
+                <Box sx={{ml: {xs: 0, sm: '240px'} }}>
+                  <InfoPageLayout
+                    title={ <PageTitle>{catTitle} : {colTitle} <br /> {item.title} </PageTitle> } >
+                    <Stack spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
+                      { item.sections?.map( ( s: Section) => {
+                        if(s.sectiontype === "63b88d18379a4f30bab59bad"){
+                          return ( <FxCodeEditor section={s} key={s.id}/> )
+                        }
+                        return ( <Typography key={s.id}>{s.content}</Typography>)
+                      })}
+                      <Comments />
+                    </Stack>
+                  </InfoPageLayout>
+                </Box>
+              </ItemContext.Provider>
+            </BoardContext.Provider>
+          </ProjectContext.Provider>
+        </>
+      )}
+    </>)
+}
 export default Page
 
