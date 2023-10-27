@@ -1,99 +1,82 @@
-import {Column} from '@/react/column/column-types'
-import { Box, IconButton, TextField, Typography } from "@mui/material"
-import { alpha } from '@mui/material/styles';
-
-import DoneIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
-
+import { useContext, useState } from 'react'
+import { Box, IconButton, TextField, Typography, BoxProps, TextFieldProps } from "@mui/material"
+import { alpha } from '@mui/material/styles'
+import DoneIcon from '@mui/icons-material/Done'
+import CloseIcon from '@mui/icons-material/Close'
 import { Form, FormikProvider, useFormik } from "formik"
 import * as Yup from "yup"
 import axios from "axios"
-import { useContext, useState } from 'react'
-import { ProjectContext } from '@/react/project/'
-import { BoardContext } from '@/react/board/BoardContext'
 import { useSnackbar } from 'notistack'
-import Permission, { PermissionCodes, NoPermission } from 'fx/ui/PermissionComponent';
-import { MemberContext } from '@/react/members';
-import { LoadingButton } from '@mui/lab';
-import { FxThemeContext } from '@/fx/theme';
+import {Column} from '@/react/column'
+import { ProjectContext } from '@/react/project/'
+import { MemberContext } from '@/react/members'
+import { BoardContext } from '@/react/board/BoardContext'
+import {Permission, PermissionCodes, NoPermission, SaveButton, SaveButtonProps } from 'fx/ui'
+import { FxThemeContext } from '@/fx/theme'
 
-interface ColumnFormProps {
-  column: Column
-}
+interface ColumnFormProps { column: Column}
+const colTitleSchema = Yup.object().shape({ title: Yup.string().required('Title is required')})
 
-const colTitleSchema = Yup.object().shape({
-  title: Yup.string().required('Title is required'),
-})
-
-export const ColumnForm = (props: ColumnFormProps) => {
-
-  const {column} = props
+export const ColumnForm = ({column}: ColumnFormProps) => {
 
   const [showForm, setShowForm] = useState<boolean>(false)
   const {member} = useContext(MemberContext)
-
-
   const {fxTheme: fx} = useContext(FxThemeContext)
   const {project} = useContext(ProjectContext)
-  const {enqueueSnackbar} = useSnackbar()
-
   const {board, setBoard} = useContext(BoardContext)
-
+  const {enqueueSnackbar} = useSnackbar()
 
   const formik = useFormik({
     initialValues: { title: column.title },
     validationSchema: colTitleSchema,
     onSubmit: (data) => {
-      axios.patch(
-        `/api/members/projects/${project.id}/boards/${board.id}/columns/${column.id}`,
-        {title: data.title},
-      )
+      const colPath = `/api/members/projects/${project.id}/boards/${board.id}/columns/${column.id}`
+      axios.patch( colPath, {title: data.title}, )
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
-
             setBoard(res.data.board)
-
             enqueueSnackbar("Column updated", {variant: "success"})
             formik.resetForm()
-            setShowForm(false);
+            setShowForm(false)
           }
-        })
-        .catch((error) => {
-
+        }).catch((error) => {
           formik.setSubmitting(false)
           enqueueSnackbar(error.message, {variant: "error"})
         })
     }
   })
 
-  const handleCloseForm = () => {
-    formik.resetForm();
-    setShowForm(false);
+  const closeForm = () => { formik.resetForm(); setShowForm(false) }
+
+  const {errors, touched, handleSubmit, getFieldProps} = formik
+
+  const colBox: BoxProps = {
+    sx: {
+      bgcolor: alpha(fx.theme.palette.background.default, 0.4),
+      p: 1, borderRadius: 3, width: 272
+    }
   }
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const titleField: TextFieldProps = {
+    label: 'Title',
+    size: 'small',
+    error: Boolean(touched && errors.title),
+    helperText: touched && errors.title,
+    sx: {width: 140},
+    ...getFieldProps('title')
+  }
 
   const ColumnForm = (
     <Box sx={{ width: '272px', display: 'inline-block' }}>
-      <Box sx={{ bgcolor: alpha(fx.theme.palette.background.default, 0.4), p: 1,
-        borderRadius: 3, width: 272, }}>
+      <Box {...colBox}>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <Box sx={{ ml: 1, display: 'flex'}}>
-              <TextField size={'small'} label="New Column" {...getFieldProps('title')}
-                error={Boolean(touched && errors.title)} helperText={touched && errors.title}
-                sx={{width: 140}}
-              />
+              <TextField {...titleField} />
               <Box>
-
-                <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
-                  type="submit" loading={isSubmitting} sx={{minWidth: '0', pl: 2}} >
-                  <DoneIcon />
-                </LoadingButton>
-                <IconButton onClick={() => handleCloseForm()}>
-                  <CloseIcon />
-                </IconButton>
+                <SaveButton sx={{minWidth: '0', pl: 2}}><DoneIcon /></SaveButton>
+                <IconButton onClick={() => closeForm()}><CloseIcon /></IconButton>
               </Box>
             </ Box>
           </Form>
@@ -102,24 +85,18 @@ export const ColumnForm = (props: ColumnFormProps) => {
     </Box>
   )
 
-
-  return (
-
-    showForm ? ColumnForm
-      :
-      <>
-        <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
-          <Typography sx={{p: 2}} onClick={() => setShowForm(true)} >
-            {column.title}
-          </Typography>
-        </Permission>
-        <NoPermission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
-          <Typography sx={{p: 2}} >
-            {column.title}
-          </Typography>
-        </NoPermission>
-      </>
+  return (showForm ? ColumnForm :
+    <>
+      <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
+        <Typography sx={{p: 2}} onClick={() => setShowForm(true)} >{column.title}</Typography>
+      </Permission>
+      <NoPermission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
+        <Typography sx={{p: 2}} >{column.title}</Typography>
+      </NoPermission>
+    </>
   )
 }
 
 export default ColumnForm
+
+// QA Brian Francis 10/26/23

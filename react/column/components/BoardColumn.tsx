@@ -1,51 +1,47 @@
-/* eslint-disable max-len */
-import { useContext } from "react";
+import { useContext } from "react"
+import { Box, BoxProps} from "@mui/material"
+import { Draggable, DraggableProvided } from "react-beautiful-dnd"
+import { Column, ColumnList, ArchiveColumnForm, ColumnForm } from "@/react/column"
+import { MemberContext } from "@/react/members"
+import { ProjectContext } from "@/react/project/"
+import {CreateItemForm} from "@/react/item"
 
-import { Box, Typography} from "@mui/material";
-
-import { Draggable } from "react-beautiful-dnd";
-import { Column } from "@/react/column/column-types";
-import { Member } from "@/react/members/member-types";
-import { ProjectContext } from "@/react/project/";
-
-import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
-
-
-import ColumnList from "./ColumnList";
-import CreateItemForm from "../../item/components/forms/CreateItemForm";
-import ArchiveColumnForm from "./forms/ArchiveColForm";
-import ColumnForm from "./forms/ColumnForm";
-
+import {Permission, PermissionCodes } from "fx/ui"
 export interface BoardColumnProps {
-  index: number;
-  column: Column;
-  member: Member;
+  index: number
+  column: Column
 }
 
-export const BoardColumn = (props: BoardColumnProps) => {
-  const {index, column, member,} = props;
+export const BoardColumn = ({index, column}: BoardColumnProps) => {
 
+  const {member} = useContext(MemberContext)
   const {project} = useContext(ProjectContext)
+
+  const boardDragBox: BoxProps = {
+    sx: { width: '272px', borderRadius: 2, display: 'inline-block' },
+    key: column.id
+  }
+
+  const boardColBox: BoxProps = {
+    sx: {
+      display: 'flex',
+      flexDirection: 'column',
+      bgcolor: 'background.default',
+      borderRadius: 3,
+      width: 272,
+      p: 1 }
+  }
 
   return (
     <Draggable draggableId={column.id} index={index}>
-      {(provided:any, snapshot: any) => (
-        <Box sx={{ width: '272px', borderRadius: 2, display: 'inline-block' }}
-          key={column.id} ref={provided.innerRef} {...provided.draggableProps}>
-          <Box
-            sx={{
-              display: 'flex', flexDirection: 'column', bgcolor: 'background.default',
-              borderRadius: 3, width: 272, p: 1
-            }} >
-
+      {(provided: DraggableProvided) => (
+        <Box {...boardDragBox} key={column.id} ref={provided.innerRef} {...provided.draggableProps}>
+          <Box {...boardColBox} >
             <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Box {...provided.dragHandleProps}>
-                <ColumnForm column={column} />
-              </Box>
-
+              <Box {...provided.dragHandleProps}><ColumnForm column={column} /></Box>
               <ArchiveColumnForm column={column}/>
             </Box>
-            <ColumnList column={column} member={member} />
+            <ColumnList column={column} />
             <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
               <CreateItemForm column={column} member={member} />
             </Permission>
@@ -58,4 +54,4 @@ export const BoardColumn = (props: BoardColumnProps) => {
 
 export default BoardColumn
 
-// QA: Brian Francisc 8-12-23
+// QA: Brian Francisc 10-25-23
