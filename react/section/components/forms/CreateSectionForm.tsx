@@ -1,18 +1,18 @@
 
-import { useContext, useState } from "react";
+import { useContext, useState } from "react"
 
-import { Box, Button, ButtonGroup, IconButton, Stack, TextField } from "@mui/material";
-import { useSnackbar } from "notistack";
-import CheckIcon from '@mui/icons-material/Check';
-import CancelIcon from '@mui/icons-material/Cancel';
+import { Box, Button, ButtonGroup, IconButton, Stack, TextField } from "@mui/material"
+import { useSnackbar } from "notistack"
+import CheckIcon from '@mui/icons-material/Check'
+import CancelIcon from '@mui/icons-material/Cancel'
 
 import * as Yup from "yup"
 
-import { ItemContext } from "@/react/item/ItemContext";
-import { Member } from "@/react/members/member-types";
-import { ProjectContext } from "@/react/project/";
+import { ItemContext } from "@/react/item/ItemContext"
+import { Member } from "@/react/members/member-types"
+import { ProjectContext } from "@/react/project/"
 
-import SectionStub from "../SectionStub";
+import SectionStub from "../SectionStub"
 
 export interface CreateSectionFormProps {
   member: Member;
@@ -24,10 +24,10 @@ const createSectionSchema = Yup.object().shape({
 
 import dynamic from "next/dynamic"
 import "@uiw/react-textarea-code-editor/dist.css"
-import axios from "axios";
-import { Form, FormikProvider, useFormik } from "formik";
-import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
-import { LoadingButton } from "@mui/lab";
+import axios from "axios"
+import { Form, FormikProvider, useFormik } from "formik"
+import Permission, { PermissionCodes } from "fx/ui/PermissionComponent"
+import { LoadingButton } from "@mui/lab"
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
   {ssr: false}
@@ -35,7 +35,7 @@ const CodeEditor = dynamic(
 
 const CreateSectionForm = (props: CreateSectionFormProps) => {
 
-  const { member} = props;
+  const { member} = props
   const {enqueueSnackbar} = useSnackbar()
   const {item, setItem} = useContext(ItemContext)
   const {project} = useContext(ProjectContext)
@@ -56,7 +56,7 @@ const CreateSectionForm = (props: CreateSectionFormProps) => {
             setItem(res.data.item)
             enqueueSnackbar("Item Section Created", {variant: "success"})
             formik.resetForm()
-            setDisplayForm(false);
+            setDisplayForm(false)
           }
         })
         .catch((error) => {

@@ -1,54 +1,43 @@
-import { Box, Button, Fade, IconButton, Menu, MenuItem, MenuList } from "@mui/material"
-import MenuIcon from '@mui/icons-material/MoreVert';
-import { useSnackbar } from "notistack";
-import { useConfirm } from "material-ui-confirm";
-import { useState, MouseEvent, useContext } from "react";
-import { Column } from "@/react/column/column-types";
-import { ProjectContext } from "@/react/project/";
-import { MemberContext } from "@/react/members";
-import { BoardContext } from "@/react/board/BoardContext";
-import axios from "axios";
-import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
+import { useState, MouseEvent, useContext } from "react"
+import { Box, Button, Fade, IconButton, Menu, MenuItem, MenuList, MenuProps } from "@mui/material"
+import MenuIcon from '@mui/icons-material/MoreVert'
+import { useSnackbar } from "notistack"
+import { useConfirm } from "material-ui-confirm"
+import axios from "axios"
+import { Column } from "@/react/column"
+import { ProjectContext } from "@/react/project"
+import { MemberContext } from "@/react/members"
+import { BoardContext } from "@/react/board"
+import {Permission, PermissionCodes } from "fx/ui"
 
+export interface ArchiveColumnProps { column: Column}
 
-export interface ArchiveColumnProps {
-  column: Column
-}
-
-const ArchiveColumnForm = (props: ArchiveColumnProps) => {
-  const {column} = props
+const ArchiveColumnForm = ({column}: ArchiveColumnProps) => {
 
   const {project} = useContext(ProjectContext)
   const {member} = useContext(MemberContext)
   const {board, setBoard} = useContext(BoardContext)
-
   const {enqueueSnackbar} = useSnackbar()
   const confirm = useConfirm()
 
-  const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
+  const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null)
+
   const open = Boolean(anchorElement)
+  const click = (event: MouseEvent<HTMLButtonElement>) => { setAnchorElement(event.currentTarget) }
+  const close = () => setAnchorElement(null)
 
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorElement(event.currentTarget);
-  }
-
-  const handleClose = () => setAnchorElement(null)
-
-  const handleArchive = async () => {
+  const archive = async () => {
     try{
       await confirm({description: `Archive ${column.title}`})
         .then( () => {
-          axios.delete(
-            `/api/members/projects/${project.id}/boards/${board.id}/columns/${column.id}`)
+          const colPath = `/api/members/projects/${project.id}/boards/${board.id}/columns/`
+          axios.delete(`${colPath}${column.id}`)
             .then((res) => {
               enqueueSnackbar(`Archived ${column.title}`, {variant: "success"})
-
               setBoard(res.data.board)
-
-            //router.push(`/member/projects/${project.id}`)
             }).catch((error) => {
-              enqueueSnackbar(`Error Archiving Board: ${error.response.data.message}`,
-                {variant: "error"})
+              const msg = `Error Archiving Board: ${error.response.data.message}`
+              enqueueSnackbar(msg, {variant: "error"})
             })
         })
         .catch((e) => enqueueSnackbar('Archiving aborted', {variant: "error"}) )
@@ -57,31 +46,35 @@ const ArchiveColumnForm = (props: ArchiveColumnProps) => {
     }
   }
 
+  const menu: MenuProps = {
+    id: "col-menu",
+    anchorEl: anchorElement,
+    open,
+    onClose: close,
+    TransitionComponent: Fade,
+    anchorOrigin: {
+      vertical: 'bottom',
+      horizontal: 'right',
+    },
+    transformOrigin: {
+      vertical: 'top',
+      horizontal: 'right',
+    }
+  }
+
   return (
     <Permission code={PermissionCodes.PROJECT_LEADER} project={project} member={member} >
       <Box>
-        <IconButton onClick={handleClick}>
-          <MenuIcon />
-        </IconButton>
-        <Menu id="col-menu" anchorEl={anchorElement}
-          open={open} onClose={handleClose} TransitionComponent={Fade}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-        >
+        <IconButton onClick={click}><MenuIcon /></IconButton>
+        <Menu {...menu} >
           <MenuList dense={true} >
             <MenuItem>
-              <Button variant={'contained'} color="error" onClick={() => handleArchive()}>
-              ARCHIVE COLUMN
+              <Button variant={'contained'} color="error" onClick={() => archive()}>
+                ARCHIVE COLUMN
               </Button>
             </MenuItem>
             <MenuItem >
-              <Button variant={'outlined'} sx={{width: '100%'}} onClick={() => handleClose()}>
+              <Button variant={'outlined'} sx={{width: '100%'}} onClick={() => close()}>
               CLOSE
               </Button>
             </MenuItem>
@@ -93,3 +86,5 @@ const ArchiveColumnForm = (props: ArchiveColumnProps) => {
 }
 
 export default ArchiveColumnForm
+
+// QA Brian Francis 10/26/23

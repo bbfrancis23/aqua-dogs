@@ -15,9 +15,9 @@ export const ProjectBoard = ( ) => {
   const {project} = useContext(ProjectContext)
   const {board} = useContext(BoardContext)
 
-  const [boardKeyCols, setBoardKeyCols] = useState<ColumnKeyArray>({});
-  const [orderedColKeys, setOrderedColKeys] = useState<string[]>([]);
-  const {enqueueSnackbar} = useSnackbar();
+  const [boardKeyCols, setBoardKeyCols] = useState<ColumnKeyArray>({})
+  const [orderedColKeys, setOrderedColKeys] = useState<string[]>([])
+  const {enqueueSnackbar} = useSnackbar()
 
   useMemo( () => {
 
@@ -38,8 +38,8 @@ export const ProjectBoard = ( ) => {
 
   const onDragEnd: OnDragEndResponder = (result: DropResult) => {
     if(!result.destination) return
-    const source = result.source;
-    const destination = result.destination;
+    const source = result.source
+    const destination = result.destination
 
     if ( source.droppableId === destination.droppableId && source.index === destination.index ) {
       return
@@ -74,7 +74,7 @@ export const ProjectBoard = ( ) => {
             ref={provided.innerRef} {...provided.droppableProps}>
             { (orderedColKeys && boardKeyCols) && orderedColKeys.map((key: string, index:number) =>
               ( boardKeyCols[key] && (
-                <BoardColumn key={key} member={member} index={index} column={boardKeyCols[key]}/>
+                <BoardColumn key={key} index={index} column={boardKeyCols[key]}/>
               ))
             ) }
             <Permission code={PermissionCodes.PROJECT_LEADER} member={member} project={project}>

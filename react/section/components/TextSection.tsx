@@ -1,22 +1,22 @@
-import { useContext, useState } from "react";
+import { useContext, useState } from "react"
 
-import { Box, IconButton, TextField, Typography } from "@mui/material";
-import CheckIcon from '@mui/icons-material/Check';
-import CancelIcon from '@mui/icons-material/Cancel';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, IconButton, TextField, Typography } from "@mui/material"
+import CheckIcon from '@mui/icons-material/Check'
+import CancelIcon from '@mui/icons-material/Cancel'
+import DeleteIcon from '@mui/icons-material/Delete'
 
-import axios from "axios";
-import { Form, FormikProvider, useFormik } from "formik";
-import { useSnackbar } from "notistack";
+import axios from "axios"
+import { Form, FormikProvider, useFormik } from "formik"
+import { useSnackbar } from "notistack"
 
-import { ItemContext } from "@/react/item/ItemContext";
-import { Member } from "@/react/members/member-types";
-import { Project } from "@/react/project/";
-import { Section } from "@/react/section/section-types";
+import { ItemContext } from "@/react/item/ItemContext"
+import { Member } from "@/react/members/member-types"
+import { Project } from "@/react/project/"
+import { Section } from "@/react/section/section-types"
 
 import * as Yup from "yup"
-import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent";
-import { LoadingButton } from "@mui/lab";
+import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent"
+import { LoadingButton } from "@mui/lab"
 
 export interface TextSectionProps {
   member: Member;
@@ -50,7 +50,7 @@ export const TextSection = (props: TextSectionProps) => {
             formik.resetForm({values: {section: data.section}})
             setItem(res.data.item)
             enqueueSnackbar("Item Section Updated", {variant: "success"})
-            setDisplayEditTextSectionForm(false);
+            setDisplayEditTextSectionForm(false)
           }
         })
         .catch((e) => {
