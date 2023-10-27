@@ -96,7 +96,7 @@ export const Page = ({catTitle, colTitle, item, board, project}: PublicCardPage)
       {board && (
         <>
           <ProjectContext.Provider value={{project, setProject: () => {} }} >
-            <BoardContext.Provider value={{ board} }>
+            <BoardContext.Provider value={{ board, setBoard: () => {}} }>
               <ItemContext.Provider value={{item, setItem: () => {}}} >
                 <BoardDrawer board={board} />
                 <Box sx={{ml: {xs: 0, sm: '240px'} }}>

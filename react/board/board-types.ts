@@ -14,7 +14,7 @@ export interface Board {
 
 export interface BoardContextProps {
   board: Board
-  setBoard?: Dispatch<SetStateAction<Board>> | (() => {})
+  setBoard: Dispatch<SetStateAction<Board>> | (() => {})
 }
 
 // QA: Brian Francis 10-20-23
