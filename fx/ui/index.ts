@@ -1,5 +1,10 @@
 import InfoPageLayout from './InfoPageLayout'
-import Permission, {NoPermission, PermissionCodes, permission} from './PermissionComponent'
+import Permission, {
+  NoPermission,
+  PermissionCodes,
+  PermissionProps,
+  permission,
+} from './PermissionComponent'
 import BoardDrawer from './BoardDrawer'
 import FxCodeEditor from './FxCodeEditor'
 import ListCard from './ListCard'
@@ -19,4 +24,4 @@ export {
   permission,
 }
 
-export type {SaveButtonProps}
+export type {SaveButtonProps, PermissionProps}
