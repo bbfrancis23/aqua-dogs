@@ -1,16 +1,14 @@
 
+import { useContext } from "react"
+import router from "next/router"
+import { Box, Button } from "@mui/material"
+import axios from "axios"
+import { useConfirm } from "material-ui-confirm"
 import { MemberContext } from "@/react/members"
-import { ProjectContext } from "@/react/project/";
-import Permission, { PermissionCodes } from "fx/ui/PermissionComponent";
-import { Box, Button } from "@mui/material";
-import axios from "axios";
-import { useConfirm } from "material-ui-confirm";
-import { useContext } from "react";
-
-
-import router from "next/router";
-import { useSnackbar } from "notistack";
-import { ItemContext } from "@/react/item/ItemContext";
+import { ProjectContext } from "@/react/project"
+import {Permission, PermissionCodes } from "fx/ui"
+import { useSnackbar } from "notistack"
+import { ItemContext } from "@/react/item/ItemContext"
 
 const ArchiveItemForm = () => {
 
@@ -18,10 +16,7 @@ const ArchiveItemForm = () => {
   const {member} = useContext(MemberContext)
   const {item} = useContext(ItemContext)
 
-
   const {enqueueSnackbar} = useSnackbar()
-
-
   const confirm = useConfirm()
 
   const handleArchive = async () => {
@@ -40,7 +35,6 @@ const ArchiveItemForm = () => {
     }catch(e){ enqueueSnackbar(`Error2  Archiving ${e}`, {variant: "error"}) }
   }
 
-
   return (
     <Permission code={PermissionCodes.PROJECT_LEADER} project={project} member={member} >
       <Box>
@@ -49,7 +43,9 @@ const ArchiveItemForm = () => {
         </Button>
       </Box>
     </Permission>
-  );
+  )
 }
 
 export default ArchiveItemForm
+
+// QA Brian Francis 10-28-23

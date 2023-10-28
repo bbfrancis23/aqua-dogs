@@ -25,7 +25,7 @@ const ItemTitle = ({itemIsLoading, setShowForm}: ItemTitleProps) => {
   return (
     <>
       <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-        <Typography variant={'h1'} sx={sxProps} onClick={() => setShowForm(true)} noWrap>
+        <Typography variant={'h1'} sx={sxProps} onClick={() => setShowForm(true)} >
           {itemIsLoading ? <Skeleton /> : item?.title}
         </ Typography>
       </ Permission>
