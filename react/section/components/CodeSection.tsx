@@ -15,9 +15,10 @@ import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionCompo
 
 import { ItemContext } from "@/react/item/ItemContext"
 import { Member } from "@/react/members/member-types"
-import { Project } from "@/react/project/"
+import { Project, ProjectContext } from "@/react/project/"
 import { Section } from "@/react/section/section-types"
 import { LoadingButton } from "@mui/lab"
+import { MemberContext } from "@/react/members"
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -25,8 +26,6 @@ const CodeEditor = dynamic(
 )
 
 export interface TextSectionProps {
-  member: Member;
-  project: Project;
   section: Section;
 }
 
@@ -36,7 +35,11 @@ const editSectionSchema = Yup.object().shape({
 
 export const CodeSection = (props: TextSectionProps) => {
 
-  const { member, project, section} = props
+  const { section} = props
+
+  const {project} = useContext(ProjectContext)
+
+  const {member} = useContext(MemberContext)
 
   const {item, setItem} = useContext(ItemContext)
   const [displayEditCodeSectionForm, setDisplayEditCodeSectionForm] = useState<boolean>(false)
