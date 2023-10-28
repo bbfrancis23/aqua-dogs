@@ -84,8 +84,13 @@ const PageTitle = ({children}: any) => (
 )
 
 
-export const Page = ({catTitle, colTitle, item, board, project}: PublicCardPage) => {
+export const Page = ({catTitle, colTitle, item: cardItem, board, project}: PublicCardPage) => {
 
+  const [item, setItem] = useState<Item>(cardItem)
+
+  useEffect(() => {
+    setItem(cardItem)
+  }, [cardItem])
 
   return (
     <>
@@ -96,7 +101,7 @@ export const Page = ({catTitle, colTitle, item, board, project}: PublicCardPage)
         <>
           <ProjectContext.Provider value={{project, setProject: () => {} }} >
             <BoardContext.Provider value={{ board, setBoard: () => {}} }>
-              <ItemContext.Provider value={{item, setItem: () => {}}} >
+              <ItemContext.Provider value={{item, setItem}} >
                 <BoardDrawer board={board} />
                 <Box sx={{ml: {xs: 0, sm: '240px'} }}>
                   <InfoPageLayout
@@ -104,7 +109,7 @@ export const Page = ({catTitle, colTitle, item, board, project}: PublicCardPage)
                     <Stack spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
                       { item.sections?.map( ( s: Section) => {
                         if(s.sectiontype === "63b88d18379a4f30bab59bad"){
-                          return ( <FxCodeEditor section={s} key={s.id}/> )
+                          return ( <FxCodeEditor value={s.content} key={s.id}/> )
                         }
                         return ( <Typography key={s.id}>{s.content}</Typography>)
                       })}
