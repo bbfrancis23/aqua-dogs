@@ -1,90 +1,78 @@
-import { Avatar, Badge } from "@mui/material"
-import LeaderBadge from '@mui/icons-material/Star'
+import { Avatar, AvatarProps, Badge, BadgeProps, IconProps, SxProps } from "@mui/material"
+import LeaderBadgeIcon from '@mui/icons-material/Star'
 import AdminBadge from '@mui/icons-material/Shield'
 
-import { Member } from "@/react/members/member-types"
-import { PermissionCodes } from "fx/ui/PermissionComponent"
-import { useSession } from "next-auth/react"
-
+import { Member } from "@/react/members"
+import { PermissionCodes } from "fx/ui"
 export interface ProjectMemberAvatarProps {
-  type: PermissionCodes;
-  member: Member;
+  type: PermissionCodes,
+  member: Member,
 }
 
-export const ProjectMemberAvatar = ( props: ProjectMemberAvatarProps) => {
-
-
-  const {type, member} = props
+export const ProjectMemberAvatar = ( {type, member}: ProjectMemberAvatarProps) => {
 
   const getAvatar = () => {
     let avatar = ''
-    if(member){
-      if(member.name){
-        const names = member.name.split(' ')
-        const firstInitial = names[0].charAt(0)
-        const secondInitial = names[1] ? names[1].charAt(0) : ''
-        avatar = [firstInitial, secondInitial].join('')
-      }else{ avatar = member.email.charAt(0) }
+    if(!member) return avatar
+
+    if(member.name){
+      const names = member.name.split(' ')
+      const firstInitial = names[0].charAt(0)
+      const secondInitial = names[1] ? names[1].charAt(0) : ''
+      avatar = [firstInitial, secondInitial].join('')
+
+      return avatar
     }
+    avatar = member.email.charAt(0)
     return avatar
   }
 
-
-  const getImgAvatar = () => {
-
-
+  const getImgAvatar = (): string => {
     if(! member) return ''
     if(! member.image) return ''
     return member.image
+  }
+
+  const avatarProps: AvatarProps = {
+    src: getImgAvatar(),
+    sx: {
+      fontSize: '1.25rem',
+      color: 'secondary.contrastText',
+      bgcolor: 'secondary.main',
+      width: 40,
+      height: 40
+    }
+  }
+
+  const badgeProps: BadgeProps = {
+    overlap: 'circular',
+    anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
 
   }
 
+  const badgeIconSxProps: SxProps = {
+    color: 'primary.light',
+    width: '30',
+    height: 30
+  }
 
   return (
     <>
-      {
-
-        (type === PermissionCodes.PROJECT_MEMBER) &&
-      (
-
-        <Avatar sx={{ fontSize: '1.25rem',
-          color: 'secondary.contrastText', bgcolor: 'secondary.main', width: 40, height: 40}}
-        src={getImgAvatar()} >
-          {getAvatar()}
-        </Avatar>
-      )
-      }
-      {
-        type === PermissionCodes.PROJECT_LEADER && (
-          <Badge
-            overlap="circular"
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            badgeContent={<LeaderBadge sx={{ color: 'primary.light', width: '30', height: 30}}/>} >
-            <Avatar src={getImgAvatar()} sx={{ fontSize: '1.25rem',
-              color: 'secondary.contrastText', bgcolor: 'secondary.main', width: 40, height: 40}} >
-              {getAvatar()}
-            </Avatar>
-          </Badge>
-        )
-      }
-
-      {
-        type === PermissionCodes.PROJECT_ADMIN && (
-          <Badge
-            overlap="circular"
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            badgeContent={<AdminBadge sx={{ color: 'primary.light', width: '15', height: 15}}/>} >
-            <Avatar src={getImgAvatar()} sx={{ fontSize: '1.25rem',
-              color: 'secondary.contrastText', bgcolor: 'secondary.main', width: 40, height: 40}} >
-              {getAvatar()}
-            </Avatar>
-          </Badge>
-        )
-      }
-
+      {(type === PermissionCodes.PROJECT_MEMBER) && (
+        <Avatar src={getImgAvatar()} >{getAvatar()}</Avatar>
+      ) }
+      { type === PermissionCodes.PROJECT_LEADER && (
+        <Badge {...badgeProps} badgeContent={ <LeaderBadgeIcon sx={badgeIconSxProps} /> } >
+          <Avatar {...avatarProps}>{getAvatar()}</Avatar>
+        </Badge>
+      ) }
+      { type === PermissionCodes.PROJECT_ADMIN && (
+        <Badge {...badgeProps} badgeContent={<AdminBadge sx={badgeIconSxProps}/>} >
+          <Avatar {...avatarProps}>{getAvatar()}</Avatar>
+        </Badge>
+      ) }
     </>
   )
-
 }
 
-// QA Brian Francisc 8-12-21
+// QA Brian Francis 10-29-23

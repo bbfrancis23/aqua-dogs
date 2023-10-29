@@ -1,17 +1,14 @@
+import {useState} from "react"
+import {Box, Button, TextField, TextFieldProps, Typography} from "@mui/material"
 import {LoadingButton} from "@mui/lab"
-import {Box, Button, TextField, Typography} from "@mui/material"
-
 import SaveIcon from '@mui/icons-material/Done'
 import CloseIcon from '@mui/icons-material/Close'
+import {useSnackbar} from "notistack"
 import axios from "axios"
 import {Form, FormikProvider, useFormik} from "formik"
-import {useSnackbar} from "notistack"
-import {useState} from "react"
 import * as Yup from "yup"
-
-const EmailSchema = Yup.object().shape({
-  email: Yup.string().email("Email must be a valid email address").required("Email is required"),
-})
+import { EmailSchema } from "@/react/auth"
+import { SaveButton } from "@/fx/ui"
 
 export type EmailFormProps = {
   email: string,
@@ -19,10 +16,11 @@ export type EmailFormProps = {
 }
 
 export default function EmailForm(params: EmailFormProps){
+
+  const {onUpdateMember} = params
   const [email, setEmail] = useState(params.email)
 
   const {enqueueSnackbar} = useSnackbar()
-  const [formError, setFormError] = useState<string>("")
   const [displayTextField, setDisplayTextField] = useState<boolean>(false)
 
   const formik = useFormik({
@@ -31,27 +29,34 @@ export default function EmailForm(params: EmailFormProps){
     },
     validationSchema: EmailSchema,
     onSubmit: (data) => {
-      axios.patch(
-        "/api/auth/member",
-        {email: data.email},
-      )
+      axios.patch( "/api/auth/member", {email: data.email})
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === 200 ){
-            params.onUpdateMember()
-            enqueueSnackbar("Email Updated. You must revalidate credentials", {variant: "success"})
+            onUpdateMember()
+            enqueueSnackbar("Email Updated. Revalidate required", {variant: "success"})
             setEmail(data.email)
             setDisplayTextField(false)
           }
         })
         .catch((error) => {
           formik.setSubmitting(false)
-          setFormError(error.response.data.message)
+          enqueueSnackbar(`Error updating email ${error}`, {variant: "error"})
         })
     }
   })
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const {errors, touched, handleSubmit, getFieldProps} = formik
+
+  const textFieldProps: TextFieldProps = {
+    size: "small",
+    autoComplete: "email",
+    label: "Email",
+    ...getFieldProps("email"),
+    error: Boolean(touched && errors.email),
+    helperText: touched && errors.email,
+    sx: {mr: 1}
+  }
 
   return (
     <Box >
@@ -68,30 +73,9 @@ export default function EmailForm(params: EmailFormProps){
       { displayTextField && (
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <Box sx={{ display: 'flex', mt: 3}}>
-              <TextField
-                size="small"
-                autoComplete="email"
-                label={"Email"}
-                {...getFieldProps("email")}
-                error={Boolean(touched && errors.email)}
-                helperText={touched && errors.email}
-                sx={{minWidth: '0', mr: 1}}
-              />
-            </Box>
+            <Box sx={{ display: 'flex', mt: 3}}><TextField {...textFieldProps} /></Box>
             <Box display={{ display: 'flex', justifyContent: "right" }}>
-
-              <LoadingButton
-                color="success"
-                disabled={!(isValid && formik.dirty)}
-                type="submit"
-                loading={isSubmitting}
-                sx={{minWidth: '0'}}
-              >
-                <SaveIcon />
-              </LoadingButton>
-
-
+              <SaveButton sx={{minWidth: '0'}} ><SaveIcon /></SaveButton>
               {(email && displayTextField) && (
                 <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}}>
                   <CloseIcon color={'error'}/>
@@ -101,10 +85,8 @@ export default function EmailForm(params: EmailFormProps){
           </Form>
         </FormikProvider>
       )}
-
-
     </Box>
   )
 }
 
-// QA done 8-2-23
+// QA done 10-29-23

@@ -1,20 +1,27 @@
-import { Avatar, Stack, Typography } from "@mui/material"
+import { Avatar, Stack, SxProps, Typography } from "@mui/material"
 import { useContext } from "react"
 import { MemberContext } from "../MemberContext"
 
 
-export const MemberPageTitle = () => (
-  <Typography sx={{p: 5, pl: {sm: 2, md: 0}, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}
-    variant={'h2'} noWrap >
+export const MemberPageTitle = () => {
+
+  const sxProps: SxProps = {
+    p: 5,
+    pl: {sm: 2, md: 0},
+    fontSize: {xs: '2rem', sm: '3rem'},
+    width: '100%'
+  }
+
+  return (
+    <Typography sx={sxProps} variant={'h2'} noWrap >
       Member Info
-  </Typography>
-)
+    </Typography>
+  )
+}
 
 const MemberPageHeader = () => {
 
   const {member} = useContext(MemberContext)
-
-  console.log("MemberPageHeader: member: ", member)
 
   return (
     <Stack direction={'row'}>
@@ -27,3 +34,5 @@ const MemberPageHeader = () => {
 }
 
 export default MemberPageHeader
+
+// QA Brian Francis 10-29-23
