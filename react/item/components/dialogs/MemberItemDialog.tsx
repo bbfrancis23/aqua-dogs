@@ -1,32 +1,13 @@
 import { useContext, useEffect, useState } from "react"
-
-import { Box, Button, DialogActions, DialogContent, Divider, Skeleton, Stack,
-  Typography } from "@mui/material"
-import { styled } from "@mui/material/styles"
+import { Button, DialogActions, DialogContent, Skeleton, Stack, Typography } from "@mui/material"
 import { useSnackbar } from "notistack"
-
 import axios from "axios"
-
-import DraggableDialog from "@/fx/ui/DraggableDialog"
-import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent"
-
-import { Item } from "@/react/item/item-types"
-import { Section } from "@/react/section/section-types"
-import { ProjectContext } from "@/react/project/"
+import { Item, ItemContext, EditItemTitleForm, ArchiveItemForm, ItemTitle } from "@/react/item"
+import { Section, CodeSection, CreateSectionForm, TextSection } from "@/react/section"
+import { ProjectContext } from "@/react/project"
 import { MemberContext } from "@/react/members"
-
-import CodeSection from "@/react/section/components/CodeSection"
-import CreateSectionForm from "@/react/section/components/forms/CreateSectionForm"
-import { TextSection } from "@/react/section/components/TextSection"
-import EditItemTitleForm from "@/react/item/components/forms/EditItemTitleForm"
-import ArchiveItemForm from "@/react/item/components/forms/ArchiveItemForm"
-import { ProjectMemberAvatar } from "@/react/members/components/ProjectMemberAvatar"
-import CreateCommentForm from "../CreateCommentForm"
-
-import { Comment } from "@/react/comments/comment-types"
-import { TextComment } from "../../../comments/components/TextComment"
-import { CodeComment } from "../../../comments/components/CodeComment"
-import { ItemContext } from "@/react/item/ItemContext"
+import Comments from "@/react/comments"
+import {DraggableDialog } from "fx/ui"
 
 export interface MemberItemDialogProps {
   dialogIsOpen: boolean
@@ -36,20 +17,14 @@ export interface MemberItemDialogProps {
 
 const dummyItem = { title: 'undefined item title', id: '0', owners: ['0']}
 
-const ItemTitleText = styled(Typography)(() => ({ padding: 5, paddingLeft: 2, width: '100%',}))
+const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogProps) => {
 
-const MemberItemDialog = (props: MemberItemDialogProps) => {
-
-  const {dialogIsOpen, closeDialog, itemId} = props
-
-  const [itemDialogIsOpen, setItemDialogIsOpen] = useState(false)
   const {project} = useContext(ProjectContext)
   const {member} = useContext(MemberContext)
+  const {enqueueSnackbar} = useSnackbar()
 
   const [itemIsLoading, setItemIsLoading] = useState<boolean>(true)
   const [item, setItem] = useState<Item>(dummyItem)
-
-  const {enqueueSnackbar} = useSnackbar()
 
   useEffect(() => {
 
@@ -60,8 +35,7 @@ const MemberItemDialog = (props: MemberItemDialogProps) => {
       .then((response) => {
         setItem(response.data.item)
         setItemIsLoading(false)
-      })
-      .catch((error) => {
+      }) .catch((error) => {
         enqueueSnackbar(error.response.data.message, {variant: "error"})
       })
   }, [project.id, itemId, dialogIsOpen, enqueueSnackbar])
@@ -69,78 +43,45 @@ const MemberItemDialog = (props: MemberItemDialogProps) => {
 
   const [showForm, setShowForm] = useState<boolean>(false)
 
-  const ItemTitle = (
-    <>
-      <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-        <ItemTitleText variant={'h1'} sx={{fontSize: {xs: '2rem', sm: '3rem'}}}
-          onClick={() => setShowForm(true)} noWrap>
-          {itemIsLoading ? <Skeleton /> : item?.title}
-        </ ItemTitleText>
-      </ Permission>
-      <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-        <ItemTitleText variant={'h1'} sx={{fontSize: {xs: '2rem', sm: '3rem'}}} >
-          {itemIsLoading ? <Skeleton /> : item?.title}
-        </ItemTitleText>
-      </NoPermission>
-    </>
-  )
-
-  const EditItemTitle = ( <EditItemTitleForm closeForm={() => setShowForm(false)}/> )
-
-  const handleCloseDialog = () => {
+  const endDialog = () => {
     closeDialog()
     setItemIsLoading(true)
     setShowForm(false)
     setItem(dummyItem)
   }
 
+  const getItemTitle = () => {
+    return showForm ? <EditItemTitleForm closeForm={() => setShowForm(false)}/>
+      : <ItemTitle itemIsLoading={itemIsLoading} setShowForm={setShowForm} />
+  }
+
+  const draggableDialogProps = {
+    dialogIsOpen,
+    ariaLabel: "item-dialog",
+    title: getItemTitle(),
+  }
+
+
   return (
     <>
       { itemIsLoading === false && (
         <ItemContext.Provider value={{item, setItem}}>
-          <DraggableDialog dialogIsOpen={dialogIsOpen} ariaLabel="item-dialog"
-            title={ showForm ? EditItemTitle : ItemTitle } >
+          <DraggableDialog {...draggableDialogProps} >
             <DialogContent >
               <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%'}}>
                 { item?.sections?.map( ( s: Section) => {
                   if(s.sectiontype === "63b88d18379a4f30bab59bad"){
-                    return (
-                      <CodeSection project={project} section={s} member={member} key={s.id}/>
-                    )
+                    return ( <CodeSection section={s} key={s.id}/> )
                   }
-                  return ( <TextSection project={project} section={s} member={member} key={s.id} />)
+                  return ( <TextSection section={s} key={s.id} />)
                 })}
                 <CreateSectionForm member={member} />
-                <Box sx={{width: '100%'}}>
-                  <Divider sx={{pb: 3}}>Comments</Divider>
-                  <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%'}}>
-                    { item?.comments?.map( ( c: Comment) => {
-
-                      if(c.sectiontype === "63b88d18379a4f30bab59bad"){
-                        return (
-                          <CodeComment comment={c} key={c.id}/>
-                        )
-                      }
-                      return (
-                        <TextComment comment={c} key={c.id} />
-                      )
-                    })}
-                    <Stack spacing={3} direction={'row'} sx={{ width: '100%'}}>
-                      <Box>
-                        <ProjectMemberAvatar
-                          type={PermissionCodes.PROJECT_MEMBER} member={member} />
-                      </Box>
-                      <CreateCommentForm member={member} />
-                    </Stack>
-                  </Stack>
-                </Box>
+                <Comments />
                 <ArchiveItemForm />
               </Stack>
             </DialogContent>
             <DialogActions disableSpacing={false}>
-              <Button onClick={() => handleCloseDialog()} color="inherit" variant="outlined">
-                Done
-              </Button>
+              <Button onClick={() => endDialog()} color="inherit" variant="outlined">Done</Button>
             </DialogActions>
           </DraggableDialog>
         </ItemContext.Provider>
@@ -150,3 +91,5 @@ const MemberItemDialog = (props: MemberItemDialogProps) => {
 }
 
 export default MemberItemDialog
+
+// QA Brian Francis 10-28-23

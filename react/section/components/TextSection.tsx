@@ -11,16 +11,15 @@ import { useSnackbar } from "notistack"
 
 import { ItemContext } from "@/react/item/ItemContext"
 import { Member } from "@/react/members/member-types"
-import { Project } from "@/react/project/"
+import { Project, ProjectContext } from "@/react/project/"
 import { Section } from "@/react/section/section-types"
 
 import * as Yup from "yup"
 import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent"
 import { LoadingButton } from "@mui/lab"
+import { MemberContext } from "@/react/members"
 
 export interface TextSectionProps {
-  member: Member;
-  project: Project;
   section: Section;
 }
 
@@ -29,7 +28,10 @@ const editSectionSchema = Yup.object().shape({
 })
 
 export const TextSection = (props: TextSectionProps) => {
-  const { member, project, section} = props
+  const { section} = props
+
+  const {project} = useContext(ProjectContext)
+  const {member} = useContext(MemberContext)
 
   const {item, setItem} = useContext(ItemContext)
 

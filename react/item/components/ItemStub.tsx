@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Skeleton, Card, CardHeader } from "@mui/material"
+import { Skeleton, Card, CardHeader, CardProps } from "@mui/material"
 import { useTheme } from "@mui/material/styles"
 
 
@@ -10,34 +10,26 @@ const ItemStub = () => {
   const [animation, setAnimation] = useState<false | 'wave'| 'pulse'>(false)
 
   const getBgColor = () => {
-
-    if(theme.palette.mode === 'light'){
-
-      return 'secondary.main'
-    }
+    if(theme.palette.mode === 'light')return 'secondary.main'
     return ''
-
   }
 
-  const getTextColor = () => {
-
-    if(theme.palette.mode === 'light'){
-
-      return 'secondary.contrastText'
-    }
-    return 'secondary.main'
+  const cardProps: CardProps = {
+    onMouseEnter: () => setAnimation('pulse'),
+    onMouseLeave: () => setAnimation(false),
+    sx: { bgcolor: getBgColor() }
   }
 
   return (
-    <Card onMouseEnter={() => setAnimation('pulse')} onMouseLeave={() => setAnimation(false)}
-      sx={{bgcolor: getBgColor()}}>
+    <Card {...cardProps}>
       <CardHeader
-        title={ <Skeleton animation={animation} variant="text"
-          sx={{fontSize: '1rem'}}></Skeleton>} />
+        title={
+          <Skeleton animation={animation} variant="text" sx={{fontSize: '1rem'}}></Skeleton>}
+      />
     </Card>
   )
 }
 
 export default ItemStub
 
-// QA: Brian Francisc 8-16-23
+// QA: Brian Francisc 10-28-23

@@ -137,4 +137,4 @@ export const getStaticProps = async ({params}: any) => {
 
 }
 
-// TODO: replace getItem with findItem
+// DO QA when we redo pubic item page

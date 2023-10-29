@@ -43,7 +43,7 @@ export const BoardColumn = ({index, column}: BoardColumnProps) => {
             </Box>
             <ColumnList column={column} />
             <Permission code={PermissionCodes.PROJECT_ADMIN} project={project} member={member}>
-              <CreateItemForm column={column} member={member} />
+              <CreateItemForm column={column} />
             </Permission>
           </Box>
         </Box>

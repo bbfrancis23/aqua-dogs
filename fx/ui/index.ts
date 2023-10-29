@@ -10,6 +10,7 @@ import FxCodeEditor from './FxCodeEditor'
 import ListCard from './ListCard'
 import HoverLink from './HoverLink'
 import SaveButton, {SaveButtonProps} from './SaveButton'
+import DraggableDialog from './DraggableDialog'
 
 export {
   InfoPageLayout,
@@ -22,6 +23,7 @@ export {
   NoPermission,
   SaveButton,
   permission,
+  DraggableDialog,
 }
 
 export type {SaveButtonProps, PermissionProps}

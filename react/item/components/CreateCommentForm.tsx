@@ -9,7 +9,6 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import * as Yup from "yup"
 
 import { Member } from "@/react/members/member-types"
-import { ProjectContext } from "@/react/project/"
 
 import SectionStub from "../../section/components/SectionStub"
 
@@ -137,4 +136,4 @@ const CreateCommentForm = (props: CreateCommentFormProps) => {
 
 export default CreateCommentForm
 
-// QA Brian Francis 8-23-23
+// QA this when we redo board path

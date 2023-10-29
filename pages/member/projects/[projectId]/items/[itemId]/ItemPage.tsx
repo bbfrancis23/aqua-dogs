@@ -67,10 +67,10 @@ export const ItemPage = (props: MemberItemPageProps) => {
               { item.sections?.map( ( s: Section) => {
                 if(s.sectiontype === "63b88d18379a4f30bab59bad"){
                   return (
-                    <CodeSection project={project} section={s} member={member} key={s.id}/>
+                    <CodeSection section={s} key={s.id}/>
                   )
                 }
-                return ( <TextSection project={project} section={s} member={member} key={s.id} />)
+                return ( <TextSection section={s} key={s.id} />)
               })}
               <CreateSectionForm member={member} />
               <ArchiveItemForm />
