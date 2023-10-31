@@ -1,11 +1,9 @@
 import React, { useContext } from "react"
-
 import { Stack, Box, Theme} from "@mui/material"
 import { useTheme } from '@mui/material/styles'
 import StarIcon from "@mui/icons-material/Star"
 import Fab from "@mui/material/Fab"
 import { useSnackbar} from "notistack"
-
 import { FxThemeContext, createFxTheme, fxThemeOptionsList, FxThemeOptions} from "fx/theme"
 
 
@@ -26,8 +24,6 @@ const SettingsPalettes = ( ) => {
     setFxTheme((prev) => {
       fxThemeOptions = fxThemeOptionsList[index]
       if (!fxThemeOptions) return prev
-
-      console.log(prev)
       fxThemeOptions.palette.mode = prev.theme.palette.mode
       localStorage.setItem('themeName', fxThemeOptions.name)
       return createFxTheme(fxThemeOptions)
@@ -77,4 +73,4 @@ const SettingsPalettes = ( ) => {
 }
 export default SettingsPalettes
 
-// QA done 8-3-23
+// QA done 10-31-23
