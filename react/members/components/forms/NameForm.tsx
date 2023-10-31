@@ -1,20 +1,15 @@
 import {useState} from "react"
-
-import {Box, Button, TextField, Typography} from "@mui/material"
-import {LoadingButton} from "@mui/lab"
+import {Box, Button, TextField, TextFieldProps, Typography} from "@mui/material"
 import SaveIcon from '@mui/icons-material/Done'
 import CloseIcon from '@mui/icons-material/Close'
-
 import {useSnackbar} from "notistack"
-
 import axios from "axios"
 import {FormikProvider, useFormik, Form} from "formik"
 import * as Yup from "yup"
+import { SaveButton } from "@/fx/ui"
 
-const NameSchema = Yup.object().shape({
-  memberName: Yup.string()
-    .required("Member Name is required"),
-})
+const nameError = "Member Name is required"
+const NameSchema = Yup.object().shape({ memberName: Yup.string() .required(nameError)})
 
 export type NameFormProps = {
   name: string,
@@ -23,10 +18,10 @@ export type NameFormProps = {
 
 export default function NameForm(params: NameFormProps){
 
-  const [name, setName] = useState(params.name)
+  const {onUpdateMember} = params
 
+  const [name, setName] = useState(params.name)
   const {enqueueSnackbar} = useSnackbar()
-  const [formError, setFormError] = useState<string>("")
   const [displayTextField, setDisplayTextField] = useState<boolean>(false)
 
 
@@ -38,21 +33,30 @@ export default function NameForm(params: NameFormProps){
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === 200 ){
-            params.onUpdateMember()
-            enqueueSnackbar("Member Name Updated. You must revalidate credentials",
-              {variant: "success"})
+            onUpdateMember()
+            enqueueSnackbar("Member Name Updated. Authentication Required", {variant: "success"})
             setName(data.memberName)
             setDisplayTextField(false)
           }
         })
         .catch((error) => {
           formik.setSubmitting(false)
-          setFormError(error.response.data.message)
+          enqueueSnackbar(`Error updating member name. ${error}`, {variant: "error"})
         })
     }
   })
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const {errors, touched, handleSubmit, getFieldProps} = formik
+
+  const textFieldProps: TextFieldProps = {
+    size: "small",
+    autoComplete: "name",
+    label: "Member Name",
+    ...getFieldProps("memberName"),
+    error: Boolean(touched && errors.memberName),
+    helperText: touched && errors.memberName,
+    sx: {mr: 1}
+  }
 
   return (
     <Box >
@@ -68,23 +72,15 @@ export default function NameForm(params: NameFormProps){
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ marginTop: '5px'}}>
             <Box sx={{ display: 'flex', mt: 3}}>
-
-              <TextField size="small" autoComplete="name" label={"Member Name"}
-                {...getFieldProps("memberName")} error={Boolean(touched && errors.memberName)}
-                helperText={touched && errors.memberName} sx={{mr: 1}} />
+              <TextField/>
             </Box>
             <Box display={{ display: 'flex', justifyContent: "right" }}>
-
-              <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
-                type="submit" loading={isSubmitting} sx={{minWidth: '0'}} >
-                <SaveIcon />
-              </LoadingButton>
+              <SaveButton sx={{minWidth: '0'}} ><SaveIcon /></SaveButton>
               {!name && (
                 <Button onClick={() => setDisplayTextField(!displayTextField)}>
                   {displayTextField ? <CloseIcon color={'error'}/> : "Add Member Name"}
                 </Button>
               )}
-
               {(name && displayTextField) && (
                 <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}} >
                   <CloseIcon color={'error'}/>
@@ -98,4 +94,4 @@ export default function NameForm(params: NameFormProps){
   )
 }
 
-// QA done 8-9-23
+// QA done 10-39-23

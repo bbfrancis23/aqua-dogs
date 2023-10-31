@@ -1,40 +1,32 @@
 
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useSession } from "next-auth/react"
-
-import { Box, Button, Skeleton, TextField, Typography } from "@mui/material"
+import { Box, Button, Skeleton, TextField, TextFieldProps,
+  Typography, TypographyProps } from "@mui/material"
 import { styled } from "@mui/material/styles"
-
-import { LoadingButton } from "@mui/lab"
 import { useSnackbar } from "notistack"
 import SaveIcon from '@mui/icons-material/Done'
 import CloseIcon from '@mui/icons-material/Close'
-
 import * as Yup from "yup"
 import { Form, FormikProvider, useFormik } from "formik"
 import axios from "axios"
-
-import { Project } from "@/react/project/"
-
-export interface ProjectTitleFormComponent{
-  project: Project
-}
+import { ProjectContext } from "@/react/project/"
+import { SaveButton } from "@/fx/ui"
 
 const TitleSchema = Yup.object().shape({ title: Yup.string() .required("Title is required")})
 
-const ProjectTitleTextField = styled(TextField)(({ theme }) => ({
+const ProjectTitleTextField = styled(TextField)(() => ({
   '& .MuiOutlinedInput-root': { fontSize: '3rem' },
 }))
 
-export const ProjectTitleForm = (props: ProjectTitleFormComponent) => {
+export const ProjectTitleForm = () => {
 
-  const {project} = props
-
+  const {project} = useContext(ProjectContext)
   const {data: session} = useSession()
   const {enqueueSnackbar} = useSnackbar()
 
   const [title, setTitle] = useState<string>(project.title)
-  const [displayTextField, setDisplayTextField] = useState<boolean>(false)
+  const [showTextField, setShowTextField] = useState<boolean>(false)
 
   const formik = useFormik({
     initialValues: { title },
@@ -46,7 +38,7 @@ export const ProjectTitleForm = (props: ProjectTitleFormComponent) => {
           if (res.status === axios.HttpStatusCode.Ok ){
             enqueueSnackbar("Project Title Updated", {variant: "success"})
             setTitle(data.title)
-            setDisplayTextField(false)
+            setShowTextField(false)
           }else{ enqueueSnackbar(res.data.message, {variant: "error"}) }
         }).catch((error) => {
           formik.setSubmitting(false)
@@ -55,40 +47,44 @@ export const ProjectTitleForm = (props: ProjectTitleFormComponent) => {
     }
   })
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const {errors, touched, handleSubmit, getFieldProps} = formik
 
-  const showTextField = () => {
+  const editTextField = () => {
     if(session && session.user){
       const user:any = session.user
-      if(user.id === project.leader?.id)
-        setDisplayTextField(true)
+      if(user.id === project.leader?.id) setShowTextField(true)
     }
+  }
+
+  const titleProps: TypographyProps = {
+    variant: 'h2', noWrap: true,
+    onClick: () => editTextField(),
+    sx: { p: 5, pl: 2, fontSize: { xs: '2rem', sm: '3rem' }, width: '100%' }
+  }
+
+  const textFieldProps: TextFieldProps = {
+    fullWidth: true, size: "medium", label: "Title",
+    ...getFieldProps("title"),
+    sx: { fontSize: '3rem' },
+    error: Boolean(touched && errors.title),
+    helperText: touched && errors.title,
+    inputProps: { maxLength: 26 }
   }
 
   return (
     <Box >
-      {(!displayTextField) &&
-      <Typography variant={'h2'} noWrap onClick={() => showTextField()}
-        sx={{p: 5, pl: 2, fontSize: {xs: '2rem', sm: '3rem'}, width: '100%' }}>
-        { title ? title : <Skeleton /> }
-      </Typography>
+      {(!showTextField) &&
+      <Typography {...titleProps}>{ title ? title : <Skeleton /> }</Typography>
       }
-      { displayTextField && (
+      { showTextField && (
         <Box sx={{ p: 5, pl: 2}}>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <ProjectTitleTextField fullWidth size="medium" label={"Title"}
-                {...getFieldProps("title")} sx={{ fontSize: '3rem'}}
-                error={Boolean(touched && errors.title)} helperText={touched && errors.title}
-                inputProps={{ maxLength: 26 }} />
+              <ProjectTitleTextField {...textFieldProps} />
               <Box display={{ display: 'flex', justifyContent: "right" }}>
-                <LoadingButton color="success" disabled={!(isValid && formik.dirty)}
-                  type="submit" loading={isSubmitting} sx={{minWidth: '0'}} >
-                  <SaveIcon />
-                </LoadingButton>
-                {(title && displayTextField) && (
-                  <Button
-                    onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}} >
+                <SaveButton sx={{minWidth: '0'}} ><SaveIcon /></SaveButton>
+                {(title && showTextField) && (
+                  <Button onClick={() => setShowTextField(!showTextField)} sx={{minWidth: 0}} >
                     <CloseIcon color={'error'}/>
                   </Button>
                 )}
@@ -102,4 +98,4 @@ export const ProjectTitleForm = (props: ProjectTitleFormComponent) => {
 }
 export default ProjectTitleForm
 
-// QA: Brian Francis 9-10-23
+// QA: Brian Francis 10-30-23

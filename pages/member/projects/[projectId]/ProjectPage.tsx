@@ -62,13 +62,13 @@ const Page = (projectPage: InferGetServerSidePropsType<typeof getServerSideProps
         <Head>
           <title>Strategy Fx - Projects Page - {project.title}</title>
         </Head>
-        <InfoPageLayout title={<ProjectEditTitleForm project={project}/>}>
+        <InfoPageLayout title={<ProjectEditTitleForm />}>
           <Stack spacing={3} sx={{ width: '100%'}}>
             <Typography variant="h4">Members</Typography>
             <ProjectMembers />
             <ProjectBoards boards={projectPage.boards}/>
             <Typography variant="h4">Actions</Typography>
-            <ArchiveProjectForm member={member}/>
+            <ArchiveProjectForm />
           </Stack>
         </InfoPageLayout>
       </MemberContext.Provider>

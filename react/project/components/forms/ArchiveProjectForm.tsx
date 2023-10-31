@@ -1,40 +1,31 @@
 import { useContext } from "react"
-
 import router from "next/router"
-
 import { Box, Button } from "@mui/material"
 import { useConfirm } from "material-ui-confirm"
 import { useSnackbar } from "notistack"
-
 import axios from "axios"
-
 import { ProjectContext } from "@/react/project/"
-import { Member } from "@/react/members/member-types"
+import { MemberContext } from "@/react/members"
+import {Permission, PermissionCodes } from "fx/ui"
 
-import Permission, { PermissionCodes } from "fx/ui/PermissionComponent"
 
+const ArchiveProjectForm = () => {
 
-export type ArchiveProjectFormProps = { member: Member}
-
-const ArchiveProjectForm = (props: ArchiveProjectFormProps) => {
-  const {member} = props
-
+  const {member} = useContext(MemberContext)
   const {project} = useContext(ProjectContext)
-
   const {enqueueSnackbar} = useSnackbar()
-
   const confirm = useConfirm()
 
   const handleArchive = async () => {
     try{
       await confirm({description: `Archive ${project.title}`})
         .then( () => {
-          axios.delete(`/api/members/projects/${project.id}`).then((res) => {
+          axios.delete(`/api/members/projects/${project.id}`).then(() => {
             enqueueSnackbar(`Archived ${project.title}`, {variant: "success"})
             router.push("/member")
           }).catch((error) => {
-            enqueueSnackbar(`Error Archiving Project: ${error.response.data.message}`,
-              {variant: "error"})
+            const errMessage = `Error Archive Project ${error.response.data.message}`
+            enqueueSnackbar(errMessage, {variant: "error"})
           })
         })
         .catch((e) => enqueueSnackbar('Archiving aborted', {variant: "error"}) )
@@ -55,4 +46,4 @@ const ArchiveProjectForm = (props: ArchiveProjectFormProps) => {
 
 export default ArchiveProjectForm
 
-// QA: Brian Francis 8-10-23
+// QA: Brian Francis 10-30-23
