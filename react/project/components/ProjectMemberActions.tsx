@@ -1,32 +1,25 @@
 import { useContext } from "react"
 import { Box, IconButton } from "@mui/material"
-
 import MakeAdminIcon from '@mui/icons-material/AddModerator'
 import RemoveMemberIcon from '@mui/icons-material/PersonOff'
 import RemoveAdminIcon from '@mui/icons-material/RemoveModerator'
 import { useSnackbar } from "notistack"
-
 import axios from "axios"
-
-import Permission, { PermissionCodes } from "fx/ui/PermissionComponent"
-
-import { Member } from "@/react/members/member-types"
-import { ProjectContext } from "@/react/project/"
-
+import { Member } from "@/react/members"
+import { ProjectContext } from "@/react/project"
+import {Permission, PermissionCodes } from "fx/ui"
 export interface ProjectMemberActionsProps{
   member: Member;
   type: PermissionCodes;
   sessionMember: Member
 }
 
-const ProjectMemberActions = (props: ProjectMemberActionsProps) => {
+const ProjectMemberActions = ({member, type, sessionMember}: ProjectMemberActionsProps) => {
 
-  const { member, type, sessionMember} = props
   const {project, setProject} = useContext(ProjectContext)
-
   const {enqueueSnackbar} = useSnackbar()
 
-  const handleRemoveFromProject = () => {
+  const removeFromProject = () => {
     axios.patch(`/api/members/projects/${project.id}`, {removeMember: member.id})
       .then((res) => {
         enqueueSnackbar(`Member ${member.email} removed from Project`, {variant: "success"})
@@ -37,7 +30,7 @@ const ProjectMemberActions = (props: ProjectMemberActionsProps) => {
       })
   }
 
-  const handleRemoveProjectAdmin = () => {
+  const removeProjectAdmin = () => {
     axios.patch(`/api/members/projects/${project.id}`, {removeAdmin: member.id})
       .then((res) => {
         enqueueSnackbar(`Member ${member.email} removed project admin`, {variant: "success"})
@@ -47,7 +40,7 @@ const ProjectMemberActions = (props: ProjectMemberActionsProps) => {
       })
   }
 
-  const handleMakeProjectAdmin = () => {
+  const makeProjectAdmin = () => {
     axios.patch(`/api/members/projects/${project.id}`, {makeAdmin: member.id})
       .then((res) => {
         enqueueSnackbar(`Member ${member.email} made an Project admin`, {variant: "success"})
@@ -62,19 +55,16 @@ const ProjectMemberActions = (props: ProjectMemberActionsProps) => {
     <Permission code={PermissionCodes.PROJECT_LEADER } project={project} member={sessionMember} >
       <Box >
         { type === PermissionCodes.PROJECT_ADMIN && (
-          <IconButton aria-label="Remove Project Admin" size="small"
-            onClick={ () => handleRemoveProjectAdmin()} >
+          <IconButton size="small" onClick={ () => removeProjectAdmin()} >
             <RemoveAdminIcon fontSize="small"/>
           </IconButton>
         ) }
         { type === PermissionCodes.PROJECT_MEMBER && (
           <>
-            <IconButton aria-label="Remove from Project" size={'small'}
-              onClick={ () => handleRemoveFromProject()} >
+            <IconButton size={'small'} onClick={ () => removeFromProject()} >
               <RemoveMemberIcon fontSize="small"/>
             </IconButton>
-            <IconButton aria-label="Make Project Admin" size="small"
-              onClick={ () => handleMakeProjectAdmin()} >
+            <IconButton size="small" onClick={ () => makeProjectAdmin()} >
               <MakeAdminIcon fontSize="small"/>
             </IconButton>
           </>
@@ -86,4 +76,4 @@ const ProjectMemberActions = (props: ProjectMemberActionsProps) => {
 
 export default ProjectMemberActions
 
-// QA: Brian Francis 8-10-23
+// QA: Brian Francis 10-30-23

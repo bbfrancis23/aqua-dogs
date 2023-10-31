@@ -5,7 +5,8 @@ import NameForm from './components/forms/NameForm'
 import EmailForm from './components/forms/EmailForm'
 import useMemberActivity from './useMemberActivity'
 import MemberPageHeader from './components/MemberPageHeader'
+import MemberStub from './components/MemberStub'
 
 export { ProjectMemberAvatar, MemberContext, NameForm, EmailForm, useMemberActivity,
-  MemberPageHeader }
+  MemberPageHeader, MemberStub }
 export type {Member}
