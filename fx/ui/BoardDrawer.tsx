@@ -1,11 +1,7 @@
-import { Box, Drawer, Typography } from "@mui/material"
-
+import { Box, Drawer, SxProps, Typography } from "@mui/material"
 import { Board } from "@/react/board"
-
 import { Item, getCardDirectory } from "@/react/item"
-
 import { HoverLink } from "@/fx/ui"
-
 export interface BoardDrawerProps {
   board: Board
   baseUrl?: string
@@ -22,20 +18,18 @@ const BoardDrawer = ({board, children, baseUrl}: BoardDrawerProps) => {
     }
   }
 
+  const sx: SxProps = {
+    flexShrink: 0,
+    '& .MuiDrawer-paper': {
+      width: '240px',
+      boxSizing: 'border-box',
+    },
+    width: '240px',
+    display: {xs: 'none', sm: 'flex'},
+  }
+
   return (
-    <Drawer
-      sx={{
-        flexShrink: 0,
-        '& .MuiDrawer-paper': {
-          width: '240px',
-          boxSizing: 'border-box',
-        },
-        width: '240px',
-        display: {xs: 'none', sm: 'flex'},
-      }}
-      variant={"permanent"}
-      anchor="left"
-    >
+    <Drawer sx={sx} variant={"permanent"} anchor="left" >
       <Box sx={{ mt: 8}} >
         { board?.columns.map((c) =>
           (
@@ -51,9 +45,7 @@ const BoardDrawer = ({board, children, baseUrl}: BoardDrawerProps) => {
                 ) ) }
               </ Box>
             </ Box>
-          )
-        )
-        }
+          ) ) }
       </Box>
       {children}
     </Drawer>
@@ -61,3 +53,5 @@ const BoardDrawer = ({board, children, baseUrl}: BoardDrawerProps) => {
 }
 
 export default BoardDrawer
+
+// QA Brian Francis 10-03-23

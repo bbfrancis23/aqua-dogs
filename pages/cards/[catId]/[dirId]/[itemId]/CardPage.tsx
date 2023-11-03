@@ -1,25 +1,18 @@
-import { ParsedUrlQuery } from "querystring"
-
+import { useEffect, useState } from "react"
 import { GetStaticPaths, GetStaticProps } from "next"
-
+import { ParsedUrlQuery } from "querystring"
 import { Box, Stack, Typography} from "@mui/material"
-
 import { findItem } from "@/mongo/controls/member/project/items/findItem"
 import {findProjectItems} from "@/mongo/controls/member/project/items/findProjectItems"
 import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls"
-
-import { WebsiteBoards } from "@/react/app/"
-import { Item, ItemContext, getItemDirectory } from "@/react/item/"
-import { Section } from "@/react/section/"
-import { Board, BoardContext, getBoardDirectory } from "@/react/board/"
-import Comments from "@/react/comments"
-
-import { WEBSITE_PROJECT_ID } from "pages/HomePage"
-import { BoardDrawer, InfoPageLayout, FxCodeEditor } from "@/fx/ui"
-
 import Head from 'next/head'
-import { use, useEffect, useState } from "react"
-import { gridColumnGroupsLookupSelector } from "@mui/x-data-grid"
+import { WEBSITE_PROJECT_ID } from "pages/HomePage"
+import { WebsiteBoards } from "@/react/app"
+import { Item, ItemContext, getItemDirectory } from "@/react/item"
+import { Section } from "@/react/section"
+import { Board, BoardContext, getBoardDirectory } from "@/react/board"
+import Comments from "@/react/comments"
+import { BoardDrawer, InfoPageLayout, FxCodeEditor } from "@/fx/ui"
 import { Project, ProjectContext } from "@/react/project"
 
 export interface PublicCardPage {
@@ -69,9 +62,7 @@ export const getStaticProps: GetStaticProps<PublicCardPageBackend> = async (cont
   })
 
   const catTitle = WebsiteBoards.find( (pb: any) => pb.dirId === catId)?.title
-
   const project: Project = await findProject(WEBSITE_PROJECT_ID)
-
 
   return {props: {catTitle, colTitle, dirId, item, board: currentBoard, project}}
 
@@ -87,10 +78,7 @@ const PageTitle = ({children}: any) => (
 export const Page = ({catTitle, colTitle, item: cardItem, board, project}: PublicCardPage) => {
 
   const [item, setItem] = useState<Item>(cardItem)
-
-  useEffect(() => {
-    setItem(cardItem)
-  }, [cardItem])
+  useEffect(() => { setItem(cardItem) }, [cardItem])
 
   return (
     <>
@@ -126,4 +114,6 @@ export const Page = ({catTitle, colTitle, item: cardItem, board, project}: Publi
   )
 }
 export default Page
+
+// QA Brian Francis 11-03-23
 

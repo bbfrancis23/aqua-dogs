@@ -29,7 +29,7 @@ const DraggableDialog = ({dialogIsOpen, ariaLabel, title, children}: DraggableDi
       </DialogTitle>
       {children}
     </Dialog>
-  );
+  )
 
 }
 
