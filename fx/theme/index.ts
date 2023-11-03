@@ -158,7 +158,20 @@ export const createFxTheme = (fxThemeOptions: FxThemeOptions): FxTheme => {
         },
       },
       MuiCardHeader: {
-        styleOverrides: {title: {fontSize: '2rem', fontWeight: '800'}},
+        styleOverrides: {
+          title: {fontSize: '2rem', fontWeight: '800'},
+
+          root: ({ownerState, theme}: any) => ({
+            ...(ownerState.color === 'primary' && {
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+            }),
+            ...(ownerState.color === 'secondary' && {
+              backgroundColor: theme.palette.secondary.main,
+              color: theme.palette.secondary.contrastText,
+            }),
+          }),
+        },
       },
       MuiButton: {
         variants: [

@@ -122,7 +122,8 @@ export const Page = ({catTitle, colTitle, item: cardItem, board, project}: Publi
           </ProjectContext.Provider>
         </>
       )}
-    </>)
+    </>
+  )
 }
 export default Page
 
