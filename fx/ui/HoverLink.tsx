@@ -1,7 +1,7 @@
-import { Theme, Typography} from "@mui/material";
+import { Theme, Typography} from "@mui/material"
 
 import { useTheme } from "@mui/material/styles"
-import Link from "next/link";
+import Link from "next/link"
 
 
 export interface HoverLinkProps {
@@ -19,7 +19,7 @@ export const HoverLink = ({href, title}: HoverLinkProps) => {
         {title}
       </Link>
     </Typography>
-  );
+  )
 }
 
 export default HoverLink
