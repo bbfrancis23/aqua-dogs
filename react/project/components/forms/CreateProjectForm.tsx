@@ -5,7 +5,7 @@ import { FormikProvider, useFormik, Form,} from "formik"
 import SaveIcon from '@mui/icons-material/Done'
 import CloseIcon from '@mui/icons-material/Close'
 import * as Yup from "yup"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { LoadingButton } from "@mui/lab"
 import { Project } from "@/react/project"
 import { SaveButton } from "@/fx/ui"
@@ -36,8 +36,10 @@ const CreateProjectForm = ({setProjects, closeForm}: CreateProjectFormProps) => 
           formik.resetForm()
         }
       }) .catch((error) => {
+
         formik.setSubmitting(false)
-        enqueueSnackbar(error.message, {variant: "error"})
+        console.log(error.response.data.message)
+        enqueueSnackbar(error.response.data.message, {variant: "error"})
       })
     }
   })

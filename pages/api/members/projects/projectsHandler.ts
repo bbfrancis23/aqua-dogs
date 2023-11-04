@@ -47,7 +47,7 @@ const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       return
     } catch (e: any) {
       res.status(axios.HttpStatusCode.InternalServerError).json({
-        message: `Error finding Member:  e`,
+        message: `Error finding Member:  ${e}`,
       })
       return
     }
