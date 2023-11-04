@@ -12,6 +12,8 @@ export type PatchBoardResponse = {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<PatchBoardResponse>) => {
+  console.log('Boards Id Handler')
+
   const session = await getSession({req})
   if (!session) {
     res.status(axios.HttpStatusCode.Unauthorized).json({
@@ -22,6 +24,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PatchBoardRespo
 
   if (req.method === 'PATCH') {
     if (req.body.boardCols) {
+      console.log('you found me patchBoardCols')
+
       await patchBoardCols(req, res)
       return
     } else {

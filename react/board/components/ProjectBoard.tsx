@@ -61,7 +61,10 @@ export const ProjectBoard = ( ) => {
 
     axios.patch(`/api/members/projects/${project.id}/boards/${board.id}`, {boardCols} )
       .then(() => enqueueSnackbar(`Cards Reordered `, {variant: "success"}))
-      .catch((e:string) => enqueueSnackbar(`Error Moving Cards: ${e}`, {variant: "error"}))
+      .catch((e:any) => {
+        console.log(e)
+        enqueueSnackbar(`Error Moving Cards: ${e}`, {variant: "error"})
+      })
 
     setBoardKeyCols(boardCols)
   }

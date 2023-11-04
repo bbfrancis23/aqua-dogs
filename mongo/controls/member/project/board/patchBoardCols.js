@@ -19,6 +19,8 @@ export const patchBoardCols = async (req, res) => {
 
   await db.connect()
 
+  console.log('connected to DB')
+
   if (authSession) {
     const project = await Project.findById(projectId)
 
@@ -65,6 +67,8 @@ export const patchBoardCols = async (req, res) => {
   }
 
   await db.disconnect()
+
+  console.log(message, 'message')
 
   res.status(status).json({
     message,
