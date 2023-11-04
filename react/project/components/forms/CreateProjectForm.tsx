@@ -38,7 +38,7 @@ const CreateProjectForm = ({setProjects, closeForm}: CreateProjectFormProps) => 
       }) .catch((error) => {
 
         formik.setSubmitting(false)
-        console.log(error.response.data.message)
+        console.log(error)
         enqueueSnackbar(error.response.data.message, {variant: "error"})
       })
     }

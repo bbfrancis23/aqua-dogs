@@ -37,8 +37,6 @@ export const PasswordTextField = (props: PasswordTextFieldProps) => {
 
   const [showPassword, setShowPassword] = useState(false)
 
-  console.log(label, fieldId)
-
   return (
     <TextField
       fullWidth
