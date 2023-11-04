@@ -9,6 +9,8 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {findMemberProjects} from '@/mongo/controls/member/memberControls'
 
 const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  await db.connect()
+
   if (req.method !== 'POST') {
     res.status(axios.HttpStatusCode.MethodNotAllowed).json({
       message: 'Invalid Method',
