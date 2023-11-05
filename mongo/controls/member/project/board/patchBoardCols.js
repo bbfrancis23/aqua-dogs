@@ -19,18 +19,12 @@ export const patchBoardCols = async (req, res) => {
 
   await db.connect()
 
-  console.log('connected to DB')
-
   if (authSession) {
-    console.log('authSession valid')
     const project = await Project.findById(projectId)
 
     if (project) {
-      console.log('project found')
       if (project.leader._id.toString() === authSession.user.id) {
         board = await Board.findById(boardId)
-
-        console.log('board found')
 
         const dbSession = await mongoose.startSession()
 
@@ -71,8 +65,6 @@ export const patchBoardCols = async (req, res) => {
   }
 
   //await db.disconnect()
-
-  console.log(message, 'message')
 
   res.status(status).json({
     message,
