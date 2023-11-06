@@ -75,7 +75,7 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
                   }
                   return ( <TextSection section={s} key={s.id} />)
                 })}
-                <CreateSectionForm member={member}/>
+                <CreateSectionForm />
                 <Comments />
                 <ArchiveItemForm />
               </Stack>
