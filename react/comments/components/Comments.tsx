@@ -34,7 +34,7 @@ const Comments = () => {
             <Box>
               <ProjectMemberAvatar type={PermissionCodes.PROJECT_MEMBER} member={member} />
             </Box>
-            <CreateCommentForm member={member} />
+            <CreateCommentForm />
           </Stack>
         ) }
         { ! member && (
