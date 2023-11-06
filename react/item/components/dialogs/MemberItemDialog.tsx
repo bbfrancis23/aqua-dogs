@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { Button, DialogActions, DialogContent, Skeleton, Stack, Typography } from "@mui/material"
+import { Button, DialogActions, DialogContent, Stack} from "@mui/material"
 import { useSnackbar } from "notistack"
 import axios from "axios"
 import { Item, ItemContext, EditItemTitleForm, ArchiveItemForm, ItemTitle } from "@/react/item"
@@ -7,7 +7,7 @@ import { Section, CodeSection, CreateSectionForm, TextSection } from "@/react/se
 import { ProjectContext } from "@/react/project"
 import { MemberContext } from "@/react/members"
 import Comments from "@/react/comments"
-import {DraggableDialog } from "fx/ui"
+import {DraggableDialog } from "@/fx/ui"
 
 export interface MemberItemDialogProps {
   dialogIsOpen: boolean
@@ -67,7 +67,7 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
       { itemIsLoading === false && (
         <ItemContext.Provider value={{item, setItem}}>
           <DraggableDialog {...draggableDialogProps} >
-            <DialogContent >
+            <DialogContent sx={{width: '600px'}}>
               <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%'}}>
                 { item?.sections?.map( ( s: Section) => {
                   if(s.sectiontype === "63b88d18379a4f30bab59bad"){
@@ -75,7 +75,7 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
                   }
                   return ( <TextSection section={s} key={s.id} />)
                 })}
-                <CreateSectionForm member={member} />
+                <CreateSectionForm member={member}/>
                 <Comments />
                 <ArchiveItemForm />
               </Stack>

@@ -1,17 +1,14 @@
-
 import { useContext, useState } from "react"
 import { useSession } from "next-auth/react"
 import { Box, Button, Skeleton, TextField, TextFieldProps,
   Typography, TypographyProps } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import { useSnackbar } from "notistack"
-import SaveIcon from '@mui/icons-material/Done'
-import CloseIcon from '@mui/icons-material/Close'
 import * as Yup from "yup"
 import { Form, FormikProvider, useFormik } from "formik"
 import axios from "axios"
 import { ProjectContext } from "@/react/project/"
-import { SaveButton } from "@/fx/ui"
+import { ClickAwaySave, FormActions } from "@/fx/ui"
 
 const TitleSchema = Yup.object().shape({ title: Yup.string() .required("Title is required")})
 
@@ -79,17 +76,17 @@ export const ProjectTitleForm = () => {
       { showTextField && (
         <Box sx={{ p: 5, pl: 2}}>
           <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <ProjectTitleTextField {...textFieldProps} />
-              <Box display={{ display: 'flex', justifyContent: "right" }}>
-                <SaveButton sx={{minWidth: '0'}} ><SaveIcon /></SaveButton>
-                {(title && showTextField) && (
-                  <Button onClick={() => setShowTextField(!showTextField)} sx={{minWidth: 0}} >
-                    <CloseIcon color={'error'}/>
-                  </Button>
-                )}
-              </Box>
-            </Form>
+            <ClickAwaySave>
+              <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                <ProjectTitleTextField {...textFieldProps} />
+                <Box display={{ display: 'flex', justifyContent: "right" }}>
+                  {(title && showTextField) && (
+                    <FormActions title={'Project Title'} onCancel={() => setShowTextField(false)}
+                    />
+                  )}
+                </Box>
+              </Form>
+            </ClickAwaySave>
           </FormikProvider>
         </ Box>
       )}

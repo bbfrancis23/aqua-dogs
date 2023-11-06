@@ -7,6 +7,8 @@ import mongoose from 'mongoose'
 import Item from 'mongo/schemas/ItemSchema'
 import Section from '/mongo/schemas/SectionSchema'
 
+import {findItem} from '../findItem'
+
 import {PermissionCodes, permission} from '/fx/ui/PermissionComponent'
 
 export const createSection = async (req, res) => {
@@ -63,19 +65,21 @@ export const createSection = async (req, res) => {
           console.log('error', e)
         }
 
-        if (item) {
-          try {
-            item = await Item.findById(req.query.itemId).populate({
-              path: 'sections',
-              model: Section,
-            })
-          } catch (e) {
-            status = axios.HttpStatusCode.InternalServerError
-            message = e
-            console.log('error 2', e)
-          }
-          item = await item.toObject({getters: true, flattenMaps: true})
-        }
+        item = await findItem(req.query.itemId)
+        // await db.disconnect()
+        // if (item) {
+        //   try {
+        //     item = await Item.findById(req.query.itemId).populate({
+        //       path: 'sections',
+        //       model: Section,
+        //     })
+        //   } catch (e) {
+        //     status = axios.HttpStatusCode.InternalServerError
+        //     message = e
+        //     console.log('error 2', e)
+        //   }
+        //   item = await item.toObject({getters: true, flattenMaps: true})
+        // }
       } else {
         status = axios.HttpStatusCode.Unauthorized
         message = 'You do not have Authorization.'

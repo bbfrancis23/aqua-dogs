@@ -1,7 +1,6 @@
-import { Section } from "@/react/section"
 import { TextareaCodeEditorProps } from "@uiw/react-textarea-code-editor"
 import dynamic from "next/dynamic"
-
+import "@uiw/react-textarea-code-editor/dist.css" // DO NOT DELTE THIS LINE
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
   {ssr: false}
@@ -13,7 +12,9 @@ const FxCodeEditor = (props: TextareaCodeEditorProps) => (
     {...props}
     style={{ width: '100%',
       fontSize: 12,
+      color: '#000000',
       backgroundColor: "#f5f5f5",
+      minHeight: '125px',
       fontFamily: "ui-monospace,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
     }}
   />
