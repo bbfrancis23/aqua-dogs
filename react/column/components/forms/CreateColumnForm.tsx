@@ -11,7 +11,7 @@ import { ProjectContext } from "@/react/project"
 import { BoardContext } from "@/react/board"
 import {ColumnStub} from "@/react/column"
 import { FxThemeContext } from "@/fx/theme"
-import { SaveButton } from "@/fx/ui"
+import { ClickAwaySave, FormActions, SaveButton } from "@/fx/ui"
 
 const createColSchema = Yup.object().shape({ title: Yup.string().required('Title is required')})
 
@@ -51,11 +51,11 @@ export const CreateColumnForm = () => {
 
   const colTitleTextField: TextFieldProps = {
     size: 'small',
-    label: 'New Item',
+    label: 'New Column',
     ...getFieldProps('title'),
     error: Boolean(touched && errors.title),
     helperText: touched && errors.title,
-    sx: {width: 140}
+    fullWidth: true,
   }
 
   const colBox: BoxProps = {
@@ -66,25 +66,29 @@ export const CreateColumnForm = () => {
   }
 
   const ColumnForm = (
-    <Box sx={{ width: '272px', display: 'inline-block' }}>
+    <Box sx={{ width: '272px'}}>
       <Box {...colBox}>
         <FormikProvider value={formik}>
-          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <Box sx={{ ml: 1, display: 'flex'}}>
-              <TextField {...colTitleTextField}/>
-              <Box>
-                <SaveButton sx={{minWidth: '0', pl: 2}} ><DoneIcon /></SaveButton>
-                <IconButton onClick={() => closeForm()}><CloseIcon /></IconButton>
-              </Box>
-            </ Box>
-          </Form>
+          <ClickAwaySave>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+              <Box sx={{ ml: 1, display: 'block'}}>
+                <Box sx={{ display: 'flex'}}><TextField {...colTitleTextField}/></Box>
+                <Box display={{ display: 'flex', justifyContent: "right" }}>
+                  <FormActions onCancel={closeForm} title="Column" />
+                </Box>
+              </ Box>
+            </Form>
+          </ClickAwaySave>
         </FormikProvider>
       </Box>
     </Box>
   )
 
   return( showForm ? ColumnForm :
-    <Box><Button onClick={() => setShowForm(true)} sx={{ m: 0, p: 0}}><ColumnStub /></Button></Box>
+    <Box><Button onClick={() => setShowForm(true)}
+      sx={{ m: 0, p: 0,
+        bgcolor: alpha(fxTheme.theme.palette.background.default, 0.4)}}>
+      <ColumnStub /></Button></Box>
   )
 
 }

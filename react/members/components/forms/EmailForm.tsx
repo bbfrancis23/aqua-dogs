@@ -1,14 +1,10 @@
 import {useState} from "react"
-import {Box, Button, TextField, TextFieldProps, Typography} from "@mui/material"
-import {LoadingButton} from "@mui/lab"
-import SaveIcon from '@mui/icons-material/Done'
-import CloseIcon from '@mui/icons-material/Close'
+import {Box, TextField, TextFieldProps, Typography} from "@mui/material"
 import {useSnackbar} from "notistack"
 import axios from "axios"
 import {Form, FormikProvider, useFormik} from "formik"
-import * as Yup from "yup"
 import { EmailSchema } from "@/react/auth"
-import { SaveButton } from "@/fx/ui"
+import { ClickAwaySave, FormActions } from "@/fx/ui"
 
 export type EmailFormProps = {
   email: string,
@@ -21,7 +17,7 @@ export default function EmailForm(params: EmailFormProps){
   const [email, setEmail] = useState(params.email)
 
   const {enqueueSnackbar} = useSnackbar()
-  const [displayTextField, setDisplayTextField] = useState<boolean>(false)
+  const [emailForm, setEmailForm] = useState<boolean>(false)
 
   const formik = useFormik({
     initialValues: {
@@ -34,9 +30,10 @@ export default function EmailForm(params: EmailFormProps){
           formik.setSubmitting(false)
           if (res.status === 200 ){
             onUpdateMember()
+            formik.resetForm()
             enqueueSnackbar("Email Updated. Revalidate required", {variant: "success"})
             setEmail(data.email)
-            setDisplayTextField(false)
+            setEmailForm(false)
           }
         })
         .catch((error) => {
@@ -55,13 +52,12 @@ export default function EmailForm(params: EmailFormProps){
     ...getFieldProps("email"),
     error: Boolean(touched && errors.email),
     helperText: touched && errors.email,
-    sx: {mr: 1}
   }
 
   return (
     <Box >
-      {(email && !displayTextField) && (
-        <Box onClick={() => setDisplayTextField(!displayTextField)} sx={{cursor: "pointer"}}>
+      {(email && !emailForm) && (
+        <Box onClick={() => setEmailForm(!emailForm)} sx={{cursor: "pointer"}}>
           <>
             <Typography sx={{display: "inline", mr: 1, cursor: "pointer", fontWeight: 'bold'}}>
               Email:
@@ -70,23 +66,20 @@ export default function EmailForm(params: EmailFormProps){
           </>
         </ Box>
       )}
-      { displayTextField && (
+      { emailForm && (
         <FormikProvider value={formik}>
-          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <Box sx={{ display: 'flex', mt: 3}}><TextField {...textFieldProps} /></Box>
-            <Box display={{ display: 'flex', justifyContent: "right" }}>
-              <SaveButton sx={{minWidth: '0'}} ><SaveIcon /></SaveButton>
-              {(email && displayTextField) && (
-                <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}}>
-                  <CloseIcon color={'error'}/>
-                </Button>
-              )}
-            </Box>
-          </Form>
+          <ClickAwaySave>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+              <Box sx={{ display: 'flex', mt: 3}}><TextField {...textFieldProps} /></Box>
+              <Box display={{ display: 'flex', justifyContent: "right" }}>
+                <FormActions onCancel={() => setEmailForm(false)} title={'Email'} />
+              </Box>
+            </Form>
+          </ClickAwaySave>
         </FormikProvider>
       )}
     </Box>
   )
 }
 
-// QA done 10-29-23
+// QA Brian Francis 11-07-23

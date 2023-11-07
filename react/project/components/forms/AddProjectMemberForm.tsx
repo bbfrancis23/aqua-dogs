@@ -1,15 +1,13 @@
 
 import { useEffect, useState, useContext } from "react"
 import { Autocomplete, Box, Button, TextField, TextFieldProps} from "@mui/material"
-import CloseIcon from '@mui/icons-material/Close'
-import SaveIcon from '@mui/icons-material/Done'
 import { useSnackbar } from "notistack"
 import axios from "axios"
 import {FormikProvider, useFormik, Form} from "formik"
 import * as Yup from "yup"
 import { ProjectContext } from "@/react/project"
 import { Member, MemberStub } from "@/react/members"
-import { SaveButton } from "@/fx/ui"
+import { FormActions, SaveButton } from "@/fx/ui"
 
 const AddMemberSchema = Yup.object().shape({ member: Yup.string().required("Member is required")})
 
@@ -86,10 +84,7 @@ const AddProjectMemberForm = () => {
               />
             </ Box>
             <Box display={{ display: 'flex', justifyContent: "right" }}>
-              <SaveButton sx={{minWidth: '0'}} ><SaveIcon /></SaveButton>
-              <Button onClick={() => setShowForm(false)} sx={{ minWidth: '0'}}>
-                <CloseIcon color={'error'}/>
-              </Button>
+              <FormActions onCancel={() => setShowForm(false)} title={'Member'} />
             </Box>
           </Form>
         </FormikProvider>
@@ -99,4 +94,4 @@ const AddProjectMemberForm = () => {
 }
 
 export default AddProjectMemberForm
-// QA: Brian Franci 10-30-23
+// QA: Brian Franci 11-07-23

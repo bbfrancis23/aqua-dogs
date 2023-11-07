@@ -14,6 +14,8 @@ import { Board, BoardContext, getBoardDirectory } from "@/react/board"
 import Comments from "@/react/comments"
 import { BoardDrawer, InfoPageLayout, FxCodeEditor } from "@/fx/ui"
 import { Project, ProjectContext } from "@/react/project"
+import { useSession } from "next-auth/react"
+import { Member, MemberContext } from "@/react/members"
 
 export interface PublicCardPage {
   item: Item,
@@ -80,6 +82,8 @@ export const Page = ({catTitle, colTitle, item: cardItem, board, project}: Publi
   const [item, setItem] = useState<Item>(cardItem)
   useEffect(() => { setItem(cardItem) }, [cardItem])
 
+  const {data: session} = useSession()
+
   return (
     <>
       <Head>
@@ -93,8 +97,10 @@ export const Page = ({catTitle, colTitle, item: cardItem, board, project}: Publi
                 <BoardDrawer board={board} />
                 <Box sx={{ml: {xs: 0, sm: '240px'} }}>
                   <InfoPageLayout
-                    title={ <PageTitle>{catTitle} : {colTitle} <br /> {item.title} </PageTitle> } >
-                    <Stack spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
+                    title={ <PageTitle>{catTitle} : {colTitle} <br /> {item.title} </PageTitle> }
+                  >
+                    <Stack
+                      spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
                       { item.sections?.map( ( s: Section) => {
                         if(s.sectiontype === "63b88d18379a4f30bab59bad"){
                           return ( <FxCodeEditor value={s.content} key={s.id}/> )

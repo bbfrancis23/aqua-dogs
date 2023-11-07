@@ -1,6 +1,6 @@
-import { useContext } from "react";
-import { Box } from "@mui/material";
-import { FxThemeContext } from "@/fx/theme";
+import { useContext } from "react"
+import { Box } from "@mui/material"
+import { FxThemeContext } from "@/fx/theme"
 
 interface BoardThemeBGProps { children: React.ReactNode}
 

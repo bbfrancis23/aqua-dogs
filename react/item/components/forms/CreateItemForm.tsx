@@ -10,7 +10,7 @@ import { Column } from "@/react/column"
 import { BoardContext } from "@/react/board"
 import { ProjectContext } from "@/react/project"
 import ItemStub from "../ItemStub"
-import { SaveButton } from "@/fx/ui"
+import { ClickAwaySave, FormActions, SaveButton } from "@/fx/ui"
 
 export interface CreateItemFormProps{ column: Column}
 
@@ -56,25 +56,26 @@ const CreateItemForm = ({column}: CreateItemFormProps) => {
 
   const textFieldProps: TextFieldProps = {
     size: 'small',
-    label: 'New Item',
+    label: 'New Card',
     error: Boolean(touched && errors.title),
     helperText: touched && errors.title,
-    sx: {width: 140},
+    fullWidth: true,
     ...getFieldProps('title')
   }
 
   const ItemForm = (
     <Paper sx={{p: 1, mt: 2, mb: 1}}>
       <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Box sx={{ ml: 1, display: 'flex'}}>
-            <TextField {...textFieldProps} />
-            <Box>
-              <SaveButton sx={{minWidth: '0', pl: 2}} ><DoneIcon /></SaveButton>
-              <IconButton onClick={() => handleCloseForm()}><CloseIcon /></IconButton>
-            </Box>
-          </ Box>
-        </Form>
+        <ClickAwaySave>
+          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+            <Box sx={{ ml: 1, display: 'block'}}>
+              <Box sx={{ display: 'flex'}}><TextField {...textFieldProps} /></Box>
+              <Box display={{ display: 'flex', justifyContent: "right" }}>
+                <FormActions onCancel={handleCloseForm} title="Card" />
+              </Box>
+            </ Box>
+          </Form>
+        </ClickAwaySave>
       </FormikProvider>
     </Paper>
   )

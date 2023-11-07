@@ -38,7 +38,7 @@ export const BoardColumn = ({index, column}: BoardColumnProps) => {
         <Box {...boardDragBox} key={column.id} ref={provided.innerRef} {...provided.draggableProps}>
           <Box {...boardColBox} >
             <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Box {...provided.dragHandleProps}><ColumnForm column={column} /></Box>
+              <Box {...provided.dragHandleProps} ><ColumnForm column={column} /></Box>
               <ArchiveColumnForm column={column}/>
             </Box>
             <ColumnList column={column} />

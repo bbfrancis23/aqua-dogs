@@ -11,7 +11,8 @@ import {Column} from '@/react/column'
 import { ProjectContext } from '@/react/project/'
 import { MemberContext } from '@/react/members'
 import { BoardContext } from '@/react/board/BoardContext'
-import {Permission, PermissionCodes, NoPermission, SaveButton, SaveButtonProps } from 'fx/ui'
+import {Permission, PermissionCodes, NoPermission,
+  SaveButton, SaveButtonProps, FormActions } from 'fx/ui'
 import { FxThemeContext } from '@/fx/theme'
 
 interface ColumnFormProps { column: Column}
@@ -35,9 +36,9 @@ export const ColumnForm = ({column}: ColumnFormProps) => {
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
+            formik.resetForm()
             setBoard(res.data.board)
             enqueueSnackbar("Column updated", {variant: "success"})
-            formik.resetForm()
             setShowForm(false)
           }
         }).catch((error) => {
@@ -63,20 +64,19 @@ export const ColumnForm = ({column}: ColumnFormProps) => {
     size: 'small',
     error: Boolean(touched && errors.title),
     helperText: touched && errors.title,
-    sx: {width: 140},
+    fullWidth: true,
     ...getFieldProps('title')
   }
 
   const ColumnForm = (
-    <Box sx={{ width: '272px', display: 'inline-block' }}>
+    <Box sx={{ width: '272px', ml : -1}}>
       <Box {...colBox}>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <Box sx={{ ml: 1, display: 'flex'}}>
-              <TextField {...titleField} />
-              <Box>
-                <SaveButton sx={{minWidth: '0', pl: 2}}><DoneIcon /></SaveButton>
-                <IconButton onClick={() => closeForm()}><CloseIcon /></IconButton>
+            <Box sx={{ ml: 1, display: 'block'}}>
+              <Box sx={{ display: 'flex'}}><TextField {...titleField} /></Box>
+              <Box sx={{display: 'flex', justifyContent: "right" }}>
+                <FormActions onCancel={closeForm} title="Column" />
               </Box>
             </ Box>
           </Form>
