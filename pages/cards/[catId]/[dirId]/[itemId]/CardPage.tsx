@@ -14,6 +14,8 @@ import { Board, BoardContext, getBoardDirectory } from "@/react/board"
 import Comments from "@/react/comments"
 import { BoardDrawer, InfoPageLayout, FxCodeEditor } from "@/fx/ui"
 import { Project, ProjectContext } from "@/react/project"
+import { useSession } from "next-auth/react"
+import { Member, MemberContext } from "@/react/members"
 
 export interface PublicCardPage {
   item: Item,
@@ -80,6 +82,22 @@ export const Page = ({catTitle, colTitle, item: cardItem, board, project}: Publi
   const [item, setItem] = useState<Item>(cardItem)
   useEffect(() => { setItem(cardItem) }, [cardItem])
 
+  const {data: session} = useSession()
+
+  const [member, setMember] = useState<Member | undefined>(undefined)
+
+  useEffect(() => {
+
+    if(session && session.user){
+
+      const castSession = session.user as any
+
+      setMember({id: castSession.id, name: castSession.name, email: castSession.email})
+
+    }
+
+  }, [session])
+
   return (
     <>
       <Head>
@@ -90,21 +108,25 @@ export const Page = ({catTitle, colTitle, item: cardItem, board, project}: Publi
           <ProjectContext.Provider value={{project, setProject: () => {} }} >
             <BoardContext.Provider value={{ board, setBoard: () => {}} }>
               <ItemContext.Provider value={{item, setItem}} >
-                <BoardDrawer board={board} />
-                <Box sx={{ml: {xs: 0, sm: '240px'} }}>
-                  <InfoPageLayout
-                    title={ <PageTitle>{catTitle} : {colTitle} <br /> {item.title} </PageTitle> } >
-                    <Stack spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
-                      { item.sections?.map( ( s: Section) => {
-                        if(s.sectiontype === "63b88d18379a4f30bab59bad"){
-                          return ( <FxCodeEditor value={s.content} key={s.id}/> )
-                        }
-                        return ( <Typography key={s.id}>{s.content}</Typography>)
-                      })}
-                      <Comments />
-                    </Stack>
-                  </InfoPageLayout>
-                </Box>
+                <MemberContext.Provider value={{member, setMember: () => {}}}>
+                  <BoardDrawer board={board} />
+                  <Box sx={{ml: {xs: 0, sm: '240px'} }}>
+                    <InfoPageLayout
+                      title={ <PageTitle>{catTitle} : {colTitle} <br /> {item.title} </PageTitle> }
+                    >
+                      <Stack
+                        spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
+                        { item.sections?.map( ( s: Section) => {
+                          if(s.sectiontype === "63b88d18379a4f30bab59bad"){
+                            return ( <FxCodeEditor value={s.content} key={s.id}/> )
+                          }
+                          return ( <Typography key={s.id}>{s.content}</Typography>)
+                        })}
+                        <Comments />
+                      </Stack>
+                    </InfoPageLayout>
+                  </Box>
+                </MemberContext.Provider>
               </ItemContext.Provider>
             </BoardContext.Provider>
           </ProjectContext.Provider>

@@ -92,8 +92,9 @@ const CreateCommentForm = () => {
         </Box>
       )
       }
-      { ! displayForm && (
+      { !displayForm && (
         <>
+
           <Permission code={PermissionCodes.MEMBER} member={member}>
             <Box sx={{ width: '100%', cursor: 'pointer'}} onClick={() => setDisplayForm(true)} >
               <SectionStub />

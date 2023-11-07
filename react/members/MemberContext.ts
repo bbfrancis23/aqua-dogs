@@ -2,7 +2,7 @@ import {Dispatch, SetStateAction, createContext} from 'react'
 import {Member} from './member-types'
 
 export interface MemberContextProps {
-  member: Member
+  member?: Member
   setMember: Dispatch<SetStateAction<Member>> | (() => {})
 }
 
