@@ -1,12 +1,10 @@
 import {useState} from "react"
 import {Box, Button, TextField, TextFieldProps, Typography} from "@mui/material"
-import SaveIcon from '@mui/icons-material/Done'
-import CloseIcon from '@mui/icons-material/Close'
 import {useSnackbar} from "notistack"
 import axios from "axios"
 import {FormikProvider, useFormik, Form} from "formik"
 import * as Yup from "yup"
-import { SaveButton } from "@/fx/ui"
+import { ClickAwaySave, FormActions, SaveButton } from "@/fx/ui"
 
 const nameError = "Member Name is required"
 const NameSchema = Yup.object().shape({ memberName: Yup.string() .required(nameError)})
@@ -22,8 +20,7 @@ export default function NameForm(params: NameFormProps){
 
   const [name, setName] = useState(params.name)
   const {enqueueSnackbar} = useSnackbar()
-  const [displayTextField, setDisplayTextField] = useState<boolean>(false)
-
+  const [nameForm, setNameForm] = useState<boolean>(false)
 
   const formik = useFormik({
     initialValues: { memberName: name ? name : "" },
@@ -34,9 +31,10 @@ export default function NameForm(params: NameFormProps){
           formik.setSubmitting(false)
           if (res.status === 200 ){
             onUpdateMember()
+            formik.resetForm()
             enqueueSnackbar("Member Name Updated. Authentication Required", {variant: "success"})
             setName(data.memberName)
-            setDisplayTextField(false)
+            setNameForm(false)
           }
         })
         .catch((error) => {
@@ -55,43 +53,33 @@ export default function NameForm(params: NameFormProps){
     ...getFieldProps("memberName"),
     error: Boolean(touched && errors.memberName),
     helperText: touched && errors.memberName,
-    sx: {mr: 1}
   }
+
 
   return (
     <Box >
-      {(!displayTextField) &&
-        <Box onClick={() => setDisplayTextField(!displayTextField)} sx={{cursor: "pointer"}}>
+      {(!nameForm) &&
+        <Box onClick={() => setNameForm(!nameForm)} sx={{cursor: "pointer"}}>
           <Typography sx={{display: "inline", mr: 1, cursor: "pointer", fontWeight: 'bold'}}>
             Member Name:
           </Typography>
           {name ? name : <Button variant="outlined">Add Member Name</Button>}
         </ Box>
       }
-      { displayTextField && (
+      { nameForm && (
         <FormikProvider value={formik}>
-          <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ marginTop: '5px'}}>
-            <Box sx={{ display: 'flex', mt: 3}}>
-              <TextField/>
-            </Box>
-            <Box display={{ display: 'flex', justifyContent: "right" }}>
-              <SaveButton sx={{minWidth: '0'}} ><SaveIcon /></SaveButton>
-              {!name && (
-                <Button onClick={() => setDisplayTextField(!displayTextField)}>
-                  {displayTextField ? <CloseIcon color={'error'}/> : "Add Member Name"}
-                </Button>
-              )}
-              {(name && displayTextField) && (
-                <Button onClick={() => setDisplayTextField(!displayTextField)} sx={{minWidth: 0}} >
-                  <CloseIcon color={'error'}/>
-                </Button>
-              )}
-            </Box>
-          </Form>
+          <ClickAwaySave>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ marginTop: '5px'}}>
+              <Box sx={{ display: 'flex', mt: 3}}><TextField {...textFieldProps}/></Box>
+              <Box display={{ display: 'flex', justifyContent: "right" }}>
+                <FormActions onCancel={() => setNameForm(false)} title={'Member Name'} />
+              </Box>
+            </Form>
+          </ClickAwaySave>
         </FormikProvider>
       )}
     </Box>
   )
 }
 
-// QA done 10-39-23
+// QA done 11-07-23

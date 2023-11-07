@@ -1,13 +1,14 @@
 import { LoadingButton, LoadingButtonProps } from "@mui/lab"
 import { useFormikContext } from "formik"
-import { Button, ClickAwayListener, Stack } from "@mui/material"
+import { Button, ClickAwayListener, Stack, SxProps } from "@mui/material"
 import { ConfirmOptions, useConfirm } from "material-ui-confirm"
 import { useSnackbar } from "notistack"
 
 export interface FormActionsProps {
   onCancel: () => void,
   onDelete?: () => void,
-  title: string
+  title: string,
+  sx?: SxProps
 }
 
 export interface ClickAwayProps {
@@ -36,7 +37,7 @@ export const ClickAwaySave = ({children}: ClickAwayProps) => {
   )
 }
 
-const FormActions = ({title, onCancel, onDelete}: FormActionsProps) => {
+const FormActions = ({title, onCancel, onDelete, sx}: FormActionsProps) => {
 
   const confirm = useConfirm()
   const {enqueueSnackbar} = useSnackbar()
@@ -80,7 +81,7 @@ const FormActions = ({title, onCancel, onDelete}: FormActionsProps) => {
 
   return (
 
-    <Stack direction={'row'} spacing={1} sx={{p: 1}}>
+    <Stack direction={'row'} spacing={1} sx={{p: 1, pr: 0, ...sx}}>
       <LoadingButton {...saveButtonProps}>save</LoadingButton>
       { onDelete && <LoadingButton {...deleteButtonProps} >Delete</LoadingButton> }
       <Button onClick={() => onCancel()} sx={{ color: 'text.primary'}} variant="outlined">
@@ -93,4 +94,4 @@ const FormActions = ({title, onCancel, onDelete}: FormActionsProps) => {
 
 export default FormActions
 
-// QA Brian Francis 11-05-23
+// QA Brian Francis 11-07-23
