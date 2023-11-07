@@ -11,6 +11,7 @@ import ListCard from './ListCard'
 import HoverLink from './HoverLink'
 import SaveButton, {SaveButtonProps} from './SaveButton'
 import DraggableDialog from './DraggableDialog'
+import FormActions, {ClickAwaySave, FormActionsProps} from './FormActions'
 
 export {
   InfoPageLayout,
@@ -24,6 +25,8 @@ export {
   SaveButton,
   permission,
   DraggableDialog,
+  ClickAwaySave,
+  FormActions,
 }
 
-export type {SaveButtonProps, PermissionProps}
+export type {SaveButtonProps, PermissionProps, FormActionsProps}

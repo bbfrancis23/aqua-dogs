@@ -72,7 +72,7 @@ export const ItemPage = (props: MemberItemPageProps) => {
                 }
                 return ( <TextSection section={s} key={s.id} />)
               })}
-              <CreateSectionForm member={member} />
+              <CreateSectionForm />
               <ArchiveItemForm />
             </Stack>
           </InfoPageLayout>

@@ -1,48 +1,30 @@
 import { useContext, useState } from "react"
-
-import { Box, IconButton, TextField, Typography } from "@mui/material"
-import CheckIcon from '@mui/icons-material/Check'
-import CancelIcon from '@mui/icons-material/Cancel'
-import DeleteIcon from '@mui/icons-material/Delete'
-
+import { Box, TextField, TextFieldProps, Typography } from "@mui/material"
 import axios from "axios"
 import { Form, FormikProvider, useFormik } from "formik"
 import { useSnackbar } from "notistack"
-
-import { ItemContext } from "@/react/item/ItemContext"
-import { Member } from "@/react/members/member-types"
-import { Project, ProjectContext } from "@/react/project/"
-import { Section } from "@/react/section/section-types"
-
-import * as Yup from "yup"
-import Permission, { NoPermission, PermissionCodes } from "fx/ui/PermissionComponent"
-import { LoadingButton } from "@mui/lab"
+import { ItemContext } from "@/react/item"
+import { ProjectContext } from "@/react/project/"
+import { Section, sectionSchema } from "@/react/section"
+import {Permission, NoPermission, ClickAwaySave, FormActions,
+  PermissionCodes, FormActionsProps} from "@/fx/ui"
 import { MemberContext } from "@/react/members"
 
-export interface TextSectionProps {
-  section: Section;
-}
+export interface TextSectionProps { section: Section}
 
-const editSectionSchema = Yup.object().shape({
-  section: Yup.string().required('Section Content is required.'),
-})
-
-export const TextSection = (props: TextSectionProps) => {
-  const { section} = props
+export const TextSection = ({section}: TextSectionProps) => {
 
   const {project} = useContext(ProjectContext)
   const {member} = useContext(MemberContext)
 
   const {item, setItem} = useContext(ItemContext)
-
   const {enqueueSnackbar} = useSnackbar()
 
-  const [displayEditTextSectionForm, setDisplayEditTextSectionForm] = useState<boolean>(false)
-
+  const [editSection, setEditSection] = useState<boolean>(false)
 
   const formik = useFormik({
     initialValues: { section: section.content },
-    validationSchema: editSectionSchema,
+    validationSchema: sectionSchema,
     onSubmit: (data) => {
       axios.patch(`/api/members/projects/${project?.id}/items/${item?.id}/sections/${section.id}`,
         {content: data.section, sectiontype: "63b2503c49220f42d9fc17d9"})
@@ -52,7 +34,7 @@ export const TextSection = (props: TextSectionProps) => {
             formik.resetForm({values: {section: data.section}})
             setItem(res.data.item)
             enqueueSnackbar("Item Section Updated", {variant: "success"})
-            setDisplayEditTextSectionForm(false)
+            setEditSection(false)
           }
         })
         .catch((e) => {
@@ -62,7 +44,7 @@ export const TextSection = (props: TextSectionProps) => {
     }
   })
 
-  const handleDeleteSection = () => {
+  const deleteSection = () => {
     formik.setSubmitting(true)
     axios.delete(`/api/members/projects/${project?.id}/items/${item?.id}/sections/${section.id}`)
       .then((res) => {
@@ -76,51 +58,47 @@ export const TextSection = (props: TextSectionProps) => {
       })
   }
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const {errors, touched, handleSubmit, getFieldProps, isValid, dirty} = formik
+  const textFieldProps: TextFieldProps = {
+    multiline: true,
+    rows: 3,
+    sx: { width: '100%'},
+    label: "Update Section",
+    ...getFieldProps('section'),
+    error: Boolean(touched && errors.section),
+    helperText: touched && errors.section
+  }
 
+  const formActionsProps: FormActionsProps = {
+    title: 'Section',
+    onCancel: () => setEditSection(false),
+    onDelete: deleteSection,
+  }
 
   return (
     <>
-      {displayEditTextSectionForm && (
+      {editSection && (
         <Box sx={{ width: '100%', pt: 1, }}>
           <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <TextField multiline rows={10}
-                sx={{ width: '100%'}} label="Update Section"
-                {...getFieldProps('section')} error={Boolean(touched && errors.section)}
-                helperText={touched && errors.section} />
-              <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                <LoadingButton color="success" disabled={!(isValid && formik.dirty)} type="submit"
-                  loading={isSubmitting} sx={{minWidth: '0', pl: 1}} >
-                  <CheckIcon />
-                </LoadingButton>
-                <IconButton onClick={() => setDisplayEditTextSectionForm(false)}
-                  sx={{minWidth: '0', pl: 1}}>
-                  <CancelIcon />
-                </IconButton>
-                <LoadingButton sx={{minWidth: '0', pl: 1}} loading={isSubmitting}
-                  onClick={() => handleDeleteSection()}>
-                  { isSubmitting ? '' : <DeleteIcon color={'error'}/>}
-                </LoadingButton>
-              </Box>
-            </Form>
+            <ClickAwaySave>
+              <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                <TextField {...textFieldProps} />
+                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                  <FormActions {...formActionsProps} />
+                </Box>
+              </Form>
+            </ClickAwaySave>
           </FormikProvider>
         </ Box>
       )}
-      { !displayEditTextSectionForm && (
+      { !editSection && (
         <>
           <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-            <Typography
-              onClick={() => setDisplayEditTextSectionForm(true)} >
-              {section.content}
-            </Typography>
+            <Typography onClick={() => setEditSection(true)} >{section.content}</Typography>
           </Permission>
           <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member} >
-            <Typography >
-              {section.content}
-            </Typography>
+            <Typography >{section.content}</Typography>
           </NoPermission>
-
         </>
       )}
     </>
@@ -128,4 +106,4 @@ export const TextSection = (props: TextSectionProps) => {
 }
 
 export default TextSection
-// QA: Brian Francis 8-23-23
+// QA: Brian Francis 11-06-23

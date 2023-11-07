@@ -10,6 +10,7 @@ import Section from '/mongo/schemas/SectionSchema'
 import SectionType from '/mongo/schemas/SectionTypeSchema'
 
 import {PermissionCodes, permission} from 'fx/ui/PermissionComponent'
+import {findItem} from '/mongo/controls/member/project/items/findItem'
 
 export const deleteSection = async (req, res) => {
   const {sectionId} = req.query
@@ -61,11 +62,11 @@ export const deleteSection = async (req, res) => {
             await item.sections.pull(section)
             await item.save({dbSession})
             await dbSession.commitTransaction()
-
-            item = await Item.findById(section.itemid).populate({
-              path: 'sections',
-              model: Section,
-            })
+            item = await findItem(section.itemid)
+            // item = await Item.findById(section.itemid).populate({
+            //   path: 'sections',
+            //   model: Section,
+            // })
             dbSession.endSession()
           } catch (e) {
             await dbSession.abortTransaction()

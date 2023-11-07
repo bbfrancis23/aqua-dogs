@@ -1,26 +1,16 @@
 import { useContext } from "react"
-import { Box, IconButton, Stack, TextField, TextFieldProps } from "@mui/material"
-import LoadingButton, { LoadingButtonProps } from "@mui/lab/LoadingButton"
-import CheckIcon from '@mui/icons-material/Check'
-import CancelIcon from '@mui/icons-material/Cancel'
-import DeleteIcon from '@mui/icons-material/Delete'
+import { Box, Stack, TextField, TextFieldProps } from "@mui/material"
 import { useSnackbar } from "notistack"
 import { Form, FormikProvider, useFormik } from "formik"
-import * as Yup from "yup"
 import axios from "axios"
 import { ProjectContext } from "@/react/project"
 import { ItemContext } from "@/react/item"
 import { Comment } from "@/react/comments"
 import { ProjectMemberAvatar } from "@/react/members"
-import { PermissionCodes, SaveButton } from "@/fx/ui"
+import { ClickAwaySave, FormActions, PermissionCodes, SaveButton } from "@/fx/ui"
+import { SectionTypes, commentSchema } from "@/react/section"
 
-export interface TextCommentFormProps {
-  comment: Comment,
-  closeForm: () => void,
-}
-
-const errorMsg = "Comment Content is required"
-const editCommentSchema = Yup.object().shape({ comment: Yup.string().required(errorMsg)})
+export interface TextCommentFormProps { comment: Comment, closeForm: () => void}
 
 const TextCommentForm = ({comment, closeForm}: TextCommentFormProps) => {
 
@@ -30,17 +20,17 @@ const TextCommentForm = ({comment, closeForm}: TextCommentFormProps) => {
 
   const formik = useFormik({
     initialValues: { comment: comment.content },
-    validationSchema: editCommentSchema,
+    validationSchema: commentSchema,
     onSubmit: (data) => {
       const commentPath = `/api/members/projects/${project?.id}/items/${item?.id}/comments/`
-      const sectiontype = "63b2503c49220f42d9fc17d9"
+      const sectiontype = SectionTypes.TEXT
       axios.patch(`${commentPath}${comment.id}`, {content: data.comment, sectiontype})
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
             formik.resetForm({values: {comment: data.comment}})
             setItem(res.data.item)
-            enqueueSnackbar("Item Comment Updated", {variant: "success"})
+            enqueueSnackbar("Comment Updated", {variant: "success"})
             closeForm()
           }
         })
@@ -53,7 +43,6 @@ const TextCommentForm = ({comment, closeForm}: TextCommentFormProps) => {
 
   const deleteComment = () => {
     formik.setSubmitting(true)
-
     axios.delete(`/api/members/projects/${project?.id}/items/${item?.id}/comments/${comment.id}`)
       .then((res) => {
         setItem(res.data.item)
@@ -66,7 +55,7 @@ const TextCommentForm = ({comment, closeForm}: TextCommentFormProps) => {
       })
   }
 
-  const {errors, touched, handleSubmit, getFieldProps, isSubmitting, isValid} = formik
+  const {errors, touched, handleSubmit, getFieldProps} = formik
 
   const textFieldProps: TextFieldProps = {
     multiline: true,
@@ -78,14 +67,6 @@ const TextCommentForm = ({comment, closeForm}: TextCommentFormProps) => {
     helperText: touched && errors.comment
   }
 
-  const formActionsSx = {minWidth: '0', pl: 1}
-
-  const deleteButtonProps: LoadingButtonProps = {
-    loading: isSubmitting,
-    onClick: () => deleteComment(),
-    sx: formActionsSx,
-  }
-
   return (
     <>
       <Stack spacing={3} direction={'row'} sx={{ width: '100%'}}>
@@ -94,20 +75,14 @@ const TextCommentForm = ({comment, closeForm}: TextCommentFormProps) => {
         </Box>
         <Box sx={{ width: '100%', pt: 1, }}>
           <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <TextField {...textFieldProps} />
-              <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                <SaveButton sx={{minWidth: '0', pl: 1}} >
-                  <CheckIcon />
-                </SaveButton>
-                <IconButton onClick={() => closeForm()} sx={{minWidth: '0', pl: 1}}>
-                  <CancelIcon />
-                </IconButton>
-                <LoadingButton {...deleteButtonProps}>
-                  { isSubmitting ? '' : <DeleteIcon color={'error'}/>}
-                </LoadingButton>
-              </Box>
-            </Form>
+            <ClickAwaySave>
+              <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                <TextField {...textFieldProps} />
+                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                  <FormActions title={'Comment'} onDelete={deleteComment} onCancel={closeForm} />
+                </Box>
+              </Form>
+            </ClickAwaySave>
           </FormikProvider>
         </Box>
       </Stack>
@@ -117,4 +92,4 @@ const TextCommentForm = ({comment, closeForm}: TextCommentFormProps) => {
 
 export default TextCommentForm
 
-// QA Brian Francis 10-27-23
+// QA Brian Francis 11-06-23
