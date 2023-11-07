@@ -1,18 +1,22 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Box, ButtonGroup, Stack, TextField, TextFieldProps } from "@mui/material"
 import Button, { ButtonProps} from "@mui/material/Button"
 import { useSnackbar } from "notistack"
-import { MemberContext } from "@/react/members"
+import { Member, } from "@/react/members"
 import {SectionStub, SectionTypes, commentSchema} from "@/react/section"
 import axios from "axios"
 import { Form, FormikProvider, useFormik } from "formik"
 import {Permission, PermissionCodes, FormActions, FxCodeEditor, ClickAwaySave } from "@/fx/ui"
 import { ItemContext } from "@/react/item"
 import { BoardContext } from "@/react/board"
+import { useSession } from "next-auth/react"
 
 const CreateCommentForm = () => {
 
-  const { member} = useContext(MemberContext)
+  const {data: session} = useSession()
+  const [member, setMember] = useState<Member | undefined>(undefined)
+  useEffect(() => { if(session && session.user) setMember(session.user as Member) }, [session])
+
   const {enqueueSnackbar} = useSnackbar()
   const {item, setItem} = useContext(ItemContext)
   const {board} = useContext(BoardContext)
