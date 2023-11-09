@@ -11,7 +11,7 @@ import axios from "axios"
 import * as Yup from "yup"
 import { ProjectContext } from "@/react/project"
 import { BoardContext } from "@/react/board"
-import { SaveButton } from "@/fx/ui"
+import { FormActions, SaveButton } from "@/fx/ui"
 
 const TitleSchema = Yup.object().shape({ title: Yup.string() .required("Title is required")})
 
@@ -62,26 +62,35 @@ export const BoardTitleForm = () => {
 
   const boardTitleTextField: TextFieldProps = {
     size: 'small',
-    label: 'Title',
+    label: 'Board',
     ...getFieldProps('title'),
     error: Boolean(touched && errors.title),
-    helperText: touched && errors.title
+    helperText: touched && errors.title,
+    autoFocus: true,
   }
 
   return (
     <Box >
       {(!displayTextField) &&
-        <Typography {...boardTitleProps}>{ title ? title : <Skeleton /> }</Typography> }
+        <Typography {...boardTitleProps} noWrap
+          sx={{fontSize: {xs: '1.25rem', md: '2rem'},
+            width: {xs: '150px', md: 'auto'}, pt: {xs: 1, md: 0}}}>
+          { title ? title : <Skeleton /> }</Typography> }
       { displayTextField && (
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <BoardTitleTextField {...boardTitleTextField} />
-            <SaveButton sx={{minWidth: '0'}}><SaveIcon /></SaveButton>
+            <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+              <BoardTitleTextField {...boardTitleTextField} />
+
+              <FormActions onCancel={() => setDisplayTextField(false)} title="Board"
+                sx={{pt: '4px'}}/>
+            </Box>
+            {/* <SaveButton sx={{minWidth: '0'}}><SaveIcon /></SaveButton>
             {(title && displayTextField) && (
               <IconButton onClick={() => setDisplayTextField(false)}>
                 <CloseIcon color={'error'}/>
               </IconButton>
-            )}
+            )} */}
           </Form>
         </FormikProvider>
       )}

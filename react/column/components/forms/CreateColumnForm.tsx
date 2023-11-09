@@ -56,6 +56,7 @@ export const CreateColumnForm = () => {
     error: Boolean(touched && errors.title),
     helperText: touched && errors.title,
     fullWidth: true,
+    autoFocus: true
   }
 
   const colBox: BoxProps = {

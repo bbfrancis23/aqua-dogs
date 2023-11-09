@@ -67,9 +67,10 @@ export const CodeCommentForm = ({comment, closeForm}: CommentForm) => {
         <FormikProvider value={formik}>
           <ClickAwaySave>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <FxCodeEditor placeholder="Create Code Comment" {...getFieldProps('comment')} />
+              <FxCodeEditor placeholder="Create Code Comment" {...getFieldProps('comment')}
+                autoFocus/>
               <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                <FormActions title={'Comment'} onDelete={deleteComment} onCancel={closeForm} />
+                <FormActions title={'Comment'} onDelete={deleteComment} onCancel={closeForm}/>
               </Box>
             </Form>
           </ClickAwaySave>

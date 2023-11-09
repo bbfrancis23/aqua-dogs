@@ -60,7 +60,8 @@ const CreateItemForm = ({column}: CreateItemFormProps) => {
     error: Boolean(touched && errors.title),
     helperText: touched && errors.title,
     fullWidth: true,
-    ...getFieldProps('title')
+    ...getFieldProps('title'),
+    autoFocus: true
   }
 
   const ItemForm = (

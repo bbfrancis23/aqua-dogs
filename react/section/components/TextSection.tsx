@@ -66,7 +66,8 @@ export const TextSection = ({section}: TextSectionProps) => {
     label: "Update Section",
     ...getFieldProps('section'),
     error: Boolean(touched && errors.section),
-    helperText: touched && errors.section
+    helperText: touched && errors.section,
+    autoFocus: true
   }
 
   const formActionsProps: FormActionsProps = {

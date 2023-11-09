@@ -67,7 +67,8 @@ const CreateCommentForm = () => {
     label: `Create ${title}`,
     ...getFieldProps('comment'),
     error: Boolean(touched && errors.comment),
-    helperText: touched && errors.comment
+    helperText: touched && errors.comment,
+    autoFocus: true
   }
 
   return (
@@ -84,7 +85,8 @@ const CreateCommentForm = () => {
                 <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                   { commentType === TEXT && ( <TextField {...textFieldProps} /> )}
                   { commentType === CODE && (
-                    <FxCodeEditor placeholder="Create Code Comment" {...getFieldProps('comment')} />
+                    <FxCodeEditor placeholder="Create Code Comment" {...getFieldProps('comment')}
+                      autoFocus />
                   ) }
                   <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                     <FormActions title={'Comment'} onCancel={() => setDisplayForm(false)} />

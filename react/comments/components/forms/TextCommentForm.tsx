@@ -64,7 +64,8 @@ const TextCommentForm = ({comment, closeForm}: TextCommentFormProps) => {
     label: "Update Comment",
     ...getFieldProps('comment'),
     error: Boolean(touched && errors.comment),
-    helperText: touched && errors.comment
+    helperText: touched && errors.comment,
+    autoFocus: true
   }
 
   return (

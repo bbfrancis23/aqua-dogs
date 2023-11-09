@@ -50,12 +50,13 @@ const EditTitleItemForm = ({closeForm}: EditItemTitleFormProps) => {
 
   const textFieldProps: TextFieldProps = {
     size: 'medium',
-    label: 'Edit Title',
+    label: 'Card Title',
     variant: 'outlined',
     sx: { '& .MuiOutlinedInput-root': { fontSize: '3rem' }},
     error: Boolean(touched && errors.title),
     helperText: touched && errors.title,
-    ...getFieldProps('title')
+    ...getFieldProps('title'),
+    autoFocus: true,
   }
 
   return (

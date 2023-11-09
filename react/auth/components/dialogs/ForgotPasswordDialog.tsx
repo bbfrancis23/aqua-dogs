@@ -60,7 +60,8 @@ const AuthDialog = () => {
   }
 
   const {errors, touched, handleSubmit, getFieldProps} = formik
-  const emailTextField = {getFieldProps, error: errors.email, touched: touched.email}
+  const emailTextField = {getFieldProps, error: errors.email, touched: touched.email,
+    autoFocus: true}
 
   return (
     <DraggableDialog dialogIsOpen={app.forgotDialogIsOpen}

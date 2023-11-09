@@ -53,6 +53,7 @@ export default function NameForm(params: NameFormProps){
     ...getFieldProps("memberName"),
     error: Boolean(touched && errors.memberName),
     helperText: touched && errors.memberName,
+    autoFocus: true,
   }
 
 
