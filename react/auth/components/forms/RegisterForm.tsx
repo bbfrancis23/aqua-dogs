@@ -44,7 +44,8 @@ const RegisterForm = () => {
 
   const closeForm = () => { formik.resetForm(); endReg(); setFormError("") }
 
-  const emailTextField = {getFieldProps, error: errors.email, touched: touched.email}
+  const emailTextField = {getFieldProps, error: errors.email, touched: touched.email,
+    autoFocus: true}
   const passwordTextField = {getFieldProps, error: errors.password, touched: touched.password}
 
   return (

@@ -47,6 +47,7 @@ const CreateProjectForm = ({setProjects, closeForm}: CreateProjectFormProps) => 
     ...getFieldProps('title'),
     error: Boolean(touched && errors.title),
     helperText: touched && errors.title,
+    autoFocus: true
   }
 
   return(

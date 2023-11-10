@@ -77,7 +77,7 @@ export const CodeSection = (props: TextSectionProps) => {
           <FormikProvider value={formik}>
             <ClickAwaySave>
               <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <FxCodeEditor placeholder="Code Section" {...getFieldProps('section')} />
+                <FxCodeEditor placeholder="Code Section" {...getFieldProps('section')} autoFocus/>
                 <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                   <FormActions {...formActionsProps} />
                 </Box>

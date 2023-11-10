@@ -52,7 +52,8 @@ const VerifyCodeForm = ({email, endForgotPW}: VerifyCodeFormProps) => {
     label: "Verification Code",
     ...getFieldProps("code"),
     error: Boolean(touched && errors.code),
-    helperText: touched && errors.code
+    helperText: touched && errors.code,
+    autoFocus: true
   }
 
   const passwordTextField: PasswordTextFieldProps = {

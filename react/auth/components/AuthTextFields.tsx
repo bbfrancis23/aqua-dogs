@@ -10,6 +10,7 @@ export interface TextFieldProps {
   getFieldProps: (nameOrOptions: any) => FieldInputProps<any>
   touched: boolean | undefined
   error: string | undefined
+  autoFocus?: boolean
 }
 
 export interface PasswordTextFieldProps extends TextFieldProps {
@@ -17,19 +18,20 @@ export interface PasswordTextFieldProps extends TextFieldProps {
   fieldId?: string
 }
 
-export const EmailTextField = ({getFieldProps, touched, error}: TextFieldProps) => (
+export const EmailTextField = ({getFieldProps, touched, error, autoFocus}: TextFieldProps) => (
   <TextField
     fullWidth
     size="small"
     type="email"
     label="Email address"
     {...getFieldProps("email")}
+    autoFocus={autoFocus}
     error={Boolean(touched && error)}
     helperText={touched && error} />
 )
 
 export const PasswordTextField = (props: PasswordTextFieldProps) => {
-  const {getFieldProps, touched, error,} = props
+  const {getFieldProps, touched, error, autoFocus} = props
   let {label, fieldId} = props
 
   label = label ? label : "Password"
@@ -40,6 +42,7 @@ export const PasswordTextField = (props: PasswordTextFieldProps) => {
   return (
     <TextField
       fullWidth
+      autoFocus={autoFocus}
       size="small"
       autoComplete="current-password"
       type={showPassword ? "text" : "password"}

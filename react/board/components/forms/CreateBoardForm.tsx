@@ -50,7 +50,8 @@ const CreateBoardForm = ({setBoards, closeForm}: CreateBoardFormProps) => {
     label: 'New Board',
     ...getFieldProps('title'),
     error: Boolean(touched && errors.title),
-    helperText: touched && errors.title
+    helperText: touched && errors.title,
+    autoFocus: true
   }
 
   return(

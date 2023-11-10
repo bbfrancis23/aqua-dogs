@@ -52,6 +52,7 @@ export default function EmailForm(params: EmailFormProps){
     ...getFieldProps("email"),
     error: Boolean(touched && errors.email),
     helperText: touched && errors.email,
+    autoFocus: true,
   }
 
   return (

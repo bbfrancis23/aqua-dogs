@@ -6,7 +6,7 @@ import {FormikProvider, useFormik, Form} from "formik"
 import {useSnackbar} from "notistack"
 import * as Yup from "yup"
 import {PasswordTextField, PasswordSchema as PWSchema} from "@/react/auth"
-import { SaveButton } from "@/fx/ui"
+import { FormActions, SaveButton } from "@/fx/ui"
 
 const ChangePasswordFormSchema = Yup.object().shape({ oldPassword: PWSchema, newPassword: PWSchema})
 
@@ -46,7 +46,8 @@ export default function ChangePasswordForm({endChangePassword}: ChangePasswordFo
     fieldId: 'oldPassword',
     getFieldProps,
     error: errors.oldPassword,
-    touched: touched.oldPassword
+    touched: touched.oldPassword,
+    autoFocus: true
   }
 
   const newPassword = {
@@ -66,7 +67,9 @@ export default function ChangePasswordForm({endChangePassword}: ChangePasswordFo
               { formError && (<Alert severity="error">{formError}</Alert>) }
               <PasswordTextField {...oldPassword} />
               <PasswordTextField {...newPassword} />
-              <SaveButton variant={"contained"}>Change Password</SaveButton>
+              <Box display={{ display: 'flex', justifyContent: "right" }}>
+                <FormActions onCancel={() => endChangePassword()} title="Password" />
+              </Box>
             </Stack>
           </Form>
         </FormikProvider>

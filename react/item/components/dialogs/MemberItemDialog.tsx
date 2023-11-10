@@ -67,7 +67,7 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
       { itemIsLoading === false && (
         <ItemContext.Provider value={{item, setItem}}>
           <DraggableDialog {...draggableDialogProps} >
-            <DialogContent sx={{width: '600px'}}>
+            <DialogContent sx={{ width: {xs: 'auto', md: '600px'} }}>
               <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%'}}>
                 { item?.sections?.map( ( s: Section) => {
                   if(s.sectiontype === "63b88d18379a4f30bab59bad"){

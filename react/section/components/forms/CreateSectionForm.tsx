@@ -63,7 +63,8 @@ const CreateSectionForm = () => {
     sx: { width: '100%'},
     ...getFieldProps('section'),
     error: Boolean(touched && errors.section),
-    helperText: touched && errors.section
+    helperText: touched && errors.section,
+    autoFocus: true
   }
 
   return (
@@ -80,7 +81,8 @@ const CreateSectionForm = () => {
                 <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                   { sectionType === TEXT && ( <TextField {...textFieldProps} /> )}
                   { sectionType === CODE && (
-                    <FxCodeEditor placeholder="Create Code Section" {...getFieldProps('section')} />
+                    <FxCodeEditor placeholder="Create Code Section" {...getFieldProps('section')}
+                      autoFocus/>
                   ) }
                   <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                     <FormActions title={'Section'} onCancel={() => setCreateSection(false)} />

@@ -60,12 +60,13 @@ export const ColumnForm = ({column}: ColumnFormProps) => {
   }
 
   const titleField: TextFieldProps = {
-    label: 'Title',
+    label: 'Column',
     size: 'small',
     error: Boolean(touched && errors.title),
     helperText: touched && errors.title,
     fullWidth: true,
-    ...getFieldProps('title')
+    ...getFieldProps('title'),
+    autoFocus: true
   }
 
   const ColumnForm = (
