@@ -60,7 +60,7 @@ const Page = (projectPage: InferGetServerSidePropsType<typeof getServerSideProps
     <ProjectContext.Provider value={{project, setProject}}>
       <MemberContext.Provider value={{member, setMember}}>
         <Head>
-          <title>Strategy Fx - Projects Page - {project.title}</title>
+          <title>{`Strategy Fx - Projects Page - ${project.title}`}</title>
         </Head>
         <InfoPageLayout title={<ProjectEditTitleForm />}>
           <Stack spacing={3} sx={{ width: '100%'}}>

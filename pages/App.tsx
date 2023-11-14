@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react"
-import { PaletteMode } from "@mui/material"
+import { PaletteMode, useMediaQuery } from "@mui/material"
 import { ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
-import { SnackbarOrigin, SnackbarProvider } from "notistack"
+import { SnackbarOrigin, SnackbarProvider, SnackbarProviderProps } from "notistack"
 import { ConfirmProvider } from "material-ui-confirm"
-// eslint-disable-next-line max-len
-import { FxTheme, FxThemeContext, FxThemeNames, UpdateThemeOptionsProps, createFxTheme, defaultFxTheme, fxThemeOptionsList } from "fx/theme"
+import { FxTheme, FxThemeContext, FxThemeNames, UpdateThemeOptionsProps, createFxTheme,
+  defaultFxTheme, fxThemeOptionsList } from "fx/theme"
 
 export interface AppCompoentProps {
   children: JSX.Element | JSX.Element []
 }
 
+interface SnackbarProviderTagProps extends Omit<SnackbarProviderProps, 'children'> {}
+
 export const AppComponent = ({children}:AppCompoentProps) => {
 
   const [fxTheme, setFxTheme] = useState<FxTheme>(defaultFxTheme)
 
-  // TODO: This could be more modular and could be put into FxTheme
+  const smallScreen = useMediaQuery(fxTheme.theme.breakpoints.down('sm'))
+
+
   const handleUpdateTheme = (
     options: UpdateThemeOptionsProps,
   ) => {
@@ -50,14 +54,25 @@ export const AppComponent = ({children}:AppCompoentProps) => {
     handleUpdateTheme({})
   }, [])
 
-  const snackbarPos: SnackbarOrigin = {horizontal: "right", vertical: "bottom"}
+  const snackbarPos: SnackbarOrigin = {
+    horizontal: "right",
+    vertical: smallScreen ? "top" : "bottom"
+  }
+
+  const snackBarProviderProps: SnackbarProviderTagProps = {
+    anchorOrigin: snackbarPos,
+    autoHideDuration: 3000,
+    maxSnack: 3,
+    hideIconVariant: true,
+    disableWindowBlurListener: true,
+  }
 
   return (
 
     <FxThemeContext.Provider value={{fxTheme, setFxTheme}}>
       <ThemeProvider theme={fxTheme.theme}>
         <ConfirmProvider>
-          <SnackbarProvider maxSnack={3} hideIconVariant={true} anchorOrigin={snackbarPos} >
+          <SnackbarProvider {...snackBarProviderProps}>
             <CssBaseline />
             { children}
           </SnackbarProvider>
@@ -68,5 +83,3 @@ export const AppComponent = ({children}:AppCompoentProps) => {
 }
 
 export default AppComponent
-/* QA: Brian Francis 10-10-23 - 3 stars
-    - Update theme could be better and put into FxTheme - low priority */
