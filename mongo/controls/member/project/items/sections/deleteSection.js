@@ -91,7 +91,7 @@ export const deleteSection = async (req, res) => {
 
   res.status(status).json({
     message,
-    item: item ? item.toObject({getters: true}) : undefined,
+    item: item ? item : undefined,
   })
   return
 }
