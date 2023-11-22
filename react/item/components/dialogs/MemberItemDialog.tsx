@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { Button, DialogActions, DialogContent, Stack} from "@mui/material"
+import { Button, DialogActions, DialogContent, Stack, } from "@mui/material"
 import { useSnackbar } from "notistack"
 import axios from "axios"
 import { Item, ItemContext, EditItemTitleForm, ArchiveItemForm, ItemTitle } from "@/react/item"
@@ -8,6 +8,7 @@ import { ProjectContext } from "@/react/project"
 import { MemberContext } from "@/react/members"
 import Comments from "@/react/comments"
 import {DraggableDialog } from "@/fx/ui"
+import AssessmentAccordion from "./accordions/AssessmentAccordion"
 
 export interface MemberItemDialogProps {
   dialogIsOpen: boolean
@@ -20,7 +21,6 @@ const dummyItem = { title: 'undefined item title', id: '0', owners: ['0']}
 const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogProps) => {
 
   const {project} = useContext(ProjectContext)
-  const {member} = useContext(MemberContext)
   const {enqueueSnackbar} = useSnackbar()
 
   const [itemIsLoading, setItemIsLoading] = useState<boolean>(true)
@@ -61,7 +61,6 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
     title: getItemTitle(),
   }
 
-
   return (
     <>
       { itemIsLoading === false && (
@@ -76,6 +75,7 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
                   return ( <TextSection section={s} key={s.id} />)
                 })}
                 <CreateSectionForm />
+                <AssessmentAccordion />
                 <Comments />
                 <ArchiveItemForm />
               </Stack>
@@ -92,4 +92,4 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
 
 export default MemberItemDialog
 
-// QA Brian Francis 10-28-23
+// QA Brian Francis 11-22-23

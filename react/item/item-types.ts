@@ -1,6 +1,7 @@
 import {Dispatch, SetStateAction} from 'react'
 import {Section} from '../section'
 import {Comment} from '../comments'
+import {AssessmentTypes, AssessmentValues} from '../assessments/assessment-types'
 
 export interface Item {
   title: string
@@ -12,6 +13,9 @@ export interface Item {
   owners: string[]
   directioryId?: string
   comments?: Comment[]
+  worth?: AssessmentValues
+  difficulty?: AssessmentValues
+  priority?: AssessmentValues
 }
 
 export interface ItemContextProps {
@@ -19,4 +23,4 @@ export interface ItemContextProps {
   setItem: Dispatch<SetStateAction<Item>> | (() => {})
 }
 
-// QA done 10-20-23
+// QA done 11-22-23
