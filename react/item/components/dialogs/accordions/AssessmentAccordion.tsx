@@ -6,8 +6,8 @@ import {CardAccordion} from '@/fx/ui'
 
 const AssessmentAccordion = () => {
 
-  const {WORTH, DIFFICULTY, PRIORITY} = AssessmentTypes
-  const assessmentTypes = [WORTH, DIFFICULTY, PRIORITY]
+  const {WORTH, COMPLEXITY, PRIORITY} = AssessmentTypes
+  const assessmentTypes = [WORTH, COMPLEXITY, PRIORITY]
 
   return (
     <CardAccordion >

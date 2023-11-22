@@ -14,7 +14,7 @@ export interface Item {
   directioryId?: string
   comments?: Comment[]
   worth?: AssessmentValues
-  difficulty?: AssessmentValues
+  complexity?: AssessmentValues
   priority?: AssessmentValues
 }
 

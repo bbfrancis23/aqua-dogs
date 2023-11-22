@@ -1,6 +1,6 @@
 export enum AssessmentTypes {
   WORTH = 'worth',
-  DIFFICULTY = 'difficulty',
+  COMPLEXITY = 'complexity',
   PRIORITY = 'priority',
 }
 
