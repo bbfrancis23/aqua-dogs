@@ -10,17 +10,20 @@ import {findMember} from '../../../mongo/controls/member/memberControls'
 import bcryptjs from 'bcryptjs'
 
 import axios from 'axios'
+import {SessionStrategy} from 'next-auth'
 
-export default NextAuth({
+/* eslint-disable */
+
+export const authOptions = {
   session: {
-    strategy: 'jwt',
+    strategy: 'jwt' as SessionStrategy,
   },
   callbacks: {
-    jwt({token, member}) {
+    jwt({token, member}: any) {
       if (member?._id) token._id = member._id
       return token
     },
-    async signIn({user, account, profile, email, credentials}) {
+    async signIn({user, account, profile, email, credentials}: any) {
       if (account?.provider === 'google') {
         const member = await findMember(user?.email)
         if (!member) {
@@ -48,7 +51,7 @@ export default NextAuth({
 
       return true
     },
-    async session({session, token}) {
+    async session({session, token}: any) {
       if (token?._id) session.member._id = token._id
 
       await db.connect()
@@ -63,14 +66,30 @@ export default NextAuth({
       return session
     },
   },
-
   providers: [
     CredentialsProvider({
-      async authorize(credentials) {
+      name: 'Credentials',
+      credentials: {
+        email: {label: 'Email', type: 'email'},
+        username: {label: 'Username', type: 'text'},
+        password: {label: 'Password', type: 'password'},
+      },
+      authorize: async (credentials) => {
+        if (!credentials) throw new Error('No Credentials')
+
+        if (!credentials.email || !credentials.password) {
+          throw new Error(
+            JSON.stringify({
+              errors: 'Ivalid Credentials',
+              status: axios.HttpStatusCode.Unauthorized,
+            })
+          )
+        }
+
         await db.connect()
 
         const member = await Member.findOne({
-          email: credentials.email,
+          email: credentials?.email,
         })
 
         if (member) {
@@ -119,9 +138,12 @@ export default NextAuth({
       },
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
+      clientId: process.env.GOOGLE_ID ? process.env.GOOGLE_ID : '',
+      clientSecret: process.env.GOOGLE_SECRET ? process.env.GOOGLE_SECRET : '',
     }),
   ],
+
   secret: process.env.NEXTAUTH_SECRET,
-})
+}
+
+export default NextAuth(authOptions)
