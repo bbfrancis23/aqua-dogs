@@ -75,7 +75,7 @@ const ColumnListItem = ({item}: ColumnListProps) => {
                   </Tooltip>
                 )
               }
-              return (<></>)
+              return ''
             } )}
           </CardContent>
         ) }

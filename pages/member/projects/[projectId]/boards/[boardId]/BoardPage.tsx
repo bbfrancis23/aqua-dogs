@@ -2,18 +2,17 @@ import { useState, useContext } from "react"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
 import { getSession } from "next-auth/react"
-import { Box, Stack } from "@mui/material"
+import { Stack } from "@mui/material"
 import { resetServerContext } from "react-beautiful-dnd"
 import { findMember } from "@/mongo/controls/member/memberControls"
 import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls"
 import findPublicBoard from "@/mongo/controls/member/project/board/findPublicBoard"
+import { unAuthRedirect } from "@/error"
 import { Board, BoardToolbar, ProjectBoard, BoardContext, BoardThemeBG } from "@/react/board"
 import { Project, ProjectContext} from "@/react/project/"
 import { Member, MemberContext } from "@/react/members"
 import {MemberItemDialog} from "@/react/item/"
-import {CreateColumnForm} from "@/react/column/"
-import { unAuthRedirect } from "@/error"
-import { Permission, PermissionCodes, permission } from "@/fx/ui"
+import { PermissionCodes, permission } from "@/fx/ui"
 import { FxThemeContext } from "@/fx/theme"
 export interface BoardPage {
   project: Project;
@@ -54,15 +53,12 @@ GetServerSideProps<BoardPage> = async(context) => {
 export const Page = (props: BoardPage) => {
 
   const [member, setMember] = useState<Member>(props.member)
-  const {fxTheme} = useContext(FxThemeContext)
 
   const [project, setProject] = useState<Project>(props.project)
   const [board, setBoard] = useState<Board>(props.board)
 
   const [itemDialogIsOpen, setItemDialogIsOpen] = useState(false)
   const [selectedItem, setSelectedItem] = useState<null | string>('')
-
-  //TODO: Put ItemDialog in hook readablity low priorty
 
   return (
     <ProjectContext.Provider value={{project, setProject, setItemDialogIsOpen, setSelectedItem}}>
@@ -88,4 +84,4 @@ export const Page = (props: BoardPage) => {
 }
 
 export default Page
-// QA: Brian Francisc 10-20-23
+// QA: Brian Francisc 11-23-23
