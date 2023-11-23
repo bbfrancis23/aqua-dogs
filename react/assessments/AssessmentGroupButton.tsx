@@ -5,11 +5,13 @@ import { ItemContext } from "../item"
 import axios from "axios"
 import { ProjectContext } from "../project/ProjectContext"
 import { useSnackbar } from "notistack"
+import { BoardContext } from "../board"
 
 export interface AssessmentGroupButtonsProps { type: AssessmentTypes}
 
 const AssessmentGroupButton = ({type}: AssessmentGroupButtonsProps) => {
 
+  const {board, setBoard} = useContext(BoardContext)
   const {item, setItem} = useContext(ItemContext)
   const {project} = useContext(ProjectContext)
   const {enqueueSnackbar} = useSnackbar()
@@ -31,6 +33,9 @@ const AssessmentGroupButton = ({type}: AssessmentGroupButtonsProps) => {
     axios.patch( itemDir, {type, value})
       .then((res) => {
         setItem(res.data.item)
+        axios.get(`/api/members/projects/${project?.id}/boards/${board?.id}`).then((res) => {
+          if (res.status === axios.HttpStatusCode.Ok) setBoard(res.data.board)
+        })
         enqueueSnackbar(`Item ${type} updated`, {variant: "success"})
       } ).catch((error) => {
         enqueueSnackbar(error.message, {variant: "error"})

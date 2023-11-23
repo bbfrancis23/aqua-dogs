@@ -10,13 +10,14 @@ import * as Yup from "yup"
 import axios from "axios"
 import { ItemContext } from "@/react/item/ItemContext"
 import { SaveButton } from "@/fx/ui"
+import { BoardContext } from "@/react/board"
 
 export interface EditItemTitleFormProps{ closeForm: () => void}
 
 const editItemSchema = Yup.object().shape({ title: Yup.string().required('Title is required')})
 
 const EditTitleItemForm = ({closeForm}: EditItemTitleFormProps) => {
-
+  const {board, setBoard} = useContext(BoardContext)
   const {project} = useContext(ProjectContext)
   const {item, setItem} = useContext(ItemContext)
   const {enqueueSnackbar} = useSnackbar()
@@ -32,6 +33,11 @@ const EditTitleItemForm = ({closeForm}: EditItemTitleFormProps) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
             setItem(res.data.item)
+            axios.get(`/api/members/projects/${project?.id}/boards/${board?.id}`).then((res) => {
+              if (res.status === axios.HttpStatusCode.Ok){
+                setBoard(res.data.board)
+              }
+            })
             enqueueSnackbar("Item title updated", {variant: "success"})
             formik.resetForm()
             closeForm()
@@ -78,4 +84,4 @@ const EditTitleItemForm = ({closeForm}: EditItemTitleFormProps) => {
 
 export default EditTitleItemForm
 
-// QA Brian Francis 10-28-2023
+// QA Brian Francis 11-23-23
