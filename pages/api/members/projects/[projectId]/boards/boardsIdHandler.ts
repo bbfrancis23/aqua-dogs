@@ -13,7 +13,12 @@ export type PatchBoardResponse = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<PatchBoardResponse>) => {
   const session = await getSession({req})
+
+  console.log('boardsIdHandler.ts: session', session)
+
   if (!session) {
+    console.log('could not find session')
+
     res.status(axios.HttpStatusCode.Unauthorized).json({
       message: 'Invalid Session',
     })
