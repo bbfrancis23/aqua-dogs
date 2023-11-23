@@ -12,6 +12,7 @@ import HoverLink from './HoverLink'
 import SaveButton, {SaveButtonProps} from './SaveButton'
 import DraggableDialog from './DraggableDialog'
 import FormActions, {ClickAwaySave, FormActionsProps} from './FormActions'
+import CardAccordion from './CardAccordion'
 
 export {
   InfoPageLayout,
@@ -27,6 +28,7 @@ export {
   DraggableDialog,
   ClickAwaySave,
   FormActions,
+  CardAccordion,
 }
 
 export type {SaveButtonProps, PermissionProps, FormActionsProps}

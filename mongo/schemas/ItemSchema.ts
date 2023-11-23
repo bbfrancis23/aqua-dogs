@@ -7,6 +7,9 @@ const itemSchema = new mongoose.Schema({
   downvotes: [{type: String, required: false}],
   owners: [{type: mongoose.Types.ObjectId, required: false, ref: 'members'}],
   scope: {type: String},
+  worth: {type: String, required: false},
+  complexity: {type: String, required: false},
+  priority: {type: String, required: false},
   archive: {type: Boolean, required: true, default: false},
   comments: [{type: mongoose.Types.ObjectId, required: false, ref: 'comments'}],
 })

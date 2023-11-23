@@ -20,6 +20,8 @@ export const patchItem = async (req, res) => {
 
   const authSession = await getSession({req})
 
+  console.log('patching item')
+
   if (authSession) {
     try {
       item = await Item.findById(itemId).populate({
@@ -42,23 +44,19 @@ export const patchItem = async (req, res) => {
       })
 
       if (hasPermission) {
-        const {title} = req.body
+        const {title, type, value} = req.body
 
         if (req.method === 'DELETE') {
           item.archive = true
         } else if (title) {
           item.title = title
+        } else if (type) {
+          item[type] = value
         }
 
         try {
           await item.save()
           item = await findItem(itemId)
-          // item = await Item.findById(itemId).populate({
-          //   path: 'sections',
-          //   model: Section,
-          // })
-
-          // item = item.toObject({getters: true, flattenMaps: true})
         } catch (e) {
           console.log(e)
           status = axios.HttpStatusCode.InternalServerError
