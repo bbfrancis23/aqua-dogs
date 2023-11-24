@@ -12,6 +12,8 @@ import {findMemberProjects} from '@/mongo/controls/member/memberControls'
 const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   await db.connect()
 
+  console.log('db connected', db)
+
   if (req.method !== 'POST') {
     res.status(axios.HttpStatusCode.MethodNotAllowed).json({
       message: 'Invalid Method',
@@ -43,6 +45,10 @@ const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     const newProj = new Project({title, leader: user.id})
     try {
       await newProj.save()
+
+      console.log('new proj', newProj)
+      console.log('session', session.user)
+
       const projects = await findMemberProjects(user.id)
       res.status(axios.HttpStatusCode.Created).json({
         message: 'Success',
