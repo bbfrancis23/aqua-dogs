@@ -22,9 +22,8 @@ export const createItem = async (req, res) => {
   let item = undefined
   let board = undefined
 
-  await db.connect()
-
   const authSession = await getServerSession(req, res, authOptions)
+  await db.connect()
 
   if (authSession) {
     const {projectId} = req.query

@@ -20,7 +20,6 @@ export const patchBoard = async (req: NextApiRequest, res: NextApiResponse<Patch
   const {projectId, boardId} = req.query
 
   const authSession = await getServerSession(req, res, authOptions)
-
   await db.connect()
 
   if (!authSession) {

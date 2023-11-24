@@ -13,8 +13,6 @@ const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(req, res, authOptions)
   await db.connect()
 
-  console.log('db connected', db)
-
   if (req.method !== 'POST') {
     res.status(axios.HttpStatusCode.MethodNotAllowed).json({
       message: 'Invalid Method',
@@ -43,13 +41,7 @@ const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const newProj = new Project({title, leader: user.id})
     try {
-      console.log('new proj', newProj)
-      console.log('session', session.user)
-      console.log('trying to save')
-      //await db.connect()
       await newProj.save()
-
-      console.log('saved')
 
       const projects = await findMemberProjects(user.id)
       res.status(axios.HttpStatusCode.Created).json({

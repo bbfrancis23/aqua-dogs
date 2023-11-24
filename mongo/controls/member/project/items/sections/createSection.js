@@ -19,9 +19,8 @@ export const createSection = async (req, res) => {
   let status = axios.HttpStatusCode.Ok
   let message = ''
 
-  await db.connect()
-
   const authSession = await getServerSession(req, res, authOptions)
+  await db.connect()
 
   if (authSession) {
     try {

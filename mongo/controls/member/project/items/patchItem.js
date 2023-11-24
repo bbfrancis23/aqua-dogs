@@ -17,9 +17,8 @@ export const patchItem = async (req, res) => {
   let message = ''
   let item = undefined
 
-  await db.connect()
-
   const authSession = await getServerSession(req, res, authOptions)
+  await db.connect()
 
   if (authSession) {
     try {

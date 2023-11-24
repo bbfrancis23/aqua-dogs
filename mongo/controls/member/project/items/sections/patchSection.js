@@ -21,9 +21,8 @@ export const patchSection = async (req, res) => {
   let item = undefined
   let section = undefined
 
-  await db.connect()
-
   const authSession = await getServerSession(req, res, authOptions)
+  await db.connect()
 
   if (authSession) {
     try {

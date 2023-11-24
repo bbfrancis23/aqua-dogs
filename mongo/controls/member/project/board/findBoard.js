@@ -21,9 +21,8 @@ export const getBoard = async (req, res) => {
   let message = ''
   let board = undefined
 
-  await db.connect()
-
   const authSession = await getServerSession(req, res, authOptions)
+  await db.connect()
 
   if (authSession) {
     const project = await Project.findById(projectId)

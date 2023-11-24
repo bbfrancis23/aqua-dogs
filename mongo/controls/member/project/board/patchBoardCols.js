@@ -17,7 +17,6 @@ export const patchBoardCols = async (req, res) => {
   let board = undefined
 
   const authSession = await getServerSession(req, res, authOptions)
-
   await db.connect()
 
   if (authSession) {

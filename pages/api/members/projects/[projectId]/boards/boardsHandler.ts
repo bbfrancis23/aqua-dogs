@@ -8,6 +8,7 @@ import axios from 'axios'
 import db from '@/mongo/db'
 
 const boardsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const session = await getServerSession(req, res, authOptions)
   await db.connect()
 
   if (req.method !== 'POST') {
@@ -17,7 +18,6 @@ const boardsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  const session = await getServerSession(req, res, authOptions)
   if (!session) {
     res.status(axios.HttpStatusCode.Unauthorized).json({
       message: 'Invalid Session',

@@ -13,15 +13,11 @@ export const createBoard = async (req: NextApiRequest, res: NextApiResponse) => 
   let status = axios.HttpStatusCode.Ok
   let message = ''
   let boards = undefined
-
-  console.log('create board called  ')
-
+  const authSession: any = await getServerSession(req, res, authOptions)
   await db.connect()
 
   if (req.body.title) {
     const {title} = req.body
-
-    const authSession: any = await getServerSession(req, res, authOptions)
 
     if (authSession && authSession.user) {
       const {projectId} = req.query

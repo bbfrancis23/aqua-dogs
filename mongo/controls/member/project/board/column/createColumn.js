@@ -16,12 +16,11 @@ export const createColumn = async (req, res) => {
   let message = ''
   let board = undefined
 
+  const authSession = await getServerSession(req, res, authOptions)
   await db.connect()
 
   if (req.body.title) {
     const {title} = req.body
-
-    const authSession = await getServerSession(req, res, authOptions)
 
     if (authSession) {
       const {projectId} = req.query

@@ -22,9 +22,8 @@ export const deleteSection = async (req, res) => {
   let item = undefined
   let status = axios.HttpStatusCode.Ok
   let message = ''
-  await db.connect()
-
   const authSession = await getServerSession(req, res, authOptions)
+  await db.connect()
 
   console.log('authSession', authSession)
 
