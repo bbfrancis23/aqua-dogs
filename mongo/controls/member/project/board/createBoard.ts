@@ -4,7 +4,9 @@ import db from '@/mongo/db'
 import Project from '@/mongo/schemas/ProjectSchema'
 import Board from '@/mongo/schemas/BoardSchema'
 
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
+
 import {NextApiRequest, NextApiResponse} from 'next'
 
 export const createBoard = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -12,12 +14,14 @@ export const createBoard = async (req: NextApiRequest, res: NextApiResponse) => 
   let message = ''
   let boards = undefined
 
+  console.log('create board called  ')
+
   await db.connect()
 
   if (req.body.title) {
     const {title} = req.body
 
-    const authSession: any = await getSession({req})
+    const authSession: any = await getServerSession(req, res, authOptions)
 
     if (authSession && authSession.user) {
       const {projectId} = req.query

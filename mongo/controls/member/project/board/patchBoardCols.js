@@ -1,5 +1,6 @@
 import db from '/mongo/db'
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 import mongoose from 'mongoose'
 
 import Project from '/mongo/schemas/ProjectSchema'
@@ -15,7 +16,7 @@ export const patchBoardCols = async (req, res) => {
   let message = ''
   let board = undefined
 
-  const authSession = await getSession({req})
+  const authSession = await getServerSession(req, res, authOptions)
 
   await db.connect()
 

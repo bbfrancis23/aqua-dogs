@@ -1,5 +1,5 @@
 import { useState, MouseEvent, useContext } from "react"
-import router from "next/router";
+import router from "next/router"
 import { Button, ButtonProps, Fade, IconButton, Menu, MenuItem, MenuProps } from "@mui/material"
 import { useConfirm } from "material-ui-confirm"
 import MenuIcon from '@mui/icons-material/MoreVert'
@@ -18,7 +18,7 @@ const BoardOptionsMenu = () => {
   const {enqueueSnackbar} = useSnackbar()
   const confirm = useConfirm()
 
-  const [anchorEl, setAnchorElement] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorElement] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
   const onClick = (event: MouseEvent<HTMLButtonElement>) => setAnchorElement(event.currentTarget)

@@ -1,7 +1,9 @@
 import db from '@/mongo/db'
-import {getSession} from 'next-auth/react'
 
 import Project from '@/mongo/schemas/ProjectSchema'
+
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 
 import axios from 'axios'
 
@@ -15,7 +17,7 @@ export const patchProject = async (
 ) => {
   const {projectId} = req.query
 
-  const authSession = await getSession({req})
+  const authSession = await getServerSession(req, res, authOptions)
 
   await db.connect()
 

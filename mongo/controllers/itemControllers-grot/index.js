@@ -2,7 +2,6 @@ import db from '/mongo/db'
 
 import Item from 'mongo/schemas/ItemSchema'
 import Section from '/mongo/schemas/SectionSchema'
-import {getSession} from 'next-auth/react'
 
 import {ObjectId} from 'mongodb'
 

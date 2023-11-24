@@ -11,7 +11,6 @@ const ProjectMembers = () => {
 
   const {PROJECT_LEADER, PROJECT_ADMIN, PROJECT_MEMBER} = PermissionCodes
 
-  console.log('member', member)
 
   return (
     <Stack spacing={1} sx={{ pr: 3, }}>

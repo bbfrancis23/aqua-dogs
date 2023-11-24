@@ -7,7 +7,8 @@ import Project from '@/mongo/schemas/ProjectSchema'
 import {NextApiRequest, NextApiResponse} from 'next'
 import db from '@/mongo/db'
 
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 import Item from '@/mongo/schemas/ItemSchema'
 import Section from '@/mongo/schemas/SectionSchema'
 import Member from '@/mongo/schemas/MemberSchema'
@@ -21,7 +22,7 @@ export const createComment = async (req: NextApiRequest, res: NextApiResponse) =
   const {commenttype, content} = req.body
   const {projectId, itemId} = req.query
 
-  const authSession = await getSession({req})
+  const authSession = await getServerSession(req, res, authOptions)
   await db.connect()
 
   if (!authSession) {

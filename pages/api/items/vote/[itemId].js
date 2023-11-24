@@ -2,8 +2,6 @@ import db from '/mongo/db'
 import Item from '/mongo/schemas/ItemSchema'
 import Section from '/mongo/schemas/SectionSchema'
 
-import {getSession} from 'next-auth/react'
-
 const processVote = async (item, vote, userId) => {
   item.upvotes = await item.upvotes.filter((v) => v !== userId)
   item.downvotes = await item.downvotes.filter((v) => v !== userId)
@@ -25,7 +23,6 @@ export default function handler(req, res) {
   // await db.connect()
 
   // if (req.method === 'PATCH') {
-  //   const session = await getSession({req})
 
   //   if (session) {
   //     try {

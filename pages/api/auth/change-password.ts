@@ -1,4 +1,5 @@
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 import bcryptjs from 'bcryptjs'
 import Member from '@/mongo/schemas/MemberSchema'
 import db from '@/mongo/db'
@@ -11,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  const session = await getSession({req})
+  const session = await getServerSession(req, res, authOptions)
 
   if (!session) {
     res.status(axios.HttpStatusCode.Unauthorized).json({message: 'Not Authenticated'})

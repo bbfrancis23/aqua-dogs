@@ -1,6 +1,7 @@
 import db from '@/mongo/db'
 
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 
 import Project from '@/mongo/schemas/ProjectSchema'
 import Board from '@/mongo/schemas/BoardSchema'
@@ -18,7 +19,7 @@ import {
 export const patchBoard = async (req: NextApiRequest, res: NextApiResponse<PatchBoardResponse>) => {
   const {projectId, boardId} = req.query
 
-  const authSession = await getSession({req})
+  const authSession = await getServerSession(req, res, authOptions)
 
   await db.connect()
 

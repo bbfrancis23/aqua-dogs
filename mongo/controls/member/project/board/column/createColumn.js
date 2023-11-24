@@ -5,8 +5,8 @@ import Project from '/mongo/schemas/ProjectSchema'
 import Board from '/mongo/schemas/BoardSchema'
 import Column from '/mongo/schemas/ColumnSchema'
 
-import {getSession} from 'next-auth/react'
-
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 import mongoose from 'mongoose'
 
 import findPublicBoard from '../findPublicBoard'
@@ -21,7 +21,7 @@ export const createColumn = async (req, res) => {
   if (req.body.title) {
     const {title} = req.body
 
-    const authSession = await getSession({req})
+    const authSession = await getServerSession(req, res, authOptions)
 
     if (authSession) {
       const {projectId} = req.query

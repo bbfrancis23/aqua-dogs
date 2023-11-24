@@ -6,7 +6,9 @@ import Board from '/mongo/schemas/BoardSchema'
 import Column from '/mongo/schemas/ColumnSchema'
 import Item from '/mongo/schemas/ItemSchema'
 import Member from '/mongo/schemas/MemberSchema'
-import {getSession} from 'next-auth/react'
+
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 
 import {PermissionCodes, permission} from 'fx/ui/PermissionComponent'
 
@@ -22,7 +24,7 @@ export const createItem = async (req, res) => {
 
   await db.connect()
 
-  const authSession = await getSession({req})
+  const authSession = await getServerSession(req, res, authOptions)
 
   if (authSession) {
     const {projectId} = req.query

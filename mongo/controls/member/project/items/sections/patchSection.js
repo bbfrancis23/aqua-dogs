@@ -1,6 +1,7 @@
 import db from '/mongo/db'
 import {ObjectId} from 'mongodb'
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 import axios from 'axios'
 import mongoose from 'mongoose'
 
@@ -22,7 +23,7 @@ export const patchSection = async (req, res) => {
 
   await db.connect()
 
-  const authSession = await getSession({req})
+  const authSession = await getServerSession(req, res, authOptions)
 
   if (authSession) {
     try {

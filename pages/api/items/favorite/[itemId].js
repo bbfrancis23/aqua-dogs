@@ -1,8 +1,6 @@
 import db from '/mongo/db'
 import Member from '/mongo/schemas/MemberSchema'
 
-import {getSession} from 'next-auth/react'
-
 export const handler = (req, res) => {
   // const {itemId} = req.query
 
@@ -14,7 +12,6 @@ export const handler = (req, res) => {
   // await db.connect()
 
   // if (req.method === 'PATCH') {
-  //   const session = await getSession({req})
 
   //   if (session) {
   //     try {
@@ -51,8 +48,6 @@ export const handler = (req, res) => {
   //     }
   //   }
   // } else if (req.method === 'GET') {
-  //   const session = await getSession({req})
-
   //   if (session) {
   //     try {
   //       member = await Member.findById(session.user.id).populate({

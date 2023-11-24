@@ -24,7 +24,7 @@ const ArchiveItemForm = () => {
       await confirm({description: `Archive ${item?.title}`})
         .then( () => {
           axios.delete(`/api/members/projects/${project?.id}/items/${item?.id}`).then((res) => {
-            enqueueSnackbar(`Archived ${project.title}`, {variant: "success"})
+            enqueueSnackbar(`Archived ${item?.title}`, {variant: "success"})
             router.push("/member")
           }).catch((error) => {
             enqueueSnackbar(`Error Archiving Project: ${error.response.data.message}`,
