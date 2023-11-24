@@ -44,10 +44,13 @@ const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const newProj = new Project({title, leader: user.id})
     try {
-      await newProj.save()
-
       console.log('new proj', newProj)
       console.log('session', session.user)
+      console.log('trying to save')
+
+      await newProj.save()
+
+      console.log('saved')
 
       const projects = await findMemberProjects(user.id)
       res.status(axios.HttpStatusCode.Created).json({
