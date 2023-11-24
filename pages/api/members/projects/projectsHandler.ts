@@ -47,7 +47,7 @@ const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       console.log('new proj', newProj)
       console.log('session', session.user)
       console.log('trying to save')
-
+      await db.connect()
       await newProj.save()
 
       console.log('saved')
