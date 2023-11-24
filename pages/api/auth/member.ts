@@ -1,7 +1,3 @@
-import {getSession} from 'next-auth/react'
-import Member from '@/mongo/schemas/MemberSchema'
-import db from '@/mongo/db'
-
 import {NextApiRequest, NextApiResponse} from 'next'
 import axios from 'axios'
 import {updateMember} from '@/mongo/controls/member/memberControls'

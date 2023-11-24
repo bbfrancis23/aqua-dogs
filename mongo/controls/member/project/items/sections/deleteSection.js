@@ -1,6 +1,7 @@
 import db from '/mongo/db'
 import {ObjectId} from 'mongodb'
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 import axios from 'axios'
 import mongoose from 'mongoose'
 
@@ -13,6 +14,8 @@ import {PermissionCodes, permission} from 'fx/ui/PermissionComponent'
 import {findItem} from '/mongo/controls/member/project/items/findItem'
 
 export const deleteSection = async (req, res) => {
+  console.log('deleting section ')
+
   const {sectionId} = req.query
 
   let section = undefined
@@ -21,7 +24,9 @@ export const deleteSection = async (req, res) => {
   let message = ''
   await db.connect()
 
-  const authSession = await getSession({req})
+  const authSession = await getServerSession(req, res, authOptions)
+
+  console.log('authSession', authSession)
 
   if (authSession) {
     try {

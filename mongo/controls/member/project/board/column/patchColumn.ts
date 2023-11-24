@@ -8,7 +8,8 @@ import {
 } from '@/mongo/controls/responses'
 import Project from '@/mongo/schemas/ProjectSchema'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 import Column from '@/mongo/schemas/ColumnSchema'
 import axios from 'axios'
 import findPublicBoard from '../findPublicBoard'
@@ -16,7 +17,7 @@ import findPublicBoard from '../findPublicBoard'
 export const patchColumn = async (req: NextApiRequest, res: NextApiResponse<ColumnResponse>) => {
   const {projectId, boardId, columnId} = req.query
 
-  const authSession = await getSession({req})
+  const authSession = await getServerSession(req, res, authOptions)
 
   await db.connect()
 

@@ -18,6 +18,7 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/react/*": ["react/*"],
+      "@/pages/*": ["pages/*"],
       "@/interfaces/*": ["interfaces/*"],
       "@/mongo/*": ["mongo/*"],
       "@/ui/*": ["ui/*"],

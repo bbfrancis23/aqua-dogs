@@ -3,16 +3,13 @@ import db from '@/mongo/db'
 
 import Project from '@/mongo/schemas/ProjectSchema'
 
-import {getSession} from 'next-auth/react'
 import {getServerSession} from 'next-auth/next'
-//import {findMemberProjects} from '@/mongo/controllers/memberControllers'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
+
 import {NextApiRequest, NextApiResponse} from 'next'
 import {findMemberProjects} from '@/mongo/controls/member/memberControls'
-import {authOptions} from '../../auth/[...nextauth]'
 
 const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(' trying to create project')
-
   await db.connect()
 
   if (req.method !== 'POST') {
@@ -22,11 +19,7 @@ const projectsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  //const session = await getSession({req})
   const session = await getServerSession(req, res, authOptions)
-
-  console.log('session', session)
-  // console.log('req', req)
 
   if (!session) {
     res.status(axios.HttpStatusCode.Unauthorized).json({

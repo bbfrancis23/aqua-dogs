@@ -7,7 +7,8 @@ import {Project as ProjectInterface} from '@/react/project/'
 import {Member as MemberInterface} from '@/react/members/member-types'
 import {NextApiRequest, NextApiResponse} from 'next'
 
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 
 export const findMember = async (email: string | null | undefined) => {
   await db.connect()
@@ -43,7 +44,7 @@ export const findMemberProjects = async (memberId: string) => {
 }
 
 export const updateMember = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({req})
+  const session = await getServerSession(req, res, authOptions)
 
   if (!session) {
     res.status(401).json({message: 'Not Authenticated'})

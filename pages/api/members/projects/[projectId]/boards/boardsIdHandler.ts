@@ -3,7 +3,8 @@ import {patchBoardCols} from '@/mongo/controls/member/project/board/patchBoardCo
 import {getBoard} from '@/mongo/controls/member/project/board/findBoard'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {Board} from '@/react/board/board-types'
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 import axios from 'axios'
 
 export type PatchBoardResponse = {
@@ -12,13 +13,8 @@ export type PatchBoardResponse = {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<PatchBoardResponse>) => {
-  const session = await getSession({req})
-
-  console.log('boardsIdHandler.ts: session', session)
-
+  const session = await getServerSession(req, res, authOptions)
   if (!session) {
-    console.log('could not find session')
-
     res.status(axios.HttpStatusCode.Unauthorized).json({
       message: 'Invalid Session',
     })

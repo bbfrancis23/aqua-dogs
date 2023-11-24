@@ -2,11 +2,12 @@ import {Item} from '@/react/item/item-types'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {findItem} from './findItem'
 
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 import axios from 'axios'
 
 export const getItem = async (req: NextApiRequest, res: NextApiResponse) => {
-  const authSession = await getSession({req})
+  const authSession = await getServerSession(req, res, authOptions)
 
   if (!authSession) {
     return res

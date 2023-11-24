@@ -3,7 +3,8 @@ import {
   notFoundResponse,
   unauthorizedResponse,
 } from '@/mongo/controls/responses'
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 import {NextApiRequest, NextApiResponse} from 'next/types'
 
 import db from '@/mongo/db'
@@ -24,7 +25,7 @@ import {PermissionCodes, permission} from 'fx/ui/PermissionComponent'
 export const deleteComment = async (req: NextApiRequest, res: NextApiResponse) => {
   const {projectId, itemId, commentId} = req.query
 
-  const authSession = await getSession({req})
+  const authSession = await getServerSession(req, res, authOptions)
   await db.connect()
 
   if (!authSession) {

@@ -1,7 +1,9 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {createBoard} from '@/mongo/controls/member/project/board/createBoard'
 
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
+
 import axios from 'axios'
 import db from '@/mongo/db'
 
@@ -15,7 +17,7 @@ const boardsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  const session = await getSession({req})
+  const session = await getServerSession(req, res, authOptions)
   if (!session) {
     res.status(axios.HttpStatusCode.Unauthorized).json({
       message: 'Invalid Session',

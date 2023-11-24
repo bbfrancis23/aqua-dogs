@@ -11,7 +11,8 @@ import mongoose from 'mongoose'
 
 import axios from 'axios'
 
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 
 export const getBoard = async (req, res) => {
   const {projectId, boardId} = req.query
@@ -22,7 +23,7 @@ export const getBoard = async (req, res) => {
 
   await db.connect()
 
-  const authSession = await getSession({req})
+  const authSession = await getServerSession(req, res, authOptions)
 
   if (authSession) {
     const project = await Project.findById(projectId)

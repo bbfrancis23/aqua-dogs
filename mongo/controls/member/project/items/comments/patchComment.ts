@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from 'next/types'
-import {getSession} from 'next-auth/react'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 
 import db from '@/mongo/db'
 import axios from 'axios'
@@ -25,7 +26,7 @@ export const patchComment = async (req: NextApiRequest, res: NextApiResponse) =>
   const {projectId, itemId, commentId} = req.query
   const {content, sectiontype} = req.body
 
-  const authSession = await getSession({req})
+  const authSession = await getServerSession(req, res, authOptions)
   await db.connect()
 
   if (!authSession) {
