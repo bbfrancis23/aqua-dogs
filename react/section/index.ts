@@ -1,3 +1,4 @@
+import CheckListSection from './components/CheckListSection'
 import CodeSection from './components/CodeSection'
 import SectionStub from './components/SectionStub'
 import TextSection from './components/TextSection'
@@ -13,6 +14,7 @@ export {
   commentSchema,
   SectionStub,
   SectionTypes,
+  CheckListSection,
 }
 
 export type {Section}

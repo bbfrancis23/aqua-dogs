@@ -18,7 +18,7 @@ import { ItemContext } from "@/react/item/ItemContext"
 
 import { Section } from "@/react/section/section-types"
 
-import EditItemTitleForm from "@/react/item/components/forms/EditItemTitleForm"
+import ItemTitleForm from "@/react/item/components/forms/ItemTitleForm"
 import CreateSectionForm from "@/react/section/components/forms/CreateSectionForm"
 import TextSection from "@/react/section/components/TextSection"
 import CodeSection from "@/react/section/components/CodeSection"
@@ -38,7 +38,7 @@ export const ItemPage = (props: MemberItemPageProps) => {
   const [item, setItem] = useState<Item>(props.item)
   const [showForm, setShowForm] = useState<boolean>(false)
 
-  const ItemTitle = (
+  const EditItemTitle = (
     <>
       <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
         <Typography variant={'h1'}
@@ -56,13 +56,13 @@ export const ItemPage = (props: MemberItemPageProps) => {
     </>
   )
 
-  const EditItemTitle = ( <EditItemTitleForm closeForm={() => setShowForm(false)}/> )
+  const ItemTitle = ( <ItemTitleForm closeForm={() => setShowForm(false)}/> )
 
   return (
     <ProjectContext.Provider value={{project, setProject: () => {}}}>
       <ItemContext.Provider value={{item, setItem}}>
         <MemberContext.Provider value={{member, setMember: () => {}}}>
-          <InfoPageLayout title={ showForm ? EditItemTitle : ItemTitle }>
+          <InfoPageLayout title={ showForm ? ItemTitle : ItemTitle }>
             <Stack spacing={3} alignItems={'flex-start'} sx={{p: 10, pt: 5, width: '100%'}}>
               { item.sections?.map( ( s: Section) => {
                 if(s.sectiontype === "63b88d18379a4f30bab59bad"){
