@@ -16,9 +16,7 @@ import SectionContext from "../SectionContext"
 
 export interface CheckListSectionProps { section: Section}
 
-export const CheckListSection = (props: CheckListSectionProps) => {
-
-  const [section, setSection] = useState<Section>(props.section)
+export const CheckListSection = ({section}: CheckListSectionProps) => {
 
   const {CHECKLIST} = SectionTypes
 
@@ -84,7 +82,7 @@ export const CheckListSection = (props: CheckListSectionProps) => {
 
   return (
     <>
-      <SectionContext.Provider value={{section, setSection}}>
+      <SectionContext.Provider value={{section, setSection: () => {}}}>
         {editSection && (
           <Box sx={{ width: '100%', pt: 1, }}>
             <FormikProvider value={formik}>
@@ -116,7 +114,7 @@ export const CheckListSection = (props: CheckListSectionProps) => {
           {
             section?.checkboxes?.map((c, i) => (
               <Stack direction={'row'} key={i}>
-                <FormControlLabel control={<Checkbox />} label={c.label} />
+                <Checkbox size="small"/> <Typography sx={{pt: 1}}>{c.label}</Typography>
               </Stack>
             ))
 

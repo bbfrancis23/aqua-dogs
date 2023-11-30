@@ -69,26 +69,24 @@ export const patchSection = async (req, res) => {
           }
 
           const {CODE, TEXT, CHECKLIST} = SectionTypes
-          if (sectiontype === CHECKLIST) {
-            if (label) {
-              const newCheckbox = new Checkbox({
-                label,
-                order: 1,
-              })
+          if (sectiontype === CHECKLIST && label) {
+            const newCheckbox = new Checkbox({
+              label,
+              order: 1,
+            })
 
-              try {
-                const dbSession = await mongoose.startSession()
-                dbSession.startTransaction()
-                await newCheckbox.save({dbSession})
-                await section.checkboxes.push(newCheckbox)
-                await section.save({dbSession})
-                item = await findItem(section.itemid)
-                await dbSession.commitTransaction()
-              } catch (e) {
-                status = axios.HttpStatusCode.InternalServerError
-                message = e
-                console.log('error', e)
-              }
+            try {
+              const dbSession = await mongoose.startSession()
+              dbSession.startTransaction()
+              await newCheckbox.save({dbSession})
+              await section.checkboxes.push(newCheckbox)
+              await section.save({dbSession})
+              item = await findItem(section.itemid)
+              await dbSession.commitTransaction()
+            } catch (e) {
+              status = axios.HttpStatusCode.InternalServerError
+              message = e
+              console.log('error', e)
             }
           } else {
             try {
