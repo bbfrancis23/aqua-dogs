@@ -1,7 +1,10 @@
+import {FxCheckbox} from '../checkbox/checkbox-types'
+
 export interface Section {
   content: string
   sectiontype: any
   itemid: string
+  checkboxes?: FxCheckbox[]
   id: string
 }
 

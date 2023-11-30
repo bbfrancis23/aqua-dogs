@@ -10,7 +10,7 @@ import { ProjectContext } from "@/react/project"
 import Comments from "@/react/comments"
 import {DraggableDialog } from "@/fx/ui"
 
-export interface MemberItemDialogProps {
+export interface ItemDialogProps {
   dialogIsOpen: boolean
   closeDialog: () => void
   itemId: string | null
@@ -18,7 +18,7 @@ export interface MemberItemDialogProps {
 
 const dummyItem = { title: 'undefined item title', id: '0', owners: ['0']}
 
-const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogProps) => {
+const ItemDialog = ({dialogIsOpen, closeDialog, itemId}: ItemDialogProps): JSX.Element => {
 
   const {CODE, TEXT, CHECKLIST} = SectionTypes
 
@@ -27,6 +27,7 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
 
   const [itemIsLoading, setItemIsLoading] = useState<boolean>(true)
   const [item, setItem] = useState<Item>(dummyItem)
+
 
   useEffect(() => {
 
@@ -94,6 +95,6 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
   )
 }
 
-export default MemberItemDialog
+export default ItemDialog
 
 // QA Brian Francis 11-22-23

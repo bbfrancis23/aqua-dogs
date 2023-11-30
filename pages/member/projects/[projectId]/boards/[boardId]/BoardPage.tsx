@@ -1,4 +1,4 @@
-import { useState, useContext } from "react"
+import { useState } from "react"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
 import { getSession } from "next-auth/react"
@@ -11,9 +11,8 @@ import { unAuthRedirect } from "@/error"
 import { Board, BoardToolbar, ProjectBoard, BoardContext, BoardThemeBG } from "@/react/board"
 import { Project, ProjectContext} from "@/react/project/"
 import { Member, MemberContext } from "@/react/members"
-import {MemberItemDialog} from "@/react/item/"
 import { PermissionCodes, permission } from "@/fx/ui"
-import { FxThemeContext } from "@/fx/theme"
+import { ItemDialog } from "@/react/item"
 export interface BoardPage {
   project: Project;
   projectBoards: Board[];
@@ -74,7 +73,7 @@ export const Page = (props: BoardPage) => {
               <ProjectBoard />
             </Stack>
           </BoardThemeBG>
-          <MemberItemDialog
+          <ItemDialog
             dialogIsOpen={itemDialogIsOpen}
             closeDialog={() => setItemDialogIsOpen(false)} itemId={selectedItem}/>
         </MemberContext.Provider>

@@ -1,5 +1,7 @@
 import { useContext, useState } from "react"
-import { Box, TextField, TextFieldProps, Typography } from "@mui/material"
+import { Box, Checkbox, FormControlLabel, Stack, TextField,
+  TextFieldProps, Typography } from "@mui/material"
+import ChecklistIcon from '@mui/icons-material/Checklist'
 import axios from "axios"
 import { Form, FormikProvider, useFormik } from "formik"
 import { useSnackbar } from "notistack"
@@ -9,10 +11,14 @@ import { Section, SectionTypes, sectionSchema } from "@/react/section"
 import { ClickAwaySave, FormActions, FormActionsProps} from "@/fx/ui"
 import Permission, { NoPermission, PermissionCodes} from "@/fx/ui/PermissionComponent"
 import { MemberContext } from "@/react/members"
+import ChecklistForm from "./forms/checklist/ChecklistForm"
+import SectionContext from "../SectionContext"
 
 export interface CheckListSectionProps { section: Section}
 
-export const CheckListSection = ({section}: CheckListSectionProps) => {
+export const CheckListSection = (props: CheckListSectionProps) => {
+
+  const [section, setSection] = useState<Section>(props.section)
 
   const {CHECKLIST} = SectionTypes
 
@@ -45,19 +51,19 @@ export const CheckListSection = ({section}: CheckListSectionProps) => {
     }
   })
 
-  const deleteSection = () => {
-    formik.setSubmitting(true)
-    axios.delete(`/api/members/projects/${project?.id}/items/${item?.id}/sections/${section.id}`)
-      .then((res) => {
-        setItem(res.data.item)
-        enqueueSnackbar("Item Checklist Deleted", {variant: "success"})
-        formik.setSubmitting(false)
-      })
-      .catch((e) => {
-        enqueueSnackbar(e.response.data.message, {variant: "error"})
-        formik.setSubmitting(false)
-      })
-  }
+  // const deleteSection = () => {
+  //   formik.setSubmitting(true)
+  //   axios.delete(`/api/members/projects/${project?.id}/items/${item?.id}/sections/${section.id}`)
+  //     .then((res) => {
+  //       setItem(res.data.item)
+  //       enqueueSnackbar("Item Checklist Deleted", {variant: "success"})
+  //       formik.setSubmitting(false)
+  //     })
+  //     .catch((e) => {
+  //       enqueueSnackbar(e.response.data.message, {variant: "error"})
+  //       formik.setSubmitting(false)
+  //     })
+  // }
 
   const {errors, touched, handleSubmit, getFieldProps} = formik
 
@@ -74,35 +80,50 @@ export const CheckListSection = ({section}: CheckListSectionProps) => {
   const formActionsProps: FormActionsProps = {
     title: 'Checklist',
     onCancel: () => setEditSection(false),
-    onDelete: deleteSection,
   }
 
   return (
     <>
-      {editSection && (
-        <Box sx={{ width: '100%', pt: 1, }}>
-          <FormikProvider value={formik}>
-            <ClickAwaySave>
-              <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <TextField {...checkListProps} />
-                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                  <FormActions {...formActionsProps} />
-                </Box>
-              </Form>
-            </ClickAwaySave>
-          </FormikProvider>
-        </ Box>
-      )}
-      { !editSection && (
-        <>
-          <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
-            <Typography onClick={() => setEditSection(true)} >{section.content}</Typography>
-          </Permission>
-          <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member} >
-            <Typography >{section.content}</Typography>
-          </NoPermission>
-        </>
-      )}
+      <SectionContext.Provider value={{section, setSection}}>
+        {editSection && (
+          <Box sx={{ width: '100%', pt: 1, }}>
+            <FormikProvider value={formik}>
+              <ClickAwaySave>
+                <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                  <TextField {...checkListProps} />
+                  <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <FormActions {...formActionsProps} />
+                  </Box>
+                </Form>
+              </ClickAwaySave>
+            </FormikProvider>
+          </ Box>
+        )}
+        { !editSection && (
+          <Stack direction={'row'} spacing={2}>
+            <ChecklistIcon />
+            <Permission code={PermissionCodes.ITEM_OWNER} item={item} member={member}>
+              <Typography onClick={() => setEditSection(true)} >{section.content}</Typography>
+            </Permission>
+            <NoPermission code={PermissionCodes.ITEM_OWNER} item={item} member={member} >
+              <Typography >{section.content}</Typography>
+            </NoPermission>
+          </Stack>
+        )}
+        <Stack sx={{ '&.MuiStack-root': {mt: 1}, borderRadius: 1,
+          p:2, border: '1px solid', borderColor: 'divider', width: '100%'}}>
+
+          {
+            section?.checkboxes?.map((c, i) => (
+              <Stack direction={'row'} key={i}>
+                <FormControlLabel control={<Checkbox />} label={c.label} />
+              </Stack>
+            ))
+
+          }
+          <ChecklistForm />
+        </Stack>
+      </SectionContext.Provider>
     </>
   )
 }
