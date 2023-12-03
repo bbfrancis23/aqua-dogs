@@ -4,11 +4,12 @@ import { useSnackbar } from "notistack"
 import axios from "axios"
 import { Item, ItemTitleForm, ArchiveItemForm, ItemTitle, AssessmentAccordion } from "@/react/item"
 import ItemContext from "@/react/item/ItemContext"
-import { CodeSection, CreateSectionForm, TextSection, CheckListSection } from "@/react/section"
+import { CodeSection, CreateSectionForm, TextSection } from "@/react/section"
 import { Section, SectionTypes} from "@/react/section/section-types"
 import { ProjectContext } from "@/react/project"
 import Comments from "@/react/comments"
 import {DraggableDialog } from "@/fx/ui"
+import { CheckListSection } from "@/react/checklist"
 
 export interface ItemDialogProps {
   dialogIsOpen: boolean
@@ -24,10 +25,8 @@ const ItemDialog = ({dialogIsOpen, closeDialog, itemId}: ItemDialogProps): JSX.E
 
   const {project} = useContext(ProjectContext)
   const {enqueueSnackbar} = useSnackbar()
-
   const [itemIsLoading, setItemIsLoading] = useState<boolean>(true)
   const [item, setItem] = useState<Item>(dummyItem)
-
 
   useEffect(() => {
 
@@ -42,7 +41,6 @@ const ItemDialog = ({dialogIsOpen, closeDialog, itemId}: ItemDialogProps): JSX.E
         enqueueSnackbar(error.response.data.message, {variant: "error"})
       })
   }, [project.id, itemId, dialogIsOpen, enqueueSnackbar])
-
 
   const [showForm, setShowForm] = useState<boolean>(false)
 
@@ -72,12 +70,12 @@ const ItemDialog = ({dialogIsOpen, closeDialog, itemId}: ItemDialogProps): JSX.E
             <DialogContent sx={{ width: {xs: 'auto', md: '600px'} }}>
               <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%'}}>
                 { item?.sections?.map( ( s: Section) => {
-                  if(s.sectiontype === CODE){
-                    return ( <CodeSection section={s} key={s.id}/> )
-                  }else if(s.sectiontype === TEXT){
-                    return ( <TextSection section={s} key={s.id} />)
+                  switch(s.sectiontype){
+                  case CODE: return ( <CodeSection section={s} key={s.id}/> )
+                  case TEXT: return ( <TextSection section={s} key={s.id} />)
+                  case CHECKLIST: return <CheckListSection section={s} key={s.id}/>
+                  default: return <></>
                   }
-                  return <CheckListSection section={s} key={s.id}/>
                 })}
                 <CreateSectionForm />
                 <AssessmentAccordion />
@@ -97,4 +95,4 @@ const ItemDialog = ({dialogIsOpen, closeDialog, itemId}: ItemDialogProps): JSX.E
 
 export default ItemDialog
 
-// QA Brian Francis 11-22-23
+// QA Brian Francis 12-03-23

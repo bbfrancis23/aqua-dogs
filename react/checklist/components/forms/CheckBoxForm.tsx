@@ -1,34 +1,28 @@
 import { useContext, useState } from "react"
 import { ClickAwaySave, FormActions, FormActionsProps } from "@/fx/ui"
 import { Box, Button, Checkbox, Stack, TextField, TextFieldProps } from "@mui/material"
-
-import { FormikProvider, useFormik, Form } from "formik"
-
-import * as Yup from 'yup'
-import SectionContext from "@/react/section/SectionContext"
-import { ProjectContext } from "@/react/project"
-import axios from "axios"
-import { SectionTypes } from "@/react/section"
-import { ItemContext } from "@/react/item"
 import { useSnackbar } from "notistack"
+import axios from "axios"
+import { FormikProvider, useFormik, Form } from "formik"
+import * as Yup from 'yup'
+import {SectionContext, SectionTypes} from "@/react/section"
+import { ProjectContext } from "@/react/project"
+import { ItemContext } from "@/react/item"
 
-const ChecklistForm = () => {
+const CheckBoxForm = () => {
 
-  const [showAddCheckbox, setShowAddCheckbox] = useState<boolean>(false)
   const {CHECKLIST} = SectionTypes
-
-  const {section, setSection} = useContext(SectionContext)
-  const {project, setProject} = useContext(ProjectContext)
+  const {section} = useContext(SectionContext)
+  const {project} = useContext(ProjectContext)
   const {item, setItem} = useContext(ItemContext)
+  const [showAddCheckbox, setShowAddCheckbox] = useState<boolean>(false)
 
   const {enqueueSnackbar} = useSnackbar()
-
 
   const formik = useFormik({
     initialValues: { label: '' },
     validationSchema: Yup.object().shape({label: Yup.string().required('label is required')}),
     onSubmit: (data) => {
-
 
       axios.patch(`/api/members/projects/${project?.id}/items/${item?.id}/sections/${section?.id}`,
         {label: data.label, sectiontype: CHECKLIST})
@@ -48,7 +42,7 @@ const ChecklistForm = () => {
     }
   })
 
-  const {errors, touched, handleSubmit, getFieldProps} = formik
+  const { handleSubmit, getFieldProps} = formik
 
   const checkboxLabelProps: TextFieldProps = {
     sx: { width: '100%'},
@@ -64,21 +58,15 @@ const ChecklistForm = () => {
     onCancel: () => setShowAddCheckbox(false),
   }
 
-
   return (
     <>
-
-
       { showAddCheckbox ? (
         <Box >
           <FormikProvider value={formik}>
             <ClickAwaySave {...formActionsProps}>
               <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                 <Stack direction={'row'} >
-                  <>
-                    <Checkbox disabled/><TextField {...checkboxLabelProps} />
-
-                  </>
+                  <><Checkbox disabled/><TextField {...checkboxLabelProps} /></>
                 </Stack>
                 <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                   <FormActions {...formActionsProps} />
@@ -89,7 +77,6 @@ const ChecklistForm = () => {
         </Box> )
         : (
           <Box>
-
             <Button onClick={() => setShowAddCheckbox(true)} variant={'contained'}>
             Add Checkbox
             </Button>
@@ -100,4 +87,4 @@ const ChecklistForm = () => {
   )
 }
 
-export default ChecklistForm
+export default CheckBoxForm

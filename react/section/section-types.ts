@@ -1,4 +1,4 @@
-import {FxCheckbox} from '../checkbox/checkbox-types'
+import {FxCheckbox} from '../checklist/checklist-types'
 
 export interface Section {
   content: string

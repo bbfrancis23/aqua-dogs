@@ -1,6 +1,8 @@
 import { useContext, useState } from "react"
 import { Box, Button, ButtonGroup, ButtonProps, Stack, TextField,
   TextFieldProps } from "@mui/material"
+import axios from "axios"
+import { Form, FormikProvider, useFormik } from "formik"
 import { useSnackbar } from "notistack"
 import TextAreaIcon from '@mui/icons-material/ViewHeadline'
 import CodeIcon from '@mui/icons-material/DataObject'
@@ -9,10 +11,8 @@ import { ItemContext } from "@/react/item"
 import { MemberContext } from "@/react/members"
 import { ProjectContext } from "@/react/project"
 import {SectionStub, SectionTypes, sectionSchema} from "@/react/section"
-import axios from "axios"
-import { Form, FormikProvider, useFormik } from "formik"
 import {Permission, PermissionCodes, FxCodeEditor, FormActions, ClickAwaySave } from "@/fx/ui"
-import ChecklistForm from "./checklist/ChecklistForm"
+import {CheckListForm} from "@/react/checklist"
 
 
 const CreateSectionForm = () => {
@@ -109,7 +109,7 @@ const CreateSectionForm = () => {
                     <FormActions title={'Section'} onCancel={() => setCreateSection(false)} />
                   </Box>
                 </Form>
-                <ChecklistForm />
+                <CheckListForm />
               </Stack>
             </ClickAwaySave>
           </FormikProvider>
