@@ -1,8 +1,8 @@
+import db from '@/mongo/db'
 import {NextApiRequest, NextApiResponse} from 'next/types'
 import {getServerSession} from 'next-auth/next'
 import {authOptions} from '@/pages/api/auth/[...nextauth]'
 import {findItem} from '@/mongo/controls/member/project/items/findItem'
-import db from '@/mongo/db'
 import axios from 'axios'
 import {findProject} from '@/mongo/controls/member/project/projectControls'
 import {
@@ -23,16 +23,23 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
   const {itemId, sectionId, projectId, checkboxId} = req.query
   const {value, label} = req.body
 
+  console.log('patchCheckbox called')
+
   await db.connect()
   const authSession = await getServerSession(req, res, authOptions)
   if (!authSession) return unauthorizedResponse(res, 'You have not been Authenticated')
+
+  console.log('valid authsession')
 
   let item = await Item.findById(itemId).populate([
     {path: 'sections', model: Section},
     {path: 'comments', model: Comment, populate: {path: 'owner', model: Member}},
   ])
   if (!item) notFoundResponse(res, 'Item not found')
+
+  console.log('valid item')
   if (!projectId) return notFoundResponse(res, 'Project not found')
+
   const project = await findProject(projectId as string)
 
   if (!project) return notFoundResponse(res, 'Project not found')
