@@ -57,7 +57,7 @@ const CheckListForm = () => {
       .then((res) => {
 
         if (res.status === axios.HttpStatusCode.Ok ){
-          //setItem(res.data.item)
+          setItem(res.data.item)
         }
       })
       .catch((e) => {
