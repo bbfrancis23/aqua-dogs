@@ -47,19 +47,19 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
     return serverErrRes(res, 'Error finding item')
   }
 
-  if (!item) {
-    console.log('item not found')
-    return notFoundResponse(res, 'Item not found')
-  }
+  // if (!item) {
+  //   console.log('item not found')
+  //   return notFoundResponse(res, 'Item not found')
+  // }
 
   console.log('valid item')
   //console.log('item', item)
-  if (!projectId) return notFoundResponse(res, 'Project not found')
+  //if (!projectId) return notFoundResponse(res, 'Project not found')
   console.log('valid projectId')
 
   const project = await findProject(projectId as string)
 
-  if (!project) return notFoundResponse(res, 'Project not found')
+  //if (!project) return notFoundResponse(res, 'Project not found')
 
   console.log('valid project')
   //console.log('project', project)
@@ -92,12 +92,15 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
 
   let section = null
   try {
+    await db.connect()
+    console.log('sectionID', sectionId)
+
     section = await Section.findById(sectionId).populate({
       path: 'sectiontype',
       model: SectionType,
     })
   } catch (e) {
-    console.log(e)
+    console.log('error: ', e)
     return serverErrRes(res, 'Error finding section')
   }
 
