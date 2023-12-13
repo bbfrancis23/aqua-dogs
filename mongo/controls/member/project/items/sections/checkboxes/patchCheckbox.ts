@@ -27,7 +27,10 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
 
   await db.connect()
   const authSession = await getServerSession(req, res, authOptions)
-  if (!authSession) return unauthorizedResponse(res, 'You have not been Authenticated')
+  if (!authSession) {
+    unauthorizedResponse(res, 'You have not been Authenticated')
+    return
+  }
 
   console.log('valid authsession')
 
@@ -35,7 +38,11 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
     {path: 'sections', model: Section},
     {path: 'comments', model: Comment, populate: {path: 'owner', model: Member}},
   ])
-  if (!item) notFoundResponse(res, 'Item not found')
+
+  if (!item) {
+    console.log('item not found')
+    return notFoundResponse(res, 'Item not found')
+  }
 
   console.log('valid item')
   if (!projectId) return notFoundResponse(res, 'Project not found')
