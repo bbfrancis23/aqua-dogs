@@ -37,7 +37,7 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
 
   let item = null
   try {
-    let item = await Item.findById(itemId).populate([
+    item = await Item.findById(itemId).populate([
       {path: 'sections', model: Section},
       {path: 'comments', model: Comment, populate: {path: 'owner', model: Member}},
     ])
