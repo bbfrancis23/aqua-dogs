@@ -53,10 +53,13 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
 
   console.log('valid item')
   if (!projectId) return notFoundResponse(res, 'Project not found')
+  console.log('valid projectId')
 
   const project = await findProject(projectId as string)
 
   if (!project) return notFoundResponse(res, 'Project not found')
+
+  console.log('valid project')
 
   let feItem: any = JSON.stringify(item)
   feItem = await JSON.parse(feItem)
@@ -90,7 +93,11 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
   if (!section || section.sectiontype.id !== CHECKLIST)
     return notFoundResponse(res, 'Section is not a checklist')
 
+  console.log('valid section')
+
   if (!hasPermission) return unauthorizedResponse(res, 'You do not have permission to edit this ')
+
+  console.log('has permission')
   let checkbox = await Checkbox.findById(checkboxId)
   if (!checkbox) notFoundResponse(res, 'Checkbox not found')
 
