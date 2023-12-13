@@ -8,6 +8,7 @@ import {findProject} from '@/mongo/controls/member/project/projectControls'
 import {
   internalServerErrorResponse,
   notFoundResponse,
+  serverErrRes,
   unauthorizedResponse,
 } from '@/mongo/controls/responses'
 import Item from '@/mongo/schemas/ItemSchema'
@@ -25,19 +26,25 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
 
   console.log('patchCheckbox called')
 
-  await db.connect()
   const authSession = await getServerSession(req, res, authOptions)
-  if (!authSession) {
-    unauthorizedResponse(res, 'You have not been Authenticated')
-    return
-  }
+  await db.connect()
+  // if (!authSession) {
+  //   unauthorizedResponse(res, 'You have not been Authenticated')
+  //   return
+  // }
 
   console.log('valid authsession')
 
-  let item = await Item.findById(itemId).populate([
-    {path: 'sections', model: Section},
-    {path: 'comments', model: Comment, populate: {path: 'owner', model: Member}},
-  ])
+  let item = null
+  try {
+    let item = await Item.findById(itemId).populate([
+      {path: 'sections', model: Section},
+      {path: 'comments', model: Comment, populate: {path: 'owner', model: Member}},
+    ])
+  } catch (e) {
+    console.log(e)
+    return serverErrRes(res, 'Error finding item')
+  }
 
   if (!item) {
     console.log('item not found')
