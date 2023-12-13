@@ -49,13 +49,15 @@ const CheckListForm = () => {
 
     if (!checkboxes) return
     const itemDir = `/api/members/projects/${project?.id}/items/${item?.id}`
+
+
     axios.patch(
       `${itemDir}/sections/${section?.id}/checkboxes/${checkboxes[index].id}`,
       {value: !checkboxes[index].value} )
       .then((res) => {
 
         if (res.status === axios.HttpStatusCode.Ok ){
-          setItem(res.data.item)
+          //setItem(res.data.item)
         }
       })
       .catch((e) => {
