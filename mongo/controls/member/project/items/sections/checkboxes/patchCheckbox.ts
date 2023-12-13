@@ -25,16 +25,12 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
   const {itemId, sectionId, projectId, checkboxId} = req.query
   const {value, label} = req.body
 
-  console.log('patchCheckbox called')
-
   const authSession = await getServerSession(req, res, authOptions)
   await db.connect()
   // if (!authSession) {
   //   unauthorizedResponse(res, 'You have not been Authenticated')
   //   return
   // }
-
-  console.log('valid authsession')
 
   let item = null
   try {
@@ -48,29 +44,20 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
   }
 
   // if (!item) {
-  //   console.log('item not found')
   //   return notFoundResponse(res, 'Item not found')
   // }
 
-  console.log('valid item')
-  //console.log('item', item)
   //if (!projectId) return notFoundResponse(res, 'Project not found')
-  console.log('valid projectId')
 
   const project = await findProject(projectId as string)
 
   //if (!project) return notFoundResponse(res, 'Project not found')
-
-  console.log('valid project')
-  //console.log('project', project)
 
   let feItem: any = JSON.stringify(item)
   feItem = await JSON.parse(feItem)
   let feProject: any = JSON.stringify(project)
   feProject = await JSON.parse(feProject)
   let hasPermission = false
-
-  console.log('valid feItem')
 
   if (label) {
     hasPermission = permission({
@@ -79,7 +66,6 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
       item: feItem,
     })
   }
-  console.log('valid label')
 
   if (value === true || value === false) {
     hasPermission = permission({
@@ -88,11 +74,9 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
       project,
     })
   }
-  console.log('check permissions')
-
   let section = null
   try {
-    await db.connect()
+    //await db.connect()
     console.log('sectionID', sectionId)
 
     section = await Section.findById(sectionId).populate({
@@ -104,21 +88,13 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
     return serverErrRes(res, 'Error finding section')
   }
 
-  console.log('section', section)
-
-  console.log('finding section')
-  console.log('section', section)
-
   const {CHECKLIST} = SectionTypes
 
   if (!section || section.sectiontype.id !== CHECKLIST)
     return notFoundResponse(res, 'Section is not a checklist')
 
-  console.log('valid section')
-
   if (!hasPermission) return unauthorizedResponse(res, 'You do not have permission to edit this ')
 
-  console.log('has permission')
   let checkbox = await Checkbox.findById(checkboxId)
   if (!checkbox) notFoundResponse(res, 'Checkbox not found')
 
