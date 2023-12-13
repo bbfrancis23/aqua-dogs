@@ -66,20 +66,6 @@ export const createSection = async (req, res) => {
         }
 
         item = await findItem(req.query.itemId)
-        // await db.disconnect()
-        // if (item) {
-        //   try {
-        //     item = await Item.findById(req.query.itemId).populate({
-        //       path: 'sections',
-        //       model: Section,
-        //     })
-        //   } catch (e) {
-        //     status = axios.HttpStatusCode.InternalServerError
-        //     message = e
-        //     console.log('error 2', e)
-        //   }
-        //   item = await item.toObject({getters: true, flattenMaps: true})
-        // }
       } else {
         status = axios.HttpStatusCode.Unauthorized
         message = 'You do not have Authorization.'

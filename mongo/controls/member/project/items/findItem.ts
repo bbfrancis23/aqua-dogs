@@ -3,6 +3,8 @@ import Item from '@/mongo/schemas/ItemSchema'
 import Section from '@/mongo/schemas/SectionSchema'
 import Comment from '@/mongo/schemas/CommentSchema'
 
+import Checkbox from '@/mongo/schemas/CheckboxSchema'
+
 import Member from '@/mongo/schemas/MemberSchema'
 
 export const findItem = async (itemId: string) => {
@@ -15,8 +17,18 @@ export const findItem = async (itemId: string) => {
       {
         path: 'sections',
         model: Section,
+        populate: [
+          {
+            path: 'checkboxes',
+            model: Checkbox,
+          },
+        ],
       },
-      {path: 'comments', model: Comment, populate: {path: 'owner', model: Member}},
+      {
+        path: 'comments',
+        model: Comment,
+        populate: {path: 'owner', model: Member},
+      },
     ])
 
     await db.disconnect()

@@ -1,25 +1,16 @@
-import {
-  internalServerErrorResponse,
-  notFoundResponse,
-  unauthorizedResponse,
-} from '@/mongo/controls/responses'
+import db from '@/mongo/db'
+import axios from 'axios'
+import mongoose from 'mongoose'
 import {getServerSession} from 'next-auth/next'
 import {authOptions} from '@/pages/api/auth/[...nextauth]'
 import {NextApiRequest, NextApiResponse} from 'next/types'
-
-import db from '@/mongo/db'
-import {ObjectId} from 'mongodb'
-import axios from 'axios'
-
-import mongoose from 'mongoose'
-
+import {serverErrRes, notFoundRes, unauthRes} from '@/mongo/controls/responses'
 import Project from '@/mongo/schemas/ProjectSchema'
 import Item from '@/mongo/schemas/ItemSchema'
 import Comment from '@/mongo/schemas/CommentSchema'
 import SectionType from '@/mongo/schemas/SectionTypeSchema'
 import Section from '@/mongo/schemas/SectionSchema'
 import Member from '@/mongo/schemas/MemberSchema'
-
 import {PermissionCodes, permission} from 'fx/ui/PermissionComponent'
 
 export const deleteComment = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -29,35 +20,29 @@ export const deleteComment = async (req: NextApiRequest, res: NextApiResponse) =
   await db.connect()
 
   if (!authSession) {
-    unauthorizedResponse(res, 'You are not logged in')
+    unauthRes(res, 'You are not logged in')
     return
   }
 
   const project = await Project.findById(projectId)
 
   if (!project) {
-    notFoundResponse(res, 'Project not found')
+    notFoundRes(res, 'Project not found')
     return
   }
 
   let comment = undefined
 
-  try {
-    comment = await Comment.findById(commentId).populate([
-      {
-        path: 'sectiontype',
-        model: SectionType,
-      },
-      {path: 'owner', model: Member},
-    ])
-  } catch (e) {
-    console.log(e)
-    internalServerErrorResponse(res, 'Error finding comment')
-    return
-  }
+  comment = await Comment.findById(commentId).populate([
+    {
+      path: 'sectiontype',
+      model: SectionType,
+    },
+    {path: 'owner', model: Member},
+  ])
 
   if (!comment) {
-    notFoundResponse(res, 'Comment not found')
+    notFoundRes(res, 'Comment not found')
     return
   }
 
@@ -67,7 +52,7 @@ export const deleteComment = async (req: NextApiRequest, res: NextApiResponse) =
   ])
 
   if (!item) {
-    notFoundResponse(res, 'Item not found')
+    notFoundRes(res, 'Item not found')
     return
   }
 
@@ -84,7 +69,7 @@ export const deleteComment = async (req: NextApiRequest, res: NextApiResponse) =
   })
 
   if (!hasPermission) {
-    unauthorizedResponse(res, 'You do not have permission to edit this comment')
+    unauthRes(res, 'You do not have permission to edit this comment')
     return
   }
 
@@ -105,7 +90,7 @@ export const deleteComment = async (req: NextApiRequest, res: NextApiResponse) =
     await dbSession.abortTransaction()
     dbSession.endSession()
     console.log(e)
-    internalServerErrorResponse(res, 'Error deleting section')
+    serverErrRes(res, 'Error deleting section')
   }
 
   ////////////////////

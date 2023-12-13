@@ -2,21 +2,23 @@ import {Item, ItemContextProps} from './item-types'
 import ItemContext from './ItemContext'
 import {getItemDirectory, getCardDirectory} from './item-functions'
 import CreateCommentForm from './components/CreateCommentForm'
-import MemberItemDialog from './components/dialogs/MemberItemDialog'
+import ItemDialog from './components/dialogs/ItemDialog'
 import CreateItemForm from './components/forms/CreateItemForm'
-import EditItemTitleForm from './components/forms/EditItemTitleForm'
+import ItemTitleForm from './components/forms/ItemTitleForm'
 import ArchiveItemForm from './components/forms/ArchiveItemForm'
 import ItemTitle from './components/ItemTitle'
+import AssessmentAccordion from './components/dialogs/accordions/AssessmentAccordion'
 
 export {
   ItemContext,
   getItemDirectory,
   getCardDirectory,
   CreateCommentForm,
-  MemberItemDialog,
+  ItemDialog,
   CreateItemForm,
-  EditItemTitleForm,
+  ItemTitleForm,
   ArchiveItemForm,
   ItemTitle,
+  AssessmentAccordion,
 }
 export type {Item, ItemContextProps}

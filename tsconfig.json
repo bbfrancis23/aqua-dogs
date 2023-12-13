@@ -21,6 +21,7 @@
       "@/pages/*": ["pages/*"],
       "@/interfaces/*": ["interfaces/*"],
       "@/mongo/*": ["mongo/*"],
+      "@/controls/*": ["mongo/controls/*"],
       "@/ui/*": ["ui/*"],
       "@/fx/*": ["fx/*"],
       "@/error": ["error"],

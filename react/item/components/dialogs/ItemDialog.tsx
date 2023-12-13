@@ -2,15 +2,16 @@ import { useContext, useEffect, useState } from "react"
 import { Button, DialogActions, DialogContent, Stack, } from "@mui/material"
 import { useSnackbar } from "notistack"
 import axios from "axios"
-import { Item, ItemContext, EditItemTitleForm, ArchiveItemForm, ItemTitle } from "@/react/item"
-import { Section, CodeSection, CreateSectionForm, TextSection } from "@/react/section"
+import { Item, ItemTitleForm, ArchiveItemForm, ItemTitle, AssessmentAccordion } from "@/react/item"
+import ItemContext from "@/react/item/ItemContext"
+import { CodeSection, CreateSectionForm, TextSection } from "@/react/section"
+import { Section, SectionTypes} from "@/react/section/section-types"
 import { ProjectContext } from "@/react/project"
-import { MemberContext } from "@/react/members"
 import Comments from "@/react/comments"
 import {DraggableDialog } from "@/fx/ui"
-import AssessmentAccordion from "./accordions/AssessmentAccordion"
+import { CheckListSection } from "@/react/checklist"
 
-export interface MemberItemDialogProps {
+export interface ItemDialogProps {
   dialogIsOpen: boolean
   closeDialog: () => void
   itemId: string | null
@@ -18,11 +19,12 @@ export interface MemberItemDialogProps {
 
 const dummyItem = { title: 'undefined item title', id: '0', owners: ['0']}
 
-const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogProps) => {
+const ItemDialog = ({dialogIsOpen, closeDialog, itemId}: ItemDialogProps): JSX.Element => {
+
+  const {CODE, TEXT, CHECKLIST} = SectionTypes
 
   const {project} = useContext(ProjectContext)
   const {enqueueSnackbar} = useSnackbar()
-
   const [itemIsLoading, setItemIsLoading] = useState<boolean>(true)
   const [item, setItem] = useState<Item>(dummyItem)
 
@@ -40,7 +42,6 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
       })
   }, [project.id, itemId, dialogIsOpen, enqueueSnackbar])
 
-
   const [showForm, setShowForm] = useState<boolean>(false)
 
   const endDialog = () => {
@@ -51,7 +52,7 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
   }
 
   const getItemTitle = () => {
-    return showForm ? <EditItemTitleForm closeForm={() => setShowForm(false)}/>
+    return showForm ? <ItemTitleForm closeForm={() => setShowForm(false)}/>
       : <ItemTitle itemIsLoading={itemIsLoading} setShowForm={setShowForm} />
   }
 
@@ -69,10 +70,12 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
             <DialogContent sx={{ width: {xs: 'auto', md: '600px'} }}>
               <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%'}}>
                 { item?.sections?.map( ( s: Section) => {
-                  if(s.sectiontype === "63b88d18379a4f30bab59bad"){
-                    return ( <CodeSection section={s} key={s.id}/> )
+                  switch(s.sectiontype){
+                  case CODE: return ( <CodeSection section={s} key={s.id}/> )
+                  case TEXT: return ( <TextSection section={s} key={s.id} />)
+                  case CHECKLIST: return <CheckListSection section={s} key={s.id}/>
+                  default: return <></>
                   }
-                  return ( <TextSection section={s} key={s.id} />)
                 })}
                 <CreateSectionForm />
                 <AssessmentAccordion />
@@ -90,6 +93,6 @@ const MemberItemDialog = ({dialogIsOpen, closeDialog, itemId}: MemberItemDialogP
   )
 }
 
-export default MemberItemDialog
+export default ItemDialog
 
-// QA Brian Francis 11-22-23
+// QA Brian Francis 12-03-23

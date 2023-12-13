@@ -2,6 +2,8 @@ import db from '/mongo/db'
 import {ObjectId} from 'mongodb'
 import {getServerSession} from 'next-auth/next'
 import {authOptions} from '@/pages/api/auth/[...nextauth]'
+
+import Checkbox from '/mongo/schemas/CheckboxSchema'
 import axios from 'axios'
 import mongoose from 'mongoose'
 
@@ -13,6 +15,10 @@ import SectionType from '/mongo/schemas/SectionTypeSchema'
 import {PermissionCodes, permission} from 'fx/ui/PermissionComponent'
 
 import {findItem} from '/mongo/controls/member/project/items/findItem'
+
+import {SectionTypes} from '@/react/section'
+
+/*eslint-disable */
 
 export const patchSection = async (req, res) => {
   const {sectionId} = req.query
@@ -53,7 +59,7 @@ export const patchSection = async (req, res) => {
         })
 
         if (hasPermission) {
-          const {sectiontype, content} = req.body
+          const {sectiontype, content, label} = req.body
 
           if (sectiontype) {
             section.sectiontype = sectiontype
@@ -62,12 +68,34 @@ export const patchSection = async (req, res) => {
             section.content = content
           }
 
-          try {
-            await section.save()
-            item = await findItem(section.itemid)
-          } catch (e) {
-            status = axios.HttpStatusCode.InternalServerError
-            message = e
+          const {CODE, TEXT, CHECKLIST} = SectionTypes
+          if (sectiontype === CHECKLIST && label) {
+            const newCheckbox = new Checkbox({
+              label,
+              order: 1,
+            })
+
+            try {
+              const dbSession = await mongoose.startSession()
+              dbSession.startTransaction()
+              await newCheckbox.save({dbSession})
+              await section.checkboxes.push(newCheckbox)
+              await section.save({dbSession})
+              item = await findItem(section.itemid)
+              await dbSession.commitTransaction()
+            } catch (e) {
+              status = axios.HttpStatusCode.InternalServerError
+              message = e
+              console.log('error', e)
+            }
+          } else {
+            try {
+              await section.save()
+              item = await findItem(section.itemid)
+            } catch (e) {
+              status = axios.HttpStatusCode.InternalServerError
+              message = e
+            }
           }
         } else {
           status = axios.HttpStatusCode.Unauthorized

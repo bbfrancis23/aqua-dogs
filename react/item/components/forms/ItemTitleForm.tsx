@@ -12,11 +12,11 @@ import { ItemContext } from "@/react/item/ItemContext"
 import { SaveButton } from "@/fx/ui"
 import { BoardContext } from "@/react/board"
 
-export interface EditItemTitleFormProps{ closeForm: () => void}
+export interface ItemTitleFormProps{ closeForm: () => void}
 
 const editItemSchema = Yup.object().shape({ title: Yup.string().required('Title is required')})
 
-const EditTitleItemForm = ({closeForm}: EditItemTitleFormProps) => {
+const ItemTitleForm = ({closeForm}: ItemTitleFormProps) => {
   const {board, setBoard} = useContext(BoardContext)
   const {project} = useContext(ProjectContext)
   const {item, setItem} = useContext(ItemContext)
@@ -82,6 +82,6 @@ const EditTitleItemForm = ({closeForm}: EditItemTitleFormProps) => {
   )
 }
 
-export default EditTitleItemForm
+export default ItemTitleForm
 
 // QA Brian Francis 11-23-23
