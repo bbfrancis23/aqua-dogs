@@ -20,6 +20,7 @@ import {PermissionCodes, permission} from 'fx/ui/PermissionComponent'
 import {SectionTypes} from '@/react/section'
 import Checkbox from '@/mongo/schemas/CheckboxSchema'
 
+/*eslint-disable */
 export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) => {
   const {itemId, sectionId, projectId, checkboxId} = req.query
   const {value, label} = req.body
@@ -52,6 +53,7 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
   }
 
   console.log('valid item')
+  console.log('item', item)
   if (!projectId) return notFoundResponse(res, 'Project not found')
   console.log('valid projectId')
 
@@ -60,12 +62,15 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
   if (!project) return notFoundResponse(res, 'Project not found')
 
   console.log('valid project')
+  console.log('project', project)
 
   let feItem: any = JSON.stringify(item)
   feItem = await JSON.parse(feItem)
   let feProject: any = JSON.stringify(project)
   feProject = await JSON.parse(feProject)
   let hasPermission = false
+
+  console.log('valid feItem')
 
   if (label) {
     hasPermission = permission({
@@ -74,6 +79,7 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
       item: feItem,
     })
   }
+  console.log('valid label')
 
   if (value === true || value === false) {
     hasPermission = permission({
@@ -87,6 +93,9 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
     path: 'sectiontype',
     model: SectionType,
   })
+
+  console.log('finding section')
+  console.log('section', section)
 
   const {CHECKLIST} = SectionTypes
 
