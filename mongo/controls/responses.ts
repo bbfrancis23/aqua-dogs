@@ -9,7 +9,21 @@ export const unauthorizedResponse = async (res: NextApiResponse, message: string
   })
 }
 
+export const unauthRes = async (res: NextApiResponse, message: string) => {
+  await db.disconnect()
+  res.status(axios.HttpStatusCode.Unauthorized).json({
+    message,
+  })
+}
+
 export const notFoundResponse = async (res: NextApiResponse, message: string) => {
+  await db.disconnect()
+  res.status(axios.HttpStatusCode.NotFound).json({
+    message,
+  })
+}
+
+export const notFoundRes = async (res: NextApiResponse, message: string) => {
   await db.disconnect()
   res.status(axios.HttpStatusCode.NotFound).json({
     message,
@@ -38,6 +52,13 @@ export const badRequestResponse = async (res: NextApiResponse, message: string) 
 }
 
 export const internalServerErrorResponse = async (res: NextApiResponse, message: string) => {
+  await db.disconnect()
+  res.status(axios.HttpStatusCode.InternalServerError).json({
+    message,
+  })
+}
+
+export const serverErrRes = async (res: NextApiResponse, message: string) => {
   await db.disconnect()
   res.status(axios.HttpStatusCode.InternalServerError).json({
     message,

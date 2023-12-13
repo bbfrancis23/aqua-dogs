@@ -80,7 +80,8 @@ const CheckBoxLabelForm = ({checkbox}: CheckBoxLabelFormProps) => {
               <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                 <TextField {...labelProps} />
                 <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                  <FormActions title={'Label'} onCancel={() => setShowForm(false)} />
+                  <FormActions title={'Label'} onCancel={() => setShowForm(false)}
+                    onDelete={() => deleteCheckbox()}/>
                 </Box>
               </Form>
             </ClickAwaySave>

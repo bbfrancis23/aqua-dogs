@@ -1,19 +1,17 @@
 import { useContext, useState } from "react"
-import { Box, Button, ButtonGroup, ButtonProps, Stack, TextField,
-  TextFieldProps } from "@mui/material"
-import axios from "axios"
-import { Form, FormikProvider, useFormik } from "formik"
-import { useSnackbar } from "notistack"
+import { Box, ButtonGroup, Stack, TextField, TextFieldProps } from "@mui/material"
+import Button, { ButtonProps} from "@mui/material/Button"
 import TextAreaIcon from '@mui/icons-material/ViewHeadline'
 import CodeIcon from '@mui/icons-material/DataObject'
 import ChecklistIcon from '@mui/icons-material/Checklist'
+import { useSnackbar } from "notistack"
+import axios from "axios"
+import { Form, FormikProvider, useFormik } from "formik"
 import { ItemContext } from "@/react/item"
 import { MemberContext } from "@/react/members"
 import { ProjectContext } from "@/react/project"
 import {SectionStub, SectionTypes, sectionSchema} from "@/react/section"
 import {Permission, PermissionCodes, FxCodeEditor, FormActions, ClickAwaySave } from "@/fx/ui"
-import {CheckListForm} from "@/react/checklist"
-
 
 const CreateSectionForm = () => {
 
@@ -102,14 +100,13 @@ const CreateSectionForm = () => {
                   { sectionType === TEXT && ( <TextField {...textFieldProps} /> )}
                   { sectionType === CHECKLIST && ( <TextField {...checkListProps} /> )}
                   { sectionType === CODE && (
-                    <FxCodeEditor placeholder="Create Code Section" {...getFieldProps('section')}
+                    <FxCodeEditor placeholder="Create Code" {...getFieldProps('section')}
                       autoFocus/>
                   ) }
                   <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                     <FormActions title={'Section'} onCancel={() => setCreateSection(false)} />
                   </Box>
                 </Form>
-                <CheckListForm />
               </Stack>
             </ClickAwaySave>
           </FormikProvider>
