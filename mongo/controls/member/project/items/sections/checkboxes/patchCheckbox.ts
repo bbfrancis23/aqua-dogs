@@ -53,7 +53,7 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
   }
 
   console.log('valid item')
-  console.log('item', item)
+  //console.log('item', item)
   if (!projectId) return notFoundResponse(res, 'Project not found')
   console.log('valid projectId')
 
@@ -62,7 +62,7 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
   if (!project) return notFoundResponse(res, 'Project not found')
 
   console.log('valid project')
-  console.log('project', project)
+  //console.log('project', project)
 
   let feItem: any = JSON.stringify(item)
   feItem = await JSON.parse(feItem)
@@ -88,11 +88,20 @@ export const patchCheckbox = async (req: NextApiRequest, res: NextApiResponse) =
       project,
     })
   }
+  console.log('check permissions')
 
-  let section = await Section.findById(sectionId).populate({
-    path: 'sectiontype',
-    model: SectionType,
-  })
+  let section = null
+  try {
+    section = await Section.findById(sectionId).populate({
+      path: 'sectiontype',
+      model: SectionType,
+    })
+  } catch (e) {
+    console.log(e)
+    return serverErrRes(res, 'Error finding section')
+  }
+
+  console.log('section', section)
 
   console.log('finding section')
   console.log('section', section)
