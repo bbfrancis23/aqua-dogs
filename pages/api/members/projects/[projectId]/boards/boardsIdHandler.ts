@@ -22,7 +22,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PatchBoardRespo
   }
 
   if (req.method === 'PATCH') {
+    console.log('patch')
     if (req.body.boardCols) {
+      console.log('patchBoardCols')
       await patchBoardCols(req, res)
       return
     } else {

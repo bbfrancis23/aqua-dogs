@@ -32,7 +32,10 @@ export const ProjectBoard = ( ) => {
     setOrderedColKeys(boardCols)
 
     axios.patch(`/api/members/projects/${project.id}/boards/${board.id}`, {columns: boardCols})
-      .then((res) => enqueueSnackbar(`Columns Reordered `, {variant: "success"}))
+      .then((res) => {
+        console.log(res.data)
+        enqueueSnackbar(`Columns Reordered `, {variant: "success"})
+      })
       .catch((e:string) => enqueueSnackbar(`Error Moving Columns: ${e}`, {variant: "error"}))
   }
 
@@ -47,6 +50,7 @@ export const ProjectBoard = ( ) => {
 
     if (result.type === 'COLUMN') {
 
+
       const reorderProps = {
         array: orderedColKeys,
         startIndex: source.index,
@@ -58,6 +62,7 @@ export const ProjectBoard = ( ) => {
     }
 
     const boardCols = reorderBoard({boardCols: boardKeyCols, source, destination})
+
 
     axios.patch(`/api/members/projects/${project.id}/boards/${board.id}`, {boardCols} )
       .then(() => enqueueSnackbar(`Cards Reordered `, {variant: "success"}))

@@ -16,6 +16,8 @@ export const patchBoardCols = async (req, res) => {
   let message = ''
   let board = undefined
 
+  console.log('patchBoardCols', projectId, boardId)
+
   const authSession = await getServerSession(req, res, authOptions)
   await db.connect()
 
@@ -30,6 +32,7 @@ export const patchBoardCols = async (req, res) => {
 
         if (board.project.toString() === projectId) {
           const boardCols = req.body.boardCols
+          console.log(boardCols)
 
           try {
             dbSession.startTransaction()

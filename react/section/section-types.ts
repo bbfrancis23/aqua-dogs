@@ -10,7 +10,7 @@ export interface Section {
 
 export enum SectionTypes {
   CODE = '63b88d18379a4f30bab59bad',
-  TEXT = '63b88d18379a4f30bab59bac',
+  TEXT = '63b2503c49220f42d9fc17d9',
   CHECKLIST = '6563a7fdbf30bb677e252c56',
 }
 
