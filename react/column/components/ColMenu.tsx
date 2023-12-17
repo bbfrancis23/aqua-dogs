@@ -116,19 +116,19 @@ const ArchiveColumnForm = ({column}: ArchiveColumnProps) => {
 
             <MenuItem>
 
-              <Button variant={'outlined'} onClick={() => sortByAssessment()}>
+              <Button  onClick={() => sortByAssessment()}>
                 SORT BY ASSESSMENT
               </Button>
             </MenuItem>
             <MenuItem>
-              <Button variant={'contained'}
+              <Button
                 sx={{width: '100%'}} color="error" onClick={() => archive()}>
                 ARCHIVE COLUMN
               </Button>
 
             </MenuItem>
             <MenuItem >
-              <Button variant={'outlined'} sx={{width: '100%'}} onClick={() => close()}>
+              <Button  sx={{width: '100%'}} onClick={() => close()}>
               CLOSE
               </Button>
             </MenuItem>
