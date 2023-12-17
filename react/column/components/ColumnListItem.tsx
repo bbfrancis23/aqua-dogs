@@ -21,39 +21,30 @@ const ColumnListItem = ({item}: ColumnListProps) => {
     setItemDialogIsOpen(true)
   }
 
-  const getBgColor = () => {
-    if(fx.theme.palette.mode === 'light') return 'secondary.main'
-    return ''
-  }
-
-  const getTextColor = () => {
-    if(fx.theme.palette.mode === 'light') return 'secondary.contrastText'
-    return 'secondary.main'
-  }
 
   const textColor = fx.theme.palette.text.primary
   const itemDirectory = `/member/projects/${project.id}/items/`
 
   const {LOW, MED, HIGH} = AssessmentValues
-  const {WORTH, COMPLEXITY, PRIORITY} = AssessmentTypes
-  const types = [WORTH, COMPLEXITY, PRIORITY]
+  const {PRIORITY, WORTH, SIMPLICITY } = AssessmentTypes
+  const types = [PRIORITY, WORTH, SIMPLICITY]
 
   const getTempratureColor = (value: AssessmentValues | undefined) => {
     switch (value) {
-    case LOW: return 'primary.light'
-    case MED: return 'primary.dark'
-    case HIGH: return 'primary.main'
+    case LOW: return 'info.light'
+    case MED: return 'info.main'
+    case HIGH: return 'info.dark'
     default: return ''
     }
   }
 
   return (
 
-    <Card sx={{bgcolor: getBgColor}}>
+    <Card >
       <CardHeader
         title={
           setItemDialogIsOpen ?
-            <Button onClick={() => openItemDialog()} sx={{color: getTextColor(), width: "100%"}}>
+            <Button onClick={() => openItemDialog()} sx={{color:textColor, width: "100%"}}>
               {item.title}
             </Button>
             :
@@ -63,7 +54,7 @@ const ColumnListItem = ({item}: ColumnListProps) => {
         }
       />
       {
-        (item.complexity || item.priority || item.worth) && (
+        (item.simplicity || item.priority || item.worth) && (
           <CardContent sx={{p: 0, m: 0, ml: '3px', '&:last-child': {p: 0}}}>
             { types.map((t) => {
               if(item[t] !== undefined) {

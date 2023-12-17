@@ -1,7 +1,7 @@
 import {Dispatch, SetStateAction} from 'react'
 import {Section} from '../section'
 import {Comment} from '../comments'
-import {AssessmentTypes, AssessmentValues} from '../assessments/assessment-types'
+import {AssessmentValues} from '../assessments/assessment-types'
 
 export interface Item {
   title: string
@@ -14,8 +14,9 @@ export interface Item {
   directioryId?: string
   comments?: Comment[]
   worth?: AssessmentValues
-  complexity?: AssessmentValues
+  simplicity?: AssessmentValues
   priority?: AssessmentValues
+  assessmentScore?: number
 }
 
 export interface ItemContextProps {
