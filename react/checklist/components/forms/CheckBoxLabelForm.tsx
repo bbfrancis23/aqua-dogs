@@ -4,13 +4,11 @@ import axios from "axios"
 import { Form, FormikProvider, useFormik } from "formik"
 import { useSnackbar } from "notistack"
 import * as Yup from 'yup'
-import { ClickAwaySave, FormActions } from "@/fx/ui"
-import { BoardContext } from "@/react/board"
+import { ClickAwaySave, FormActions, FormActionsProps } from "@/fx/ui"
 import {ItemContext} from "@/react/item"
 import { ProjectContext } from "@/react/project"
 import {SectionContext} from "@/react/section"
 import { FxCheckbox } from "@/react/checklist"
-
 
 export interface CheckBoxLabelFormProps { checkbox: FxCheckbox}
 
@@ -59,7 +57,8 @@ const CheckBoxLabelForm = ({checkbox}: CheckBoxLabelFormProps) => {
 
   const deleteCheckbox = () => {
     formik.setSubmitting(true)
-    axios.delete(`/api/members/projects/${project?.id}/items/${item?.id}/sections/${section?.id}`)
+    const itemDir = `/api/members/projects/${project?.id}/items/${item?.id}`
+    axios.delete(`${itemDir}/sections/${section?.id}/checkboxes/${checkbox.id}`)
       .then((res) => {
         setItem(res.data.item)
         enqueueSnackbar("Item Checklist Deleted", {variant: "success"})
@@ -71,17 +70,22 @@ const CheckBoxLabelForm = ({checkbox}: CheckBoxLabelFormProps) => {
       })
   }
 
+  const formActionProps: FormActionsProps = {
+    title: 'Label',
+    onCancel: () => setShowForm(false),
+    onDelete: () => deleteCheckbox()
+  }
+
   return (
-    <Box sx={{width: '100%'}}>
+    <Box >
       { showForm && (
-        <Box sx={{position: 'relative', top: '25px'}}>
+        <Box >
           <FormikProvider value={formik}>
             <ClickAwaySave>
               <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                 <TextField {...labelProps} />
                 <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                  <FormActions title={'Label'} onCancel={() => setShowForm(false)}
-                    onDelete={() => deleteCheckbox()}/>
+                  <FormActions {...formActionProps}/>
                 </Box>
               </Form>
             </ClickAwaySave>
@@ -97,4 +101,4 @@ const CheckBoxLabelForm = ({checkbox}: CheckBoxLabelFormProps) => {
 
 export default CheckBoxLabelForm
 
-// QA: Brian Francis 12/3/23
+// QA: Brian Francis 12/18/23

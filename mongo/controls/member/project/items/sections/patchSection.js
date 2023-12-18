@@ -59,7 +59,7 @@ export const patchSection = async (req, res) => {
         })
 
         if (hasPermission) {
-          const {sectiontype, content, label} = req.body
+          const {sectiontype, content, label, checkboxes} = req.body
 
           if (sectiontype) {
             section.sectiontype = sectiontype
@@ -87,6 +87,15 @@ export const patchSection = async (req, res) => {
               status = axios.HttpStatusCode.InternalServerError
               message = e
               console.log('error', e)
+            }
+          } else if (sectiontype === CHECKLIST && checkboxes) {
+            section.checkboxes = checkboxes
+            try {
+              await section.save()
+              item = await findItem(section.itemid)
+            } catch (e) {
+              status = axios.HttpStatusCode.InternalServerError
+              message = e
             }
           } else {
             try {

@@ -6,6 +6,7 @@ import Column from '/mongo/schemas/ColumnSchema'
 import Item from '/mongo/schemas/ItemSchema'
 
 import Section from '/mongo/schemas/SectionSchema'
+import Checkbox from '/mongo/schemas/CheckboxSchema'
 
 export const findPublicBoard = async (id) => {
   let board = undefined
@@ -21,7 +22,16 @@ export const findPublicBoard = async (id) => {
       path: 'items',
       model: Item,
       match: {archive: {$ne: true}},
-      populate: {path: 'sections', model: Section},
+      populate: {
+        path: 'sections',
+        model: Section,
+        populate: [
+          {
+            path: 'checkboxes',
+            model: Checkbox,
+          },
+        ],
+      },
     },
   })
 

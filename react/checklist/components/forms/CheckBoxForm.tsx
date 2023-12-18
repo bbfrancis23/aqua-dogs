@@ -29,7 +29,7 @@ const CheckBoxForm = () => {
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
-            formik.resetForm({values: {label: data.label}})
+            formik.resetForm({values: {label: ''}})
             setItem(res.data.item)
             enqueueSnackbar("Item Checklist Updated", {variant: "success"})
             setShowAddCheckbox(false)
@@ -77,7 +77,7 @@ const CheckBoxForm = () => {
         </Box> )
         : (
           <Box>
-            <Button onClick={() => setShowAddCheckbox(true)} variant={'contained'}>
+            <Button onClick={() => setShowAddCheckbox(true)} variant={'outlined'} color={'inherit'}>
             Add Checkbox
             </Button>
           </Box>
