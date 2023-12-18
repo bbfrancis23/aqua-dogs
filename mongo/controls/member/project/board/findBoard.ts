@@ -10,6 +10,7 @@ import Section from '@/mongo/schemas/SectionSchema'
 import Project from '@/mongo/schemas/ProjectSchema'
 import Member from '@/mongo/schemas/MemberSchema'
 import {forbiddenResponse, notFoundResponse, unauthorizedResponse} from '@/mongo/controls/responses'
+import Checkbox from '@/mongo/schemas/CheckboxSchema'
 
 export const getBoard = async (req: NextApiRequest, res: NextApiResponse) => {
   const {projectId, boardId} = req.query
@@ -52,7 +53,16 @@ export const getBoard = async (req: NextApiRequest, res: NextApiResponse) => {
       path: 'items',
       model: Item,
       match: {archive: {$ne: true}},
-      populate: {path: 'sections', model: Section},
+      populate: {
+        path: 'sections',
+        model: Section,
+        populate: [
+          {
+            path: 'checkboxes',
+            model: Checkbox,
+          },
+        ],
+      },
     },
   })
   if (!board) return notFoundResponse(res, 'Board not found')

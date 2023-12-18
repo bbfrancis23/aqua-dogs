@@ -37,8 +37,6 @@ const ItemDialog = ({dialogIsOpen, closeDialog, itemId}: ItemDialogProps): JSX.E
       .then((response) => {
         setItem(response.data.item)
 
-        console.log('item', response.data.item)
-
         setItemIsLoading(false)
       }) .catch((error) => {
         enqueueSnackbar(error.response.data.message, {variant: "error"})
@@ -73,8 +71,6 @@ const ItemDialog = ({dialogIsOpen, closeDialog, itemId}: ItemDialogProps): JSX.E
             <DialogContent sx={{ width: {xs: 'auto', md: '600px'} }}>
               <Stack spacing={3} alignItems={'flex-start'} sx={{ width: '100%'}}>
                 { item?.sections?.map( ( s: Section) => {
-                  console.log('section', s)
-                  console.log(CODE, TEXT, CHECKLIST)
 
                   switch(s.sectiontype){
                   case CODE: return ( <CodeSection section={s} key={s.id}/> )

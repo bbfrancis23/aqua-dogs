@@ -12,8 +12,6 @@ export const findItem = async (itemId: string) => {
 
   let item: any = undefined
 
-  console.log('findItem', itemId)
-
   try {
     item = await Item.findById(itemId).populate([
       {
