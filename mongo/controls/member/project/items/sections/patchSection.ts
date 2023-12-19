@@ -26,6 +26,8 @@ import {
   unauthorizedResponse,
 } from '@/mongo/controls/responses'
 
+/* eslint-disable */
+
 export const patchSection = async (req: NextApiRequest, res: NextApiResponse) => {
   const {sectionId} = req.query
 
@@ -83,6 +85,7 @@ export const patchSection = async (req: NextApiRequest, res: NextApiResponse) =>
     try {
       dbSession.startTransaction()
       await newCheckbox.save({dbSession})
+
       await section.checkboxes.push(newCheckbox)
       await section.save({dbSession})
       item = await findItem(section.itemid)
@@ -94,6 +97,8 @@ export const patchSection = async (req: NextApiRequest, res: NextApiResponse) =>
       })
     } catch (e) {
       console.log('error', e)
+      await dbSession.abortTransaction()
+      await dbSession.endSession()
       return serverErrRes(res, 'Error updating section')
     }
   }
