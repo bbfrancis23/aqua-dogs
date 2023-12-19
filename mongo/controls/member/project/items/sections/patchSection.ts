@@ -68,10 +68,12 @@ export const patchSection = async (req: NextApiRequest, res: NextApiResponse) =>
     return
   }
 
-  const sectionType = section.sectiontype
-  const {CODE, TEXT, CHECKLIST} = SectionTypes
+  const {CHECKLIST} = SectionTypes
   const {sectiontype, content, label, checkboxes} = req.body
-  if (section.sectiontype === CHECKLIST && label) {
+
+  console.log(sectiontype, CHECKLIST, label)
+
+  if (sectiontype === CHECKLIST && label) {
     const newCheckbox = new Checkbox({
       label,
       order: 1,
