@@ -57,9 +57,11 @@ export const CheckListTitleForm = ({closeForm}: CheckListTitleFormProps) => {
     formik.setSubmitting(true)
     axios.delete(`/api/members/projects/${project?.id}/items/${item?.id}/sections/${section?.id}`)
       .then((res) => {
+        console.log('deleted')
         setItem(res.data.item)
         enqueueSnackbar("Item Checklist Deleted", {variant: "success"})
         formik.setSubmitting(false)
+        closeForm()
       })
       .catch((e) => {
         enqueueSnackbar(e.response.data.message, {variant: "error"})

@@ -28,7 +28,7 @@ const CheckBoxForm = () => {
         {label: data.label, sectiontype: CHECKLIST})
         .then((res) => {
           formik.setSubmitting(false)
-          if (res.status === axios.HttpStatusCode.Ok ){
+          if (res.status === axios.HttpStatusCode.Created ){
             formik.resetForm({values: {label: ''}})
             setItem(res.data.item)
             enqueueSnackbar("Item Checklist Updated", {variant: "success"})

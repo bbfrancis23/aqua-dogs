@@ -76,31 +76,36 @@ export const patchSection = async (req: NextApiRequest, res: NextApiResponse) =>
   console.log(sectiontype, CHECKLIST, label)
 
   if (sectiontype === CHECKLIST && label) {
-    const newCheckbox = new Checkbox({
-      label,
-      order: 1,
-    })
-
     const dbSession = await mongoose.startSession()
     try {
       dbSession.startTransaction()
+
+      const newCheckbox = new Checkbox({
+        label,
+        order: 1,
+      })
+
       await newCheckbox.save({dbSession})
 
+      console.log('newCheckbox', newCheckbox)
       await section.checkboxes.push(newCheckbox)
+
+      console.log('section', section)
       await section.save({dbSession})
-      item = await findItem(section.itemid)
       await dbSession.commitTransaction()
-      await db.disconnect()
-      return res.status(axios.HttpStatusCode.Created).json({
-        message: 'Section was updated',
-        item,
-      })
+      item = await findItem(section.itemid)
     } catch (e) {
       console.log('error', e)
       await dbSession.abortTransaction()
       await dbSession.endSession()
       return serverErrRes(res, 'Error updating section')
     }
+
+    await db.disconnect()
+    return res.status(axios.HttpStatusCode.Created).json({
+      message: 'Section was updated',
+      item,
+    })
   }
 
   if (sectiontype === CHECKLIST && checkboxes) {
