@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { List } from "@mui/material"
 import { useSnackbar } from "notistack"
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd"
@@ -20,6 +20,14 @@ const CheckList = ({checkboxes}: CheckListProps) => {
   const {section} = useContext(SectionContext)
 
   const [listItems, setListItems] = useState<FxCheckbox[]>(checkboxes)
+
+  useEffect(() => {
+
+    console.log('checkboexs changed')
+    if (!checkboxes) return
+
+    setListItems(checkboxes)
+  }, [checkboxes])
 
   const {enqueueSnackbar} = useSnackbar()
   const secDir = `/api/members/projects/${project?.id}/items/${item?.id}/sections/${section?.id}`

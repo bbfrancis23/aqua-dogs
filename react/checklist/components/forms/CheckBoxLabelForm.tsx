@@ -30,9 +30,7 @@ const CheckBoxLabelForm = ({checkbox}: CheckBoxLabelFormProps) => {
         .then((res) => {
           formik.setSubmitting(false)
 
-          console.log(res.status)
           if (res.status === axios.HttpStatusCode.Created ){
-            console.log('created')
             formik.resetForm({values: {label: ''}})
             setItem(res.data.item)
             enqueueSnackbar("Label Updated", {variant: "success"})

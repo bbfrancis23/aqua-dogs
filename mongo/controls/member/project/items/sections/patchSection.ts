@@ -73,8 +73,6 @@ export const patchSection = async (req: NextApiRequest, res: NextApiResponse) =>
   const {CHECKLIST} = SectionTypes
   const {sectiontype, content, label, checkboxes} = req.body
 
-  console.log(sectiontype, CHECKLIST, label)
-
   if (sectiontype === CHECKLIST && label) {
     const dbSession = await mongoose.startSession()
     try {
@@ -86,11 +84,8 @@ export const patchSection = async (req: NextApiRequest, res: NextApiResponse) =>
       })
 
       await newCheckbox.save({dbSession})
-
-      console.log('newCheckbox', newCheckbox)
       await section.checkboxes.push(newCheckbox)
 
-      console.log('section', section)
       await section.save({dbSession})
       await dbSession.commitTransaction()
       item = await findItem(section.itemid)

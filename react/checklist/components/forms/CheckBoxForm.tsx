@@ -8,6 +8,7 @@ import * as Yup from 'yup'
 import {SectionContext, SectionTypes} from "@/react/section"
 import { ProjectContext } from "@/react/project"
 import { ItemContext } from "@/react/item"
+import { BoardContext } from "@/react/board"
 
 const CheckBoxForm = () => {
 
@@ -16,6 +17,7 @@ const CheckBoxForm = () => {
   const {project} = useContext(ProjectContext)
   const {item, setItem} = useContext(ItemContext)
   const [showAddCheckbox, setShowAddCheckbox] = useState<boolean>(false)
+  const {board, setBoard} = useContext(BoardContext)
 
   const {enqueueSnackbar} = useSnackbar()
 
@@ -31,8 +33,14 @@ const CheckBoxForm = () => {
           if (res.status === axios.HttpStatusCode.Created ){
             formik.resetForm({values: {label: ''}})
             setItem(res.data.item)
+
+            console.log('item', item)
+
             enqueueSnackbar("Item Checklist Updated", {variant: "success"})
             setShowAddCheckbox(false)
+            axios.get(`/api/members/projects/${project?.id}/boards/${board?.id}`).then((res) => {
+              if (res.status === axios.HttpStatusCode.Ok) setBoard(res.data.board)
+            })
           }
         })
         .catch((e) => {
