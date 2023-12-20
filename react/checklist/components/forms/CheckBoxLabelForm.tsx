@@ -29,8 +29,9 @@ const CheckBoxLabelForm = ({checkbox}: CheckBoxLabelFormProps) => {
         {label: data.label} )
         .then((res) => {
           formik.setSubmitting(false)
-          if (res.status === axios.HttpStatusCode.Ok ){
-            formik.resetForm({values: {label: data.label}})
+
+          if (res.status === axios.HttpStatusCode.Created ){
+            formik.resetForm({values: {label: ''}})
             setItem(res.data.item)
             enqueueSnackbar("Label Updated", {variant: "success"})
             setShowForm(false)
@@ -62,6 +63,7 @@ const CheckBoxLabelForm = ({checkbox}: CheckBoxLabelFormProps) => {
       .then((res) => {
         setItem(res.data.item)
         enqueueSnackbar("Item Checklist Deleted", {variant: "success"})
+        setShowForm(false)
         formik.setSubmitting(false)
       })
       .catch((e) => {

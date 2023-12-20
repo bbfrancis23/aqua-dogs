@@ -17,7 +17,7 @@ export const patchProject = async (
 ) => {
   const {projectId} = req.query
 
-  const authSession = await getServerSession(req, res, authOptions)
+  const authSession: any = await getServerSession(req, res, authOptions)
 
   await db.connect()
 

@@ -30,6 +30,8 @@ const ItemDialog = ({dialogIsOpen, closeDialog, itemId}: ItemDialogProps): JSX.E
 
   useEffect(() => {
 
+    console.log('ItemDialog: useEffect: itemId', itemId)
+
     if(!itemId) return
     if(dialogIsOpen === false) return
 

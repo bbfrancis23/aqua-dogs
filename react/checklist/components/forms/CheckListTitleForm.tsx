@@ -60,6 +60,7 @@ export const CheckListTitleForm = ({closeForm}: CheckListTitleFormProps) => {
         setItem(res.data.item)
         enqueueSnackbar("Item Checklist Deleted", {variant: "success"})
         formik.setSubmitting(false)
+        closeForm()
       })
       .catch((e) => {
         enqueueSnackbar(e.response.data.message, {variant: "error"})
