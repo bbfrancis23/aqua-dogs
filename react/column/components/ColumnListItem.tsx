@@ -43,14 +43,19 @@ const ColumnListItem = ({item}: ColumnListProps) => {
   const [checkboxes, setCheckboxes] = useState<boolean[]>([])
 
   useEffect(() => {
-    item.sections?.forEach((s) => {
-      if(s.checkboxes){
-        const cbs = s.checkboxes.map((c) => c.value)
 
+    if (item.sections) {
+      const cbs = []
 
-        setCheckboxes(cbs)
+      for (let s of item.sections) {
+        if (s.checkboxes) {
+          for (let c of s.checkboxes) {
+            cbs.push(c.value)
+          }
+        }
       }
-    })
+      setCheckboxes(cbs)
+    }
 
 
   }, [item, setCheckboxes])
