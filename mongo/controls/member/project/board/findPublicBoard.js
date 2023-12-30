@@ -36,8 +36,6 @@ export const findPublicBoard = async (id) => {
     },
   })
 
-  console.log(board)
-
   if (!board) {
     await db.disconnect()
     return null
