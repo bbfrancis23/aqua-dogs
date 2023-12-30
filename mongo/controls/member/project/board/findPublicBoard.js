@@ -15,6 +15,7 @@ export const findPublicBoard = async (id) => {
 
   board = await Board.findOne({
     _id: id,
+    match: {archive: {$ne: true}},
   }).populate({
     path: 'columns',
     match: {archive: {$ne: true}},
@@ -34,6 +35,11 @@ export const findPublicBoard = async (id) => {
       },
     },
   })
+
+  if (!board) {
+    await db.disconnect()
+    return undefined
+  }
 
   board = board.toObject({getters: true, flattenMaps: true})
 

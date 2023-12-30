@@ -8,6 +8,7 @@ import {getServerSession} from 'next-auth/next'
 import {authOptions} from '@/pages/api/auth/[...nextauth]'
 
 import {NextApiRequest, NextApiResponse} from 'next'
+import {findProjectBoards} from '../projectControls'
 
 export const createBoard = async (req: NextApiRequest, res: NextApiResponse) => {
   let status = axios.HttpStatusCode.Ok
@@ -28,13 +29,14 @@ export const createBoard = async (req: NextApiRequest, res: NextApiResponse) => 
         const newBoard = new Board({title, project: projectId})
         await newBoard.save()
 
-        boards = await Board.find({project: projectId})
-        boards = boards.map((b) => ({
-          id: b._id.toString(),
-          title: b.title,
-          project: b.project.toString(),
-          columns: b.columns,
-        }))
+        boards = await findProjectBoards(project.id)
+        // boards = await Board.find({project: projectId})
+        // boards = boards.map((b) => ({
+        //   id: b._id.toString(),
+        //   title: b.title,
+        //   project: b.project.toString(),
+        //   columns: b.columns,
+        // }))
 
         status = axios.HttpStatusCode.Created
       } else {
