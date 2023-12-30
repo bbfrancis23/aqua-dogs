@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react"
 import { List } from "@mui/material"
 import { useSnackbar } from "notistack"
-import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd"
 import axios from "axios"
+import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd"
 import { ProjectContext } from "@/react/project"
 import { BoardContext } from "@/react/board"
 import { SectionContext, SectionTypes } from "@/react/section"
@@ -22,8 +22,6 @@ const CheckList = ({checkboxes}: CheckListProps) => {
   const [listItems, setListItems] = useState<FxCheckbox[]>(checkboxes)
 
   useEffect(() => {
-
-    console.log('checkboexs changed')
     if (!checkboxes) return
 
     setListItems(checkboxes)
@@ -37,10 +35,6 @@ const CheckList = ({checkboxes}: CheckListProps) => {
     if (!checkboxes) return
 
     const checked = !checkboxes[index].value
-
-    setListItems(
-      (prev) => prev.map((item, i) => (i === index ? { ...item, value: checked } : item))
-    )
 
     axios.patch(
       `${secDir}/checkboxes/${checkboxes[index].id}`,
