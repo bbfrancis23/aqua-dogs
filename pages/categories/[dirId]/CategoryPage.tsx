@@ -25,6 +25,8 @@ interface BoardCategory extends Board { dirId: string}
 export const getStaticPaths: GetStaticPaths<CategoryPageParams> = async () => {
 
   let boards: Board[] = await findProjectBoards(WEBSITE_PROJECT_ID)
+
+
   const paths = boards.map((b: Board) => ({ params: {dirId: getBoardDirectory(b)}}))
   return {paths, fallback: false}
 }

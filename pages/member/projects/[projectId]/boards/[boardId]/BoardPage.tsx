@@ -41,6 +41,9 @@ GetServerSideProps<BoardPage> = async(context) => {
   if(!hasPermission) return {redirect: unAuthRedirect}
 
   let board: any = await findPublicBoard(context.query.boardId)
+
+  if(!board) return {redirect: unAuthRedirect}
+
   resetServerContext()
 
   let projectBoards: Board[] = await findProjectBoards(project.id)
