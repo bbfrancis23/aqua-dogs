@@ -30,27 +30,6 @@ const CheckList = ({checkboxes}: CheckListProps) => {
   const {enqueueSnackbar} = useSnackbar()
   const secDir = `/api/members/projects/${project?.id}/items/${item?.id}/sections/${section?.id}`
 
-  const cbClick = (event:React.ChangeEvent<HTMLInputElement>, index: number) => {
-
-    if (!checkboxes) return
-
-    const checked = !checkboxes[index].value
-
-    axios.patch(
-      `${secDir}/checkboxes/${checkboxes[index].id}`,
-      {value: checked} )
-      .then((res) => {
-        if (res.status === axios.HttpStatusCode.Ok ){
-          setItem(res.data.item)
-          axios.get(`/api/members/projects/${project?.id}/boards/${board?.id}`).then((res) => {
-            if (res.status === axios.HttpStatusCode.Ok) setBoard(res.data.board)
-          })
-        }
-      })
-      .catch((e) => {
-        enqueueSnackbar(e.response.data.message, {variant: "error"})
-      })
-  }
 
   const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) return
@@ -77,7 +56,7 @@ const CheckList = ({checkboxes}: CheckListProps) => {
         {(droppableProvided) => (
           <List {...droppableProvided.droppableProps} ref={droppableProvided.innerRef} >
             {listItems.map((cb, index) => (
-              <CheckListItem key={cb.id} checkbox={cb} index={index} checkboxClick={cbClick} />
+              <CheckListItem key={cb.id} checkbox={cb} index={index} />
             ))}
             {droppableProvided.placeholder}
           </List>
