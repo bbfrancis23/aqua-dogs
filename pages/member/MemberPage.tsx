@@ -52,7 +52,6 @@ const Page = (memberPage: InferGetServerSidePropsType<typeof getServerSideProps>
     enqueueSnackbar("You are now Logged Out", {variant: "success"})
   }
 
-  // TODO : this could be smoother - maybe better placement of the message
   const handleOnUpdateMember = () => {
     setTimeout(() => {
       enqueueSnackbar(ON_UPDATE_MEMBER_MESSAGE, {variant: "success"})
