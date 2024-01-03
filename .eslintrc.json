@@ -14,7 +14,7 @@
     "computed-property-spacing": ["error", "never"],
     "dot-location": ["error", "property"],
     // "implicit-arrow-linebreak": ["error"],
-    "indent": ["error", 2],
+    "indent": ["error", 2, {"SwitchCase": 1}],
     "jsx-quotes": ["error"],
     //"key-spacing": ["error"],
     "max-len": ["error", {"code": 100}],

@@ -1,23 +1,65 @@
-import { CSSProperties } from "react"
+import { CSSProperties, use, useContext, useEffect, useMemo, useState } from "react"
 import { Box, Checkbox, CheckboxProps, ListItem, ListItemProps } from "@mui/material"
 import { Draggable} from "react-beautiful-dnd"
 import { FxCheckbox, CheckBoxLabelForm } from "@/react/checklist"
+import { ProjectContext } from "@/react/project"
+import { BoardContext } from "@/react/board"
+import { SectionContext } from "@/react/section"
+import { ItemContext } from "@/react/item"
+import axios from "axios"
+import { useSnackbar } from "notistack"
 
 export interface CheckListItemProps {
   checkbox: FxCheckbox
   index: number
-  checkboxClick: (event:React.ChangeEvent<HTMLInputElement>, index: number) => void
+
 }
 
-const CheckListItem = ({checkbox, index, checkboxClick}: CheckListItemProps) => {
+const CheckListItem = ({checkbox, index}: CheckListItemProps) => {
+
+  const [checked, setChecked] = useState<boolean>(checkbox.value)
+
+
+  const {project} = useContext(ProjectContext)
+  const {board, setBoard} = useContext(BoardContext)
+  const {item, setItem} = useContext(ItemContext)
+  const {section} = useContext(SectionContext)
+
+  const {enqueueSnackbar} = useSnackbar()
 
   const fixDraggableStyle: CSSProperties = { left: "auto !important", top: "auto !important" }
 
+  const cbClick = (event:React.ChangeEvent<HTMLInputElement>) => {
+
+    const newChecked = !checked
+    setChecked(newChecked)
+
+    const secDir = `/api/members/projects/${project?.id}/items/${item?.id}/sections/${section?.id}`
+
+    axios.patch(
+      `${secDir}/checkboxes/${checkbox.id}`,
+      {value: newChecked} )
+      .then((res) => {
+
+
+        if (res.status === axios.HttpStatusCode.Ok ){
+          setItem(res.data.item)
+          axios.get(`/api/members/projects/${project?.id}/boards/${board?.id}`).then((res) => {
+            if (res.status === axios.HttpStatusCode.Ok) setBoard(res.data.board)
+          })
+        }
+      })
+      .catch((e) => {
+        enqueueSnackbar(e.response.data.message, {variant: "error"})
+      })
+  }
+
+
   const checkboxProps: CheckboxProps = {
     color: 'default',
-    onChange: (e) => checkboxClick(e, index),
+    onChange: (e) => cbClick(e),
     size: "small",
-    checked: checkbox.value
+    checked
   }
 
   return (

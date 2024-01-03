@@ -73,10 +73,10 @@ const ItemDialog = ({dialogIsOpen, closeDialog, itemId}: ItemDialogProps): JSX.E
                 { item?.sections?.map( ( s: Section) => {
 
                   switch(s.sectiontype){
-                  case CODE: return ( <CodeSection section={s} key={s.id}/> )
-                  case TEXT: return ( <TextSection section={s} key={s.id} />)
-                  case CHECKLIST: return <CheckListSection section={s} key={s.id}/>
-                  default: return <></>
+                    case CODE: return ( <CodeSection section={s} key={s.id}/> )
+                    case TEXT: return ( <TextSection section={s} key={s.id} />)
+                    case CHECKLIST: return <CheckListSection section={s} key={s.id}/>
+                    default: return <></>
                   }
                 })}
                 <CreateSectionForm />
