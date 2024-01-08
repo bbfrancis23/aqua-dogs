@@ -37,6 +37,13 @@ export const forbiddenResponse = async (res: NextApiResponse, message: string) =
   })
 }
 
+export const forbiddenRes = async (res: NextApiResponse, message: string) => {
+  await db.disconnect()
+  res.status(axios.HttpStatusCode.Forbidden).json({
+    message,
+  })
+}
+
 export const MethodNotAllowedResponse = async (res: NextApiResponse, message: string) => {
   await db.disconnect()
   res.status(axios.HttpStatusCode.MethodNotAllowed).json({
