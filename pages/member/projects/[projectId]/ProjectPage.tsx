@@ -6,7 +6,7 @@ import { getSession } from "next-auth/react"
 
 import {Stack, Typography } from "@mui/material"
 
-import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls"
+import { findProject, findProjectBoards } from "@/mongo/controls/project/projectControls"
 import { findMember } from "@/mongo/controls/member/memberControls"
 
 import { Project, ProjectContext,

@@ -34,7 +34,7 @@ const AddProjectMemberForm = () => {
     initialValues: { member: '' },
     validationSchema: AddMemberSchema,
     onSubmit: (data) => {
-      axios.patch( `/api/members/projects/${project.id}`, {addMember: data.member}, )
+      axios.patch( `/api/projects/${project.id}`, {addMember: data.member}, )
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){

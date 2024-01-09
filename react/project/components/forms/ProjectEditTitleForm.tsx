@@ -36,6 +36,7 @@ export const ProjectTitleForm = () => {
             enqueueSnackbar("Project Title Updated", {variant: "success"})
             setTitle(data.title)
             setShowTextField(false)
+            formik.resetForm({values: {title: data.title}})
           }else{ enqueueSnackbar(res.data.message, {variant: "error"}) }
         }).catch((error) => {
           formik.setSubmitting(false)

@@ -8,7 +8,7 @@ import {getServerSession} from 'next-auth/next'
 import {authOptions} from '@/pages/api/auth/[...nextauth]'
 
 import {NextApiRequest, NextApiResponse} from 'next'
-import {findProjectBoards} from '../projectControls'
+import {findProjectBoards} from '../../../project/projectControls'
 
 export const createBoard = async (req: NextApiRequest, res: NextApiResponse) => {
   let status = axios.HttpStatusCode.Ok

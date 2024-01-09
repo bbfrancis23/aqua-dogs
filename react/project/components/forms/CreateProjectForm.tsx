@@ -5,7 +5,7 @@ import { FormikProvider, useFormik, Form,} from "formik"
 import * as Yup from "yup"
 import axios from "axios"
 import { Project } from "@/react/project"
-import { ClickAwaySave, FormActions, SaveButton } from "@/fx/ui"
+import { ClickAwaySave, FormActions} from "@/fx/ui"
 
 export interface CreateProjectFormProps{
   setProjects: ( p: Project[]) => void,

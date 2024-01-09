@@ -1,3 +1,4 @@
+import {patchProject} from '@/mongo/controls/project/patchProject'
 import {Project} from '@/react/project'
 import {NextApiRequest, NextApiResponse} from 'next'
 
@@ -6,10 +7,13 @@ export type PatchProjectResponse = {
   project?: Project | null | undefined
 }
 
-const projIdApi = async (req: NextApiRequest, res: NextApiResponse<PatchProjectResponse>) => {
+export const projIdApi = async (
+  req: NextApiRequest,
+  res: NextApiResponse<PatchProjectResponse>
+) => {
   switch (req.method) {
     case 'PATCH':
-      // await patchProject(req, res)
+      await patchProject(req, res)
       break
     case 'DELETE':
       // await deleteProject(req, res)

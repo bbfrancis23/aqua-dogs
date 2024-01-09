@@ -4,7 +4,7 @@ import { ParsedUrlQuery } from "querystring"
 import { Box, Stack, Typography} from "@mui/material"
 import { findItem } from "@/mongo/controls/member/project/items/findItem"
 import {findProjectItems} from "@/mongo/controls/member/project/items/findProjectItems"
-import { findProject, findProjectBoards } from "@/mongo/controls/member/project/projectControls"
+import { findProject, findProjectBoards } from "@/mongo/controls/project/projectControls"
 import Head from 'next/head'
 import { WEBSITE_PROJECT_ID } from "pages/HomePage"
 import { WebsiteBoards } from "@/react/app"

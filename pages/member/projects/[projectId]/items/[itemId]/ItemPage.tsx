@@ -6,7 +6,7 @@ import { getSession } from "next-auth/react"
 import { Stack, Typography } from "@mui/material"
 
 import { findMember } from "@/mongo/controls/member/memberControls"
-import { findProject } from "@/mongo/controls/member/project/projectControls"
+import { findProject } from "@/mongo/controls/project/projectControls"
 import { findItem } from "@/mongo/controls/member/project/items/findItem"
 
 import InfoPageLayout from "fx/ui/InfoPageLayout"

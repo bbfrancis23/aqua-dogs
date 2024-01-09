@@ -20,7 +20,7 @@ const ArchiveProjectForm = () => {
     try{
       await confirm({description: `Archive ${project.title}`})
         .then( () => {
-          axios.delete(`/api/members/projects/${project.id}`).then(() => {
+          axios.patch(`/api/projects/${project.id}`, {archive: true}).then(() => {
             enqueueSnackbar(`Archived ${project.title}`, {variant: "success"})
             router.push("/member")
           }).catch((error) => {
