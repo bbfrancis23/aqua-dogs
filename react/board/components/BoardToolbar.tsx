@@ -32,7 +32,7 @@ export const BoardToolbar = ({projectBoards}: BoardToolbarProps) => {
 
     const newScope = board.scope === Scope.PUBLIC ? Scope.PRIVATE : Scope.PUBLIC
     try{
-      await axios.patch(`/api/members/projects/${project.id}/boards/${board.id}`, {scope: newScope})
+      await axios.patch(`/api/projects/${project.id}/boards/${board.id}`, {scope: newScope})
         .then(() => {
           enqueueSnackbar(`SAVED ${board.title} ${newScope}`, {variant: "success"})
           setBoard({...board, scope: newScope})

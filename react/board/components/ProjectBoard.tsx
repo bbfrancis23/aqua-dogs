@@ -31,7 +31,7 @@ export const ProjectBoard = ( ) => {
   const updateBoardCols = (boardCols: string[]) => {
     setOrderedColKeys(boardCols)
 
-    axios.patch(`/api/members/projects/${project.id}/boards/${board.id}`, {columns: boardCols})
+    axios.patch(`/api/projects/${project.id}/boards/${board.id}`, {columns: boardCols})
       .then((res) => {
         console.log(res.data)
         enqueueSnackbar(`Columns Reordered `, {variant: "success"})
