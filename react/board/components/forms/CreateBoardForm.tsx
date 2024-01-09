@@ -25,7 +25,7 @@ const CreateBoardForm = ({setBoards, closeForm}: CreateBoardFormProps) => {
     initialValues: { title: '' },
     validationSchema: createBoardSchema,
     onSubmit: (data) => {
-      axios.post( `/api/members/projects/${project.id}/boards`, {title: data.title} )
+      axios.post( `/api/projects/${project.id}/boards`, {title: data.title} )
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Created ){
