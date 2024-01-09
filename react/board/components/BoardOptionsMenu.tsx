@@ -27,13 +27,14 @@ const BoardOptionsMenu = () => {
     try{
       await confirm({description: `Archive ${board.title}`})
         .then( () => {
-          axios.delete(`/api/members/projects/${project.id}/boards/${board.id}`).then((res) => {
-            enqueueSnackbar(`Archived ${board.title}`, {variant: "success"})
-            router.push(`/member/projects/${project.id}`)
-          }).catch((error) => {
-            enqueueSnackbar(`Error Archiving Board: ${error.response.data.message}`,
-              {variant: "error"})
-          })
+          axios.patch(`/api/projects/${project.id}/boards/${board.id}`, {archive: true})
+            .then((res) => {
+              enqueueSnackbar(`Archived ${board.title}`, {variant: "success"})
+              router.push(`/member/projects/${project.id}`)
+            }).catch((error) => {
+              enqueueSnackbar(`Error Archiving Board: ${error.response.data.message}`,
+                {variant: "error"})
+            })
         })
         .catch((e) => enqueueSnackbar('Archiving aborted', {variant: "error"}) )
     }catch(e){

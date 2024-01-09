@@ -30,7 +30,7 @@ export const BoardTitleForm = () => {
     initialValues: { title },
     validationSchema: TitleSchema,
     onSubmit: (data) => {
-      axios.patch(`/api/members/projects/${project.id}/boards/${board.id}`, {title: data.title})
+      axios.patch(`/api/projects/${project.id}/boards/${board.id}`, {title: data.title})
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
