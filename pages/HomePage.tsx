@@ -9,7 +9,7 @@ import {AppFooter} from "@/react/app/"
 import { FxThemeContext } from "@/fx/theme"
 import { HoverLink, ListCard } from "@/fx/ui"
 
-import { findProjectBoards } from "@/mongo/controls/member/project/projectControls"
+import { findProjectBoards } from "@/mongo/controls/project/projectControls"
 
 const DESCRIPTION = "A Simple way to Orginize your Projects and impliment Strategies. "
   + "Hundreds of Software Developement Best Practices, Standards and Eamples."

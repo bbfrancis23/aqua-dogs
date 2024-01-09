@@ -5,7 +5,7 @@ import { FormikProvider, useFormik, Form,} from "formik"
 import * as Yup from "yup"
 import axios from "axios"
 import { Project } from "@/react/project"
-import { ClickAwaySave, FormActions, SaveButton } from "@/fx/ui"
+import { ClickAwaySave, FormActions} from "@/fx/ui"
 
 export interface CreateProjectFormProps{
   setProjects: ( p: Project[]) => void,
@@ -23,7 +23,7 @@ const CreateProjectForm = ({setProjects, closeForm}: CreateProjectFormProps) => 
     initialValues: { title: '' },
     validationSchema: createProjectSchema,
     onSubmit: (data) => {
-      axios.post( "/api/members/projects", {title: data.title} ) .then((res) => {
+      axios.post( "/api/projects", {title: data.title} ) .then((res) => {
         formik.setSubmitting(false)
         if (res.status === axios.HttpStatusCode.Created ){
           setProjects(res.data.projects)
@@ -33,7 +33,6 @@ const CreateProjectForm = ({setProjects, closeForm}: CreateProjectFormProps) => 
         }
       }) .catch((error) => {
         formik.setSubmitting(false)
-        console.log(error)
         enqueueSnackbar(error.response.data.message, {variant: "error"})
       })
     }

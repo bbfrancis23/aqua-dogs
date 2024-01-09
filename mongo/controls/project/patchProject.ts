@@ -7,9 +7,9 @@ import {authOptions} from '@/pages/api/auth/[...nextauth]'
 
 import axios from 'axios'
 
-import {forbiddenResponse, notFoundResponse, unauthorizedResponse} from '@/mongo/controls/responses'
+import {forbiddenRes, notFoundRes, unauthRes} from '@/mongo/controls/responses'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {PatchProjectResponse} from 'pages/api/members/projects/projectsIdHandler'
+import {PatchProjectResponse} from '@/pages/api/projects/[projectId]/projIdApi'
 
 export const patchProject = async (
   req: NextApiRequest,
@@ -17,19 +17,19 @@ export const patchProject = async (
 ) => {
   const {projectId} = req.query
 
-  const authSession: any = await getServerSession(req, res, authOptions)
+  const authSession = await getServerSession(req, res, authOptions)
 
   await db.connect()
 
   if (!authSession) {
-    unauthorizedResponse(res, 'You are not logged in')
+    unauthRes(res, 'Authenticate to Update a Project')
     return
   }
 
   let project = await Project.findById(projectId)
 
   if (!project) {
-    notFoundResponse(res, 'Project not found')
+    notFoundRes(res, 'Project not found')
     return
   }
 
@@ -37,15 +37,14 @@ export const patchProject = async (
   const memberId = castSession.user.id
 
   if (project.leader._id.toString() !== memberId) {
-    forbiddenResponse(res, 'You do not have permission to edit this project')
+    forbiddenRes(res, 'Project Leader Permission Required')
     return
   }
 
-  if (req.method === 'DELETE') {
-    project.archive = true
+  if (req.body.archive) {
+    project.archive = req.body.archive
   } else if (req.body.title) {
-    const {title} = req.body
-    project.title = title
+    project.title = req.body.title
   } else if (req.body.addMember) {
     project.members.push(req.body.addMember)
   } else if (req.body.removeMember) {
@@ -75,5 +74,3 @@ export const patchProject = async (
     project,
   })
 }
-
-// QA: Brian Francis 8-9-23

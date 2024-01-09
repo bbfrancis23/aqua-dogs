@@ -29,13 +29,14 @@ export const ProjectTitleForm = () => {
     initialValues: { title },
     validationSchema: TitleSchema,
     onSubmit: (data) => {
-      axios.patch(`/api/members/projects/${project.id}`, {title: data.title})
+      axios.patch(`/api/projects/${project.id}`, {title: data.title})
         .then((res) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
             enqueueSnackbar("Project Title Updated", {variant: "success"})
             setTitle(data.title)
             setShowTextField(false)
+            formik.resetForm({values: {title: data.title}})
           }else{ enqueueSnackbar(res.data.message, {variant: "error"}) }
         }).catch((error) => {
           formik.setSubmitting(false)

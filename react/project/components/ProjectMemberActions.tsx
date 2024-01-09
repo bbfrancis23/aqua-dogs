@@ -20,7 +20,7 @@ const ProjectMemberActions = ({member, type, sessionMember}: ProjectMemberAction
   const {enqueueSnackbar} = useSnackbar()
 
   const removeFromProject = () => {
-    axios.patch(`/api/members/projects/${project.id}`, {removeMember: member.id})
+    axios.patch(`/api/projects/${project.id}`, {removeMember: member.id})
       .then((res) => {
         enqueueSnackbar(`Member ${member.email} removed from Project`, {variant: "success"})
         setProject(res.data.project)
@@ -31,7 +31,7 @@ const ProjectMemberActions = ({member, type, sessionMember}: ProjectMemberAction
   }
 
   const removeProjectAdmin = () => {
-    axios.patch(`/api/members/projects/${project.id}`, {removeAdmin: member.id})
+    axios.patch(`/api/projects/${project.id}`, {removeAdmin: member.id})
       .then((res) => {
         enqueueSnackbar(`Member ${member.email} removed project admin`, {variant: "success"})
         setProject(res.data.project)
@@ -41,7 +41,7 @@ const ProjectMemberActions = ({member, type, sessionMember}: ProjectMemberAction
   }
 
   const makeProjectAdmin = () => {
-    axios.patch(`/api/members/projects/${project.id}`, {makeAdmin: member.id})
+    axios.patch(`/api/projects/${project.id}`, {makeAdmin: member.id})
       .then((res) => {
         enqueueSnackbar(`Member ${member.email} made an Project admin`, {variant: "success"})
         setProject(res.data.project)

@@ -37,6 +37,13 @@ export const forbiddenResponse = async (res: NextApiResponse, message: string) =
   })
 }
 
+export const forbiddenRes = async (res: NextApiResponse, message: string) => {
+  await db.disconnect()
+  res.status(axios.HttpStatusCode.Forbidden).json({
+    message,
+  })
+}
+
 export const MethodNotAllowedResponse = async (res: NextApiResponse, message: string) => {
   await db.disconnect()
   res.status(axios.HttpStatusCode.MethodNotAllowed).json({
@@ -79,9 +86,23 @@ export const createdResponse = async (res: NextApiResponse, message: string) => 
   })
 }
 
+export const createdRes = async (res: NextApiResponse, message: string) => {
+  await db.disconnect()
+  res.status(axios.HttpStatusCode.Created).json({
+    message,
+  })
+}
+
 export const noContentResponse = async (res: NextApiResponse, message: string) => {
   await db.disconnect()
   res.status(axios.HttpStatusCode.NoContent).json({
+    message,
+  })
+}
+
+export const emptyFieldRes = async (res: NextApiResponse, message: string) => {
+  await db.disconnect()
+  res.status(axios.HttpStatusCode.UnprocessableEntity).json({
     message,
   })
 }
