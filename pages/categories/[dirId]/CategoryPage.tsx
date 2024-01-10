@@ -6,7 +6,7 @@ import Head from "next/head"
 
 import { Box, Grid, Typography } from "@mui/material"
 
-import { findProjectBoards } from "@/mongo/controls/member/project/old-findProjectBoards"
+
 import {findPublicBoard} from "@/mongo/controls/member/project/board/findPublicBoard"
 
 import { Board, getBoardDirectory } from "@/react/board"
@@ -17,6 +17,7 @@ import { Item, getCardDirectory } from "@/react/item"
 import { WEBSITE_PROJECT_ID} from "pages/HomePage"
 import { FxThemeContext } from "@/fx/theme"
 import { HoverLink, ListCard } from "@/fx/ui"
+import { findProjectBoards } from "@/mongo/controls/project/projectControls"
 
 interface CategoryPage { board: Board}
 interface CategoryPageParams extends ParsedUrlQuery{ dirId: string}
