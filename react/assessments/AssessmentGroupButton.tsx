@@ -20,10 +20,10 @@ const AssessmentGroupButton = ({type}: AssessmentGroupButtonsProps) => {
 
   const getTempratureColor = (value: AssessmentValues) => {
     switch (value) {
-    case LOW: return 'primary.light'
-    case MED: return 'primary.dark'
-    case HIGH: return 'primary.main'
-    default: return ''
+      case LOW: return 'primary.light'
+      case MED: return 'primary.dark'
+      case HIGH: return 'primary.main'
+      default: return ''
     }
   }
 
@@ -33,7 +33,7 @@ const AssessmentGroupButton = ({type}: AssessmentGroupButtonsProps) => {
     axios.patch( itemDir, {type, value})
       .then((res) => {
         setItem(res.data.item)
-        axios.get(`/api/members/projects/${project?.id}/boards/${board?.id}`).then((res) => {
+        axios.get(`/api/projects/${project?.id}/boards/${board?.id}`).then((res) => {
           if (res.status === axios.HttpStatusCode.Ok) setBoard(res.data.board)
         })
         enqueueSnackbar(`Item ${type} updated`, {variant: "success"})

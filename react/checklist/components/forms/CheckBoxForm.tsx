@@ -38,7 +38,7 @@ const CheckBoxForm = () => {
 
             enqueueSnackbar("Item Checklist Updated", {variant: "success"})
             setShowAddCheckbox(false)
-            axios.get(`/api/members/projects/${project?.id}/boards/${board?.id}`).then((res) => {
+            axios.get(`/api/projects/${project?.id}/boards/${board?.id}`).then((res) => {
               if (res.status === axios.HttpStatusCode.Ok) setBoard(res.data.board)
             })
           }

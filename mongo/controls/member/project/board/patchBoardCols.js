@@ -32,7 +32,6 @@ export const patchBoardCols = async (req, res) => {
 
         if (board.project.toString() === projectId) {
           const boardCols = req.body.boardCols
-          console.log(boardCols)
 
           try {
             dbSession.startTransaction()

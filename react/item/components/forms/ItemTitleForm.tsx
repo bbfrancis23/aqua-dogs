@@ -33,7 +33,7 @@ const ItemTitleForm = ({closeForm}: ItemTitleFormProps) => {
           formik.setSubmitting(false)
           if (res.status === axios.HttpStatusCode.Ok ){
             setItem(res.data.item)
-            axios.get(`/api/members/projects/${project?.id}/boards/${board?.id}`).then((res) => {
+            axios.get(`/api/projects/${project?.id}/boards/${board?.id}`).then((res) => {
               if (res.status === axios.HttpStatusCode.Ok){
                 setBoard(res.data.board)
               }

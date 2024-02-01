@@ -1,7 +1,7 @@
 import createProject from '@/mongo/controls/project/createProject'
 import {NextApiRequest, NextApiResponse} from 'next'
 
-export const projApi = async (req: NextApiRequest, res: NextApiResponse) => {
+export const projectsApi = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case 'GET':
       // await getProjects(req, res)

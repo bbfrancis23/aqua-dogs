@@ -1,2 +1,2 @@
-import {boardApi} from './boardApi'
+import {boardApi} from './boardsApi'
 export default boardApi

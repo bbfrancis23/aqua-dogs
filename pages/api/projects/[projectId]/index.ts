@@ -1,2 +1,3 @@
-import {projIdApi} from './projIdApi'
-export default projIdApi
+import {projectApi} from './projectApi'
+
+export default projectApi
