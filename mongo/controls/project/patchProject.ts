@@ -9,7 +9,7 @@ import axios from 'axios'
 
 import {forbiddenRes, notFoundRes, unauthRes} from '@/mongo/controls/responses'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {PatchProjectResponse} from '@/pages/api/projects/[projectId]/projIdApi'
+import {PatchProjectResponse} from '@/pages/api/projects/[projectId]/projectApi'
 
 export const patchProject = async (
   req: NextApiRequest,

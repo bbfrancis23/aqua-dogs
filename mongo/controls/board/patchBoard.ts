@@ -1,6 +1,6 @@
 import db from '@/mongo/db'
 import {authOptions} from '@/pages/api/auth/[...nextauth]'
-import {PatchBoardResponse} from '@/pages/api/projects/[projectId]/boards/[boardId].ts/boardIdApi'
+import {PatchBoardResponse} from '@/pages/api/projects/[projectId]/boards/[boardId].ts/boardApi'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getServerSession} from 'next-auth/next'
 import {forbiddenRes, notFoundRes, notFoundResponse, serverErrRes, unauthRes} from '../responses'
