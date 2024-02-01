@@ -7,7 +7,7 @@ export type PatchProjectResponse = {
   project?: Project | null | undefined
 }
 
-export const projIdApi = async (
+export const projectApi = async (
   req: NextApiRequest,
   res: NextApiResponse<PatchProjectResponse>
 ) => {
