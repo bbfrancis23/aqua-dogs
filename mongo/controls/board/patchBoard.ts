@@ -46,7 +46,6 @@ export const patchBoard = async (req: NextApiRequest, res: NextApiResponse<Patch
 
   try {
     await board.save()
-    //board = await Board.findById(boardId)
     board = await board.toObject({getters: true})
   } catch (e) {
     console.error(e)
