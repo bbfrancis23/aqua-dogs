@@ -28,6 +28,11 @@
       "@/itemComponents/*": ["components/members/projects/boards/columns/items/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/api/projects/[projectId]/boards/[boardId]"
+  ],
   "exclude": ["node_modules"]
 }
