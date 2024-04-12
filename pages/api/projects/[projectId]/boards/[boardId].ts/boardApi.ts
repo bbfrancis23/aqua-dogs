@@ -7,6 +7,8 @@ export type PatchBoardResponse = {
   board?: any
 }
 export const boardIdApi = async (req: NextApiRequest, res: NextApiResponse<PatchBoardResponse>) => {
+  console.log('boardIdApi', req.method)
+
   switch (req.method) {
     case 'PATCH':
       await patchBoard(req, res)

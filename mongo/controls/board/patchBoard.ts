@@ -8,6 +8,8 @@ import Board from '@/mongo/schemas/BoardSchema'
 import Project from '@/mongo/schemas/ProjectSchema'
 
 export const patchBoard = async (req: NextApiRequest, res: NextApiResponse<PatchBoardResponse>) => {
+  console.log('patching board')
+
   const {projectId, boardId} = req.query
 
   const authSession = await getServerSession(req, res, authOptions)
